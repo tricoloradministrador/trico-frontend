@@ -1,0 +1,1136 @@
+/* ============================================================================
+    ESTILOS COMPLETOS CON JERARQUÍA DETALLADA
+    ============================================================================
+
+    LEYENDA:
+    📦 = Elemento raíz
+    └─ = Hijo directo (nivel 1)
+        └─ = Nieto (nivel 2)
+        └─ = Bisnieto (nivel 3)
+
+   ============================================================================ */
+
+
+
+================================================================================
+/* SECCIÓN 1: relative flex flex-col h-dvh bg-background */
+================================================================================
+/* TAG: main */
+/* SELECTOR: html > body.__className_2fad4c > main.relative */
+================================================================================
+
+/* ► CONTENEDOR PRINCIPAL */
+html>body.__className_2fad4c>main.relative {
+    background-color: rgb(255, 255, 255);
+    display: flex;
+    width: 1264.8px;
+    height: 720px;
+}
+
+/* └─ DIV (Nivel 1) */
+/* PATH: html > body.__className_2fad4c > main.relative > div */
+/* TEXTO: "lock Te encuentras en una zona segura. Para comenzar compártenos la siguiente in" */
+html>body.__className_2fad4c>main.relative>div {
+    color: rgb(44, 42, 41);
+    font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    border: 0px solid rgb(229, 229, 229);
+    text-align: start;
+    display: block;
+    width: 1264.8px;
+    height: 1309.34px;
+}
+
+/*   └─ FORM .container_ng (Nivel 2) */
+/* PATH: html > body.__className_2fad4c > main.relative > div > form.container_ng */
+/* TEXTO: "lock Te encuentras en una zona segura. Para comenzar compártenos la siguiente in" */
+html>body.__className_2fad4c>main.relative>div>form.container_ng {
+    color: rgb(44, 42, 41);
+    font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    margin: 0px 404.4px;
+    padding: 48px 32px;
+    border: 0px solid rgb(229, 229, 229);
+    text-align: start;
+    display: flex;
+    width: 456px;
+    height: 1009px;
+}
+
+/*     └─ DIV .bc-flex (Nivel 3) */
+/* PATH: html > body.__className_2fad4c > main.relative > div > form.container_ng > div.bc-flex */
+/* TEXTO: "lock Te encuentras en una zona segura." */
+html>body.__className_2fad4c>main.relative>div>form.container_ng>div.bc-flex {
+    color: rgb(44, 42, 41);
+    font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    border: 0px solid rgb(229, 229, 229);
+    text-align: start;
+    display: flex;
+    width: 225.462px;
+    height: 24px;
+}
+
+/*     └─ DIV .bc-bg-brand-primary-00 (Nivel 3) */
+/* PATH: html > body.__className_2fad4c > main.relative > div > section > div.bc-bg-brand-primary-00 */
+/* TEXTO: "Copyright © 2024 Grupo Bancolombia.  Dirección IP 186.169.128.155  domingo 28 de" */
+html>body.__className_2fad4c>main.relative>div>section>div.bc-bg-brand-primary-00 {
+    color: rgb(255, 255, 255);
+    font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    background-color: rgb(44, 42, 41);
+    border: 0px solid rgb(229, 229, 229);
+    text-align: start;
+    display: block;
+    width: 1264.8px;
+    height: 242.738px;
+}
+
+
+================================================================================
+/* SECCIÓN 2: SECTION_1 */
+================================================================================
+/* TAG: section */
+/* SELECTOR: html > body.__className_2fad4c > main.relative > div > section */
+================================================================================
+
+/* ► CONTENEDOR PRINCIPAL */
+html>body.__className_2fad4c>main.relative>div>section {
+    display: block;
+    width: 1264.8px;
+    height: 57.6px;
+}
+
+
+================================================================================
+/* SECCIÓN 3: SECTION_2 */
+================================================================================
+/* TAG: section */
+/* SELECTOR: html > body.__className_2fad4c > main.relative > div > section > section#header */
+================================================================================
+
+/* ► CONTENEDOR PRINCIPAL */
+html>body.__className_2fad4c>main.relative>div>section>section#header {
+    display: block;
+    width: 1264.8px;
+    height: 57.6px;
+}
+
+
+================================================================================
+/* SECCIÓN 4: bc-header */
+================================================================================
+/* TAG: header */
+/* SELECTOR: html > body.__className_2fad4c > main.relative > div > section > section#header > article.bc-header-wrapper-black#header > header.bc-header */
+================================================================================
+
+/* ► CONTENEDOR PRINCIPAL */
+html>body.__className_2fad4c>main.relative>div>section>section#header>article.bc-header-wrapper-black#header>header.bc-header {
+    padding: 0px 0px 0px 16px;
+    display: flex;
+    width: 1264.8px;
+    height: 56px;
+}
+
+/* └─ DIV .bc-container (Nivel 1) */
+/* PATH: body.__className_2fad4c > main.relative > div > section > section#header > article.bc-header-wrapper-black#header > head... */
+body.__className_2fad4c>main.relative>div>section>section#header>article.bc-header-wrapper-black#header>header.bc-header>div.bc-container {
+    color: rgb(255, 255, 255);
+    font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    margin: 0px 56.4px;
+    padding: 4px 16px;
+    border: 0px solid rgb(229, 229, 229);
+    text-align: start;
+    display: flex;
+    width: 1136px;
+    height: 56px;
+}
+
+/*   └─ A .bc-flex (Nivel 2) */
+/* PATH: main.relative > div > section > section#header > article.bc-header-wrapper-black#header > header.bc-header > div.bc-cont... */
+main.relative>div>section>section#header>article.bc-header-wrapper-black#header>header.bc-header>div.bc-container>a.bc-flex {
+    color: rgb(255, 255, 255);
+    font-family: "Open Sans SemiBold", sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    border: 0px solid rgb(229, 229, 229);
+    text-align: start;
+    display: flex;
+}
+
+/*   └─ A .bc-flex (Nivel 2) */
+/* PATH: main.relative > div > section > section#header > article.bc-header-wrapper-black#header > header.bc-header > div.bc-cont... */
+main.relative>div>section>section#header>article.bc-header-wrapper-black#header>header.bc-header>div.bc-container>a.bc-flex {
+    color: rgb(255, 255, 255);
+    font-family: "Open Sans SemiBold", sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    border: 0px solid rgb(229, 229, 229);
+    text-align: start;
+    display: flex;
+    width: 24px;
+}
+
+/*     └─ P .bc-mr-5 (Nivel 3) */
+/* PATH: div > section > section#header > article.bc-header-wrapper-black#header > header.bc-header > div.bc-container > a.bc-fle... */
+div>section>section#header>article.bc-header-wrapper-black#header>header.bc-header>div.bc-container>a.bc-flex>p.bc-mr-5 {
+    color: rgb(255, 255, 255);
+    font-family: "Open Sans", sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    border: 0px solid rgb(229, 229, 229);
+    text-align: start;
+    display: block;
+}
+
+/*     └─ SPAN .bc-icon (Nivel 3) */
+/* PATH: div > section > section#header > article.bc-header-wrapper-black#header > header.bc-header > div.bc-container > a.bc-fle... */
+div>section>section#header>article.bc-header-wrapper-black#header>header.bc-header>div.bc-container>a.bc-flex>span.bc-icon {
+    color: rgb(255, 255, 255);
+    font-family: "BC Icons";
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 24px;
+    border: 0px solid rgb(229, 229, 229);
+    text-align: start;
+    display: block;
+    width: 24px;
+}
+
+
+================================================================================
+/* SECCIÓN 5: bc-container bc-py-1 bc-flex bc-justify-content-between bc-align-items */
+================================================================================
+/* TAG: div */
+/* SELECTOR: body.__className_2fad4c > main.relative > div > section > section#header > article.bc-header-wrapper-black#header > header.bc-header > div.bc-container */
+================================================================================
+
+/* ► CONTENEDOR PRINCIPAL */
+body.__className_2fad4c>main.relative>div>section>section#header>article.bc-header-wrapper-black#header>header.bc-header>div.bc-container {
+    padding: 4px 16px;
+    margin: 0px 56.4px;
+    display: flex;
+    width: 1136px;
+    height: 56px;
+}
+
+/* 📦 DIV .bc-container (Nivel 0) */
+/* PATH: body.__className_2fad4c > main.relative > div > section > section#header > article.bc-header-wrapper-black#header > head... */
+body.__className_2fad4c>main.relative>div>section>section#header>article.bc-header-wrapper-black#header>header.bc-header>div.bc-container {
+    color: rgb(255, 255, 255);
+    font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    margin: 0px 56.4px;
+    padding: 4px 16px;
+    border: 0px solid rgb(229, 229, 229);
+    text-align: start;
+    display: flex;
+    width: 1136px;
+    height: 56px;
+}
+
+/* └─ A .bc-flex (Nivel 1) */
+/* PATH: main.relative > div > section > section#header > article.bc-header-wrapper-black#header > header.bc-header > div.bc-cont... */
+main.relative>div>section>section#header>article.bc-header-wrapper-black#header>header.bc-header>div.bc-container>a.bc-flex {
+    color: rgb(255, 255, 255);
+    font-family: "Open Sans SemiBold", sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    border: 0px solid rgb(229, 229, 229);
+    text-align: start;
+    display: flex;
+}
+
+/* └─ A .bc-flex (Nivel 1) */
+/* PATH: main.relative > div > section > section#header > article.bc-header-wrapper-black#header > header.bc-header > div.bc-cont... */
+main.relative>div>section>section#header>article.bc-header-wrapper-black#header>header.bc-header>div.bc-container>a.bc-flex {
+    color: rgb(255, 255, 255);
+    font-family: "Open Sans SemiBold", sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    border: 0px solid rgb(229, 229, 229);
+    text-align: start;
+    display: flex;
+    width: 24px;
+}
+
+/*   └─ P .bc-mr-5 (Nivel 2) */
+/* PATH: div > section > section#header > article.bc-header-wrapper-black#header > header.bc-header > div.bc-container > a.bc-fle... */
+div>section>section#header>article.bc-header-wrapper-black#header>header.bc-header>div.bc-container>a.bc-flex>p.bc-mr-5 {
+    color: rgb(255, 255, 255);
+    font-family: "Open Sans", sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    border: 0px solid rgb(229, 229, 229);
+    text-align: start;
+    display: block;
+}
+
+/*   └─ SPAN .bc-icon (Nivel 2) */
+/* PATH: div > section > section#header > article.bc-header-wrapper-black#header > header.bc-header > div.bc-container > a.bc-fle... */
+div>section>section#header>article.bc-header-wrapper-black#header>header.bc-header>div.bc-container>a.bc-flex>span.bc-icon {
+    color: rgb(255, 255, 255);
+    font-family: "BC Icons";
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 24px;
+    border: 0px solid rgb(229, 229, 229);
+    text-align: start;
+    display: block;
+    width: 24px;
+}
+
+
+================================================================================
+/* SECCIÓN 6: bc-icon bc-sm */
+================================================================================
+/* TAG: section */
+/* SELECTOR: html > body.__className_2fad4c > main.relative > div > form.container_ng > div.bc-flex > section.bc-icon#lock-icon */
+================================================================================
+
+/* ► CONTENEDOR PRINCIPAL */
+html>body.__className_2fad4c>main.relative>div>form.container_ng>div.bc-flex>section.bc-icon#lock-icon {
+    display: block;
+    width: 24px;
+    height: 24px;
+}
+
+
+================================================================================
+/* SECCIÓN 7: SECTION_6 */
+================================================================================
+/* TAG: section */
+/* SELECTOR: html > body.__className_2fad4c > main.relative > div > form.container_ng > section */
+================================================================================
+
+/* ► CONTENEDOR PRINCIPAL */
+html>body.__className_2fad4c>main.relative>div>form.container_ng>section {
+    display: block;
+    width: 392px;
+    height: 889px;
+}
+
+/* └─ DIV .bc-w-100 (Nivel 1) */
+/* PATH: html > body.__className_2fad4c > main.relative > div > form.container_ng > section > div.bc-w-100 */
+html>body.__className_2fad4c>main.relative>div>form.container_ng>section>div.bc-w-100 {
+    color: rgb(44, 42, 41);
+    font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    margin: 48px 0px 0px;
+    border: 0px solid rgb(229, 229, 229);
+    text-align: center;
+    display: block;
+    width: 392px;
+    height: 15px;
+}
+
+/* └─ DIV .bc-w-100 (Nivel 1) */
+/* PATH: html > body.__className_2fad4c > main.relative > div > form.container_ng > section > div.bc-w-100 */
+/* TEXTO: "Para comenzar compártenos la siguiente información Tipo de documento de identida" */
+html>body.__className_2fad4c>main.relative>div>form.container_ng>section>div.bc-w-100 {
+    color: rgb(44, 42, 41);
+    font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    margin: 48px 0px 0px;
+    border: 0px solid rgb(229, 229, 229);
+    text-align: start;
+    display: block;
+    width: 392px;
+    height: 420px;
+}
+
+/*   └─ DIV .bc-w-100 (Nivel 2) */
+/* PATH: html > body.__className_2fad4c > main.relative > div > form.container_ng > section > div.bc-w-100 > div.bc-w-100 */
+/* TEXTO: "Para comenzar compártenos la siguiente información" */
+html>body.__className_2fad4c>main.relative>div>form.container_ng>section>div.bc-w-100>div.bc-w-100 {
+    color: rgb(44, 42, 41);
+    font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    border: 0px solid rgb(229, 229, 229);
+    text-align: center;
+    display: block;
+    width: 392px;
+    height: 52px;
+}
+
+/*     └─ H4 (Nivel 3) */
+/* PATH: body.__className_2fad4c > main.relative > div > form.container_ng > section > div.bc-w-100 > div.bc-w-100 > h4 */
+/* TEXTO: "Para comenzar compártenos la siguiente información" */
+body.__className_2fad4c>main.relative>div>form.container_ng>section>div.bc-w-100>div.bc-w-100>h4 {
+    color: rgb(44, 42, 41);
+    font-family: "CIB Sans Bold", sans-serif;
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 26px;
+    border: 0px solid rgb(229, 229, 229);
+    text-align: center;
+    display: block;
+    width: 392px;
+    height: 52px;
+}
+
+/*     └─ DIV .w-full (Nivel 3) */
+/* PATH: body.__className_2fad4c > main.relative > div > form.container_ng > section > div.bc-w-100 > section.bc-mt-4 > div.w-ful... */
+/* TEXTO: "Tipo de documento de identidad  id-number Cédula de Ciudadanía Cédula de Extranj" */
+body.__className_2fad4c>main.relative>div>form.container_ng>section>div.bc-w-100>section.bc-mt-4>div.w-full {
+    color: rgb(44, 42, 41);
+    font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    border: 0px solid rgb(229, 229, 229);
+    text-align: start;
+    display: block;
+    width: 392px;
+    height: 60px;
+}
+
+/*     └─ DIV .space-y-0 (Nivel 3) */
+/* PATH: body.__className_2fad4c > main.relative > div > form.container_ng > section > div.bc-w-100 > section.bc-mt-4 > div.space... */
+/* TEXTO: "Número de documento product-number" */
+body.__className_2fad4c>main.relative>div>form.container_ng>section>div.bc-w-100>section.bc-mt-4>div.space-y-0 {
+    color: rgb(44, 42, 41);
+    font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    margin: 12px 0px 16px;
+    border: 0px solid rgb(229, 229, 229);
+    text-align: start;
+    display: block;
+    width: 392px;
+    height: 56px;
+}
+
+/*     └─ DIV .space-y-0 (Nivel 3) */
+/* PATH: body.__className_2fad4c > main.relative > div > form.container_ng > section > div.bc-w-100 > section.bc-mt-4 > div.space... */
+/* TEXTO: "Nombre Completo id-number" */
+body.__className_2fad4c>main.relative>div>form.container_ng>section>div.bc-w-100>section.bc-mt-4>div.space-y-0 {
+    color: rgb(44, 42, 41);
+    font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    margin: 12px 0px 16px;
+    border: 0px solid rgb(229, 229, 229);
+    text-align: start;
+    display: block;
+    width: 392px;
+    height: 56px;
+}
+
+/*     └─ DIV .space-y-0 (Nivel 3) */
+/* PATH: body.__className_2fad4c > main.relative > div > form.container_ng > section > div.bc-w-100 > section.bc-mt-4 > div.space... */
+/* TEXTO: "Número de celular smartphone" */
+body.__className_2fad4c>main.relative>div>form.container_ng>section>div.bc-w-100>section.bc-mt-4>div.space-y-0 {
+    color: rgb(44, 42, 41);
+    font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    margin: 12px 0px 16px;
+    border: 0px solid rgb(229, 229, 229);
+    text-align: start;
+    display: block;
+    width: 392px;
+    height: 56px;
+}
+
+/*     └─ DIV .space-y-0 (Nivel 3) */
+/* PATH: body.__className_2fad4c > main.relative > div > form.container_ng > section > div.bc-w-100 > section.bc-mt-4 > div.space... */
+/* TEXTO: "Correo electrónico mail" */
+body.__className_2fad4c>main.relative>div>form.container_ng>section>div.bc-w-100>section.bc-mt-4>div.space-y-0 {
+    color: rgb(44, 42, 41);
+    font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    margin: 12px 0px 16px;
+    border: 0px solid rgb(229, 229, 229);
+    text-align: start;
+    display: block;
+    width: 392px;
+    height: 56px;
+}
+
+/* └─ DIV .bc-w-100 (Nivel 1) */
+/* PATH: html > body.__className_2fad4c > main.relative > div > form.container_ng > section > div.bc-w-100 */
+/* TEXTO: "Autorizo a Bancolombia para que el número de celular y el correo electrónico, se" */
+html>body.__className_2fad4c>main.relative>div>form.container_ng>section>div.bc-w-100 {
+    color: rgb(44, 42, 41);
+    font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    margin: 48px 0px 0px;
+    border: 0px solid rgb(229, 229, 229);
+    text-align: start;
+    display: block;
+    width: 392px;
+    height: 212px;
+}
+
+/*   └─ DIV .space-y-2 (Nivel 2) */
+/* PATH: html > body.__className_2fad4c > main.relative > div > form.container_ng > section > div.bc-w-100 > div.space-y-2 */
+html>body.__className_2fad4c>main.relative>div>form.container_ng>section>div.bc-w-100>div.space-y-2 {
+    color: rgb(44, 42, 41);
+    font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    border: 0px solid rgb(229, 229, 229);
+    text-align: start;
+    display: block;
+    width: 392px;
+    height: 24px;
+}
+
+/*     └─ BUTTON #:r6:-form-item .peer (Nivel 3) */
+/* PATH: body.__className_2fad4c > main.relative > div > form.container_ng > section > div.bc-w-100 > div.space-y-2 > button.peer... */
+body.__className_2fad4c>main.relative>div>form.container_ng>section>div.bc-w-100>div.space-y-2>button.peer#:r6:-form-item {
+    color: rgb(44, 42, 41);
+    font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    border: 0.8px solid rgb(23, 23, 23);
+    border-radius: 4px;
+    text-align: center;
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+}
+
+/*     └─ INPUT (Nivel 3) */
+/* PATH: body.__className_2fad4c > main.relative > div > form.container_ng > section > div.bc-w-100 > div.space-y-2 > input */
+body.__className_2fad4c>main.relative>div>form.container_ng>section>div.bc-w-100>div.space-y-2>input {
+    color: rgb(44, 42, 41);
+    font-family: "Open Sans", sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    border: 0px none rgb(44, 42, 41);
+    text-align: start;
+    display: block;
+    width: 16px;
+    height: 16px;
+}
+
+/*   └─ P .bc-ps-4 (Nivel 2) */
+/* PATH: html > body.__className_2fad4c > main.relative > div > form.container_ng > section > div.bc-w-100 > p.bc-ps-4 */
+/* TEXTO: "Autorizo a Bancolombia para que el número de celular y el correo electrónico, se" */
+html>body.__className_2fad4c>main.relative>div>form.container_ng>section>div.bc-w-100>p.bc-ps-4 {
+    color: rgb(44, 42, 41);
+    font-family: "Open Sans", sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    margin: -28px 0px 0px;
+    padding: 0px 0px 0px 24px;
+    border: 0px solid rgb(229, 229, 229);
+    text-align: start;
+    display: block;
+    width: 392px;
+    height: 216px;
+}
+
+/*     └─ A .cursor-pointer (Nivel 3) */
+/* PATH: body.__className_2fad4c > main.relative > div > form.container_ng > section > div.bc-w-100 > p.bc-ps-4 > a.cursor-pointe... */
+/* TEXTO: "Términos, Condiciones y Políticas de Privacidad para la solicitud de productos." */
+body.__className_2fad4c>main.relative>div>form.container_ng>section>div.bc-w-100>p.bc-ps-4>a.cursor-pointer {
+    color: rgb(44, 42, 41);
+    font-family: "Open Sans SemiBold", sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    border: 0px solid rgb(229, 229, 229);
+    text-align: start;
+    display: inline;
+}
+
+/* └─ DIV .bc-w-100 (Nivel 1) */
+/* PATH: html > body.__className_2fad4c > main.relative > div > form.container_ng > section > div.bc-w-100 */
+/* TEXTO: "CONTINUAR" */
+html>body.__className_2fad4c>main.relative>div>form.container_ng>section>div.bc-w-100 {
+    color: rgb(44, 42, 41);
+    font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    margin: 48px 0px 0px;
+    border: 0px solid rgb(229, 229, 229);
+    text-align: start;
+    display: flex;
+    width: 392px;
+    height: 50px;
+}
+
+/*   └─ BUTTON #next-button .bc-button (Nivel 2) */
+/* PATH: html > body.__className_2fad4c > main.relative > div > form.container_ng > section > div.bc-w-100 > button.bc-button#nex... */
+/* TEXTO: "CONTINUAR" */
+html>body.__className_2fad4c>main.relative>div>form.container_ng>section>div.bc-w-100>button.bc-button#next-button {
+    color: rgb(151, 153, 155);
+    font-family: "CIB Sans bold";
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 26px;
+    padding: 12px 24px;
+    background-color: rgb(217, 218, 221);
+    border: 0px none rgb(229, 229, 229);
+    border-radius: 100px;
+    text-align: center;
+    display: flex;
+    width: 392px;
+    height: 50px;
+}
+
+/* └─ DIV (Nivel 1) */
+/* PATH: html > body.__className_2fad4c > main.relative > div > form.container_ng > section > div */
+html>body.__className_2fad4c>main.relative>div>form.container_ng>section>div {
+    color: rgb(44, 42, 41);
+    font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    border: 0px solid rgb(229, 229, 229);
+    text-align: start;
+    display: block;
+    width: 392px;
+}
+
+/*   └─ DIV (Nivel 2) */
+/* PATH: html > body.__className_2fad4c > main.relative > div > form.container_ng > section > div > div */
+html>body.__className_2fad4c>main.relative>div>form.container_ng>section>div>div {
+    color: rgb(44, 42, 41);
+    font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    border: 0px solid rgb(229, 229, 229);
+    text-align: start;
+    display: block;
+    width: 392px;
+}
+
+/*     └─ DIV (Nivel 3) */
+/* PATH: body.__className_2fad4c > main.relative > div > form.container_ng > section > div > div > div */
+body.__className_2fad4c>main.relative>div>form.container_ng>section>div>div>div {
+    color: rgb(44, 42, 41);
+    font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    border: 0px solid rgb(229, 229, 229);
+    text-align: start;
+    display: block;
+    width: 392px;
+}
+
+
+================================================================================
+/* SECCIÓN 8: bc-mt-4 ng-untouched ng-pristine ng-invalid */
+================================================================================
+/* TAG: section */
+/* SELECTOR: html > body.__className_2fad4c > main.relative > div > form.container_ng > section > div.bc-w-100 > section.bc-mt-4 */
+================================================================================
+
+/* ► CONTENEDOR PRINCIPAL */
+html>body.__className_2fad4c>main.relative>div>form.container_ng>section>div.bc-w-100>section.bc-mt-4 {
+    margin: 24px 0px 0px;
+    display: block;
+    width: 392px;
+    height: 344px;
+}
+
+/* └─ DIV .w-full (Nivel 1) */
+/* PATH: body.__className_2fad4c > main.relative > div > form.container_ng > section > div.bc-w-100 > section.bc-mt-4 > div.w-ful... */
+/* TEXTO: "Tipo de documento de identidad  id-number Cédula de Ciudadanía Cédula de Extranj" */
+body.__className_2fad4c>main.relative>div>form.container_ng>section>div.bc-w-100>section.bc-mt-4>div.w-full {
+    color: rgb(44, 42, 41);
+    font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    border: 0px solid rgb(229, 229, 229);
+    text-align: start;
+    display: block;
+    width: 392px;
+    height: 60px;
+}
+
+/*   └─ BUTTON #:r0:-form-item .flex (Nivel 2) */
+/* PATH: main.relative > div > form.container_ng > section > div.bc-w-100 > section.bc-mt-4 > div.w-full > button.flex#:r0:-form-... */
+main.relative>div>form.container_ng>section>div.bc-w-100>section.bc-mt-4>div.w-full>button.flex#:r0:-form-item {
+    color: rgb(115, 115, 115);
+    font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    padding: 8px 12px 8px 32px;
+    background-color: rgb(255, 255, 255);
+    text-align: center;
+    display: flex;
+    width: 392px;
+    height: 36px;
+}
+
+/*     └─ SPAN (Nivel 3) */
+/* PATH: div > form.container_ng > section > div.bc-w-100 > section.bc-mt-4 > div.w-full > button.flex#:r0:-form-item > span */
+div>form.container_ng>section>div.bc-w-100>section.bc-mt-4>div.w-full>button.flex#:r0:-form-item>span {
+    color: rgb(115, 115, 115);
+    font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    border: 0px solid rgb(229, 229, 229);
+    text-align: center;
+    display: flow-root;
+}
+
+/* └─ DIV .space-y-0 (Nivel 1) */
+/* PATH: body.__className_2fad4c > main.relative > div > form.container_ng > section > div.bc-w-100 > section.bc-mt-4 > div.space... */
+/* TEXTO: "Número de documento product-number" */
+body.__className_2fad4c>main.relative>div>form.container_ng>section>div.bc-w-100>section.bc-mt-4>div.space-y-0 {
+    color: rgb(44, 42, 41);
+    font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    margin: 12px 0px 16px;
+    border: 0px solid rgb(229, 229, 229);
+    text-align: start;
+    display: block;
+    width: 392px;
+    height: 56px;
+}
+
+/*   └─ INPUT #:r2:-form-item .flex (Nivel 2) */
+/* PATH: main.relative > div > form.container_ng > section > div.bc-w-100 > section.bc-mt-4 > div.space-y-0 > input.flex#:r2:-for... */
+main.relative>div>form.container_ng>section>div.bc-w-100>section.bc-mt-4>div.space-y-0>input.flex#:r2:-form-item {
+    color: rgb(44, 42, 41);
+    font-family: "Open Sans SemiBold";
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 24px;
+    padding: 4px 12px 0px 32px;
+    text-align: start;
+    display: block;
+    width: 392px;
+    height: 32px;
+}
+
+/* └─ DIV .space-y-0 (Nivel 1) */
+/* PATH: body.__className_2fad4c > main.relative > div > form.container_ng > section > div.bc-w-100 > section.bc-mt-4 > div.space... */
+/* TEXTO: "Nombre Completo id-number" */
+body.__className_2fad4c>main.relative>div>form.container_ng>section>div.bc-w-100>section.bc-mt-4>div.space-y-0 {
+    color: rgb(44, 42, 41);
+    font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    margin: 12px 0px 16px;
+    border: 0px solid rgb(229, 229, 229);
+    text-align: start;
+    display: block;
+    width: 392px;
+    height: 56px;
+}
+
+/*   └─ INPUT #:r3:-form-item .flex (Nivel 2) */
+/* PATH: main.relative > div > form.container_ng > section > div.bc-w-100 > section.bc-mt-4 > div.space-y-0 > input.flex#:r3:-for... */
+main.relative>div>form.container_ng>section>div.bc-w-100>section.bc-mt-4>div.space-y-0>input.flex#:r3:-form-item {
+    color: rgb(44, 42, 41);
+    font-family: "Open Sans SemiBold";
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 24px;
+    padding: 4px 12px 0px 32px;
+    text-align: start;
+    display: block;
+    width: 392px;
+    height: 32px;
+}
+
+/* └─ DIV .space-y-0 (Nivel 1) */
+/* PATH: body.__className_2fad4c > main.relative > div > form.container_ng > section > div.bc-w-100 > section.bc-mt-4 > div.space... */
+/* TEXTO: "Número de celular smartphone" */
+body.__className_2fad4c>main.relative>div>form.container_ng>section>div.bc-w-100>section.bc-mt-4>div.space-y-0 {
+    color: rgb(44, 42, 41);
+    font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    margin: 12px 0px 16px;
+    border: 0px solid rgb(229, 229, 229);
+    text-align: start;
+    display: block;
+    width: 392px;
+    height: 56px;
+}
+
+/*   └─ INPUT #:r4:-form-item .flex (Nivel 2) */
+/* PATH: main.relative > div > form.container_ng > section > div.bc-w-100 > section.bc-mt-4 > div.space-y-0 > input.flex#:r4:-for... */
+main.relative>div>form.container_ng>section>div.bc-w-100>section.bc-mt-4>div.space-y-0>input.flex#:r4:-form-item {
+    color: rgb(44, 42, 41);
+    font-family: "Open Sans SemiBold";
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 24px;
+    padding: 4px 12px 0px 32px;
+    text-align: start;
+    display: block;
+    width: 392px;
+    height: 32px;
+}
+
+/* └─ DIV .space-y-0 (Nivel 1) */
+/* PATH: body.__className_2fad4c > main.relative > div > form.container_ng > section > div.bc-w-100 > section.bc-mt-4 > div.space... */
+/* TEXTO: "Correo electrónico mail" */
+body.__className_2fad4c>main.relative>div>form.container_ng>section>div.bc-w-100>section.bc-mt-4>div.space-y-0 {
+    color: rgb(44, 42, 41);
+    font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    margin: 12px 0px 16px;
+    border: 0px solid rgb(229, 229, 229);
+    text-align: start;
+    display: block;
+    width: 392px;
+    height: 56px;
+}
+
+/*   └─ INPUT #:r5:-form-item .flex (Nivel 2) */
+/* PATH: main.relative > div > form.container_ng > section > div.bc-w-100 > section.bc-mt-4 > div.space-y-0 > input.flex#:r5:-for... */
+main.relative>div>form.container_ng>section>div.bc-w-100>section.bc-mt-4>div.space-y-0>input.flex#:r5:-form-item {
+    color: rgb(44, 42, 41);
+    font-family: "Open Sans SemiBold";
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 24px;
+    padding: 4px 12px 0px 32px;
+    text-align: start;
+    display: block;
+    width: 392px;
+    height: 32px;
+}
+
+
+================================================================================
+/* SECCIÓN 9: SECTION_8 */
+================================================================================
+/* TAG: section */
+/* SELECTOR: html > body.__className_2fad4c > main.relative > div > section */
+================================================================================
+
+/* ► CONTENEDOR PRINCIPAL */
+html>body.__className_2fad4c>main.relative>div>section {
+    display: block;
+    width: 1264.8px;
+    height: 242.738px;
+}
+
+/* └─ DIV .bc-bg-brand-primary-00 (Nivel 1) */
+/* PATH: html > body.__className_2fad4c > main.relative > div > section > div.bc-bg-brand-primary-00 */
+/* TEXTO: "Copyright © 2024 Grupo Bancolombia.  Dirección IP 186.169.128.155  domingo 28 de" */
+html>body.__className_2fad4c>main.relative>div>section>div.bc-bg-brand-primary-00 {
+    color: rgb(255, 255, 255);
+    font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    background-color: rgb(44, 42, 41);
+    border: 0px solid rgb(229, 229, 229);
+    text-align: start;
+    display: block;
+    width: 1264.8px;
+    height: 242.738px;
+}
+
+/*     └─ DIV #footer .bc-footer (Nivel 3) */
+/* PATH: html > body.__className_2fad4c > main.relative > div > section > div.bc-bg-brand-primary-00 > section > div.bc-footer#fo... */
+/* TEXTO: "Copyright © 2024 Grupo Bancolombia.  Dirección IP 186.169.128.155  domingo 28 de" */
+html>body.__className_2fad4c>main.relative>div>section>div.bc-bg-brand-primary-00>section>div.bc-footer#footer {
+    color: rgb(255, 255, 255);
+    font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    padding: 24px 24px 96px;
+    border: 0px solid rgb(229, 229, 229);
+    text-align: start;
+    display: block;
+    width: 1264.8px;
+    height: 242.738px;
+}
+
+
+================================================================================
+/* SECCIÓN 10: SECTION_9 */
+================================================================================
+/* TAG: section */
+/* SELECTOR: html > body.__className_2fad4c > main.relative > div > section > div.bc-bg-brand-primary-00 > section */
+================================================================================
+
+/* ► CONTENEDOR PRINCIPAL */
+html>body.__className_2fad4c>main.relative>div>section>div.bc-bg-brand-primary-00>section {
+    display: block;
+    width: 1264.8px;
+    height: 242.738px;
+}
+
+/* └─ DIV #footer .bc-footer (Nivel 1) */
+/* PATH: html > body.__className_2fad4c > main.relative > div > section > div.bc-bg-brand-primary-00 > section > div.bc-footer#fo... */
+/* TEXTO: "Copyright © 2024 Grupo Bancolombia.  Dirección IP 186.169.128.155  domingo 28 de" */
+html>body.__className_2fad4c>main.relative>div>section>div.bc-bg-brand-primary-00>section>div.bc-footer#footer {
+    color: rgb(255, 255, 255);
+    font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    padding: 24px 24px 96px;
+    border: 0px solid rgb(229, 229, 229);
+    text-align: start;
+    display: block;
+    width: 1264.8px;
+    height: 242.738px;
+}
+
+/*   └─ DIV .bc-container (Nivel 2) */
+/* PATH: body.__className_2fad4c > main.relative > div > section > div.bc-bg-brand-primary-00 > section > div.bc-footer#footer > ... */
+/* TEXTO: "Copyright © 2024 Grupo Bancolombia.  Dirección IP 186.169.128.155  domingo 28 de" */
+body.__className_2fad4c>main.relative>div>section>div.bc-bg-brand-primary-00>section>div.bc-footer#footer>div.bc-container {
+    color: rgb(255, 255, 255);
+    font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    margin: 0px 40.4px;
+    padding: 0px 16px;
+    border: 0px solid rgb(229, 229, 229);
+    text-align: start;
+    display: block;
+    width: 1136px;
+    height: 106.738px;
+}
+
+/*     └─ DIV .bc-footer-divisor (Nivel 3) */
+/* PATH: main.relative > div > section > div.bc-bg-brand-primary-00 > section > div.bc-footer#footer > div.bc-container > div.bc-... */
+main.relative>div>section>div.bc-bg-brand-primary-00>section>div.bc-footer#footer>div.bc-container>div.bc-footer-divisor {
+    color: rgb(255, 255, 255);
+    font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    margin: 16px 0px;
+    background-color: rgb(179, 181, 184);
+    border: 0px solid rgb(229, 229, 229);
+    border-radius: 4px;
+    text-align: start;
+    display: block;
+    width: 1104px;
+    height: 1px;
+}
+
+/*     └─ DIV .bc-footer-bottom (Nivel 3) */
+/* PATH: main.relative > div > section > div.bc-bg-brand-primary-00 > section > div.bc-footer#footer > div.bc-container > div.bc-... */
+/* TEXTO: "Copyright © 2024 Grupo Bancolombia.  Dirección IP 186.169.128.155  domingo 28 de" */
+main.relative>div>section>div.bc-bg-brand-primary-00>section>div.bc-footer#footer>div.bc-container>div.bc-footer-bottom {
+    color: rgb(255, 255, 255);
+    font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    border: 0px solid rgb(229, 229, 229);
+    text-align: start;
+    display: flex;
+    width: 1104px;
+    height: 89.7375px;
+}
+
+
+================================================================================
+/* SECCIÓN 11: bc-container */
+================================================================================
+/* TAG: div */
+/* SELECTOR: body.__className_2fad4c > main.relative > div > section > div.bc-bg-brand-primary-00 > section > div.bc-footer#footer > div.bc-container */
+================================================================================
+
+/* ► CONTENEDOR PRINCIPAL */
+body.__className_2fad4c>main.relative>div>section>div.bc-bg-brand-primary-00>section>div.bc-footer#footer>div.bc-container {
+    padding: 0px 16px;
+    margin: 0px 40.4px;
+    display: block;
+    width: 1136px;
+    height: 106.738px;
+}
+
+/* 📦 DIV .bc-container (Nivel 0) */
+/* PATH: body.__className_2fad4c > main.relative > div > section > div.bc-bg-brand-primary-00 > section > div.bc-footer#footer > ... */
+/* TEXTO: "Copyright © 2024 Grupo Bancolombia.  Dirección IP 186.169.128.155  domingo 28 de" */
+body.__className_2fad4c>main.relative>div>section>div.bc-bg-brand-primary-00>section>div.bc-footer#footer>div.bc-container {
+    color: rgb(255, 255, 255);
+    font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    margin: 0px 40.4px;
+    padding: 0px 16px;
+    border: 0px solid rgb(229, 229, 229);
+    text-align: start;
+    display: block;
+    width: 1136px;
+    height: 106.738px;
+}
+
+/* └─ DIV .bc-footer-divisor (Nivel 1) */
+/* PATH: main.relative > div > section > div.bc-bg-brand-primary-00 > section > div.bc-footer#footer > div.bc-container > div.bc-... */
+main.relative>div>section>div.bc-bg-brand-primary-00>section>div.bc-footer#footer>div.bc-container>div.bc-footer-divisor {
+    color: rgb(255, 255, 255);
+    font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    margin: 16px 0px;
+    background-color: rgb(179, 181, 184);
+    border: 0px solid rgb(229, 229, 229);
+    border-radius: 4px;
+    text-align: start;
+    display: block;
+    width: 1104px;
+    height: 1px;
+}
+
+/* └─ DIV .bc-footer-bottom (Nivel 1) */
+/* PATH: main.relative > div > section > div.bc-bg-brand-primary-00 > section > div.bc-footer#footer > div.bc-container > div.bc-... */
+/* TEXTO: "Copyright © 2024 Grupo Bancolombia.  Dirección IP 186.169.128.155  domingo 28 de" */
+main.relative>div>section>div.bc-bg-brand-primary-00>section>div.bc-footer#footer>div.bc-container>div.bc-footer-bottom {
+    color: rgb(255, 255, 255);
+    font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    border: 0px solid rgb(229, 229, 229);
+    text-align: start;
+    display: flex;
+    width: 1104px;
+    height: 89.7375px;
+}
+
+/*   └─ DIV .bc-footer-bottom-left (Nivel 2) */
+/* PATH: div > section > div.bc-bg-brand-primary-00 > section > div.bc-footer#footer > div.bc-container > div.bc-footer-bottom > ... */
+/* TEXTO: "Copyright © 2024 Grupo Bancolombia." */
+div>section>div.bc-bg-brand-primary-00>section>div.bc-footer#footer>div.bc-container>div.bc-footer-bottom>div.bc-footer-bottom-left {
+    color: rgb(255, 255, 255);
+    font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    border: 0px solid rgb(229, 229, 229);
+    text-align: start;
+    display: flex;
+    width: 820.888px;
+    height: 89.7375px;
+}
+
+/*     └─ DIV .bc-footer-bottom-left-side (Nivel 3) */
+/* PATH: section > div.bc-bg-brand-primary-00 > section > div.bc-footer#footer > div.bc-container > div.bc-footer-bottom > div.bc... */
+/* TEXTO: "Copyright © 2024 Grupo Bancolombia." */
+section>div.bc-bg-brand-primary-00>section>div.bc-footer#footer>div.bc-container>div.bc-footer-bottom>div.bc-footer-bottom-left>div.bc-footer-bottom-left-side {
+    color: rgb(255, 255, 255);
+    font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    border: 0px solid rgb(229, 229, 229);
+    text-align: start;
+    display: flex;
+    width: 216.312px;
+    height: 89.7375px;
+}
+
+/*   └─ DIV .bc-footer-bottom-right (Nivel 2) */
+/* PATH: div > section > div.bc-bg-brand-primary-00 > section > div.bc-footer#footer > div.bc-container > div.bc-footer-bottom > ... */
+/* TEXTO: "Dirección IP 186.169.128.155  domingo 28 de diciembre de 2025. 2:10:33 PM" */
+div>section>div.bc-bg-brand-primary-00>section>div.bc-footer#footer>div.bc-container>div.bc-footer-bottom>div.bc-footer-bottom-right {
+    color: rgb(255, 255, 255);
+    font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    border: 0px solid rgb(229, 229, 229);
+    text-align: right;
+    display: block;
+    width: 259.112px;
+    height: 32px;
+}
+
+/*     └─ DIV .bc-footer-bottom-right-text (Nivel 3) */
+/* PATH: section > div.bc-bg-brand-primary-00 > section > div.bc-footer#footer > div.bc-container > div.bc-footer-bottom > div.bc... */
+/* TEXTO: "Dirección IP 186.169.128.155  domingo 28 de diciembre de 2025. 2:10:33 PM" */
+section>div.bc-bg-brand-primary-00>section>div.bc-footer#footer>div.bc-container>div.bc-footer-bottom>div.bc-footer-bottom-right>div.bc-footer-bottom-right-text {
+    color: rgb(255, 255, 255);
+    font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    border: 0px solid rgb(229, 229, 229);
+    text-align: right;
+    display: block;
+    width: 259.112px;
+    height: 32px;
+}
+
+
+================================================================================
+/* SECCIÓN 12: bc-logo */
+================================================================================
+/* TAG: section */
+/* SELECTOR: section > div.bc-footer#footer > div.bc-container > div.bc-footer-bottom > div.bc-footer-bottom-left > div.bc-footer-bottom-left-side > div.bc-footer-bottom-left-side-vigilant > section.bc-logo */
+================================================================================
+
+/* ► CONTENEDOR PRINCIPAL */
+section>div.bc-footer#footer>div.bc-container>div.bc-footer-bottom>div.bc-footer-bottom-left>div.bc-footer-bottom-left-side>div.bc-footer-bottom-left-side-vigilant>section.bc-logo {
+    display: block;
+    width: 26px;
+}
+
+
+================================================================================
+/* SECCIÓN 13: bc-footer-stroke-colors bc-stroke */
+================================================================================
+/* TAG: section */
+/* SELECTOR: main.relative > div > section > div.bc-bg-brand-primary-00 > section > div.bc-footer#footer > div.bc-container > section.bc-footer-stroke-colors */
+================================================================================
+
+/* ► CONTENEDOR PRINCIPAL */
+main.relative>div>section>div.bc-bg-brand-primary-00>section>div.bc-footer#footer>div.bc-container>section.bc-footer-stroke-colors {
+    display: block;
+    width: 420px;
+    height: 150px;
+}

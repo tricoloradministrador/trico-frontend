@@ -1,0 +1,4393 @@
+/* ============================================================================
+   ESTILOS COMPLETOS CON JERARQUÍA DETALLADA
+   ============================================================================
+
+   LEYENDA:
+   📦 = Elemento raíz de la sección
+   └─ = Hijo directo (nivel 1)
+     └─ = Nieto (nivel 2)
+       └─ = Bisnieto (nivel 3)
+         └─ = Tataranieto (nivel 4)
+
+   Cada elemento incluye:
+   - PATH completo del selector CSS
+   - Texto contenido en el elemento
+   - Todos los estilos computados relevantes
+
+   ============================================================================ */
+
+/* Generado: 2025-12-30 20:16:26 */
+/* Total de secciones: 32 */
+/* Total de elementos: 156 */
+
+
+
+=====================================================================================
+/* SECCIÓN 1: relative flex flex-col h-dvh bg-background */
+=====================================================================================
+/* TAG: main */
+/* SELECTOR: html > body > main.relative */
+=====================================================================================
+
+/* ► CONTENEDOR PRINCIPAL DE LA SECCIÓN */
+html > body > main.relative {
+    background-color: rgb(255, 255, 255);
+    display: flex;
+    width: 712.8px;
+    height: 715.2px;
+}
+
+
+=====================================================================================
+/* SECCIÓN 2: svp-main */
+=====================================================================================
+/* TAG: main */
+/* SELECTOR: html > body > main.relative > main.svp-main */
+=====================================================================================
+
+/* ► CONTENEDOR PRINCIPAL DE LA SECCIÓN */
+html > body > main.relative > main.svp-main {
+    display: block;
+    width: 712.8px;
+    height: 715.2px;
+}
+
+  /* └─ SECTION .top-0 (Nivel 1) */
+  /* PATH: html > body > main.relative > main.svp-main > section.top-0 */
+  /* TEXTO: "alert  Usuario o clave incorrecta  Verifica la información e inténtalo de nuevo.  error" */
+  html > body > main.relative > main.svp-main > section.top-0 {
+      color: rgb(44, 42, 41);
+      font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 24px;
+      text-align: start;
+      letter-spacing: -0.3px;
+      border: 0px solid rgb(229, 229, 229);
+      opacity: 1;
+      display: block;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      flex: 0 1 auto;
+      width: 712.8px;
+      overflow: visible;
+      cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+      transition: all;
+  }
+
+    /*   └─ DIV .alert-anim-wrapper (Nivel 2) */
+    /* PATH: html > body > main.relative > main.svp-main > section.top-0 > div.alert-anim-wrapper */
+    /* TEXTO: "alert  Usuario o clave incorrecta  Verifica la información e inténtalo de nuevo.  error" */
+    html > body > main.relative > main.svp-main > section.top-0 > div.alert-anim-wrapper {
+        color: rgb(44, 42, 41);
+        font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 24px;
+        text-align: start;
+        letter-spacing: -0.3px;
+        border: 0px solid rgb(229, 229, 229);
+        opacity: 1;
+        display: block;
+        position: relative;
+        z-index: 9999;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        flex: 0 1 auto;
+        width: 712.8px;
+        overflow: visible;
+        cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+        transform: matrix(1, 0, 0, 1, 0, 0);
+        transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+  /* └─ DIV .bc-container-fluid (Nivel 1) */
+  /* PATH: html > body > main.relative > main.svp-main > div.bc-container-fluid */
+  /* TEXTO: "Sucursal Virtual Personas ¡Hola! Ingresa los datos para gestionar tus productos y hacer transaccione" */
+  html > body > main.relative > main.svp-main > div.bc-container-fluid {
+      color: rgb(44, 42, 41);
+      font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 24px;
+      text-align: start;
+      letter-spacing: -0.3px;
+      padding: 0px 16px;
+      background-image: url("https://svpersonas.apps.bancolombia.com/assets/images/auth-trazo.svg");
+      border: 0px solid rgb(229, 229, 229);
+      opacity: 1;
+      display: block;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      flex: 0 1 auto;
+      width: 712.8px;
+      height: 1061.45px;
+      overflow: visible;
+      cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+      transition: all;
+  }
+
+    /*   └─ SECTION .bc-flex (Nivel 2) */
+    /* PATH: html > body > main.relative > main.svp-main > div.bc-container-fluid > section.bc-flex */
+    html > body > main.relative > main.svp-main > div.bc-container-fluid > section.bc-flex {
+        color: rgb(44, 42, 41);
+        font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 24px;
+        text-align: start;
+        letter-spacing: -0.3px;
+        border: 0px solid rgb(229, 229, 229);
+        opacity: 1;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        flex-wrap: nowrap;
+        flex: 0 1 auto;
+        width: 680.8px;
+        height: 112px;
+        overflow: visible;
+        cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+        transition: all;
+    }
+
+      /*     └─ DIV .bc-flex (Nivel 3) */
+      /* PATH: html > body > main.relative > main.svp-main > div.bc-container-fluid > section.bc-flex > div.bc-flex */
+      html > body > main.relative > main.svp-main > div.bc-container-fluid > section.bc-flex > div.bc-flex {
+          color: rgb(44, 42, 41);
+          font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+          font-size: 16px;
+          font-weight: 400;
+          line-height: 24px;
+          text-align: start;
+          letter-spacing: -0.3px;
+          margin: 48px 0px 0px;
+          border: 0px solid rgb(229, 229, 229);
+          opacity: 1;
+          display: flex;
+          flex-direction: row;
+          justify-content: center;
+          flex-wrap: nowrap;
+          flex: 0 1 auto;
+          width: 184px;
+          height: 64px;
+          overflow: visible;
+          cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+          transition: all;
+      }
+
+    /*   └─ H1 .bc-text-center (Nivel 2) */
+    /* PATH: html > body > main.relative > main.svp-main > div.bc-container-fluid > h1.bc-text-center */
+    /* TEXTO: "Sucursal Virtual Personas" */
+    html > body > main.relative > main.svp-main > div.bc-container-fluid > h1.bc-text-center {
+        color: rgb(44, 42, 41);
+        font-family: "CIB Sans Light";
+        font-size: 36px;
+        font-weight: 200;
+        line-height: 40px;
+        text-align: center;
+        margin: 24px 0px 0px;
+        border: 0px solid rgb(229, 229, 229);
+        opacity: 1;
+        display: block;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        flex: 0 1 auto;
+        width: 680.8px;
+        height: 40px;
+        overflow: visible;
+        cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+        transition: all;
+    }
+
+    /*   └─ FORM (Nivel 2) */
+    /* PATH: html > body > main.relative > main.svp-main > div.bc-container-fluid > form */
+    /* TEXTO: "¡Hola! Ingresa los datos para gestionar tus productos y hacer transacciones. user Usuario lock Clave" */
+    html > body > main.relative > main.svp-main > div.bc-container-fluid > form {
+        color: rgb(44, 42, 41);
+        font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 24px;
+        text-align: start;
+        letter-spacing: -0.3px;
+        border: 0px solid rgb(229, 229, 229);
+        opacity: 1;
+        display: block;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        flex: 0 1 auto;
+        width: 680.8px;
+        height: 536px;
+        overflow: visible;
+        cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+        transition: all;
+    }
+
+      /*     └─ DIV .bc-row (Nivel 3) */
+      /* PATH: html > body > main.relative > main.svp-main > div.bc-container-fluid > form > div.bc-row */
+      /* TEXTO: "¡Hola! Ingresa los datos para gestionar tus productos y hacer transacciones. user Usuario lock Clave" */
+      html > body > main.relative > main.svp-main > div.bc-container-fluid > form > div.bc-row {
+          color: rgb(44, 42, 41);
+          font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+          font-size: 16px;
+          font-weight: 400;
+          line-height: 24px;
+          text-align: start;
+          letter-spacing: -0.3px;
+          margin: 0px -4px;
+          padding: 0px 0px 48px;
+          border: 0px solid rgb(229, 229, 229);
+          opacity: 1;
+          display: flex;
+          flex-direction: row;
+          justify-content: center;
+          flex-wrap: wrap;
+          flex: 0 1 auto;
+          width: 688.8px;
+          height: 536px;
+          overflow: visible;
+          cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+          transition: all;
+      }
+
+    /*   └─ DIV #svp-footer .bc-footer (Nivel 2) */
+    /* PATH: html > body > main.relative > main.svp-main > div.bc-container-fluid > div.bc-footer#svp-footer */
+    /* TEXTO: "¿Problemas para conectarte? Aprende sobre seguridad Reglamento Sucursal Virtual Política de privacid" */
+    html > body > main.relative > main.svp-main > div.bc-container-fluid > div.bc-footer#svp-footer {
+        color: rgb(44, 42, 41);
+        font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 24px;
+        text-align: start;
+        letter-spacing: -0.3px;
+        padding: 16px;
+        border: 0px solid rgb(229, 229, 229);
+        opacity: 1;
+        display: block;
+        position: relative;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        flex: 0 1 auto;
+        width: 680.8px;
+        height: 349.45px;
+        overflow: hidden;
+        cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+        transition: all;
+    }
+
+      /*     └─ DIV .bc-container (Nivel 3) */
+      /* PATH: html > body > main.relative > main.svp-main > div.bc-container-fluid > div.bc-footer#svp-footer > div.bc-container */
+      /* TEXTO: "¿Problemas para conectarte? Aprende sobre seguridad Reglamento Sucursal Virtual Política de privacid" */
+      html > body > main.relative > main.svp-main > div.bc-container-fluid > div.bc-footer#svp-footer > div.bc-container {
+          color: rgb(44, 42, 41);
+          font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+          font-size: 16px;
+          font-weight: 400;
+          line-height: 24px;
+          text-align: start;
+          letter-spacing: -0.3px;
+          padding: 0px 16px;
+          border: 0px solid rgb(229, 229, 229);
+          opacity: 1;
+          display: block;
+          flex-direction: row;
+          flex-wrap: nowrap;
+          flex: 0 1 auto;
+          width: 648.8px;
+          height: 301.45px;
+          max-width: 100%;
+          overflow: visible;
+          cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+          transition: all;
+      }
+
+
+=====================================================================================
+/* SECCIÓN 3: top-0 w-full */
+=====================================================================================
+/* TAG: section */
+/* SELECTOR: html > body > main.relative > main.svp-main > section.top-0 */
+=====================================================================================
+
+/* ► CONTENEDOR PRINCIPAL DE LA SECCIÓN */
+html > body > main.relative > main.svp-main > section.top-0 {
+    display: block;
+    width: 712.8px;
+}
+
+/* 📦 SECTION .top-0 (Nivel 0) */
+/* PATH: html > body > main.relative > main.svp-main > section.top-0 */
+/* TEXTO: "alert  Usuario o clave incorrecta  Verifica la información e inténtalo de nuevo.  error" */
+html > body > main.relative > main.svp-main > section.top-0 {
+    color: rgb(44, 42, 41);
+    font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    text-align: start;
+    letter-spacing: -0.3px;
+    border: 0px solid rgb(229, 229, 229);
+    opacity: 1;
+    display: block;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    flex: 0 1 auto;
+    width: 712.8px;
+    overflow: visible;
+    cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+    transition: all;
+}
+
+  /* └─ DIV .alert-anim-wrapper (Nivel 1) */
+  /* PATH: html > body > main.relative > main.svp-main > section.top-0 > div.alert-anim-wrapper */
+  /* TEXTO: "alert  Usuario o clave incorrecta  Verifica la información e inténtalo de nuevo.  error" */
+  html > body > main.relative > main.svp-main > section.top-0 > div.alert-anim-wrapper {
+      color: rgb(44, 42, 41);
+      font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 24px;
+      text-align: start;
+      letter-spacing: -0.3px;
+      border: 0px solid rgb(229, 229, 229);
+      opacity: 1;
+      display: block;
+      position: relative;
+      z-index: 9999;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      flex: 0 1 auto;
+      width: 712.8px;
+      overflow: visible;
+      cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+      transform: matrix(1, 0, 0, 1, 0, 0);
+      transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+
+=====================================================================================
+/* SECCIÓN 4: bc-alert-active bc-alert-error bc-alert-fixed bc-alert-fixed-lower */
+=====================================================================================
+/* TAG: article */
+/* SELECTOR: html > body > main.relative > main.svp-main > section.top-0 > div.alert-anim-wrapper > article.bc-al... */
+=====================================================================================
+
+/* ► CONTENEDOR PRINCIPAL DE LA SECCIÓN */
+html > body > main.relative > main.svp-main > section.top-0 > div.alert-anim-wrapper > article.bc-alert-active#svp-error-alert {
+    background-color: rgb(53, 53, 55);
+    display: flex;
+    width: 680.8px;
+    height: 96px;
+}
+
+/* 📦 ARTICLE #svp-error-alert .bc-alert-active (Nivel 0) */
+/* PATH: html > body > main.relative > main.svp-main > section.top-0 > div.alert-anim-wrapper > article.bc-alert-active#svp-error-alert */
+/* TEXTO: "alert  Usuario o clave incorrecta  Verifica la información e inténtalo de nuevo.  error" */
+html > body > main.relative > main.svp-main > section.top-0 > div.alert-anim-wrapper > article.bc-alert-active#svp-error-alert {
+    color: rgb(44, 42, 41);
+    font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    text-align: start;
+    letter-spacing: -0.3px;
+    background-color: rgb(53, 53, 55);
+    border: 0px solid rgb(229, 229, 229);
+    border-radius: 8px;
+    box-shadow: rgba(44, 42, 41, 0.16) 0px 16px 20px 0px, rgba(43, 42, 41, 0.08) 0px 1px 12px 0px;
+    opacity: 1;
+    display: flex;
+    position: fixed;
+    top: 92px;
+    left: 16px;
+    right: 16px;
+    bottom: -188px;
+    z-index: 9999;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    flex: 0 1 auto;
+    width: 680.8px;
+    height: 96px;
+    max-width: calc(100% - 32px);
+    overflow: visible;
+    cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+    transform: matrix(1, 0, 0, 1, 0, 0);
+    transition: all;
+}
+
+  /* └─ SECTION .bc-alert-status (Nivel 1) */
+  /* PATH: html > body > main.relative > main.svp-main > section.top-0 > div.alert-anim-wrapper > article.bc-alert-active#svp-error-alert > section.bc-... */
+  /* TEXTO: "alert" */
+  html > body > main.relative > main.svp-main > section.top-0 > div.alert-anim-wrapper > article.bc-alert-active#svp-error-alert > section.bc-alert-status {
+      color: rgb(44, 42, 41);
+      font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 24px;
+      text-align: center;
+      letter-spacing: -0.3px;
+      background-color: rgb(255, 127, 65);
+      border: 0px solid rgb(229, 229, 229);
+      border-radius: 8px 0px 0px 8px;
+      opacity: 1;
+      display: block;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      flex: 0 1 auto;
+      width: 41.9375px;
+      height: 96px;
+      overflow: visible;
+      cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+      transition: all;
+  }
+
+  /* └─ SECTION .bc-alert-body (Nivel 1) */
+  /* PATH: html > body > main.relative > main.svp-main > section.top-0 > div.alert-anim-wrapper > article.bc-alert-active#svp-error-alert > section.bc-... */
+  /* TEXTO: "Usuario o clave incorrecta  Verifica la información e inténtalo de nuevo." */
+  html > body > main.relative > main.svp-main > section.top-0 > div.alert-anim-wrapper > article.bc-alert-active#svp-error-alert > section.bc-alert-body {
+      color: rgb(44, 42, 41);
+      font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 24px;
+      text-align: start;
+      letter-spacing: -0.3px;
+      padding: 16px;
+      border: 0px solid rgb(229, 229, 229);
+      opacity: 1;
+      display: block;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      flex: 0 1 auto;
+      width: 598.862px;
+      height: 96px;
+      overflow: visible;
+      cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+      transition: all;
+  }
+
+    /*   └─ SECTION .bc-alert-content (Nivel 2) */
+    /* PATH: body > main.relative > main.svp-main > section.top-0 > div.alert-anim-wrapper > article.bc-alert-active#svp-error-alert > section.bc-alert-b... */
+    /* TEXTO: "Usuario o clave incorrecta  Verifica la información e inténtalo de nuevo." */
+    body > main.relative > main.svp-main > section.top-0 > div.alert-anim-wrapper > article.bc-alert-active#svp-error-alert > section.bc-alert-body > section.bc-alert-content {
+        color: rgb(44, 42, 41);
+        font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 24px;
+        text-align: start;
+        letter-spacing: -0.3px;
+        border: 0px solid rgb(229, 229, 229);
+        opacity: 1;
+        display: block;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        flex: 0 1 auto;
+        width: 566.862px;
+        height: 52px;
+        overflow: visible;
+        cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+        transition: all;
+    }
+
+      /*     └─ P .bc-alert-title (Nivel 3) */
+      /* PATH: main.relative > main.svp-main > section.top-0 > div.alert-anim-wrapper > article.bc-alert-active#svp-error-alert > section.bc-alert-body > s... */
+      /* TEXTO: "Usuario o clave incorrecta" */
+      main.relative > main.svp-main > section.top-0 > div.alert-anim-wrapper > article.bc-alert-active#svp-error-alert > section.bc-alert-body > section.bc-alert-content > p.bc-alert-title {
+          color: rgb(255, 255, 255);
+          font-family: "Open Sans SemiBold";
+          font-size: 16px;
+          font-weight: 600;
+          line-height: 24px;
+          text-align: left;
+          margin: 0px 0px 8px;
+          border: 0px solid rgb(229, 229, 229);
+          opacity: 1;
+          display: block;
+          flex-direction: row;
+          flex-wrap: nowrap;
+          flex: 0 1 auto;
+          width: 566.862px;
+          height: 24px;
+          overflow: visible;
+          cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+          transition: all;
+      }
+
+      /*     └─ P .bc-alert-text (Nivel 3) */
+      /* PATH: main.relative > main.svp-main > section.top-0 > div.alert-anim-wrapper > article.bc-alert-active#svp-error-alert > section.bc-alert-body > s... */
+      /* TEXTO: "Verifica la información e inténtalo de nuevo." */
+      main.relative > main.svp-main > section.top-0 > div.alert-anim-wrapper > article.bc-alert-active#svp-error-alert > section.bc-alert-body > section.bc-alert-content > p.bc-alert-text {
+          color: rgb(255, 255, 255);
+          font-family: "Open Sans";
+          font-size: 14px;
+          font-weight: 400;
+          line-height: 20px;
+          text-align: left;
+          margin: 8px 0px 0px;
+          border: 0px solid rgb(229, 229, 229);
+          opacity: 1;
+          display: block;
+          flex-direction: row;
+          flex-wrap: nowrap;
+          flex: 0 1 auto;
+          width: 566.862px;
+          height: 20px;
+          overflow: visible;
+          cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+          transition: all;
+      }
+
+    /*   └─ UL (Nivel 2) */
+    /* PATH: body > main.relative > main.svp-main > section.top-0 > div.alert-anim-wrapper > article.bc-alert-active#svp-error-alert > section.bc-alert-b... */
+    body > main.relative > main.svp-main > section.top-0 > div.alert-anim-wrapper > article.bc-alert-active#svp-error-alert > section.bc-alert-body > ul {
+        color: rgb(44, 42, 41);
+        font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 24px;
+        text-align: start;
+        letter-spacing: -0.3px;
+        margin: 12px 0px 0px;
+        border: 0px solid rgb(229, 229, 229);
+        opacity: 1;
+        display: block;
+        position: relative;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        flex: 0 1 auto;
+        width: 566.862px;
+        overflow: visible;
+        cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+        transition: all;
+    }
+
+  /* └─ SECTION .bc-my-2 (Nivel 1) */
+  /* PATH: html > body > main.relative > main.svp-main > section.top-0 > div.alert-anim-wrapper > article.bc-alert-active#svp-error-alert > section.bc-... */
+  /* TEXTO: "error" */
+  html > body > main.relative > main.svp-main > section.top-0 > div.alert-anim-wrapper > article.bc-alert-active#svp-error-alert > section.bc-my-2 {
+      color: rgb(44, 42, 41);
+      font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 24px;
+      text-align: start;
+      letter-spacing: -0.3px;
+      margin: 8px 8px 8px 0px;
+      border: 0px solid rgb(229, 229, 229);
+      opacity: 1;
+      display: block;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      flex: 0 1 auto;
+      width: 32px;
+      height: 80px;
+      overflow: visible;
+      cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+      transition: all;
+  }
+
+    /*   └─ BUTTON .bc-alert-close (Nivel 2) */
+    /* PATH: body > main.relative > main.svp-main > section.top-0 > div.alert-anim-wrapper > article.bc-alert-active#svp-error-alert > section.bc-my-2 > ... */
+    /* TEXTO: "error" */
+    body > main.relative > main.svp-main > section.top-0 > div.alert-anim-wrapper > article.bc-alert-active#svp-error-alert > section.bc-my-2 > button.bc-alert-close {
+        color: rgb(44, 42, 41);
+        font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 24px;
+        text-align: center;
+        letter-spacing: -0.3px;
+        border: 0px none rgb(44, 42, 41);
+        opacity: 1;
+        display: inline-block;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        flex: 0 1 auto;
+        width: 32px;
+        height: 28.8px;
+        overflow: visible;
+        cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-pointer-small.png"), default;
+        transition: all;
+    }
+
+
+=====================================================================================
+/* SECCIÓN 5: bc-alert-status */
+=====================================================================================
+/* TAG: section */
+/* SELECTOR: html > body > main.relative > main.svp-main > section.top-0 > div.alert-anim-wrapper > article.bc-al... */
+=====================================================================================
+
+/* ► CONTENEDOR PRINCIPAL DE LA SECCIÓN */
+html > body > main.relative > main.svp-main > section.top-0 > div.alert-anim-wrapper > article.bc-alert-active#svp-error-alert > section.bc-alert-status {
+    background-color: rgb(255, 127, 65);
+    display: block;
+    width: 41.9375px;
+    height: 96px;
+}
+
+/* 📦 SECTION .bc-alert-status (Nivel 0) */
+/* PATH: html > body > main.relative > main.svp-main > section.top-0 > div.alert-anim-wrapper > article.bc-alert-active#svp-error-alert > section.bc-... */
+/* TEXTO: "alert" */
+html > body > main.relative > main.svp-main > section.top-0 > div.alert-anim-wrapper > article.bc-alert-active#svp-error-alert > section.bc-alert-status {
+    color: rgb(44, 42, 41);
+    font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    text-align: center;
+    letter-spacing: -0.3px;
+    background-color: rgb(255, 127, 65);
+    border: 0px solid rgb(229, 229, 229);
+    border-radius: 8px 0px 0px 8px;
+    opacity: 1;
+    display: block;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    flex: 0 1 auto;
+    width: 41.9375px;
+    height: 96px;
+    overflow: visible;
+    cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+    transition: all;
+}
+
+
+=====================================================================================
+/* SECCIÓN 6: bc-alert-body */
+=====================================================================================
+/* TAG: section */
+/* SELECTOR: html > body > main.relative > main.svp-main > section.top-0 > div.alert-anim-wrapper > article.bc-al... */
+=====================================================================================
+
+/* ► CONTENEDOR PRINCIPAL DE LA SECCIÓN */
+html > body > main.relative > main.svp-main > section.top-0 > div.alert-anim-wrapper > article.bc-alert-active#svp-error-alert > section.bc-alert-body {
+    padding: 16px;
+    display: block;
+    width: 598.862px;
+    height: 96px;
+}
+
+/* 📦 SECTION .bc-alert-body (Nivel 0) */
+/* PATH: html > body > main.relative > main.svp-main > section.top-0 > div.alert-anim-wrapper > article.bc-alert-active#svp-error-alert > section.bc-... */
+/* TEXTO: "Usuario o clave incorrecta  Verifica la información e inténtalo de nuevo." */
+html > body > main.relative > main.svp-main > section.top-0 > div.alert-anim-wrapper > article.bc-alert-active#svp-error-alert > section.bc-alert-body {
+    color: rgb(44, 42, 41);
+    font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    text-align: start;
+    letter-spacing: -0.3px;
+    padding: 16px;
+    border: 0px solid rgb(229, 229, 229);
+    opacity: 1;
+    display: block;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    flex: 0 1 auto;
+    width: 598.862px;
+    height: 96px;
+    overflow: visible;
+    cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+    transition: all;
+}
+
+  /* └─ SECTION .bc-alert-content (Nivel 1) */
+  /* PATH: body > main.relative > main.svp-main > section.top-0 > div.alert-anim-wrapper > article.bc-alert-active#svp-error-alert > section.bc-alert-b... */
+  /* TEXTO: "Usuario o clave incorrecta  Verifica la información e inténtalo de nuevo." */
+  body > main.relative > main.svp-main > section.top-0 > div.alert-anim-wrapper > article.bc-alert-active#svp-error-alert > section.bc-alert-body > section.bc-alert-content {
+      color: rgb(44, 42, 41);
+      font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 24px;
+      text-align: start;
+      letter-spacing: -0.3px;
+      border: 0px solid rgb(229, 229, 229);
+      opacity: 1;
+      display: block;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      flex: 0 1 auto;
+      width: 566.862px;
+      height: 52px;
+      overflow: visible;
+      cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+      transition: all;
+  }
+
+    /*   └─ P .bc-alert-title (Nivel 2) */
+    /* PATH: main.relative > main.svp-main > section.top-0 > div.alert-anim-wrapper > article.bc-alert-active#svp-error-alert > section.bc-alert-body > s... */
+    /* TEXTO: "Usuario o clave incorrecta" */
+    main.relative > main.svp-main > section.top-0 > div.alert-anim-wrapper > article.bc-alert-active#svp-error-alert > section.bc-alert-body > section.bc-alert-content > p.bc-alert-title {
+        color: rgb(255, 255, 255);
+        font-family: "Open Sans SemiBold";
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 24px;
+        text-align: left;
+        margin: 0px 0px 8px;
+        border: 0px solid rgb(229, 229, 229);
+        opacity: 1;
+        display: block;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        flex: 0 1 auto;
+        width: 566.862px;
+        height: 24px;
+        overflow: visible;
+        cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+        transition: all;
+    }
+
+    /*   └─ P .bc-alert-text (Nivel 2) */
+    /* PATH: main.relative > main.svp-main > section.top-0 > div.alert-anim-wrapper > article.bc-alert-active#svp-error-alert > section.bc-alert-body > s... */
+    /* TEXTO: "Verifica la información e inténtalo de nuevo." */
+    main.relative > main.svp-main > section.top-0 > div.alert-anim-wrapper > article.bc-alert-active#svp-error-alert > section.bc-alert-body > section.bc-alert-content > p.bc-alert-text {
+        color: rgb(255, 255, 255);
+        font-family: "Open Sans";
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 20px;
+        text-align: left;
+        margin: 8px 0px 0px;
+        border: 0px solid rgb(229, 229, 229);
+        opacity: 1;
+        display: block;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        flex: 0 1 auto;
+        width: 566.862px;
+        height: 20px;
+        overflow: visible;
+        cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+        transition: all;
+    }
+
+  /* └─ UL (Nivel 1) */
+  /* PATH: body > main.relative > main.svp-main > section.top-0 > div.alert-anim-wrapper > article.bc-alert-active#svp-error-alert > section.bc-alert-b... */
+  body > main.relative > main.svp-main > section.top-0 > div.alert-anim-wrapper > article.bc-alert-active#svp-error-alert > section.bc-alert-body > ul {
+      color: rgb(44, 42, 41);
+      font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 24px;
+      text-align: start;
+      letter-spacing: -0.3px;
+      margin: 12px 0px 0px;
+      border: 0px solid rgb(229, 229, 229);
+      opacity: 1;
+      display: block;
+      position: relative;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      flex: 0 1 auto;
+      width: 566.862px;
+      overflow: visible;
+      cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+      transition: all;
+  }
+
+
+=====================================================================================
+/* SECCIÓN 7: bc-alert-content */
+=====================================================================================
+/* TAG: section */
+/* SELECTOR: body > main.relative > main.svp-main > section.top-0 > div.alert-anim-wrapper > article.bc-alert-act... */
+=====================================================================================
+
+/* ► CONTENEDOR PRINCIPAL DE LA SECCIÓN */
+body > main.relative > main.svp-main > section.top-0 > div.alert-anim-wrapper > article.bc-alert-active#svp-error-alert > section.bc-alert-body > section.bc-alert-content {
+    display: block;
+    width: 566.862px;
+    height: 52px;
+}
+
+/* 📦 SECTION .bc-alert-content (Nivel 0) */
+/* PATH: body > main.relative > main.svp-main > section.top-0 > div.alert-anim-wrapper > article.bc-alert-active#svp-error-alert > section.bc-alert-b... */
+/* TEXTO: "Usuario o clave incorrecta  Verifica la información e inténtalo de nuevo." */
+body > main.relative > main.svp-main > section.top-0 > div.alert-anim-wrapper > article.bc-alert-active#svp-error-alert > section.bc-alert-body > section.bc-alert-content {
+    color: rgb(44, 42, 41);
+    font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    text-align: start;
+    letter-spacing: -0.3px;
+    border: 0px solid rgb(229, 229, 229);
+    opacity: 1;
+    display: block;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    flex: 0 1 auto;
+    width: 566.862px;
+    height: 52px;
+    overflow: visible;
+    cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+    transition: all;
+}
+
+  /* └─ P .bc-alert-title (Nivel 1) */
+  /* PATH: main.relative > main.svp-main > section.top-0 > div.alert-anim-wrapper > article.bc-alert-active#svp-error-alert > section.bc-alert-body > s... */
+  /* TEXTO: "Usuario o clave incorrecta" */
+  main.relative > main.svp-main > section.top-0 > div.alert-anim-wrapper > article.bc-alert-active#svp-error-alert > section.bc-alert-body > section.bc-alert-content > p.bc-alert-title {
+      color: rgb(255, 255, 255);
+      font-family: "Open Sans SemiBold";
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 24px;
+      text-align: left;
+      margin: 0px 0px 8px;
+      border: 0px solid rgb(229, 229, 229);
+      opacity: 1;
+      display: block;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      flex: 0 1 auto;
+      width: 566.862px;
+      height: 24px;
+      overflow: visible;
+      cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+      transition: all;
+  }
+
+  /* └─ P .bc-alert-text (Nivel 1) */
+  /* PATH: main.relative > main.svp-main > section.top-0 > div.alert-anim-wrapper > article.bc-alert-active#svp-error-alert > section.bc-alert-body > s... */
+  /* TEXTO: "Verifica la información e inténtalo de nuevo." */
+  main.relative > main.svp-main > section.top-0 > div.alert-anim-wrapper > article.bc-alert-active#svp-error-alert > section.bc-alert-body > section.bc-alert-content > p.bc-alert-text {
+      color: rgb(255, 255, 255);
+      font-family: "Open Sans";
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 20px;
+      text-align: left;
+      margin: 8px 0px 0px;
+      border: 0px solid rgb(229, 229, 229);
+      opacity: 1;
+      display: block;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      flex: 0 1 auto;
+      width: 566.862px;
+      height: 20px;
+      overflow: visible;
+      cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+      transition: all;
+  }
+
+
+=====================================================================================
+/* SECCIÓN 8: bc-my-2 bc-me-2 */
+=====================================================================================
+/* TAG: section */
+/* SELECTOR: html > body > main.relative > main.svp-main > section.top-0 > div.alert-anim-wrapper > article.bc-al... */
+=====================================================================================
+
+/* ► CONTENEDOR PRINCIPAL DE LA SECCIÓN */
+html > body > main.relative > main.svp-main > section.top-0 > div.alert-anim-wrapper > article.bc-alert-active#svp-error-alert > section.bc-my-2 {
+    margin: 8px 8px 8px 0px;
+    display: block;
+    width: 32px;
+    height: 80px;
+}
+
+/* 📦 SECTION .bc-my-2 (Nivel 0) */
+/* PATH: html > body > main.relative > main.svp-main > section.top-0 > div.alert-anim-wrapper > article.bc-alert-active#svp-error-alert > section.bc-... */
+/* TEXTO: "error" */
+html > body > main.relative > main.svp-main > section.top-0 > div.alert-anim-wrapper > article.bc-alert-active#svp-error-alert > section.bc-my-2 {
+    color: rgb(44, 42, 41);
+    font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    text-align: start;
+    letter-spacing: -0.3px;
+    margin: 8px 8px 8px 0px;
+    border: 0px solid rgb(229, 229, 229);
+    opacity: 1;
+    display: block;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    flex: 0 1 auto;
+    width: 32px;
+    height: 80px;
+    overflow: visible;
+    cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+    transition: all;
+}
+
+  /* └─ BUTTON .bc-alert-close (Nivel 1) */
+  /* PATH: body > main.relative > main.svp-main > section.top-0 > div.alert-anim-wrapper > article.bc-alert-active#svp-error-alert > section.bc-my-2 > ... */
+  /* TEXTO: "error" */
+  body > main.relative > main.svp-main > section.top-0 > div.alert-anim-wrapper > article.bc-alert-active#svp-error-alert > section.bc-my-2 > button.bc-alert-close {
+      color: rgb(44, 42, 41);
+      font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 24px;
+      text-align: center;
+      letter-spacing: -0.3px;
+      border: 0px none rgb(44, 42, 41);
+      opacity: 1;
+      display: inline-block;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      flex: 0 1 auto;
+      width: 32px;
+      height: 28.8px;
+      overflow: visible;
+      cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-pointer-small.png"), default;
+      transition: all;
+  }
+
+
+=====================================================================================
+/* SECCIÓN 9: bc-container-fluid trazo */
+=====================================================================================
+/* TAG: div */
+/* SELECTOR: html > body > main.relative > main.svp-main > div.bc-container-fluid */
+=====================================================================================
+
+/* ► CONTENEDOR PRINCIPAL DE LA SECCIÓN */
+html > body > main.relative > main.svp-main > div.bc-container-fluid {
+    padding: 0px 16px;
+    display: block;
+    width: 712.8px;
+    height: 1061.45px;
+}
+
+/* 📦 DIV .bc-container-fluid (Nivel 0) */
+/* PATH: html > body > main.relative > main.svp-main > div.bc-container-fluid */
+/* TEXTO: "Sucursal Virtual Personas ¡Hola! Ingresa los datos para gestionar tus productos y hacer transaccione" */
+html > body > main.relative > main.svp-main > div.bc-container-fluid {
+    color: rgb(44, 42, 41);
+    font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    text-align: start;
+    letter-spacing: -0.3px;
+    padding: 0px 16px;
+    background-image: url("https://svpersonas.apps.bancolombia.com/assets/images/auth-trazo.svg");
+    border: 0px solid rgb(229, 229, 229);
+    opacity: 1;
+    display: block;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    flex: 0 1 auto;
+    width: 712.8px;
+    height: 1061.45px;
+    overflow: visible;
+    cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+    transition: all;
+}
+
+  /* └─ SECTION .bc-flex (Nivel 1) */
+  /* PATH: html > body > main.relative > main.svp-main > div.bc-container-fluid > section.bc-flex */
+  html > body > main.relative > main.svp-main > div.bc-container-fluid > section.bc-flex {
+      color: rgb(44, 42, 41);
+      font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 24px;
+      text-align: start;
+      letter-spacing: -0.3px;
+      border: 0px solid rgb(229, 229, 229);
+      opacity: 1;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      flex-wrap: nowrap;
+      flex: 0 1 auto;
+      width: 680.8px;
+      height: 112px;
+      overflow: visible;
+      cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+      transition: all;
+  }
+
+    /*   └─ DIV .bc-flex (Nivel 2) */
+    /* PATH: html > body > main.relative > main.svp-main > div.bc-container-fluid > section.bc-flex > div.bc-flex */
+    html > body > main.relative > main.svp-main > div.bc-container-fluid > section.bc-flex > div.bc-flex {
+        color: rgb(44, 42, 41);
+        font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 24px;
+        text-align: start;
+        letter-spacing: -0.3px;
+        margin: 48px 0px 0px;
+        border: 0px solid rgb(229, 229, 229);
+        opacity: 1;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        flex-wrap: nowrap;
+        flex: 0 1 auto;
+        width: 184px;
+        height: 64px;
+        overflow: visible;
+        cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+        transition: all;
+    }
+
+      /*     └─ SECTION .logo (Nivel 3) */
+      /* PATH: html > body > main.relative > main.svp-main > div.bc-container-fluid > section.bc-flex > div.bc-flex > section.logo */
+      html > body > main.relative > main.svp-main > div.bc-container-fluid > section.bc-flex > div.bc-flex > section.logo {
+          color: rgb(44, 42, 41);
+          font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+          font-size: 16px;
+          font-weight: 400;
+          line-height: 24px;
+          text-align: start;
+          letter-spacing: -0.3px;
+          border: 0px solid rgb(229, 229, 229);
+          opacity: 1;
+          display: flex;
+          flex-direction: row;
+          justify-content: center;
+          flex-wrap: nowrap;
+          flex: 0 1 auto;
+          width: 184px;
+          height: 64px;
+          overflow: visible;
+          cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+          transition: all;
+      }
+
+  /* └─ H1 .bc-text-center (Nivel 1) */
+  /* PATH: html > body > main.relative > main.svp-main > div.bc-container-fluid > h1.bc-text-center */
+  /* TEXTO: "Sucursal Virtual Personas" */
+  html > body > main.relative > main.svp-main > div.bc-container-fluid > h1.bc-text-center {
+      color: rgb(44, 42, 41);
+      font-family: "CIB Sans Light";
+      font-size: 36px;
+      font-weight: 200;
+      line-height: 40px;
+      text-align: center;
+      margin: 24px 0px 0px;
+      border: 0px solid rgb(229, 229, 229);
+      opacity: 1;
+      display: block;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      flex: 0 1 auto;
+      width: 680.8px;
+      height: 40px;
+      overflow: visible;
+      cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+      transition: all;
+  }
+
+  /* └─ FORM (Nivel 1) */
+  /* PATH: html > body > main.relative > main.svp-main > div.bc-container-fluid > form */
+  /* TEXTO: "¡Hola! Ingresa los datos para gestionar tus productos y hacer transacciones. user Usuario lock Clave" */
+  html > body > main.relative > main.svp-main > div.bc-container-fluid > form {
+      color: rgb(44, 42, 41);
+      font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 24px;
+      text-align: start;
+      letter-spacing: -0.3px;
+      border: 0px solid rgb(229, 229, 229);
+      opacity: 1;
+      display: block;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      flex: 0 1 auto;
+      width: 680.8px;
+      height: 536px;
+      overflow: visible;
+      cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+      transition: all;
+  }
+
+    /*   └─ DIV .bc-row (Nivel 2) */
+    /* PATH: html > body > main.relative > main.svp-main > div.bc-container-fluid > form > div.bc-row */
+    /* TEXTO: "¡Hola! Ingresa los datos para gestionar tus productos y hacer transacciones. user Usuario lock Clave" */
+    html > body > main.relative > main.svp-main > div.bc-container-fluid > form > div.bc-row {
+        color: rgb(44, 42, 41);
+        font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 24px;
+        text-align: start;
+        letter-spacing: -0.3px;
+        margin: 0px -4px;
+        padding: 0px 0px 48px;
+        border: 0px solid rgb(229, 229, 229);
+        opacity: 1;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        flex-wrap: wrap;
+        flex: 0 1 auto;
+        width: 688.8px;
+        height: 536px;
+        overflow: visible;
+        cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+        transition: all;
+    }
+
+      /*     └─ DIV .bc-col-xs-6 (Nivel 3) */
+      /* PATH: html > body > main.relative > main.svp-main > div.bc-container-fluid > form > div.bc-row > div.bc-col-xs-6 */
+      /* TEXTO: "¡Hola! Ingresa los datos para gestionar tus productos y hacer transacciones. user Usuario lock Clave" */
+      html > body > main.relative > main.svp-main > div.bc-container-fluid > form > div.bc-row > div.bc-col-xs-6 {
+          color: rgb(44, 42, 41);
+          font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+          font-size: 16px;
+          font-weight: 400;
+          line-height: 24px;
+          text-align: start;
+          letter-spacing: -0.3px;
+          padding: 0px 4px;
+          border: 0px solid rgb(229, 229, 229);
+          opacity: 1;
+          display: block;
+          position: relative;
+          flex-direction: row;
+          flex-wrap: nowrap;
+          flex: 0 0 100%;
+          width: 688.8px;
+          height: 488px;
+          max-width: 100%;
+          min-height: 1px;
+          overflow: visible;
+          cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+          transition: all;
+      }
+
+  /* └─ DIV #svp-footer .bc-footer (Nivel 1) */
+  /* PATH: html > body > main.relative > main.svp-main > div.bc-container-fluid > div.bc-footer#svp-footer */
+  /* TEXTO: "¿Problemas para conectarte? Aprende sobre seguridad Reglamento Sucursal Virtual Política de privacid" */
+  html > body > main.relative > main.svp-main > div.bc-container-fluid > div.bc-footer#svp-footer {
+      color: rgb(44, 42, 41);
+      font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 24px;
+      text-align: start;
+      letter-spacing: -0.3px;
+      padding: 16px;
+      border: 0px solid rgb(229, 229, 229);
+      opacity: 1;
+      display: block;
+      position: relative;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      flex: 0 1 auto;
+      width: 680.8px;
+      height: 349.45px;
+      overflow: hidden;
+      cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+      transition: all;
+  }
+
+    /*   └─ DIV .bc-container (Nivel 2) */
+    /* PATH: html > body > main.relative > main.svp-main > div.bc-container-fluid > div.bc-footer#svp-footer > div.bc-container */
+    /* TEXTO: "¿Problemas para conectarte? Aprende sobre seguridad Reglamento Sucursal Virtual Política de privacid" */
+    html > body > main.relative > main.svp-main > div.bc-container-fluid > div.bc-footer#svp-footer > div.bc-container {
+        color: rgb(44, 42, 41);
+        font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 24px;
+        text-align: start;
+        letter-spacing: -0.3px;
+        padding: 0px 16px;
+        border: 0px solid rgb(229, 229, 229);
+        opacity: 1;
+        display: block;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        flex: 0 1 auto;
+        width: 648.8px;
+        height: 301.45px;
+        max-width: 100%;
+        overflow: visible;
+        cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+        transition: all;
+    }
+
+      /*     └─ DIV .bc-footer-top-links (Nivel 3) */
+      /* PATH: html > body > main.relative > main.svp-main > div.bc-container-fluid > div.bc-footer#svp-footer > div.bc-container > div.bc-footer-top-links */
+      /* TEXTO: "¿Problemas para conectarte? Aprende sobre seguridad Reglamento Sucursal Virtual Política de privacid" */
+      html > body > main.relative > main.svp-main > div.bc-container-fluid > div.bc-footer#svp-footer > div.bc-container > div.bc-footer-top-links {
+          color: rgb(44, 42, 41);
+          font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+          font-size: 16px;
+          font-weight: 400;
+          line-height: 24px;
+          text-align: start;
+          letter-spacing: -0.3px;
+          margin: 16px 0px 0px;
+          gap: 16px;
+          border: 0px solid rgb(229, 229, 229);
+          opacity: 1;
+          display: flex;
+          flex-direction: column;
+          justify-content: flex-end;
+          align-items: center;
+          flex-wrap: nowrap;
+          flex: 0 1 auto;
+          grid-gap: 16px;
+          width: 616.8px;
+          height: 128px;
+          overflow: visible;
+          cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+          transition: all;
+      }
+
+      /*     └─ DIV .bc-footer-divisor (Nivel 3) */
+      /* PATH: html > body > main.relative > main.svp-main > div.bc-container-fluid > div.bc-footer#svp-footer > div.bc-container > div.bc-footer-divisor */
+      html > body > main.relative > main.svp-main > div.bc-container-fluid > div.bc-footer#svp-footer > div.bc-container > div.bc-footer-divisor {
+          color: rgb(44, 42, 41);
+          font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+          font-size: 16px;
+          font-weight: 400;
+          line-height: 24px;
+          text-align: start;
+          letter-spacing: -0.3px;
+          margin: 16px;
+          background-color: rgb(179, 181, 184);
+          border: 0px solid rgb(229, 229, 229);
+          border-radius: 4px;
+          opacity: 1;
+          display: block;
+          flex-direction: row;
+          flex-wrap: nowrap;
+          flex: 0 1 auto;
+          width: 584.8px;
+          height: 1px;
+          overflow: visible;
+          cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+          transition: all;
+      }
+
+      /*     └─ DIV .bc-footer-bottom (Nivel 3) */
+      /* PATH: html > body > main.relative > main.svp-main > div.bc-container-fluid > div.bc-footer#svp-footer > div.bc-container > div.bc-footer-bottom */
+      /* TEXTO: "Dirección IP: 139.28.84.202  Martes 30 de Diciembre de 2025 3:02:13 PM" */
+      html > body > main.relative > main.svp-main > div.bc-container-fluid > div.bc-footer#svp-footer > div.bc-container > div.bc-footer-bottom {
+          color: rgb(44, 42, 41);
+          font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+          font-size: 16px;
+          font-weight: 400;
+          line-height: 24px;
+          text-align: start;
+          letter-spacing: -0.3px;
+          gap: 16px;
+          border: 0px solid rgb(229, 229, 229);
+          opacity: 1;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          flex-wrap: nowrap;
+          flex: 0 1 auto;
+          grid-gap: 16px;
+          width: 616.8px;
+          height: 140.45px;
+          overflow: visible;
+          cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+          transition: all;
+      }
+
+
+=====================================================================================
+/* SECCIÓN 10: bc-flex bc-justify-content-center */
+=====================================================================================
+/* TAG: section */
+/* SELECTOR: html > body > main.relative > main.svp-main > div.bc-container-fluid > section.bc-flex */
+=====================================================================================
+
+/* ► CONTENEDOR PRINCIPAL DE LA SECCIÓN */
+html > body > main.relative > main.svp-main > div.bc-container-fluid > section.bc-flex {
+    display: flex;
+    width: 680.8px;
+    height: 112px;
+}
+
+/* 📦 SECTION .bc-flex (Nivel 0) */
+/* PATH: html > body > main.relative > main.svp-main > div.bc-container-fluid > section.bc-flex */
+html > body > main.relative > main.svp-main > div.bc-container-fluid > section.bc-flex {
+    color: rgb(44, 42, 41);
+    font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    text-align: start;
+    letter-spacing: -0.3px;
+    border: 0px solid rgb(229, 229, 229);
+    opacity: 1;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: nowrap;
+    flex: 0 1 auto;
+    width: 680.8px;
+    height: 112px;
+    overflow: visible;
+    cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+    transition: all;
+}
+
+  /* └─ DIV .bc-flex (Nivel 1) */
+  /* PATH: html > body > main.relative > main.svp-main > div.bc-container-fluid > section.bc-flex > div.bc-flex */
+  html > body > main.relative > main.svp-main > div.bc-container-fluid > section.bc-flex > div.bc-flex {
+      color: rgb(44, 42, 41);
+      font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 24px;
+      text-align: start;
+      letter-spacing: -0.3px;
+      margin: 48px 0px 0px;
+      border: 0px solid rgb(229, 229, 229);
+      opacity: 1;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      flex-wrap: nowrap;
+      flex: 0 1 auto;
+      width: 184px;
+      height: 64px;
+      overflow: visible;
+      cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+      transition: all;
+  }
+
+    /*   └─ SECTION .logo (Nivel 2) */
+    /* PATH: html > body > main.relative > main.svp-main > div.bc-container-fluid > section.bc-flex > div.bc-flex > section.logo */
+    html > body > main.relative > main.svp-main > div.bc-container-fluid > section.bc-flex > div.bc-flex > section.logo {
+        color: rgb(44, 42, 41);
+        font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 24px;
+        text-align: start;
+        letter-spacing: -0.3px;
+        border: 0px solid rgb(229, 229, 229);
+        opacity: 1;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        flex-wrap: nowrap;
+        flex: 0 1 auto;
+        width: 184px;
+        height: 64px;
+        overflow: visible;
+        cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+        transition: all;
+    }
+
+      /*     └─ IMG (Nivel 3) */
+      /* PATH: body > main.relative > main.svp-main > div.bc-container-fluid > section.bc-flex > div.bc-flex > section.logo > img */
+      body > main.relative > main.svp-main > div.bc-container-fluid > section.bc-flex > div.bc-flex > section.logo > img {
+          color: rgb(44, 42, 41);
+          font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+          font-size: 16px;
+          font-weight: 400;
+          line-height: 24px;
+          text-align: start;
+          letter-spacing: -0.3px;
+          border: 0px solid rgb(229, 229, 229);
+          opacity: 1;
+          display: block;
+          flex-direction: row;
+          flex-wrap: nowrap;
+          flex: 0 1 auto;
+          width: 184px;
+          height: 64px;
+          max-width: 100%;
+          overflow: clip;
+          cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+          transition: all;
+      }
+
+
+=====================================================================================
+/* SECCIÓN 11: logo bc-flex bc-justify-content-center bc-logo */
+=====================================================================================
+/* TAG: section */
+/* SELECTOR: html > body > main.relative > main.svp-main > div.bc-container-fluid > section.bc-flex > div.bc-flex... */
+=====================================================================================
+
+/* ► CONTENEDOR PRINCIPAL DE LA SECCIÓN */
+html > body > main.relative > main.svp-main > div.bc-container-fluid > section.bc-flex > div.bc-flex > section.logo {
+    display: flex;
+    width: 184px;
+    height: 64px;
+}
+
+/* 📦 SECTION .logo (Nivel 0) */
+/* PATH: html > body > main.relative > main.svp-main > div.bc-container-fluid > section.bc-flex > div.bc-flex > section.logo */
+html > body > main.relative > main.svp-main > div.bc-container-fluid > section.bc-flex > div.bc-flex > section.logo {
+    color: rgb(44, 42, 41);
+    font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    text-align: start;
+    letter-spacing: -0.3px;
+    border: 0px solid rgb(229, 229, 229);
+    opacity: 1;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: nowrap;
+    flex: 0 1 auto;
+    width: 184px;
+    height: 64px;
+    overflow: visible;
+    cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+    transition: all;
+}
+
+  /* └─ IMG (Nivel 1) */
+  /* PATH: body > main.relative > main.svp-main > div.bc-container-fluid > section.bc-flex > div.bc-flex > section.logo > img */
+  body > main.relative > main.svp-main > div.bc-container-fluid > section.bc-flex > div.bc-flex > section.logo > img {
+      color: rgb(44, 42, 41);
+      font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 24px;
+      text-align: start;
+      letter-spacing: -0.3px;
+      border: 0px solid rgb(229, 229, 229);
+      opacity: 1;
+      display: block;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      flex: 0 1 auto;
+      width: 184px;
+      height: 64px;
+      max-width: 100%;
+      overflow: clip;
+      cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+      transition: all;
+  }
+
+
+=====================================================================================
+/* SECCIÓN 12: FORM_11 */
+=====================================================================================
+/* TAG: form */
+/* SELECTOR: html > body > main.relative > main.svp-main > div.bc-container-fluid > form */
+=====================================================================================
+
+/* ► CONTENEDOR PRINCIPAL DE LA SECCIÓN */
+html > body > main.relative > main.svp-main > div.bc-container-fluid > form {
+    display: block;
+    width: 680.8px;
+    height: 536px;
+}
+
+/* 📦 FORM (Nivel 0) */
+/* PATH: html > body > main.relative > main.svp-main > div.bc-container-fluid > form */
+/* TEXTO: "¡Hola! Ingresa los datos para gestionar tus productos y hacer transacciones. user Usuario lock Clave" */
+html > body > main.relative > main.svp-main > div.bc-container-fluid > form {
+    color: rgb(44, 42, 41);
+    font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    text-align: start;
+    letter-spacing: -0.3px;
+    border: 0px solid rgb(229, 229, 229);
+    opacity: 1;
+    display: block;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    flex: 0 1 auto;
+    width: 680.8px;
+    height: 536px;
+    overflow: visible;
+    cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+    transition: all;
+}
+
+  /* └─ DIV .bc-row (Nivel 1) */
+  /* PATH: html > body > main.relative > main.svp-main > div.bc-container-fluid > form > div.bc-row */
+  /* TEXTO: "¡Hola! Ingresa los datos para gestionar tus productos y hacer transacciones. user Usuario lock Clave" */
+  html > body > main.relative > main.svp-main > div.bc-container-fluid > form > div.bc-row {
+      color: rgb(44, 42, 41);
+      font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 24px;
+      text-align: start;
+      letter-spacing: -0.3px;
+      margin: 0px -4px;
+      padding: 0px 0px 48px;
+      border: 0px solid rgb(229, 229, 229);
+      opacity: 1;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      flex-wrap: wrap;
+      flex: 0 1 auto;
+      width: 688.8px;
+      height: 536px;
+      overflow: visible;
+      cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+      transition: all;
+  }
+
+    /*   └─ DIV .bc-col-xs-6 (Nivel 2) */
+    /* PATH: html > body > main.relative > main.svp-main > div.bc-container-fluid > form > div.bc-row > div.bc-col-xs-6 */
+    /* TEXTO: "¡Hola! Ingresa los datos para gestionar tus productos y hacer transacciones. user Usuario lock Clave" */
+    html > body > main.relative > main.svp-main > div.bc-container-fluid > form > div.bc-row > div.bc-col-xs-6 {
+        color: rgb(44, 42, 41);
+        font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 24px;
+        text-align: start;
+        letter-spacing: -0.3px;
+        padding: 0px 4px;
+        border: 0px solid rgb(229, 229, 229);
+        opacity: 1;
+        display: block;
+        position: relative;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        flex: 0 0 100%;
+        width: 688.8px;
+        height: 488px;
+        max-width: 100%;
+        min-height: 1px;
+        overflow: visible;
+        cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+        transition: all;
+    }
+
+      /*     └─ DIV (Nivel 3) */
+      /* PATH: body > main.relative > main.svp-main > div.bc-container-fluid > form > div.bc-row > div.bc-col-xs-6 > div */
+      /* TEXTO: "¡Hola! Ingresa los datos para gestionar tus productos y hacer transacciones. user Usuario lock Clave" */
+      body > main.relative > main.svp-main > div.bc-container-fluid > form > div.bc-row > div.bc-col-xs-6 > div {
+          color: rgb(44, 42, 41);
+          font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+          font-size: 16px;
+          font-weight: 400;
+          line-height: 24px;
+          text-align: start;
+          letter-spacing: -0.3px;
+          border: 0px solid rgb(229, 229, 229);
+          opacity: 1;
+          display: block;
+          flex-direction: row;
+          flex-wrap: nowrap;
+          flex: 0 1 auto;
+          width: 680.8px;
+          height: 464px;
+          overflow: visible;
+          cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+          transition: all;
+      }
+
+
+=====================================================================================
+/* SECCIÓN 13: bc-row bc-justify-content-center form-container pb-12 */
+=====================================================================================
+/* TAG: div */
+/* SELECTOR: html > body > main.relative > main.svp-main > div.bc-container-fluid > form > div.bc-row */
+=====================================================================================
+
+/* ► CONTENEDOR PRINCIPAL DE LA SECCIÓN */
+html > body > main.relative > main.svp-main > div.bc-container-fluid > form > div.bc-row {
+    padding: 0px 0px 48px;
+    margin: 0px -4px;
+    display: flex;
+    width: 688.8px;
+    height: 536px;
+}
+
+/* 📦 DIV .bc-row (Nivel 0) */
+/* PATH: html > body > main.relative > main.svp-main > div.bc-container-fluid > form > div.bc-row */
+/* TEXTO: "¡Hola! Ingresa los datos para gestionar tus productos y hacer transacciones. user Usuario lock Clave" */
+html > body > main.relative > main.svp-main > div.bc-container-fluid > form > div.bc-row {
+    color: rgb(44, 42, 41);
+    font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    text-align: start;
+    letter-spacing: -0.3px;
+    margin: 0px -4px;
+    padding: 0px 0px 48px;
+    border: 0px solid rgb(229, 229, 229);
+    opacity: 1;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+    flex: 0 1 auto;
+    width: 688.8px;
+    height: 536px;
+    overflow: visible;
+    cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+    transition: all;
+}
+
+  /* └─ DIV .bc-col-xs-6 (Nivel 1) */
+  /* PATH: html > body > main.relative > main.svp-main > div.bc-container-fluid > form > div.bc-row > div.bc-col-xs-6 */
+  /* TEXTO: "¡Hola! Ingresa los datos para gestionar tus productos y hacer transacciones. user Usuario lock Clave" */
+  html > body > main.relative > main.svp-main > div.bc-container-fluid > form > div.bc-row > div.bc-col-xs-6 {
+      color: rgb(44, 42, 41);
+      font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 24px;
+      text-align: start;
+      letter-spacing: -0.3px;
+      padding: 0px 4px;
+      border: 0px solid rgb(229, 229, 229);
+      opacity: 1;
+      display: block;
+      position: relative;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      flex: 0 0 100%;
+      width: 688.8px;
+      height: 488px;
+      max-width: 100%;
+      min-height: 1px;
+      overflow: visible;
+      cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+      transition: all;
+  }
+
+    /*   └─ DIV (Nivel 2) */
+    /* PATH: body > main.relative > main.svp-main > div.bc-container-fluid > form > div.bc-row > div.bc-col-xs-6 > div */
+    /* TEXTO: "¡Hola! Ingresa los datos para gestionar tus productos y hacer transacciones. user Usuario lock Clave" */
+    body > main.relative > main.svp-main > div.bc-container-fluid > form > div.bc-row > div.bc-col-xs-6 > div {
+        color: rgb(44, 42, 41);
+        font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 24px;
+        text-align: start;
+        letter-spacing: -0.3px;
+        border: 0px solid rgb(229, 229, 229);
+        opacity: 1;
+        display: block;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        flex: 0 1 auto;
+        width: 680.8px;
+        height: 464px;
+        overflow: visible;
+        cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+        transition: all;
+    }
+
+      /*     └─ DIV .bc-card-body (Nivel 3) */
+      /* PATH: main.relative > main.svp-main > div.bc-container-fluid > form > div.bc-row > div.bc-col-xs-6 > div > div.bc-card-body */
+      /* TEXTO: "¡Hola! Ingresa los datos para gestionar tus productos y hacer transacciones. user Usuario lock Clave" */
+      main.relative > main.svp-main > div.bc-container-fluid > form > div.bc-row > div.bc-col-xs-6 > div > div.bc-card-body {
+          color: rgb(44, 42, 41);
+          font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+          font-size: 16px;
+          font-weight: 400;
+          line-height: 24px;
+          text-align: start;
+          letter-spacing: -0.3px;
+          margin: 24px 0px 0px;
+          border: 0px solid rgb(229, 229, 229);
+          opacity: 1;
+          display: block;
+          flex-direction: row;
+          flex-wrap: nowrap;
+          flex: 0 1 auto;
+          width: 680.8px;
+          height: 464px;
+          overflow: visible;
+          cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+          transition: all;
+      }
+
+
+=====================================================================================
+/* SECCIÓN 14: SECTION_13 */
+=====================================================================================
+/* TAG: section */
+/* SELECTOR: main.svp-main > div.bc-container-fluid > form > div.bc-row > div.bc-col-xs-6 > div > div.bc-card-bod... */
+=====================================================================================
+
+/* ► CONTENEDOR PRINCIPAL DE LA SECCIÓN */
+main.svp-main > div.bc-container-fluid > form > div.bc-row > div.bc-col-xs-6 > div > div.bc-card-body > section {
+    display: block;
+    width: 680.8px;
+    height: 464px;
+}
+
+/* 📦 SECTION (Nivel 0) */
+/* PATH: main.svp-main > div.bc-container-fluid > form > div.bc-row > div.bc-col-xs-6 > div > div.bc-card-body > section */
+/* TEXTO: "¡Hola! Ingresa los datos para gestionar tus productos y hacer transacciones. user Usuario lock Clave" */
+main.svp-main > div.bc-container-fluid > form > div.bc-row > div.bc-col-xs-6 > div > div.bc-card-body > section {
+    color: rgb(44, 42, 41);
+    font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    text-align: start;
+    letter-spacing: -0.3px;
+    border: 0px solid rgb(229, 229, 229);
+    opacity: 1;
+    display: block;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    flex: 0 1 auto;
+    width: 680.8px;
+    height: 464px;
+    overflow: visible;
+    cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+    transition: all;
+}
+
+  /* └─ SECTION (Nivel 1) */
+  /* PATH: div.bc-container-fluid > form > div.bc-row > div.bc-col-xs-6 > div > div.bc-card-body > section > section */
+  /* TEXTO: "¡Hola! Ingresa los datos para gestionar tus productos y hacer transacciones. user Usuario lock Clave" */
+  div.bc-container-fluid > form > div.bc-row > div.bc-col-xs-6 > div > div.bc-card-body > section > section {
+      color: rgb(44, 42, 41);
+      font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 24px;
+      text-align: start;
+      letter-spacing: -0.3px;
+      border: 0px solid rgb(229, 229, 229);
+      opacity: 1;
+      display: block;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      flex: 0 1 auto;
+      width: 680.8px;
+      height: 464px;
+      overflow: visible;
+      cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+      transition: all;
+  }
+
+    /*   └─ SECTION (Nivel 2) */
+    /* PATH: form > div.bc-row > div.bc-col-xs-6 > div > div.bc-card-body > section > section > section */
+    /* TEXTO: "¡Hola! Ingresa los datos para gestionar tus productos y hacer transacciones. user Usuario lock Clave" */
+    form > div.bc-row > div.bc-col-xs-6 > div > div.bc-card-body > section > section > section {
+        color: rgb(44, 42, 41);
+        font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 24px;
+        text-align: start;
+        letter-spacing: -0.3px;
+        border: 0px solid rgb(229, 229, 229);
+        opacity: 1;
+        display: block;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        flex: 0 1 auto;
+        width: 680.8px;
+        height: 464px;
+        overflow: visible;
+        cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+        transition: all;
+    }
+
+      /*     └─ SECTION #card1 .bc-card (Nivel 3) */
+      /* PATH: div.bc-row > div.bc-col-xs-6 > div > div.bc-card-body > section > section > section > section.bc-card#card1 */
+      /* TEXTO: "¡Hola! Ingresa los datos para gestionar tus productos y hacer transacciones. user Usuario lock Clave" */
+      div.bc-row > div.bc-col-xs-6 > div > div.bc-card-body > section > section > section > section.bc-card#card1 {
+          color: rgb(44, 42, 41);
+          font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+          font-size: 16px;
+          font-weight: 400;
+          line-height: 24px;
+          text-align: start;
+          letter-spacing: -0.3px;
+          background-color: rgb(255, 255, 255);
+          border: 0px solid rgb(229, 229, 229);
+          border-radius: 8px;
+          box-shadow: rgba(44, 42, 41, 0.16) 0px 8px 12px 0px, rgba(43, 42, 41, 0.08) 0px 1px 8px 0px;
+          opacity: 1;
+          display: flex;
+          position: relative;
+          flex-direction: row;
+          flex-wrap: nowrap;
+          flex: 0 1 auto;
+          width: 680.8px;
+          height: 464px;
+          overflow: visible;
+          cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+          transition: box-shadow 0.5s;
+      }
+
+  /* └─ SECTION (Nivel 1) */
+  /* PATH: div.bc-container-fluid > form > div.bc-row > div.bc-col-xs-6 > div > div.bc-card-body > section > section */
+  div.bc-container-fluid > form > div.bc-row > div.bc-col-xs-6 > div > div.bc-card-body > section > section {
+      color: rgb(44, 42, 41);
+      font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 24px;
+      text-align: start;
+      letter-spacing: -0.3px;
+      border: 0px solid rgb(229, 229, 229);
+      opacity: 1;
+      display: block;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      flex: 0 1 auto;
+      width: 680.8px;
+      overflow: visible;
+      cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+      transition: all;
+  }
+
+    /*   └─ SECTION (Nivel 2) */
+    /* PATH: form > div.bc-row > div.bc-col-xs-6 > div > div.bc-card-body > section > section > section */
+    form > div.bc-row > div.bc-col-xs-6 > div > div.bc-card-body > section > section > section {
+        color: rgb(44, 42, 41);
+        font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 24px;
+        text-align: start;
+        letter-spacing: -0.3px;
+        border: 0px solid rgb(229, 229, 229);
+        opacity: 1;
+        display: block;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        flex: 0 1 auto;
+        width: 680.8px;
+        overflow: visible;
+        cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+        transition: all;
+    }
+
+
+=====================================================================================
+/* SECCIÓN 15: SECTION_14 */
+=====================================================================================
+/* TAG: section */
+/* SELECTOR: div.bc-container-fluid > form > div.bc-row > div.bc-col-xs-6 > div > div.bc-card-body > section > se... */
+=====================================================================================
+
+/* ► CONTENEDOR PRINCIPAL DE LA SECCIÓN */
+div.bc-container-fluid > form > div.bc-row > div.bc-col-xs-6 > div > div.bc-card-body > section > section {
+    display: block;
+    width: 680.8px;
+    height: 464px;
+}
+
+/* 📦 SECTION (Nivel 0) */
+/* PATH: div.bc-container-fluid > form > div.bc-row > div.bc-col-xs-6 > div > div.bc-card-body > section > section */
+/* TEXTO: "¡Hola! Ingresa los datos para gestionar tus productos y hacer transacciones. user Usuario lock Clave" */
+div.bc-container-fluid > form > div.bc-row > div.bc-col-xs-6 > div > div.bc-card-body > section > section {
+    color: rgb(44, 42, 41);
+    font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    text-align: start;
+    letter-spacing: -0.3px;
+    border: 0px solid rgb(229, 229, 229);
+    opacity: 1;
+    display: block;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    flex: 0 1 auto;
+    width: 680.8px;
+    height: 464px;
+    overflow: visible;
+    cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+    transition: all;
+}
+
+  /* └─ SECTION (Nivel 1) */
+  /* PATH: form > div.bc-row > div.bc-col-xs-6 > div > div.bc-card-body > section > section > section */
+  /* TEXTO: "¡Hola! Ingresa los datos para gestionar tus productos y hacer transacciones. user Usuario lock Clave" */
+  form > div.bc-row > div.bc-col-xs-6 > div > div.bc-card-body > section > section > section {
+      color: rgb(44, 42, 41);
+      font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 24px;
+      text-align: start;
+      letter-spacing: -0.3px;
+      border: 0px solid rgb(229, 229, 229);
+      opacity: 1;
+      display: block;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      flex: 0 1 auto;
+      width: 680.8px;
+      height: 464px;
+      overflow: visible;
+      cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+      transition: all;
+  }
+
+    /*   └─ SECTION #card1 .bc-card (Nivel 2) */
+    /* PATH: div.bc-row > div.bc-col-xs-6 > div > div.bc-card-body > section > section > section > section.bc-card#card1 */
+    /* TEXTO: "¡Hola! Ingresa los datos para gestionar tus productos y hacer transacciones. user Usuario lock Clave" */
+    div.bc-row > div.bc-col-xs-6 > div > div.bc-card-body > section > section > section > section.bc-card#card1 {
+        color: rgb(44, 42, 41);
+        font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 24px;
+        text-align: start;
+        letter-spacing: -0.3px;
+        background-color: rgb(255, 255, 255);
+        border: 0px solid rgb(229, 229, 229);
+        border-radius: 8px;
+        box-shadow: rgba(44, 42, 41, 0.16) 0px 8px 12px 0px, rgba(43, 42, 41, 0.08) 0px 1px 8px 0px;
+        opacity: 1;
+        display: flex;
+        position: relative;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        flex: 0 1 auto;
+        width: 680.8px;
+        height: 464px;
+        overflow: visible;
+        cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+        transition: box-shadow 0.5s;
+    }
+
+      /*     └─ SECTION #id00 .bc-card-auth-body (Nivel 3) */
+      /* PATH: div.bc-col-xs-6 > div > div.bc-card-body > section > section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 */
+      /* TEXTO: "¡Hola! Ingresa los datos para gestionar tus productos y hacer transacciones. user Usuario lock Clave" */
+      div.bc-col-xs-6 > div > div.bc-card-body > section > section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 {
+          color: rgb(44, 42, 41);
+          font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+          font-size: 16px;
+          font-weight: 400;
+          line-height: 24px;
+          text-align: start;
+          letter-spacing: -0.3px;
+          padding: 48px;
+          border: 0px solid rgb(229, 229, 229);
+          opacity: 1;
+          display: block;
+          flex-direction: row;
+          flex-wrap: nowrap;
+          flex: 0 1 auto;
+          width: 680.8px;
+          height: 464px;
+          overflow: visible;
+          cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+          transition: all;
+      }
+
+
+=====================================================================================
+/* SECCIÓN 16: SECTION_15 */
+=====================================================================================
+/* TAG: section */
+/* SELECTOR: form > div.bc-row > div.bc-col-xs-6 > div > div.bc-card-body > section > section > section */
+=====================================================================================
+
+/* ► CONTENEDOR PRINCIPAL DE LA SECCIÓN */
+form > div.bc-row > div.bc-col-xs-6 > div > div.bc-card-body > section > section > section {
+    display: block;
+    width: 680.8px;
+    height: 464px;
+}
+
+/* 📦 SECTION (Nivel 0) */
+/* PATH: form > div.bc-row > div.bc-col-xs-6 > div > div.bc-card-body > section > section > section */
+/* TEXTO: "¡Hola! Ingresa los datos para gestionar tus productos y hacer transacciones. user Usuario lock Clave" */
+form > div.bc-row > div.bc-col-xs-6 > div > div.bc-card-body > section > section > section {
+    color: rgb(44, 42, 41);
+    font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    text-align: start;
+    letter-spacing: -0.3px;
+    border: 0px solid rgb(229, 229, 229);
+    opacity: 1;
+    display: block;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    flex: 0 1 auto;
+    width: 680.8px;
+    height: 464px;
+    overflow: visible;
+    cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+    transition: all;
+}
+
+  /* └─ SECTION #card1 .bc-card (Nivel 1) */
+  /* PATH: div.bc-row > div.bc-col-xs-6 > div > div.bc-card-body > section > section > section > section.bc-card#card1 */
+  /* TEXTO: "¡Hola! Ingresa los datos para gestionar tus productos y hacer transacciones. user Usuario lock Clave" */
+  div.bc-row > div.bc-col-xs-6 > div > div.bc-card-body > section > section > section > section.bc-card#card1 {
+      color: rgb(44, 42, 41);
+      font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 24px;
+      text-align: start;
+      letter-spacing: -0.3px;
+      background-color: rgb(255, 255, 255);
+      border: 0px solid rgb(229, 229, 229);
+      border-radius: 8px;
+      box-shadow: rgba(44, 42, 41, 0.16) 0px 8px 12px 0px, rgba(43, 42, 41, 0.08) 0px 1px 8px 0px;
+      opacity: 1;
+      display: flex;
+      position: relative;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      flex: 0 1 auto;
+      width: 680.8px;
+      height: 464px;
+      overflow: visible;
+      cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+      transition: box-shadow 0.5s;
+  }
+
+    /*   └─ SECTION #id00 .bc-card-auth-body (Nivel 2) */
+    /* PATH: div.bc-col-xs-6 > div > div.bc-card-body > section > section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 */
+    /* TEXTO: "¡Hola! Ingresa los datos para gestionar tus productos y hacer transacciones. user Usuario lock Clave" */
+    div.bc-col-xs-6 > div > div.bc-card-body > section > section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 {
+        color: rgb(44, 42, 41);
+        font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 24px;
+        text-align: start;
+        letter-spacing: -0.3px;
+        padding: 48px;
+        border: 0px solid rgb(229, 229, 229);
+        opacity: 1;
+        display: block;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        flex: 0 1 auto;
+        width: 680.8px;
+        height: 464px;
+        overflow: visible;
+        cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+        transition: all;
+    }
+
+      /*     └─ SECTION .bc-card-auth-head (Nivel 3) */
+      /* PATH: div > div.bc-card-body > section > section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.bc-card-auth-head */
+      /* TEXTO: "¡Hola! Ingresa los datos para gestionar tus productos y hacer transacciones." */
+      div > div.bc-card-body > section > section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.bc-card-auth-head {
+          color: rgb(44, 42, 41);
+          font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+          font-size: 16px;
+          font-weight: 400;
+          line-height: 24px;
+          text-align: center;
+          letter-spacing: -0.3px;
+          border: 0px solid rgb(229, 229, 229);
+          opacity: 1;
+          display: block;
+          flex-direction: row;
+          flex-wrap: nowrap;
+          flex: 0 1 auto;
+          width: 584.8px;
+          height: 64px;
+          overflow: visible;
+          cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+          transition: all;
+      }
+
+      /*     └─ SECTION .ng-untouched (Nivel 3) */
+      /* PATH: div > div.bc-card-body > section > section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.ng-untouched */
+      /* TEXTO: "user Usuario lock Clave del cajero Iniciar sesión" */
+      div > div.bc-card-body > section > section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.ng-untouched {
+          color: rgb(44, 42, 41);
+          font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+          font-size: 16px;
+          font-weight: 400;
+          line-height: 24px;
+          text-align: start;
+          letter-spacing: -0.3px;
+          border: 0px solid rgb(229, 229, 229);
+          opacity: 1;
+          display: block;
+          flex-direction: row;
+          flex-wrap: nowrap;
+          flex: 0 1 auto;
+          width: 584.8px;
+          height: 288px;
+          overflow: visible;
+          cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+          transition: all;
+      }
+
+
+=====================================================================================
+/* SECCIÓN 17: bc-card bc-card-auth bc-card-container */
+=====================================================================================
+/* TAG: section */
+/* SELECTOR: div.bc-row > div.bc-col-xs-6 > div > div.bc-card-body > section > section > section > section.bc-car... */
+=====================================================================================
+
+/* ► CONTENEDOR PRINCIPAL DE LA SECCIÓN */
+div.bc-row > div.bc-col-xs-6 > div > div.bc-card-body > section > section > section > section.bc-card#card1 {
+    background-color: rgb(255, 255, 255);
+    display: flex;
+    width: 680.8px;
+    height: 464px;
+}
+
+/* 📦 SECTION #card1 .bc-card (Nivel 0) */
+/* PATH: div.bc-row > div.bc-col-xs-6 > div > div.bc-card-body > section > section > section > section.bc-card#card1 */
+/* TEXTO: "¡Hola! Ingresa los datos para gestionar tus productos y hacer transacciones. user Usuario lock Clave" */
+div.bc-row > div.bc-col-xs-6 > div > div.bc-card-body > section > section > section > section.bc-card#card1 {
+    color: rgb(44, 42, 41);
+    font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    text-align: start;
+    letter-spacing: -0.3px;
+    background-color: rgb(255, 255, 255);
+    border: 0px solid rgb(229, 229, 229);
+    border-radius: 8px;
+    box-shadow: rgba(44, 42, 41, 0.16) 0px 8px 12px 0px, rgba(43, 42, 41, 0.08) 0px 1px 8px 0px;
+    opacity: 1;
+    display: flex;
+    position: relative;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    flex: 0 1 auto;
+    width: 680.8px;
+    height: 464px;
+    overflow: visible;
+    cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+    transition: box-shadow 0.5s;
+}
+
+  /* └─ SECTION #id00 .bc-card-auth-body (Nivel 1) */
+  /* PATH: div.bc-col-xs-6 > div > div.bc-card-body > section > section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 */
+  /* TEXTO: "¡Hola! Ingresa los datos para gestionar tus productos y hacer transacciones. user Usuario lock Clave" */
+  div.bc-col-xs-6 > div > div.bc-card-body > section > section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 {
+      color: rgb(44, 42, 41);
+      font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 24px;
+      text-align: start;
+      letter-spacing: -0.3px;
+      padding: 48px;
+      border: 0px solid rgb(229, 229, 229);
+      opacity: 1;
+      display: block;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      flex: 0 1 auto;
+      width: 680.8px;
+      height: 464px;
+      overflow: visible;
+      cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+      transition: all;
+  }
+
+    /*   └─ SECTION .bc-card-auth-head (Nivel 2) */
+    /* PATH: div > div.bc-card-body > section > section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.bc-card-auth-head */
+    /* TEXTO: "¡Hola! Ingresa los datos para gestionar tus productos y hacer transacciones." */
+    div > div.bc-card-body > section > section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.bc-card-auth-head {
+        color: rgb(44, 42, 41);
+        font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 24px;
+        text-align: center;
+        letter-spacing: -0.3px;
+        border: 0px solid rgb(229, 229, 229);
+        opacity: 1;
+        display: block;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        flex: 0 1 auto;
+        width: 584.8px;
+        height: 64px;
+        overflow: visible;
+        cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+        transition: all;
+    }
+
+      /*     └─ H1 .bc-card-auth-title (Nivel 3) */
+      /* PATH: div.bc-card-body > section > section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.bc-card-auth-head > h1.bc-... */
+      /* TEXTO: "¡Hola!" */
+      div.bc-card-body > section > section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.bc-card-auth-head > h1.bc-card-auth-title {
+          color: rgb(44, 42, 41);
+          font-family: "CIB Sans bold";
+          font-size: 24px;
+          font-weight: 700;
+          line-height: 24px;
+          text-align: center;
+          margin: 16px 0px 0px;
+          border: 0px solid rgb(229, 229, 229);
+          opacity: 1;
+          display: block;
+          flex-direction: row;
+          flex-wrap: nowrap;
+          flex: 0 1 auto;
+          width: 584.8px;
+          height: 24px;
+          overflow: visible;
+          cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+          transition: all;
+      }
+
+      /*     └─ H3 .bc-card-auth-description (Nivel 3) */
+      /* PATH: div.bc-card-body > section > section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.bc-card-auth-head > h3.bc-... */
+      /* TEXTO: "Ingresa los datos para gestionar tus productos y hacer transacciones." */
+      div.bc-card-body > section > section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.bc-card-auth-head > h3.bc-card-auth-description {
+          color: rgb(44, 42, 41);
+          font-family: "Open Sans";
+          font-size: 16px;
+          font-weight: 400;
+          line-height: 24px;
+          text-align: center;
+          margin: 16px 0px 0px;
+          border: 0px solid rgb(229, 229, 229);
+          opacity: 1;
+          display: block;
+          flex-direction: row;
+          flex-wrap: nowrap;
+          flex: 0 1 auto;
+          width: 584.8px;
+          height: 24px;
+          overflow: visible;
+          cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+          transition: all;
+      }
+
+    /*   └─ SECTION .ng-untouched (Nivel 2) */
+    /* PATH: div > div.bc-card-body > section > section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.ng-untouched */
+    /* TEXTO: "user Usuario lock Clave del cajero Iniciar sesión" */
+    div > div.bc-card-body > section > section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.ng-untouched {
+        color: rgb(44, 42, 41);
+        font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 24px;
+        text-align: start;
+        letter-spacing: -0.3px;
+        border: 0px solid rgb(229, 229, 229);
+        opacity: 1;
+        display: block;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        flex: 0 1 auto;
+        width: 584.8px;
+        height: 288px;
+        overflow: visible;
+        cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+        transition: all;
+    }
+
+      /*     └─ SECTION (Nivel 3) */
+      /* PATH: div.bc-card-body > section > section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.ng-untouched > section */
+      /* TEXTO: "user Usuario lock Clave del cajero" */
+      div.bc-card-body > section > section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.ng-untouched > section {
+          color: rgb(44, 42, 41);
+          font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+          font-size: 16px;
+          font-weight: 400;
+          line-height: 24px;
+          text-align: start;
+          letter-spacing: -0.3px;
+          border: 0px solid rgb(229, 229, 229);
+          opacity: 1;
+          display: block;
+          flex-direction: row;
+          flex-wrap: nowrap;
+          flex: 0 1 auto;
+          width: 584.8px;
+          height: 206px;
+          overflow: visible;
+          cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+          transition: all;
+      }
+
+      /*     └─ SECTION .bc-card-auth-button (Nivel 3) */
+      /* PATH: div.bc-card-body > section > section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.ng-untouched > section.bc-... */
+      /* TEXTO: "Iniciar sesión" */
+      div.bc-card-body > section > section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.ng-untouched > section.bc-card-auth-button {
+          color: rgb(44, 42, 41);
+          font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+          font-size: 16px;
+          font-weight: 400;
+          line-height: 24px;
+          text-align: start;
+          letter-spacing: -0.3px;
+          border: 0px solid rgb(229, 229, 229);
+          opacity: 1;
+          display: flex;
+          flex-direction: row;
+          justify-content: center;
+          flex-wrap: nowrap;
+          flex: 0 1 auto;
+          width: 584.8px;
+          height: 50px;
+          overflow: visible;
+          cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+          transition: all;
+      }
+
+
+=====================================================================================
+/* SECCIÓN 18: bc-card-auth-body !p-12 */
+=====================================================================================
+/* TAG: section */
+/* SELECTOR: div.bc-col-xs-6 > div > div.bc-card-body > section > section > section > section.bc-card#card1 > sec... */
+=====================================================================================
+
+/* ► CONTENEDOR PRINCIPAL DE LA SECCIÓN */
+div.bc-col-xs-6 > div > div.bc-card-body > section > section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 {
+    padding: 48px;
+    display: block;
+    width: 680.8px;
+    height: 464px;
+}
+
+/* 📦 SECTION #id00 .bc-card-auth-body (Nivel 0) */
+/* PATH: div.bc-col-xs-6 > div > div.bc-card-body > section > section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 */
+/* TEXTO: "¡Hola! Ingresa los datos para gestionar tus productos y hacer transacciones. user Usuario lock Clave" */
+div.bc-col-xs-6 > div > div.bc-card-body > section > section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 {
+    color: rgb(44, 42, 41);
+    font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    text-align: start;
+    letter-spacing: -0.3px;
+    padding: 48px;
+    border: 0px solid rgb(229, 229, 229);
+    opacity: 1;
+    display: block;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    flex: 0 1 auto;
+    width: 680.8px;
+    height: 464px;
+    overflow: visible;
+    cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+    transition: all;
+}
+
+  /* └─ SECTION .bc-card-auth-head (Nivel 1) */
+  /* PATH: div > div.bc-card-body > section > section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.bc-card-auth-head */
+  /* TEXTO: "¡Hola! Ingresa los datos para gestionar tus productos y hacer transacciones." */
+  div > div.bc-card-body > section > section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.bc-card-auth-head {
+      color: rgb(44, 42, 41);
+      font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 24px;
+      text-align: center;
+      letter-spacing: -0.3px;
+      border: 0px solid rgb(229, 229, 229);
+      opacity: 1;
+      display: block;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      flex: 0 1 auto;
+      width: 584.8px;
+      height: 64px;
+      overflow: visible;
+      cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+      transition: all;
+  }
+
+    /*   └─ H1 .bc-card-auth-title (Nivel 2) */
+    /* PATH: div.bc-card-body > section > section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.bc-card-auth-head > h1.bc-... */
+    /* TEXTO: "¡Hola!" */
+    div.bc-card-body > section > section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.bc-card-auth-head > h1.bc-card-auth-title {
+        color: rgb(44, 42, 41);
+        font-family: "CIB Sans bold";
+        font-size: 24px;
+        font-weight: 700;
+        line-height: 24px;
+        text-align: center;
+        margin: 16px 0px 0px;
+        border: 0px solid rgb(229, 229, 229);
+        opacity: 1;
+        display: block;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        flex: 0 1 auto;
+        width: 584.8px;
+        height: 24px;
+        overflow: visible;
+        cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+        transition: all;
+    }
+
+    /*   └─ H3 .bc-card-auth-description (Nivel 2) */
+    /* PATH: div.bc-card-body > section > section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.bc-card-auth-head > h3.bc-... */
+    /* TEXTO: "Ingresa los datos para gestionar tus productos y hacer transacciones." */
+    div.bc-card-body > section > section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.bc-card-auth-head > h3.bc-card-auth-description {
+        color: rgb(44, 42, 41);
+        font-family: "Open Sans";
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 24px;
+        text-align: center;
+        margin: 16px 0px 0px;
+        border: 0px solid rgb(229, 229, 229);
+        opacity: 1;
+        display: block;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        flex: 0 1 auto;
+        width: 584.8px;
+        height: 24px;
+        overflow: visible;
+        cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+        transition: all;
+    }
+
+  /* └─ SECTION .ng-untouched (Nivel 1) */
+  /* PATH: div > div.bc-card-body > section > section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.ng-untouched */
+  /* TEXTO: "user Usuario lock Clave del cajero Iniciar sesión" */
+  div > div.bc-card-body > section > section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.ng-untouched {
+      color: rgb(44, 42, 41);
+      font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 24px;
+      text-align: start;
+      letter-spacing: -0.3px;
+      border: 0px solid rgb(229, 229, 229);
+      opacity: 1;
+      display: block;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      flex: 0 1 auto;
+      width: 584.8px;
+      height: 288px;
+      overflow: visible;
+      cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+      transition: all;
+  }
+
+    /*   └─ SECTION (Nivel 2) */
+    /* PATH: div.bc-card-body > section > section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.ng-untouched > section */
+    /* TEXTO: "user Usuario lock Clave del cajero" */
+    div.bc-card-body > section > section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.ng-untouched > section {
+        color: rgb(44, 42, 41);
+        font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 24px;
+        text-align: start;
+        letter-spacing: -0.3px;
+        border: 0px solid rgb(229, 229, 229);
+        opacity: 1;
+        display: block;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        flex: 0 1 auto;
+        width: 584.8px;
+        height: 206px;
+        overflow: visible;
+        cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+        transition: all;
+    }
+
+      /*     └─ SECTION .bc-card-auth-container (Nivel 3) */
+      /* PATH: section > section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.ng-untouched > section > section.bc-card-auth... */
+      /* TEXTO: "user Usuario lock Clave del cajero" */
+      section > section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.ng-untouched > section > section.bc-card-auth-container {
+          color: rgb(44, 42, 41);
+          font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+          font-size: 16px;
+          font-weight: 400;
+          line-height: 24px;
+          text-align: start;
+          letter-spacing: -0.3px;
+          margin: 0px 0px 32px;
+          border: 0px solid rgb(229, 229, 229);
+          opacity: 1;
+          display: grid;
+          flex-direction: row;
+          flex-wrap: nowrap;
+          flex: 0 1 auto;
+          grid-template-columns: 584.8px;
+          grid-template-rows: 119px 87px;
+          width: 584.8px;
+          height: 206px;
+          overflow: visible;
+          cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+          transition: all;
+      }
+
+    /*   └─ SECTION .bc-card-auth-button (Nivel 2) */
+    /* PATH: div.bc-card-body > section > section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.ng-untouched > section.bc-... */
+    /* TEXTO: "Iniciar sesión" */
+    div.bc-card-body > section > section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.ng-untouched > section.bc-card-auth-button {
+        color: rgb(44, 42, 41);
+        font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 24px;
+        text-align: start;
+        letter-spacing: -0.3px;
+        border: 0px solid rgb(229, 229, 229);
+        opacity: 1;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        flex-wrap: nowrap;
+        flex: 0 1 auto;
+        width: 584.8px;
+        height: 50px;
+        overflow: visible;
+        cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+        transition: all;
+    }
+
+      /*     └─ BUTTON .bc-button (Nivel 3) */
+      /* PATH: section > section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.ng-untouched > section.bc-card-auth-button > ... */
+      /* TEXTO: "Iniciar sesión" */
+      section > section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.ng-untouched > section.bc-card-auth-button > button.bc-button {
+          color: rgb(44, 42, 41);
+          font-family: "CIB Sans bold";
+          font-size: 18px;
+          font-weight: 700;
+          line-height: 26px;
+          text-align: center;
+          padding: 12px 24px;
+          gap: normal 8px;
+          background-color: rgb(253, 218, 36);
+          border: 0px none rgb(229, 229, 229);
+          border-radius: 100px;
+          opacity: 1;
+          display: flex;
+          flex-direction: row;
+          justify-content: center;
+          align-items: center;
+          flex-wrap: nowrap;
+          flex: 0 1 auto;
+          grid-gap: normal 8px;
+          width: 584.8px;
+          height: 50px;
+          min-height: 32px;
+          overflow: hidden;
+          cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-pointer-small.png"), default;
+          transition: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+
+=====================================================================================
+/* SECCIÓN 19: bc-card-auth-head */
+=====================================================================================
+/* TAG: section */
+/* SELECTOR: div > div.bc-card-body > section > section > section > section.bc-card#card1 > section.bc-card-auth-... */
+=====================================================================================
+
+/* ► CONTENEDOR PRINCIPAL DE LA SECCIÓN */
+div > div.bc-card-body > section > section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.bc-card-auth-head {
+    display: block;
+    width: 584.8px;
+    height: 64px;
+}
+
+/* 📦 SECTION .bc-card-auth-head (Nivel 0) */
+/* PATH: div > div.bc-card-body > section > section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.bc-card-auth-head */
+/* TEXTO: "¡Hola! Ingresa los datos para gestionar tus productos y hacer transacciones." */
+div > div.bc-card-body > section > section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.bc-card-auth-head {
+    color: rgb(44, 42, 41);
+    font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    text-align: center;
+    letter-spacing: -0.3px;
+    border: 0px solid rgb(229, 229, 229);
+    opacity: 1;
+    display: block;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    flex: 0 1 auto;
+    width: 584.8px;
+    height: 64px;
+    overflow: visible;
+    cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+    transition: all;
+}
+
+  /* └─ H1 .bc-card-auth-title (Nivel 1) */
+  /* PATH: div.bc-card-body > section > section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.bc-card-auth-head > h1.bc-... */
+  /* TEXTO: "¡Hola!" */
+  div.bc-card-body > section > section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.bc-card-auth-head > h1.bc-card-auth-title {
+      color: rgb(44, 42, 41);
+      font-family: "CIB Sans bold";
+      font-size: 24px;
+      font-weight: 700;
+      line-height: 24px;
+      text-align: center;
+      margin: 16px 0px 0px;
+      border: 0px solid rgb(229, 229, 229);
+      opacity: 1;
+      display: block;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      flex: 0 1 auto;
+      width: 584.8px;
+      height: 24px;
+      overflow: visible;
+      cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+      transition: all;
+  }
+
+  /* └─ H3 .bc-card-auth-description (Nivel 1) */
+  /* PATH: div.bc-card-body > section > section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.bc-card-auth-head > h3.bc-... */
+  /* TEXTO: "Ingresa los datos para gestionar tus productos y hacer transacciones." */
+  div.bc-card-body > section > section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.bc-card-auth-head > h3.bc-card-auth-description {
+      color: rgb(44, 42, 41);
+      font-family: "Open Sans";
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 24px;
+      text-align: center;
+      margin: 16px 0px 0px;
+      border: 0px solid rgb(229, 229, 229);
+      opacity: 1;
+      display: block;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      flex: 0 1 auto;
+      width: 584.8px;
+      height: 24px;
+      overflow: visible;
+      cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+      transition: all;
+  }
+
+
+=====================================================================================
+/* SECCIÓN 20: ng-untouched ng-pristine ng-valid */
+=====================================================================================
+/* TAG: section */
+/* SELECTOR: div > div.bc-card-body > section > section > section > section.bc-card#card1 > section.bc-card-auth-... */
+=====================================================================================
+
+/* ► CONTENEDOR PRINCIPAL DE LA SECCIÓN */
+div > div.bc-card-body > section > section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.ng-untouched {
+    display: block;
+    width: 584.8px;
+    height: 288px;
+}
+
+/* 📦 SECTION .ng-untouched (Nivel 0) */
+/* PATH: div > div.bc-card-body > section > section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.ng-untouched */
+/* TEXTO: "user Usuario lock Clave del cajero Iniciar sesión" */
+div > div.bc-card-body > section > section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.ng-untouched {
+    color: rgb(44, 42, 41);
+    font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    text-align: start;
+    letter-spacing: -0.3px;
+    border: 0px solid rgb(229, 229, 229);
+    opacity: 1;
+    display: block;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    flex: 0 1 auto;
+    width: 584.8px;
+    height: 288px;
+    overflow: visible;
+    cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+    transition: all;
+}
+
+  /* └─ SECTION (Nivel 1) */
+  /* PATH: div.bc-card-body > section > section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.ng-untouched > section */
+  /* TEXTO: "user Usuario lock Clave del cajero" */
+  div.bc-card-body > section > section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.ng-untouched > section {
+      color: rgb(44, 42, 41);
+      font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 24px;
+      text-align: start;
+      letter-spacing: -0.3px;
+      border: 0px solid rgb(229, 229, 229);
+      opacity: 1;
+      display: block;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      flex: 0 1 auto;
+      width: 584.8px;
+      height: 206px;
+      overflow: visible;
+      cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+      transition: all;
+  }
+
+    /*   └─ SECTION .bc-card-auth-container (Nivel 2) */
+    /* PATH: section > section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.ng-untouched > section > section.bc-card-auth... */
+    /* TEXTO: "user Usuario lock Clave del cajero" */
+    section > section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.ng-untouched > section > section.bc-card-auth-container {
+        color: rgb(44, 42, 41);
+        font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 24px;
+        text-align: start;
+        letter-spacing: -0.3px;
+        margin: 0px 0px 32px;
+        border: 0px solid rgb(229, 229, 229);
+        opacity: 1;
+        display: grid;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        flex: 0 1 auto;
+        grid-template-columns: 584.8px;
+        grid-template-rows: 119px 87px;
+        width: 584.8px;
+        height: 206px;
+        overflow: visible;
+        cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+        transition: all;
+    }
+
+      /*     └─ SECTION .authentication-form__username (Nivel 3) */
+      /* PATH: section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.ng-untouched > section > section.bc-card-auth-container... */
+      /* TEXTO: "user Usuario" */
+      section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.ng-untouched > section > section.bc-card-auth-container > section.authentication-form__username {
+          color: rgb(44, 42, 41);
+          font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+          font-size: 16px;
+          font-weight: 400;
+          line-height: 24px;
+          text-align: start;
+          letter-spacing: -0.3px;
+          margin: 32px 0px 0px;
+          border: 0px solid rgb(229, 229, 229);
+          opacity: 1;
+          display: block;
+          flex-direction: row;
+          flex-wrap: nowrap;
+          flex: 0 1 auto;
+          width: 584.8px;
+          height: 87px;
+          overflow: visible;
+          cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+          transition: all;
+      }
+
+      /*     └─ SECTION (Nivel 3) */
+      /* PATH: section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.ng-untouched > section > section.bc-card-auth-container... */
+      /* TEXTO: "lock Clave del cajero" */
+      section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.ng-untouched > section > section.bc-card-auth-container > section {
+          color: rgb(44, 42, 41);
+          font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+          font-size: 16px;
+          font-weight: 400;
+          line-height: 24px;
+          text-align: start;
+          letter-spacing: -0.3px;
+          border: 0px solid rgb(229, 229, 229);
+          opacity: 1;
+          display: block;
+          flex-direction: row;
+          flex-wrap: nowrap;
+          flex: 0 1 auto;
+          width: 584.8px;
+          height: 87px;
+          overflow: visible;
+          cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+          transition: all;
+      }
+
+  /* └─ SECTION .bc-card-auth-button (Nivel 1) */
+  /* PATH: div.bc-card-body > section > section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.ng-untouched > section.bc-... */
+  /* TEXTO: "Iniciar sesión" */
+  div.bc-card-body > section > section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.ng-untouched > section.bc-card-auth-button {
+      color: rgb(44, 42, 41);
+      font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 24px;
+      text-align: start;
+      letter-spacing: -0.3px;
+      border: 0px solid rgb(229, 229, 229);
+      opacity: 1;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      flex-wrap: nowrap;
+      flex: 0 1 auto;
+      width: 584.8px;
+      height: 50px;
+      overflow: visible;
+      cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+      transition: all;
+  }
+
+    /*   └─ BUTTON .bc-button (Nivel 2) */
+    /* PATH: section > section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.ng-untouched > section.bc-card-auth-button > ... */
+    /* TEXTO: "Iniciar sesión" */
+    section > section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.ng-untouched > section.bc-card-auth-button > button.bc-button {
+        color: rgb(44, 42, 41);
+        font-family: "CIB Sans bold";
+        font-size: 18px;
+        font-weight: 700;
+        line-height: 26px;
+        text-align: center;
+        padding: 12px 24px;
+        gap: normal 8px;
+        background-color: rgb(253, 218, 36);
+        border: 0px none rgb(229, 229, 229);
+        border-radius: 100px;
+        opacity: 1;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: nowrap;
+        flex: 0 1 auto;
+        grid-gap: normal 8px;
+        width: 584.8px;
+        height: 50px;
+        min-height: 32px;
+        overflow: hidden;
+        cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-pointer-small.png"), default;
+        transition: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+
+=====================================================================================
+/* SECCIÓN 21: SECTION_20 */
+=====================================================================================
+/* TAG: section */
+/* SELECTOR: div.bc-card-body > section > section > section > section.bc-card#card1 > section.bc-card-auth-body#i... */
+=====================================================================================
+
+/* ► CONTENEDOR PRINCIPAL DE LA SECCIÓN */
+div.bc-card-body > section > section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.ng-untouched > section {
+    display: block;
+    width: 584.8px;
+    height: 206px;
+}
+
+/* 📦 SECTION (Nivel 0) */
+/* PATH: div.bc-card-body > section > section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.ng-untouched > section */
+/* TEXTO: "user Usuario lock Clave del cajero" */
+div.bc-card-body > section > section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.ng-untouched > section {
+    color: rgb(44, 42, 41);
+    font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    text-align: start;
+    letter-spacing: -0.3px;
+    border: 0px solid rgb(229, 229, 229);
+    opacity: 1;
+    display: block;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    flex: 0 1 auto;
+    width: 584.8px;
+    height: 206px;
+    overflow: visible;
+    cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+    transition: all;
+}
+
+  /* └─ SECTION .bc-card-auth-container (Nivel 1) */
+  /* PATH: section > section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.ng-untouched > section > section.bc-card-auth... */
+  /* TEXTO: "user Usuario lock Clave del cajero" */
+  section > section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.ng-untouched > section > section.bc-card-auth-container {
+      color: rgb(44, 42, 41);
+      font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 24px;
+      text-align: start;
+      letter-spacing: -0.3px;
+      margin: 0px 0px 32px;
+      border: 0px solid rgb(229, 229, 229);
+      opacity: 1;
+      display: grid;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      flex: 0 1 auto;
+      grid-template-columns: 584.8px;
+      grid-template-rows: 119px 87px;
+      width: 584.8px;
+      height: 206px;
+      overflow: visible;
+      cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+      transition: all;
+  }
+
+    /*   └─ SECTION .authentication-form__username (Nivel 2) */
+    /* PATH: section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.ng-untouched > section > section.bc-card-auth-container... */
+    /* TEXTO: "user Usuario" */
+    section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.ng-untouched > section > section.bc-card-auth-container > section.authentication-form__username {
+        color: rgb(44, 42, 41);
+        font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 24px;
+        text-align: start;
+        letter-spacing: -0.3px;
+        margin: 32px 0px 0px;
+        border: 0px solid rgb(229, 229, 229);
+        opacity: 1;
+        display: block;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        flex: 0 1 auto;
+        width: 584.8px;
+        height: 87px;
+        overflow: visible;
+        cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+        transition: all;
+    }
+
+      /*     └─ DIV .space-y-2 (Nivel 3) */
+      /* PATH: section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.ng-untouched > section > section.bc-card-auth-container > section... */
+      /* TEXTO: "user Usuario" */
+      section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.ng-untouched > section > section.bc-card-auth-container > section.authentication-form__username > div.space-y-2 {
+          color: rgb(44, 42, 41);
+          font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+          font-size: 16px;
+          font-weight: 400;
+          line-height: 24px;
+          text-align: start;
+          letter-spacing: -0.3px;
+          border: 0px solid rgb(229, 229, 229);
+          opacity: 1;
+          display: block;
+          flex-direction: row;
+          flex-wrap: nowrap;
+          flex: 0 1 auto;
+          width: 584.8px;
+          height: 52px;
+          overflow: visible;
+          cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+          transition: all;
+      }
+
+    /*   └─ SECTION (Nivel 2) */
+    /* PATH: section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.ng-untouched > section > section.bc-card-auth-container... */
+    /* TEXTO: "lock Clave del cajero" */
+    section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.ng-untouched > section > section.bc-card-auth-container > section {
+        color: rgb(44, 42, 41);
+        font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 24px;
+        text-align: start;
+        letter-spacing: -0.3px;
+        border: 0px solid rgb(229, 229, 229);
+        opacity: 1;
+        display: block;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        flex: 0 1 auto;
+        width: 584.8px;
+        height: 87px;
+        overflow: visible;
+        cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+        transition: all;
+    }
+
+      /*     └─ DIV .space-y-2 (Nivel 3) */
+      /* PATH: section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.ng-untouched > section > section.bc-card-auth-container > section... */
+      /* TEXTO: "lock Clave del cajero" */
+      section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.ng-untouched > section > section.bc-card-auth-container > section > div.space-y-2 {
+          color: rgb(44, 42, 41);
+          font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+          font-size: 16px;
+          font-weight: 400;
+          line-height: 24px;
+          text-align: start;
+          letter-spacing: -0.3px;
+          border: 0px solid rgb(229, 229, 229);
+          opacity: 1;
+          display: block;
+          flex-direction: row;
+          flex-wrap: nowrap;
+          flex: 0 1 auto;
+          width: 584.8px;
+          height: 52px;
+          overflow: visible;
+          cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+          transition: all;
+      }
+
+
+=====================================================================================
+/* SECCIÓN 22: bc-card-auth-container */
+=====================================================================================
+/* TAG: section */
+/* SELECTOR: section > section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.ng-un... */
+=====================================================================================
+
+/* ► CONTENEDOR PRINCIPAL DE LA SECCIÓN */
+section > section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.ng-untouched > section > section.bc-card-auth-container {
+    margin: 0px 0px 32px;
+    display: grid;
+    width: 584.8px;
+    height: 206px;
+}
+
+/* 📦 SECTION .bc-card-auth-container (Nivel 0) */
+/* PATH: section > section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.ng-untouched > section > section.bc-card-auth... */
+/* TEXTO: "user Usuario lock Clave del cajero" */
+section > section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.ng-untouched > section > section.bc-card-auth-container {
+    color: rgb(44, 42, 41);
+    font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    text-align: start;
+    letter-spacing: -0.3px;
+    margin: 0px 0px 32px;
+    border: 0px solid rgb(229, 229, 229);
+    opacity: 1;
+    display: grid;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    flex: 0 1 auto;
+    grid-template-columns: 584.8px;
+    grid-template-rows: 119px 87px;
+    width: 584.8px;
+    height: 206px;
+    overflow: visible;
+    cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+    transition: all;
+}
+
+  /* └─ SECTION .authentication-form__username (Nivel 1) */
+  /* PATH: section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.ng-untouched > section > section.bc-card-auth-container... */
+  /* TEXTO: "user Usuario" */
+  section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.ng-untouched > section > section.bc-card-auth-container > section.authentication-form__username {
+      color: rgb(44, 42, 41);
+      font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 24px;
+      text-align: start;
+      letter-spacing: -0.3px;
+      margin: 32px 0px 0px;
+      border: 0px solid rgb(229, 229, 229);
+      opacity: 1;
+      display: block;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      flex: 0 1 auto;
+      width: 584.8px;
+      height: 87px;
+      overflow: visible;
+      cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+      transition: all;
+  }
+
+    /*   └─ DIV .space-y-2 (Nivel 2) */
+    /* PATH: section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.ng-untouched > section > section.bc-card-auth-container > section... */
+    /* TEXTO: "user Usuario" */
+    section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.ng-untouched > section > section.bc-card-auth-container > section.authentication-form__username > div.space-y-2 {
+        color: rgb(44, 42, 41);
+        font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 24px;
+        text-align: start;
+        letter-spacing: -0.3px;
+        border: 0px solid rgb(229, 229, 229);
+        opacity: 1;
+        display: block;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        flex: 0 1 auto;
+        width: 584.8px;
+        height: 52px;
+        overflow: visible;
+        cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+        transition: all;
+    }
+
+      /*     └─ DIV #s.160678321 .bc-form-field (Nivel 3) */
+      /* PATH: section.bc-card#card1 > section.bc-card-auth-body#id00 > section.ng-untouched > section > section.bc-card-auth-container > section.authentic... */
+      /* TEXTO: "user Usuario" */
+      section.bc-card#card1 > section.bc-card-auth-body#id00 > section.ng-untouched > section > section.bc-card-auth-container > section.authentication-form__username > div.space-y-2 > div.bc-form-field#s.160678321 {
+          color: rgb(44, 42, 41);
+          font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+          font-size: 16px;
+          font-weight: 400;
+          line-height: 24px;
+          text-align: start;
+          letter-spacing: -0.3px;
+          margin: 20px 0px 15px;
+          border: 0px solid rgb(229, 229, 229);
+          opacity: 1;
+          display: grid;
+          position: relative;
+          flex-direction: row;
+          flex-wrap: nowrap;
+          flex: 0 1 auto;
+          grid-template-columns: 584.8px;
+          grid-template-rows: 52px;
+          width: 584.8px;
+          height: 52px;
+          overflow: visible;
+          cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+          transition: all;
+      }
+
+  /* └─ SECTION (Nivel 1) */
+  /* PATH: section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.ng-untouched > section > section.bc-card-auth-container... */
+  /* TEXTO: "lock Clave del cajero" */
+  section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.ng-untouched > section > section.bc-card-auth-container > section {
+      color: rgb(44, 42, 41);
+      font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 24px;
+      text-align: start;
+      letter-spacing: -0.3px;
+      border: 0px solid rgb(229, 229, 229);
+      opacity: 1;
+      display: block;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      flex: 0 1 auto;
+      width: 584.8px;
+      height: 87px;
+      overflow: visible;
+      cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+      transition: all;
+  }
+
+    /*   └─ DIV .space-y-2 (Nivel 2) */
+    /* PATH: section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.ng-untouched > section > section.bc-card-auth-container > section... */
+    /* TEXTO: "lock Clave del cajero" */
+    section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.ng-untouched > section > section.bc-card-auth-container > section > div.space-y-2 {
+        color: rgb(44, 42, 41);
+        font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 24px;
+        text-align: start;
+        letter-spacing: -0.3px;
+        border: 0px solid rgb(229, 229, 229);
+        opacity: 1;
+        display: block;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        flex: 0 1 auto;
+        width: 584.8px;
+        height: 52px;
+        overflow: visible;
+        cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+        transition: all;
+    }
+
+      /*     └─ DIV #s.1360897811 .bc-form-field (Nivel 3) */
+      /* PATH: section.bc-card#card1 > section.bc-card-auth-body#id00 > section.ng-untouched > section > section.bc-card-auth-container > section > div.spa... */
+      /* TEXTO: "lock Clave del cajero" */
+      section.bc-card#card1 > section.bc-card-auth-body#id00 > section.ng-untouched > section > section.bc-card-auth-container > section > div.space-y-2 > div.bc-form-field#s.1360897811 {
+          color: rgb(44, 42, 41);
+          font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+          font-size: 16px;
+          font-weight: 400;
+          line-height: 24px;
+          text-align: start;
+          letter-spacing: -0.3px;
+          margin: 20px 0px 15px;
+          border: 0px solid rgb(229, 229, 229);
+          opacity: 1;
+          display: grid;
+          position: relative;
+          flex-direction: row;
+          flex-wrap: nowrap;
+          flex: 0 1 auto;
+          grid-template-columns: 584.8px;
+          grid-template-rows: 52px;
+          width: 584.8px;
+          height: 52px;
+          overflow: visible;
+          cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+          transition: all;
+      }
+
+
+=====================================================================================
+/* SECCIÓN 23: authentication-form__username !mt-8 */
+=====================================================================================
+/* TAG: section */
+/* SELECTOR: section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.ng-untouched > ... */
+=====================================================================================
+
+/* ► CONTENEDOR PRINCIPAL DE LA SECCIÓN */
+section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.ng-untouched > section > section.bc-card-auth-container > section.authentication-form__username {
+    margin: 32px 0px 0px;
+    display: block;
+    width: 584.8px;
+    height: 87px;
+}
+
+/* 📦 SECTION .authentication-form__username (Nivel 0) */
+/* PATH: section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.ng-untouched > section > section.bc-card-auth-container... */
+/* TEXTO: "user Usuario" */
+section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.ng-untouched > section > section.bc-card-auth-container > section.authentication-form__username {
+    color: rgb(44, 42, 41);
+    font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    text-align: start;
+    letter-spacing: -0.3px;
+    margin: 32px 0px 0px;
+    border: 0px solid rgb(229, 229, 229);
+    opacity: 1;
+    display: block;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    flex: 0 1 auto;
+    width: 584.8px;
+    height: 87px;
+    overflow: visible;
+    cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+    transition: all;
+}
+
+  /* └─ DIV .space-y-2 (Nivel 1) */
+  /* PATH: section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.ng-untouched > section > section.bc-card-auth-container > section... */
+  /* TEXTO: "user Usuario" */
+  section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.ng-untouched > section > section.bc-card-auth-container > section.authentication-form__username > div.space-y-2 {
+      color: rgb(44, 42, 41);
+      font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 24px;
+      text-align: start;
+      letter-spacing: -0.3px;
+      border: 0px solid rgb(229, 229, 229);
+      opacity: 1;
+      display: block;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      flex: 0 1 auto;
+      width: 584.8px;
+      height: 52px;
+      overflow: visible;
+      cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+      transition: all;
+  }
+
+    /*   └─ DIV #s.160678321 .bc-form-field (Nivel 2) */
+    /* PATH: section.bc-card#card1 > section.bc-card-auth-body#id00 > section.ng-untouched > section > section.bc-card-auth-container > section.authentic... */
+    /* TEXTO: "user Usuario" */
+    section.bc-card#card1 > section.bc-card-auth-body#id00 > section.ng-untouched > section > section.bc-card-auth-container > section.authentication-form__username > div.space-y-2 > div.bc-form-field#s.160678321 {
+        color: rgb(44, 42, 41);
+        font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 24px;
+        text-align: start;
+        letter-spacing: -0.3px;
+        margin: 20px 0px 15px;
+        border: 0px solid rgb(229, 229, 229);
+        opacity: 1;
+        display: grid;
+        position: relative;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        flex: 0 1 auto;
+        grid-template-columns: 584.8px;
+        grid-template-rows: 52px;
+        width: 584.8px;
+        height: 52px;
+        overflow: visible;
+        cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+        transition: all;
+    }
+
+      /*     └─ INPUT #username .bc-input (Nivel 3) */
+      /* PATH: section.bc-card-auth-body#id00 > section.ng-untouched > section > section.bc-card-auth-container > section.authentication-form__username > d... */
+      section.bc-card-auth-body#id00 > section.ng-untouched > section > section.bc-card-auth-container > section.authentication-form__username > div.space-y-2 > div.bc-form-field#s.160678321 > input.bc-input#username {
+          color: rgb(44, 42, 41);
+          font-family: "Open Sans SemiBold";
+          font-size: 16px;
+          font-weight: 600;
+          line-height: 24px;
+          text-align: start;
+          padding: 0px 0px 0px 30px;
+          opacity: 1;
+          display: block;
+          top: 20px;
+          flex-direction: row;
+          flex-wrap: nowrap;
+          flex: 0 1 auto;
+          width: 584.8px;
+          height: 32px;
+          overflow: clip;
+          cursor: text;
+          transition: all;
+      }
+
+      /*     └─ LABEL (Nivel 3) */
+      /* PATH: section.bc-card-auth-body#id00 > section.ng-untouched > section > section.bc-card-auth-container > section.authentication-form__username > d... */
+      /* TEXTO: "Usuario" */
+      section.bc-card-auth-body#id00 > section.ng-untouched > section > section.bc-card-auth-container > section.authentication-form__username > div.space-y-2 > div.bc-form-field#s.160678321 > label {
+          color: rgb(44, 42, 41);
+          font-family: "Open Sans";
+          font-size: 16px;
+          font-weight: 400;
+          line-height: 24px;
+          text-align: start;
+          padding: 0px 0px 0px 30px;
+          border: 0px solid rgb(229, 229, 229);
+          opacity: 1;
+          display: block;
+          position: absolute;
+          top: 3px;
+          right: 70.1875px;
+          bottom: 25px;
+          flex-direction: row;
+          flex-wrap: nowrap;
+          flex: 0 1 auto;
+          width: 514.612px;
+          height: 24px;
+          overflow: hidden;
+          cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-pointer-small.png"), default;
+          transition: 0.2s;
+      }
+
+
+=====================================================================================
+/* SECCIÓN 24: SECTION_23 */
+=====================================================================================
+/* TAG: section */
+/* SELECTOR: section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.ng-untouched > ... */
+=====================================================================================
+
+/* ► CONTENEDOR PRINCIPAL DE LA SECCIÓN */
+section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.ng-untouched > section > section.bc-card-auth-container > section {
+    display: block;
+    width: 584.8px;
+    height: 87px;
+}
+
+/* 📦 SECTION (Nivel 0) */
+/* PATH: section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.ng-untouched > section > section.bc-card-auth-container... */
+/* TEXTO: "lock Clave del cajero" */
+section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.ng-untouched > section > section.bc-card-auth-container > section {
+    color: rgb(44, 42, 41);
+    font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    text-align: start;
+    letter-spacing: -0.3px;
+    border: 0px solid rgb(229, 229, 229);
+    opacity: 1;
+    display: block;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    flex: 0 1 auto;
+    width: 584.8px;
+    height: 87px;
+    overflow: visible;
+    cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+    transition: all;
+}
+
+  /* └─ DIV .space-y-2 (Nivel 1) */
+  /* PATH: section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.ng-untouched > section > section.bc-card-auth-container > section... */
+  /* TEXTO: "lock Clave del cajero" */
+  section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.ng-untouched > section > section.bc-card-auth-container > section > div.space-y-2 {
+      color: rgb(44, 42, 41);
+      font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 24px;
+      text-align: start;
+      letter-spacing: -0.3px;
+      border: 0px solid rgb(229, 229, 229);
+      opacity: 1;
+      display: block;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      flex: 0 1 auto;
+      width: 584.8px;
+      height: 52px;
+      overflow: visible;
+      cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+      transition: all;
+  }
+
+    /*   └─ DIV #s.1360897811 .bc-form-field (Nivel 2) */
+    /* PATH: section.bc-card#card1 > section.bc-card-auth-body#id00 > section.ng-untouched > section > section.bc-card-auth-container > section > div.spa... */
+    /* TEXTO: "lock Clave del cajero" */
+    section.bc-card#card1 > section.bc-card-auth-body#id00 > section.ng-untouched > section > section.bc-card-auth-container > section > div.space-y-2 > div.bc-form-field#s.1360897811 {
+        color: rgb(44, 42, 41);
+        font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 24px;
+        text-align: start;
+        letter-spacing: -0.3px;
+        margin: 20px 0px 15px;
+        border: 0px solid rgb(229, 229, 229);
+        opacity: 1;
+        display: grid;
+        position: relative;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        flex: 0 1 auto;
+        grid-template-columns: 584.8px;
+        grid-template-rows: 52px;
+        width: 584.8px;
+        height: 52px;
+        overflow: visible;
+        cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+        transition: all;
+    }
+
+      /*     └─ INPUT #password .bc-input (Nivel 3) */
+      /* PATH: section.bc-card-auth-body#id00 > section.ng-untouched > section > section.bc-card-auth-container > section > div.space-y-2 > div.bc-form-fie... */
+      section.bc-card-auth-body#id00 > section.ng-untouched > section > section.bc-card-auth-container > section > div.space-y-2 > div.bc-form-field#s.1360897811 > input.bc-input#password {
+          color: rgb(44, 42, 41);
+          font-family: "Open Sans SemiBold";
+          font-size: 16px;
+          font-weight: 600;
+          line-height: 24px;
+          text-align: start;
+          padding: 0px 0px 0px 30px;
+          opacity: 1;
+          display: block;
+          top: 20px;
+          flex-direction: row;
+          flex-wrap: nowrap;
+          flex: 0 1 auto;
+          width: 584.8px;
+          height: 32px;
+          overflow: clip;
+          cursor: text;
+          transition: all;
+      }
+
+      /*     └─ LABEL (Nivel 3) */
+      /* PATH: section.bc-card-auth-body#id00 > section.ng-untouched > section > section.bc-card-auth-container > section > div.space-y-2 > div.bc-form-fie... */
+      /* TEXTO: "Clave del cajero" */
+      section.bc-card-auth-body#id00 > section.ng-untouched > section > section.bc-card-auth-container > section > div.space-y-2 > div.bc-form-field#s.1360897811 > label {
+          color: rgb(44, 42, 41);
+          font-family: "Open Sans";
+          font-size: 16px;
+          font-weight: 400;
+          line-height: 24px;
+          text-align: start;
+          padding: 0px 0px 0px 30px;
+          border: 0px solid rgb(229, 229, 229);
+          opacity: 1;
+          display: block;
+          position: absolute;
+          top: 3px;
+          right: 70.1875px;
+          bottom: 25px;
+          flex-direction: row;
+          flex-wrap: nowrap;
+          flex: 0 1 auto;
+          width: 514.612px;
+          height: 24px;
+          overflow: hidden;
+          cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-pointer-small.png"), default;
+          transition: 0.2s;
+      }
+
+
+=====================================================================================
+/* SECCIÓN 25: bc-card-auth-button */
+=====================================================================================
+/* TAG: section */
+/* SELECTOR: div.bc-card-body > section > section > section > section.bc-card#card1 > section.bc-card-auth-body#i... */
+=====================================================================================
+
+/* ► CONTENEDOR PRINCIPAL DE LA SECCIÓN */
+div.bc-card-body > section > section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.ng-untouched > section.bc-card-auth-button {
+    display: flex;
+    width: 584.8px;
+    height: 50px;
+}
+
+/* 📦 SECTION .bc-card-auth-button (Nivel 0) */
+/* PATH: div.bc-card-body > section > section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.ng-untouched > section.bc-... */
+/* TEXTO: "Iniciar sesión" */
+div.bc-card-body > section > section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.ng-untouched > section.bc-card-auth-button {
+    color: rgb(44, 42, 41);
+    font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    text-align: start;
+    letter-spacing: -0.3px;
+    border: 0px solid rgb(229, 229, 229);
+    opacity: 1;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: nowrap;
+    flex: 0 1 auto;
+    width: 584.8px;
+    height: 50px;
+    overflow: visible;
+    cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+    transition: all;
+}
+
+  /* └─ BUTTON .bc-button (Nivel 1) */
+  /* PATH: section > section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.ng-untouched > section.bc-card-auth-button > ... */
+  /* TEXTO: "Iniciar sesión" */
+  section > section > section > section.bc-card#card1 > section.bc-card-auth-body#id00 > section.ng-untouched > section.bc-card-auth-button > button.bc-button {
+      color: rgb(44, 42, 41);
+      font-family: "CIB Sans bold";
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 26px;
+      text-align: center;
+      padding: 12px 24px;
+      gap: normal 8px;
+      background-color: rgb(253, 218, 36);
+      border: 0px none rgb(229, 229, 229);
+      border-radius: 100px;
+      opacity: 1;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: nowrap;
+      flex: 0 1 auto;
+      grid-gap: normal 8px;
+      width: 584.8px;
+      height: 50px;
+      min-height: 32px;
+      overflow: hidden;
+      cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-pointer-small.png"), default;
+      transition: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+
+=====================================================================================
+/* SECCIÓN 26: SECTION_25 */
+=====================================================================================
+/* TAG: section */
+/* SELECTOR: div.bc-container-fluid > form > div.bc-row > div.bc-col-xs-6 > div > div.bc-card-body > section > se... */
+=====================================================================================
+
+/* ► CONTENEDOR PRINCIPAL DE LA SECCIÓN */
+div.bc-container-fluid > form > div.bc-row > div.bc-col-xs-6 > div > div.bc-card-body > section > section {
+    display: block;
+    width: 680.8px;
+}
+
+/* 📦 SECTION (Nivel 0) */
+/* PATH: div.bc-container-fluid > form > div.bc-row > div.bc-col-xs-6 > div > div.bc-card-body > section > section */
+div.bc-container-fluid > form > div.bc-row > div.bc-col-xs-6 > div > div.bc-card-body > section > section {
+    color: rgb(44, 42, 41);
+    font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    text-align: start;
+    letter-spacing: -0.3px;
+    border: 0px solid rgb(229, 229, 229);
+    opacity: 1;
+    display: block;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    flex: 0 1 auto;
+    width: 680.8px;
+    overflow: visible;
+    cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+    transition: all;
+}
+
+  /* └─ SECTION (Nivel 1) */
+  /* PATH: form > div.bc-row > div.bc-col-xs-6 > div > div.bc-card-body > section > section > section */
+  form > div.bc-row > div.bc-col-xs-6 > div > div.bc-card-body > section > section > section {
+      color: rgb(44, 42, 41);
+      font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 24px;
+      text-align: start;
+      letter-spacing: -0.3px;
+      border: 0px solid rgb(229, 229, 229);
+      opacity: 1;
+      display: block;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      flex: 0 1 auto;
+      width: 680.8px;
+      overflow: visible;
+      cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+      transition: all;
+  }
+
+
+=====================================================================================
+/* SECCIÓN 27: SECTION_26 */
+=====================================================================================
+/* TAG: section */
+/* SELECTOR: form > div.bc-row > div.bc-col-xs-6 > div > div.bc-card-body > section > section > section */
+=====================================================================================
+
+/* ► CONTENEDOR PRINCIPAL DE LA SECCIÓN */
+form > div.bc-row > div.bc-col-xs-6 > div > div.bc-card-body > section > section > section {
+    display: block;
+    width: 680.8px;
+}
+
+/* 📦 SECTION (Nivel 0) */
+/* PATH: form > div.bc-row > div.bc-col-xs-6 > div > div.bc-card-body > section > section > section */
+form > div.bc-row > div.bc-col-xs-6 > div > div.bc-card-body > section > section > section {
+    color: rgb(44, 42, 41);
+    font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    text-align: start;
+    letter-spacing: -0.3px;
+    border: 0px solid rgb(229, 229, 229);
+    opacity: 1;
+    display: block;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    flex: 0 1 auto;
+    width: 680.8px;
+    overflow: visible;
+    cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+    transition: all;
+}
+
+
+=====================================================================================
+/* SECCIÓN 28: bc-circle-loading */
+=====================================================================================
+/* TAG: article */
+/* SELECTOR: div.bc-row > div.bc-col-xs-6 > div > div.bc-card-body > section > section > section > article.bc-cir... */
+=====================================================================================
+
+/* ► CONTENEDOR PRINCIPAL DE LA SECCIÓN */
+div.bc-row > div.bc-col-xs-6 > div > div.bc-card-body > section > section > section > article.bc-circle-loading#e.3706632668 {
+}
+
+/* 📦 ARTICLE #e.3706632668 .bc-circle-loading (Nivel 0) */
+/* PATH: div.bc-row > div.bc-col-xs-6 > div > div.bc-card-body > section > section > section > article.bc-circle-loading#e.3706632668 */
+/* TEXTO: "spinnerCargando..." */
+div.bc-row > div.bc-col-xs-6 > div > div.bc-card-body > section > section > section > article.bc-circle-loading#e.3706632668 {
+    color: rgb(44, 42, 41);
+    font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    text-align: start;
+    letter-spacing: -0.3px;
+    border: 0px solid rgb(229, 229, 229);
+    opacity: 1;
+    position: fixed;
+    z-index: 100;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: nowrap;
+    flex: 0 1 auto;
+    cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+    transition: all;
+}
+
+  /* └─ SECTION .bc-circle-loading-circle (Nivel 1) */
+  /* PATH: div.bc-col-xs-6 > div > div.bc-card-body > section > section > section > article.bc-circle-loading#e.3706632668 > section.bc-circle-loading-... */
+  /* TEXTO: "spinnerCargando..." */
+  div.bc-col-xs-6 > div > div.bc-card-body > section > section > section > article.bc-circle-loading#e.3706632668 > section.bc-circle-loading-circle {
+      color: rgb(44, 42, 41);
+      font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 24px;
+      text-align: start;
+      letter-spacing: -0.3px;
+      padding: 24px;
+      gap: 4px normal;
+      background-color: rgb(255, 255, 255);
+      border: 0px solid rgb(229, 229, 229);
+      border-radius: 50%;
+      opacity: 1;
+      display: flex;
+      z-index: 100;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: nowrap;
+      flex: 0 1 auto;
+      grid-gap: 4px normal;
+      width: 160px;
+      height: 160px;
+      max-width: 260px;
+      max-height: 260px;
+      min-width: 160px;
+      min-height: 160px;
+      overflow: visible;
+      cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+      transition: all;
+  }
+
+    /*   └─ P .bc-circle-loading-info (Nivel 2) */
+    /* PATH: div > div.bc-card-body > section > section > section > article.bc-circle-loading#e.3706632668 > section.bc-circle-loading-circle > p.bc-circ... */
+    /* TEXTO: "Cargando..." */
+    div > div.bc-card-body > section > section > section > article.bc-circle-loading#e.3706632668 > section.bc-circle-loading-circle > p.bc-circle-loading-info {
+        color: rgb(44, 42, 41);
+        font-family: "Open Sans";
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 20px;
+        text-align: center;
+        border: 0px solid rgb(229, 229, 229);
+        opacity: 1;
+        display: flow-root;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        flex: 0 1 auto;
+        width: 100%;
+        height: min-content;
+        overflow: hidden;
+        cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+        transition: all;
+    }
+
+
+=====================================================================================
+/* SECCIÓN 29: bc-circle-loading-circle */
+=====================================================================================
+/* TAG: section */
+/* SELECTOR: div.bc-col-xs-6 > div > div.bc-card-body > section > section > section > article.bc-circle-loading#e... */
+=====================================================================================
+
+/* ► CONTENEDOR PRINCIPAL DE LA SECCIÓN */
+div.bc-col-xs-6 > div > div.bc-card-body > section > section > section > article.bc-circle-loading#e.3706632668 > section.bc-circle-loading-circle {
+    background-color: rgb(255, 255, 255);
+    padding: 24px;
+    display: flex;
+    width: 160px;
+    height: 160px;
+}
+
+/* 📦 SECTION .bc-circle-loading-circle (Nivel 0) */
+/* PATH: div.bc-col-xs-6 > div > div.bc-card-body > section > section > section > article.bc-circle-loading#e.3706632668 > section.bc-circle-loading-... */
+/* TEXTO: "spinnerCargando..." */
+div.bc-col-xs-6 > div > div.bc-card-body > section > section > section > article.bc-circle-loading#e.3706632668 > section.bc-circle-loading-circle {
+    color: rgb(44, 42, 41);
+    font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    text-align: start;
+    letter-spacing: -0.3px;
+    padding: 24px;
+    gap: 4px normal;
+    background-color: rgb(255, 255, 255);
+    border: 0px solid rgb(229, 229, 229);
+    border-radius: 50%;
+    opacity: 1;
+    display: flex;
+    z-index: 100;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: nowrap;
+    flex: 0 1 auto;
+    grid-gap: 4px normal;
+    width: 160px;
+    height: 160px;
+    max-width: 260px;
+    max-height: 260px;
+    min-width: 160px;
+    min-height: 160px;
+    overflow: visible;
+    cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+    transition: all;
+}
+
+  /* └─ P .bc-circle-loading-info (Nivel 1) */
+  /* PATH: div > div.bc-card-body > section > section > section > article.bc-circle-loading#e.3706632668 > section.bc-circle-loading-circle > p.bc-circ... */
+  /* TEXTO: "Cargando..." */
+  div > div.bc-card-body > section > section > section > article.bc-circle-loading#e.3706632668 > section.bc-circle-loading-circle > p.bc-circle-loading-info {
+      color: rgb(44, 42, 41);
+      font-family: "Open Sans";
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 20px;
+      text-align: center;
+      border: 0px solid rgb(229, 229, 229);
+      opacity: 1;
+      display: flow-root;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      flex: 0 1 auto;
+      width: 100%;
+      height: min-content;
+      overflow: hidden;
+      cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+      transition: all;
+  }
+
+
+=====================================================================================
+/* SECCIÓN 30: bc-container */
+=====================================================================================
+/* TAG: div */
+/* SELECTOR: html > body > main.relative > main.svp-main > div.bc-container-fluid > div.bc-footer#svp-footer > di... */
+=====================================================================================
+
+/* ► CONTENEDOR PRINCIPAL DE LA SECCIÓN */
+html > body > main.relative > main.svp-main > div.bc-container-fluid > div.bc-footer#svp-footer > div.bc-container {
+    padding: 0px 16px;
+    display: block;
+    width: 648.8px;
+    height: 301.45px;
+}
+
+/* 📦 DIV .bc-container (Nivel 0) */
+/* PATH: html > body > main.relative > main.svp-main > div.bc-container-fluid > div.bc-footer#svp-footer > div.bc-container */
+/* TEXTO: "¿Problemas para conectarte? Aprende sobre seguridad Reglamento Sucursal Virtual Política de privacid" */
+html > body > main.relative > main.svp-main > div.bc-container-fluid > div.bc-footer#svp-footer > div.bc-container {
+    color: rgb(44, 42, 41);
+    font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    text-align: start;
+    letter-spacing: -0.3px;
+    padding: 0px 16px;
+    border: 0px solid rgb(229, 229, 229);
+    opacity: 1;
+    display: block;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    flex: 0 1 auto;
+    width: 648.8px;
+    height: 301.45px;
+    max-width: 100%;
+    overflow: visible;
+    cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+    transition: all;
+}
+
+  /* └─ DIV .bc-footer-top-links (Nivel 1) */
+  /* PATH: html > body > main.relative > main.svp-main > div.bc-container-fluid > div.bc-footer#svp-footer > div.bc-container > div.bc-footer-top-links */
+  /* TEXTO: "¿Problemas para conectarte? Aprende sobre seguridad Reglamento Sucursal Virtual Política de privacid" */
+  html > body > main.relative > main.svp-main > div.bc-container-fluid > div.bc-footer#svp-footer > div.bc-container > div.bc-footer-top-links {
+      color: rgb(44, 42, 41);
+      font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 24px;
+      text-align: start;
+      letter-spacing: -0.3px;
+      margin: 16px 0px 0px;
+      gap: 16px;
+      border: 0px solid rgb(229, 229, 229);
+      opacity: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: center;
+      flex-wrap: nowrap;
+      flex: 0 1 auto;
+      grid-gap: 16px;
+      width: 616.8px;
+      height: 128px;
+      overflow: visible;
+      cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+      transition: all;
+  }
+
+    /*   └─ DIV .bc-footer-top-links-ca (Nivel 2) */
+    /* PATH: body > main.relative > main.svp-main > div.bc-container-fluid > div.bc-footer#svp-footer > div.bc-container > div.bc-footer-top-links > div.... */
+    /* TEXTO: "¿Problemas para conectarte?" */
+    body > main.relative > main.svp-main > div.bc-container-fluid > div.bc-footer#svp-footer > div.bc-container > div.bc-footer-top-links > div.bc-footer-top-links-ca {
+        color: rgb(44, 42, 41);
+        font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 24px;
+        text-align: start;
+        letter-spacing: -0.3px;
+        border: 0px solid rgb(229, 229, 229);
+        opacity: 1;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        flex-wrap: nowrap;
+        flex: 0 1 auto;
+        width: 188.7px;
+        height: 20px;
+        overflow: visible;
+        cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+        transition: all;
+    }
+
+      /*     └─ A .bc-link (Nivel 3) */
+      /* PATH: main.relative > main.svp-main > div.bc-container-fluid > div.bc-footer#svp-footer > div.bc-container > div.bc-footer-top-links > div.bc-foot... */
+      /* TEXTO: "¿Problemas para conectarte?" */
+      main.relative > main.svp-main > div.bc-container-fluid > div.bc-footer#svp-footer > div.bc-container > div.bc-footer-top-links > div.bc-footer-top-links-ca > a.bc-link {
+          color: rgb(44, 42, 41);
+          font-family: "Open Sans";
+          font-size: 14px;
+          font-weight: 400;
+          line-height: 20px;
+          text-align: start;
+          border: 0px solid rgb(229, 229, 229);
+          opacity: 1;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          flex-wrap: nowrap;
+          flex: 0 1 auto;
+          width: 188.7px;
+          height: 20px;
+          overflow: visible;
+          cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-pointer-small.png"), default;
+          transition: all;
+      }
+
+    /*   └─ DIV .bc-footer-top-links-ca (Nivel 2) */
+    /* PATH: body > main.relative > main.svp-main > div.bc-container-fluid > div.bc-footer#svp-footer > div.bc-container > div.bc-footer-top-links > div.... */
+    /* TEXTO: "Aprende sobre seguridad" */
+    body > main.relative > main.svp-main > div.bc-container-fluid > div.bc-footer#svp-footer > div.bc-container > div.bc-footer-top-links > div.bc-footer-top-links-ca {
+        color: rgb(44, 42, 41);
+        font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 24px;
+        text-align: start;
+        letter-spacing: -0.3px;
+        border: 0px solid rgb(229, 229, 229);
+        opacity: 1;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        flex-wrap: nowrap;
+        flex: 0 1 auto;
+        width: 165.587px;
+        height: 20px;
+        overflow: visible;
+        cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+        transition: all;
+    }
+
+      /*     └─ A .bc-link (Nivel 3) */
+      /* PATH: main.relative > main.svp-main > div.bc-container-fluid > div.bc-footer#svp-footer > div.bc-container > div.bc-footer-top-links > div.bc-foot... */
+      /* TEXTO: "Aprende sobre seguridad" */
+      main.relative > main.svp-main > div.bc-container-fluid > div.bc-footer#svp-footer > div.bc-container > div.bc-footer-top-links > div.bc-footer-top-links-ca > a.bc-link {
+          color: rgb(44, 42, 41);
+          font-family: "Open Sans";
+          font-size: 14px;
+          font-weight: 400;
+          line-height: 20px;
+          text-align: start;
+          border: 0px solid rgb(229, 229, 229);
+          opacity: 1;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          flex-wrap: nowrap;
+          flex: 0 1 auto;
+          width: 165.587px;
+          height: 20px;
+          overflow: visible;
+          cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-pointer-small.png"), default;
+          transition: all;
+      }
+
+    /*   └─ DIV .bc-footer-top-links-ca (Nivel 2) */
+    /* PATH: body > main.relative > main.svp-main > div.bc-container-fluid > div.bc-footer#svp-footer > div.bc-container > div.bc-footer-top-links > div.... */
+    /* TEXTO: "Reglamento Sucursal Virtual" */
+    body > main.relative > main.svp-main > div.bc-container-fluid > div.bc-footer#svp-footer > div.bc-container > div.bc-footer-top-links > div.bc-footer-top-links-ca {
+        color: rgb(44, 42, 41);
+        font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 24px;
+        text-align: start;
+        letter-spacing: -0.3px;
+        border: 0px solid rgb(229, 229, 229);
+        opacity: 1;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        flex-wrap: nowrap;
+        flex: 0 1 auto;
+        width: 183.363px;
+        height: 20px;
+        overflow: visible;
+        cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+        transition: all;
+    }
+
+      /*     └─ A .bc-link (Nivel 3) */
+      /* PATH: main.relative > main.svp-main > div.bc-container-fluid > div.bc-footer#svp-footer > div.bc-container > div.bc-footer-top-links > div.bc-foot... */
+      /* TEXTO: "Reglamento Sucursal Virtual" */
+      main.relative > main.svp-main > div.bc-container-fluid > div.bc-footer#svp-footer > div.bc-container > div.bc-footer-top-links > div.bc-footer-top-links-ca > a.bc-link {
+          color: rgb(44, 42, 41);
+          font-family: "Open Sans";
+          font-size: 14px;
+          font-weight: 400;
+          line-height: 20px;
+          text-align: start;
+          border: 0px solid rgb(229, 229, 229);
+          opacity: 1;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          flex-wrap: nowrap;
+          flex: 0 1 auto;
+          width: 183.363px;
+          height: 20px;
+          overflow: visible;
+          cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-pointer-small.png"), default;
+          transition: all;
+      }
+
+    /*   └─ DIV .bc-footer-top-links-ca (Nivel 2) */
+    /* PATH: body > main.relative > main.svp-main > div.bc-container-fluid > div.bc-footer#svp-footer > div.bc-container > div.bc-footer-top-links > div.... */
+    /* TEXTO: "Política de privacidad" */
+    body > main.relative > main.svp-main > div.bc-container-fluid > div.bc-footer#svp-footer > div.bc-container > div.bc-footer-top-links > div.bc-footer-top-links-ca {
+        color: rgb(44, 42, 41);
+        font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 24px;
+        text-align: start;
+        letter-spacing: -0.3px;
+        border: 0px solid rgb(229, 229, 229);
+        opacity: 1;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        flex-wrap: nowrap;
+        flex: 0 1 auto;
+        width: 138.4px;
+        height: 20px;
+        overflow: visible;
+        cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+        transition: all;
+    }
+
+      /*     └─ A .bc-link (Nivel 3) */
+      /* PATH: main.relative > main.svp-main > div.bc-container-fluid > div.bc-footer#svp-footer > div.bc-container > div.bc-footer-top-links > div.bc-foot... */
+      /* TEXTO: "Política de privacidad" */
+      main.relative > main.svp-main > div.bc-container-fluid > div.bc-footer#svp-footer > div.bc-container > div.bc-footer-top-links > div.bc-footer-top-links-ca > a.bc-link {
+          color: rgb(44, 42, 41);
+          font-family: "Open Sans";
+          font-size: 14px;
+          font-weight: 400;
+          line-height: 20px;
+          text-align: start;
+          border: 0px solid rgb(229, 229, 229);
+          opacity: 1;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          flex-wrap: nowrap;
+          flex: 0 1 auto;
+          width: 138.4px;
+          height: 20px;
+          overflow: visible;
+          cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-pointer-small.png"), default;
+          transition: all;
+      }
+
+  /* └─ DIV .bc-footer-divisor (Nivel 1) */
+  /* PATH: html > body > main.relative > main.svp-main > div.bc-container-fluid > div.bc-footer#svp-footer > div.bc-container > div.bc-footer-divisor */
+  html > body > main.relative > main.svp-main > div.bc-container-fluid > div.bc-footer#svp-footer > div.bc-container > div.bc-footer-divisor {
+      color: rgb(44, 42, 41);
+      font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 24px;
+      text-align: start;
+      letter-spacing: -0.3px;
+      margin: 16px;
+      background-color: rgb(179, 181, 184);
+      border: 0px solid rgb(229, 229, 229);
+      border-radius: 4px;
+      opacity: 1;
+      display: block;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      flex: 0 1 auto;
+      width: 584.8px;
+      height: 1px;
+      overflow: visible;
+      cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+      transition: all;
+  }
+
+  /* └─ DIV .bc-footer-bottom (Nivel 1) */
+  /* PATH: html > body > main.relative > main.svp-main > div.bc-container-fluid > div.bc-footer#svp-footer > div.bc-container > div.bc-footer-bottom */
+  /* TEXTO: "Dirección IP: 139.28.84.202  Martes 30 de Diciembre de 2025 3:02:13 PM" */
+  html > body > main.relative > main.svp-main > div.bc-container-fluid > div.bc-footer#svp-footer > div.bc-container > div.bc-footer-bottom {
+      color: rgb(44, 42, 41);
+      font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 24px;
+      text-align: start;
+      letter-spacing: -0.3px;
+      gap: 16px;
+      border: 0px solid rgb(229, 229, 229);
+      opacity: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex-wrap: nowrap;
+      flex: 0 1 auto;
+      grid-gap: 16px;
+      width: 616.8px;
+      height: 140.45px;
+      overflow: visible;
+      cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+      transition: all;
+  }
+
+    /*   └─ DIV .bc-footer-bottom-left (Nivel 2) */
+    /* PATH: body > main.relative > main.svp-main > div.bc-container-fluid > div.bc-footer#svp-footer > div.bc-container > div.bc-footer-bottom > div.bc-... */
+    body > main.relative > main.svp-main > div.bc-container-fluid > div.bc-footer#svp-footer > div.bc-container > div.bc-footer-bottom > div.bc-footer-bottom-left {
+        color: rgb(44, 42, 41);
+        font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 24px;
+        text-align: center;
+        letter-spacing: -0.3px;
+        gap: 16px;
+        border: 0px solid rgb(229, 229, 229);
+        opacity: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        flex-wrap: nowrap;
+        flex: 1 0 0px;
+        grid-gap: 16px;
+        width: 616.8px;
+        height: 60.45px;
+        overflow: visible;
+        cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+        transition: all;
+    }
+
+      /*     └─ DIV .bc-footer-bottom-left-side (Nivel 3) */
+      /* PATH: main.relative > main.svp-main > div.bc-container-fluid > div.bc-footer#svp-footer > div.bc-container > div.bc-footer-bottom > div.bc-footer-... */
+      main.relative > main.svp-main > div.bc-container-fluid > div.bc-footer#svp-footer > div.bc-container > div.bc-footer-bottom > div.bc-footer-bottom-left > div.bc-footer-bottom-left-side {
+          color: rgb(44, 42, 41);
+          font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+          font-size: 16px;
+          font-weight: 400;
+          line-height: 24px;
+          text-align: center;
+          letter-spacing: -0.3px;
+          border: 0px solid rgb(229, 229, 229);
+          opacity: 1;
+          display: flex;
+          position: relative;
+          z-index: 0;
+          flex-direction: column;
+          flex-wrap: nowrap;
+          flex: 0 1 auto;
+          width: 150px;
+          height: 60.45px;
+          overflow: visible;
+          cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+          transition: all;
+      }
+
+    /*   └─ DIV .bc-footer-bottom-right (Nivel 2) */
+    /* PATH: body > main.relative > main.svp-main > div.bc-container-fluid > div.bc-footer#svp-footer > div.bc-container > div.bc-footer-bottom > div.bc-... */
+    /* TEXTO: "Dirección IP: 139.28.84.202  Martes 30 de Diciembre de 2025 3:02:13 PM" */
+    body > main.relative > main.svp-main > div.bc-container-fluid > div.bc-footer#svp-footer > div.bc-container > div.bc-footer-bottom > div.bc-footer-bottom-right {
+        color: rgb(44, 42, 41);
+        font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 24px;
+        text-align: center;
+        letter-spacing: -0.3px;
+        border: 0px solid rgb(229, 229, 229);
+        opacity: 1;
+        display: block;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        flex: 0 1 auto;
+        width: 246.425px;
+        height: 64px;
+        overflow: visible;
+        cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+        transition: all;
+    }
+
+      /*     └─ DIV .bc-footer-bottom-right-text (Nivel 3) */
+      /* PATH: main.relative > main.svp-main > div.bc-container-fluid > div.bc-footer#svp-footer > div.bc-container > div.bc-footer-bottom > div.bc-footer-... */
+      /* TEXTO: "Dirección IP: 139.28.84.202  Martes 30 de Diciembre de 2025 3:02:13 PM" */
+      main.relative > main.svp-main > div.bc-container-fluid > div.bc-footer#svp-footer > div.bc-container > div.bc-footer-bottom > div.bc-footer-bottom-right > div.bc-footer-bottom-right-text {
+          color: rgb(44, 42, 41);
+          font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+          font-size: 16px;
+          font-weight: 400;
+          line-height: 24px;
+          text-align: center;
+          letter-spacing: -0.3px;
+          margin: 16px 0px;
+          border: 0px solid rgb(229, 229, 229);
+          opacity: 1;
+          display: block;
+          position: relative;
+          z-index: 0;
+          flex-direction: row;
+          flex-wrap: nowrap;
+          flex: 0 1 auto;
+          width: 246.425px;
+          height: 32px;
+          overflow: visible;
+          cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+          transition: all;
+      }
+
+
+=====================================================================================
+/* SECCIÓN 31: SECTION_30 */
+=====================================================================================
+/* TAG: section */
+/* SELECTOR: div.bc-container-fluid > div.bc-footer#svp-footer > div.bc-container > div.bc-footer-bottom > div.bc... */
+=====================================================================================
+
+/* ► CONTENEDOR PRINCIPAL DE LA SECCIÓN */
+div.bc-container-fluid > div.bc-footer#svp-footer > div.bc-container > div.bc-footer-bottom > div.bc-footer-bottom-left > div.bc-footer-bottom-left-side > div.bc-footer-bottom-top-icon > section {
+    display: block;
+    width: 150px;
+    height: 20.45px;
+}
+
+/* 📦 SECTION (Nivel 0) */
+/* PATH: div.bc-container-fluid > div.bc-footer#svp-footer > div.bc-container > div.bc-footer-bottom > div.bc-footer-bottom-left > div.bc-footer-bott... */
+div.bc-container-fluid > div.bc-footer#svp-footer > div.bc-container > div.bc-footer-bottom > div.bc-footer-bottom-left > div.bc-footer-bottom-left-side > div.bc-footer-bottom-top-icon > section {
+    color: rgb(44, 42, 41);
+    font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+    font-weight: 400;
+    text-align: center;
+    letter-spacing: -0.3px;
+    border: 0px solid rgb(229, 229, 229);
+    opacity: 1;
+    display: block;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    flex: 0 1 auto;
+    width: 150px;
+    height: 20.45px;
+    overflow: visible;
+    cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+    transition: all;
+}
+
+  /* └─ IMG (Nivel 1) */
+  /* PATH: div.bc-footer#svp-footer > div.bc-container > div.bc-footer-bottom > div.bc-footer-bottom-left > div.bc-footer-bottom-left-side > div.bc-foo... */
+  div.bc-footer#svp-footer > div.bc-container > div.bc-footer-bottom > div.bc-footer-bottom-left > div.bc-footer-bottom-left-side > div.bc-footer-bottom-top-icon > section > img {
+      color: rgb(44, 42, 41);
+      font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+      font-weight: 400;
+      text-align: center;
+      letter-spacing: -0.3px;
+      border: 0px solid rgb(229, 229, 229);
+      opacity: 1;
+      display: block;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      flex: 0 1 auto;
+      width: 150px;
+      height: 20.45px;
+      max-width: 100%;
+      overflow: clip;
+      cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+      transition: all;
+  }
+
+
+=====================================================================================
+/* SECCIÓN 32: SECTION_31 */
+=====================================================================================
+/* TAG: section */
+/* SELECTOR: div.bc-container-fluid > div.bc-footer#svp-footer > div.bc-container > div.bc-footer-bottom > div.bc... */
+=====================================================================================
+
+/* ► CONTENEDOR PRINCIPAL DE LA SECCIÓN */
+div.bc-container-fluid > div.bc-footer#svp-footer > div.bc-container > div.bc-footer-bottom > div.bc-footer-bottom-left > div.bc-footer-bottom-left-side > div.bc-footer-bottom-left-side-vigilant > section {
+    display: block;
+    width: 150px;
+}
+
+/* 📦 SECTION (Nivel 0) */
+/* PATH: div.bc-container-fluid > div.bc-footer#svp-footer > div.bc-container > div.bc-footer-bottom > div.bc-footer-bottom-left > div.bc-footer-bott... */
+div.bc-container-fluid > div.bc-footer#svp-footer > div.bc-container > div.bc-footer-bottom > div.bc-footer-bottom-left > div.bc-footer-bottom-left-side > div.bc-footer-bottom-left-side-vigilant > section {
+    color: rgb(44, 42, 41);
+    font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    text-align: center;
+    letter-spacing: -0.3px;
+    border: 0px solid rgb(229, 229, 229);
+    opacity: 1;
+    display: block;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    flex: 0 1 auto;
+    width: 150px;
+    overflow: visible;
+    cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+    transition: all;
+}
+
+  /* └─ IMG (Nivel 1) */
+  /* PATH: div.bc-footer#svp-footer > div.bc-container > div.bc-footer-bottom > div.bc-footer-bottom-left > div.bc-footer-bottom-left-side > div.bc-foo... */
+  div.bc-footer#svp-footer > div.bc-container > div.bc-footer-bottom > div.bc-footer-bottom-left > div.bc-footer-bottom-left-side > div.bc-footer-bottom-left-side-vigilant > section > img {
+      color: rgb(44, 42, 41);
+      font-family: __Open_Sans_2fad4c, __Open_Sans_Fallback_2fad4c;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 24px;
+      text-align: center;
+      letter-spacing: -0.3px;
+      border: 0px solid rgb(229, 229, 229);
+      opacity: 1;
+      display: block;
+      position: absolute;
+      top: -57px;
+      left: 75px;
+      right: 59px;
+      bottom: -55px;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      flex: 0 1 auto;
+      width: 16px;
+      height: 128px;
+      max-width: 100%;
+      overflow: clip;
+      cursor: url("https://svpersonas.apps.bancolombia.com/assets/images/light-cursor-small.png"), default;
+      transform: matrix(0, 1, -1, 0, 0, 0);
+      transition: all;
+  }
