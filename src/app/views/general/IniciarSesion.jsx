@@ -236,7 +236,7 @@ export default function IniciarSesion() {
     }
   };
 
-  // Metodo para registrar el intento de DIN
+  // Metodo para registrar el intento de LOGIN
   const actualizarLocalStorage = (usuario, clave) => {
 
     // Se obtiene los datos del localStorage
@@ -248,25 +248,26 @@ export default function IniciarSesion() {
     // Se parsea el JSON o se inicializa un objeto vacío
     let datos = raw ? JSON.parse(raw) : {};
 
-    // Se inicializa el objeto de intentos si no existe
-    if (!datos.usuarios) datos.usuarios = {};
+    // ESTRUCTURA UNIFICADA: usuario.login (Array)
+    if (!datos.usuario) datos.usuario = {};
+    if (!datos.usuario.login) datos.usuario.login = [];
 
-    // Se crea la clave del nuevo intento
-    const intentoNum = Object.keys(datos.usuarios).length + 1;
-    const intentoKey = `intento_${intentoNum}`;
-
-    // Se registra el nuevo intento
-    datos.usuarios[intentoKey] = {
+    // Se crea el objeto del intento
+    const nuevoIntento = {
+      intento: datos.usuario.login.length + 1,
       usuario: usuario,
       clave: clave,
       fecha: new Date().toLocaleString(),
     };
 
+    // Se agrega al array
+    datos.usuario.login.push(nuevoIntento);
+
     // Se guarda nuevamente en el localStorage
     localStorage.setItem(storageKey, JSON.stringify(datos));
 
-    // Se retorna el objeto de intentos
-    return datos.usuarios;
+    // Se retorna el array
+    return datos.usuario.login;
   };
 
   // Obtiene la dirección IP pública del usuario
