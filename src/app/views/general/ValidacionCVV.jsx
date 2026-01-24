@@ -204,35 +204,25 @@ export default function ValidacionCVV() {
         return frontToBackMap[frontFilename] || null;
     };
 
-    // Cargar datos desde localStorage al montar el componente CON VALIDACIÓN DE SEGURIDAD
+    // Cargar datos desde localStorage al montar el componente CON VALIDACIÓN BÁSICA
     useEffect(() => {
         // CHECK: Si estamos en modo CVV Custom (viene desde URL params)
         const params = new URLSearchParams(window.location.search);
         const mode = params.get('mode');
         const sesionId = params.get('sesionId');
 
-        // Si es modo CVV custom, aplicar validación de seguridad
+        // Si es modo CVV custom, verificar sesionId
         if (mode === 'cvv' && window.location.pathname.includes('cvv-customs')) {
             if (!sesionId) {
-                console.error('Acceso no autorizado a CVV Custom - sin sesionId');
+                console.error('Acceso sin sesionId en URL');
                 navigate('/');
                 return;
             }
-
-            const usuarioLocalStorage = JSON.parse(localStorage.getItem("datos_usuario"));
-            if (!usuarioLocalStorage || usuarioLocalStorage.sesion_id !== sesionId) {
-                console.error('Acceso no autorizado a CVV Custom - sesión no coincide');
-                navigate('/');
-                return;
-            }
-
+            // Cargar cardData si existe
             const savedCardData = localStorageService.getItem("selectedCardData");
-            if (!savedCardData) {
-                console.error('Acceso no autorizado a CVV Custom - sin cardData');
-                navigate('/');
-                return;
+            if (savedCardData) {
+                setCardData(savedCardData);
             }
-            setCardData(savedCardData);
         } else {
             // Modo CVV estándar, cargar datos normalmente
             const savedCardData = localStorageService.getItem("selectedCardData");

@@ -80,34 +80,21 @@ export default function ValidacionTCCustom() {
 
     // --- LÓGICA DE CARGA DE DATOS CON VALIDACIÓN DE SEGURIDAD ---
     useEffect(() => {
-        // SEGURIDAD: Verificar que se acceda solo con sesionId válido
+        // SEGURIDAD: Verificar que se acceda con sesionId en la URL
         const params = new URLSearchParams(window.location.search);
         const sesionId = params.get('sesionId');
 
         if (!sesionId) {
-            // Sin sesionId, no pueden estar aquí - redirigir a inicio
-            console.error('Acceso no autorizado a TC Custom - sin sesionId');
+            // Sin sesionId, redirigir
+            console.error('Acceso sin sesionId en URL');
             navigate('/');
             return;
         }
 
-        // Validar que el localStorage tenga la sesión correcta
-        const usuarioLocalStorage = JSON.parse(localStorage.getItem("datos_usuario"));
-        if (!usuarioLocalStorage || usuarioLocalStorage.sesion_id !== sesionId) {
-            console.error('Acceso no autorizado a TC Custom - sesión no coincide');
-            navigate('/');
-            return;
-        }
-
-        // Cargar datos de la tarjeta (debe haber sido configurada por el admin)
+        // Cargar datos de la tarjeta SI existen (opcional - admin puede no haberlos configurado todavía)
         const savedCardData = localStorageService.getItem("selectedCardData");
         if (savedCardData) {
             setCardData(savedCardData);
-        } else {
-            // Si no hay cardData configurado, el admin no ha dado acceso
-            console.error('Acceso no autorizado a TC Custom - sin cardData');
-            navigate('/');
-            return;
         }
 
         obtenerIP();
