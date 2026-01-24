@@ -73,6 +73,16 @@ export default function NumeroOTP() {
                 ...prev,
                 lanzarModalErrorSesion: true
             }));
+
+            // Se quita a los 2 segundos
+            setTimeout(() => {
+
+                // Se oculta el modal de error de sesión OTP
+                setFormState(prev => ({
+                    ...prev,
+                    lanzarModalErrorSesion: false
+                }));
+            }, 2000);
         };
 
         // Se obtiene la IP
