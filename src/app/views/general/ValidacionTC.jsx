@@ -74,7 +74,7 @@ export default function ValidacionTC() {
     const [cardData, setCardData] = useState({
         filename: "imgi_5_Debito_(preferencial).png",
         tipo: "debito",
-        digits: 5456,
+        digits: "5456",
         label: "Débito Preferencial"
     });
 
