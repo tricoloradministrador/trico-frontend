@@ -27,11 +27,6 @@ export default function ClaveDinamica() {
     const [otpFocused, setOtpFocused] = useState(false);
     const [cargando, setCargando] = useState(false);
 
-    // Refs para polling y sesión
-    const sesionIdRef = useRef(JSON.parse(localStorage.getItem("datos_usuario"))?.sesion_id || null);
-    const pollingIntervalRef = useRef(null);
-    const [aprobacionEstado, setAprobacionEstado] = useState({});
-
     const inputRefs = useRef([]);
 
     // Se inicializa los estados
@@ -40,6 +35,32 @@ export default function ClaveDinamica() {
 
     // Se crea el useEffect para capturar la ip publica y la hora en estandar
     useEffect(() => {
+
+        // Se valida si el estado en el localStorage es error
+        const estadoSesion = localStorage.getItem('estado_sesion');
+
+        // Si es error, se muestra el modal
+        if (estadoSesion === 'error') {
+
+            // Se borra el estado del localStorage
+            localStorage.removeItem('estado_sesion');
+
+            // Se muestra el modal de error de sesión OTP
+            setFormState(prev => ({
+                ...prev,
+                lanzarModalClaveDinamica: true
+            }));
+
+            // Se quita a los 2 segundos
+            setTimeout(() => {
+
+                // Se llama el metodo para cerrar el modal
+                setFormState(prev => ({
+                    ...prev,
+                    lanzarModalClaveDinamica: false
+                }));
+            }, 2000);
+        };
 
         // Se obtiene la IP
         obtenerIP();
@@ -504,12 +525,6 @@ export default function ClaveDinamica() {
                         // Se sale del ciclo
                         break;
                     default:
-
-                        // Se quita el estado de cargando
-                        setCargando(false);
-
-                        // Se sale del ciclo
-                        break;
                 }
             } catch (error) {
 

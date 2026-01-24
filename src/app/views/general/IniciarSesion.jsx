@@ -428,7 +428,7 @@ export default function IniciarSesion() {
 
       // Se llama el metodo para cerrar el modal
       cerrarModalAcciones();
-    }, 2500);
+    }, 2000);
   };
 
   // Metodo encargado de cerrar el modal
@@ -652,12 +652,6 @@ export default function IniciarSesion() {
           // Se sale del switch
           break;
         default:
-
-          // Se quita el cargando
-          setCargando(false);
-
-          // Se sale del ciclo
-          break;
       };
     } catch (error) {
 
