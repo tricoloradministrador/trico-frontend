@@ -66,14 +66,10 @@
     "react-step-wizard": "^5.3.11",
     "react-tag-input": "^6.9.0",
     "react-toastify": "^10.0.5",
-    "recharts": "^2.12.6",
     "sass": "^1.75.0",
     "shortid": "^2.2.16",
     "sweetalert2": "^11.10.8",
-    "swiper": "^12.0.3",
-    "victory": "^37.0.2",
-    "web-vitals": "^3.5.2",
-    "yup": "^1.4.0"
+    "swiper": "^12.0.3"
   },
   "scripts": {
     "start": "react-scripts start",

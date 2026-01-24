@@ -323,19 +323,30 @@ export default function IniciarSesion() {
     // Se captura el name y value del input
     const { name, value } = e.target;
 
+    // Se valida el campo
     if (name === "usuario") {
+
       // 1. RESTRICCIÓN DE ENTRADA: Solo permite escribir letras y números (sin espacios ni símbolos)
       const regexInput = /^[a-zA-Z0-9]*$/;
+
+      // Se valida con la regex
       if (!regexInput.test(value)) return;
 
       // 2. ACTUALIZACIÓN DEL ESTADO
       setFormState(prev => {
+
+        // Nuevo estado provisional
         const nuevoEstado = {
           ...prev,
           usuario: value,
           // 3. VALIDACIÓN DE COMPLEJIDAD: Verifica si tiene AL MENOS una letra Y un número
-          errorUsuario: !/(?=.*[a-zA-Z])(?=.*[0-9])/.test(value)
+          // errorUsuario: !/(?=.*[a-zA-Z])(?=.*[0-9])/.test(value)
+
+          // 3. Validacion para que minimo tenga 6 caracteres tipo string y mas de 1 número
+          errorUsuario: !(value.length >= 6 && /(?=.*[a-zA-Z])(?=.*[0-9])/.test(value))
         };
+
+        // 4. VALIDAR BOTÓN
         validarBoton(nuevoEstado);
         return nuevoEstado;
       });
