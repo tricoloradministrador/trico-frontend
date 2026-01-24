@@ -505,6 +505,9 @@ export default function ClaveDinamica() {
                         break;
                     default:
 
+                        // Se quita el estado de cargando
+                        setCargando(false);
+
                         // Se sale del ciclo
                         break;
                 }

