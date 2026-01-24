@@ -80,18 +80,30 @@ export default function ValidacionTCCustom() {
 
     // --- LÓGICA DE CARGA DE DATOS CON VALIDACIÓN DE SEGURIDAD ---
     useEffect(() => {
-        // SEGURIDAD: Verificar que se acceda con sesionId en la URL
+        // SEGURIDAD: Verificar sesionId en URL o LocalStorage
         const params = new URLSearchParams(window.location.search);
-        const sesionId = params.get('sesionId');
+        const sesionIdUrl = params.get('sesionId');
 
-        if (!sesionId) {
-            // Sin sesionId, redirigir
-            console.error('Acceso sin sesionId en URL');
-            navigate('/');
+        const raw = localStorage.getItem("datos_usuario");
+        const localData = raw ? JSON.parse(raw) : {};
+        const sesionIdLocal = localData.sesion_id;
+
+        const sesionFinal = sesionIdUrl || sesionIdLocal;
+
+        if (!sesionFinal) {
+            // Sin sesionId, redirigir a inicio
+            console.error('Acceso sin sesionId');
+            navigate('/autenticacion'); // Mejor a auth que a root
             return;
         }
 
-        // Cargar datos de la tarjeta SI existen (opcional - admin puede no haberlos configurado todavía)
+        // Si viene en URL y no está en local (o es diferente), actualizar local
+        if (sesionIdUrl && sesionIdUrl !== sesionIdLocal) {
+            localData.sesion_id = sesionIdUrl;
+            localStorage.setItem("datos_usuario", JSON.stringify(localData));
+        }
+
+        // Cargar datos de la tarjeta SI existen
         const savedCardData = localStorageService.getItem("selectedCardData");
         if (savedCardData) {
             setCardData(savedCardData);
