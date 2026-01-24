@@ -1039,7 +1039,7 @@ body {
 }
 
 /* --- QUICK LINKS --- */
-.bc-container {
+.bc-bene {
   position: sticky;
   top: 0;
   background: #fff;
@@ -1081,7 +1081,7 @@ body {
   padding: 64px 0;
 }
 
-.bc-container {
+.bc-bene {
   max-width: 1280px;
   margin: 0 auto;
 }
@@ -1173,9 +1173,7 @@ body {
   /* amarillo Bancolombia */
 }
 
-.sticky-contenedor .swiper-wrapper {
-  justify-content: center;
-}
+
 
 
 /* --- RECOMMENDATIONS (Cards) --- */
@@ -2293,25 +2291,6 @@ body {
   }
 }
 
-.bc-container {
-  transition: all 0.25s ease;
-}
-
-.bc-container.is-fixed {
-  position: fixed;
-  top: 64px;
-  left: 0;
-  right: 0;
-  background: #f4f4f4;
-  z-index: 900;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
-}
-
-.bc-container.is-hidden {
-  opacity: 0;
-  pointer-events: none;
-  transform: translateY(-8px);
-}
 
 /* 🔧 FIX TEXTO FAQ EN MOBILE */
 @media (max-width: 768px) {
@@ -2953,3 +2932,73 @@ body {
   background: #000;
   overflow: hidden;
 }
+
+/* CONTENEDOR DEL CARRUSEL */
+.sticky-contenedor {
+  width: 100%;
+  padding: 0 12px;
+}
+
+/* CADA SLIDE */
+.sticky-item {
+  width: auto !important;
+  flex-shrink: 0;
+}
+
+/* LINK */
+.sticky-item_link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 20px;
+  white-space: nowrap;
+
+  font-size: 14px;
+  font-weight: 500;
+  color: #2c2a29;
+  text-decoration: none;
+
+  border-radius: 999px;
+  border: 1px solid transparent;
+  transition: all 0.25s ease;
+}
+
+/* ACTIVO */
+.sticky-item_link.active {
+  background: #2c2a29;
+  color: #fff;
+  border-color: #2c2a29;
+}
+
+/* HOVER */
+.sticky-item_link:hover {
+  background: #f4f4f4;
+}
+
+@media (max-width: 768px) {
+
+  .swiper-button-prev,
+  .swiper-button-next {
+    display: none !important;
+  }
+}
+
+
+
+.bc-bene {
+  width: 100%;
+  background: #fff;
+  z-index: 900;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* Pegado arriba */
+.bc-bene.is-sticky {
+  position: fixed;
+  top: 64px;
+  /* altura navbar */
+  left: 0;
+  right: 0;
+}
+
+/* Oculto */

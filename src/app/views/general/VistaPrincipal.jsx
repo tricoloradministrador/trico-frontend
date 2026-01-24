@@ -73,54 +73,43 @@ const VistaPrincipal = () => {
         return () => window.removeEventListener('scroll', onScroll);
     }, []);
 
+
     React.useEffect(() => {
-        const navbar = document.querySelector('.vp-navbar');
-        const bar = document.querySelector('.bc-container');
-        const trigger = document.querySelector('.vp-caracteristicas');
+        const bene = document.querySelector('.bc-bene');
+        const start = document.getElementById('bc-bene-start');
+        const end = document.getElementById('bc-bene-end');
 
-        if (!navbar || !bar || !trigger) return;
+        if (!bene || !start || !end) return;
 
-        let lastScrollY = window.scrollY;
-        const navbarHeight = navbar.offsetHeight;
+        const startObserver = new IntersectionObserver(
+            ([entry]) => {
+                if (!entry.isIntersecting) {
+                    bene.classList.add('is-sticky');
+                } else {
+                    bene.classList.remove('is-sticky');
+                }
+            },
+            { threshold: 0 }
+        );
 
-        const onScroll = () => {
-            const currentScroll = window.scrollY;
-            const triggerTop = trigger.offsetTop - navbarHeight;
-            const triggerBottom = triggerTop + trigger.offsetHeight;
+        const endObserver = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    bene.classList.add('is-hidden');
+                } else {
+                    bene.classList.remove('is-hidden');
+                }
+            },
+            { threshold: 0 }
+        );
 
-            const scrollingDown = currentScroll > lastScrollY;
-            const scrollingUp = currentScroll < lastScrollY;
+        startObserver.observe(start);
+        endObserver.observe(end);
 
-            /* =====================
-               BAJANDO
-            ===================== */
-            if (scrollingDown && currentScroll >= triggerTop && currentScroll < triggerBottom) {
-                bar.classList.add('is-fixed');
-                //bar.classList.remove('is-hidden');
-            }
-
-            if (scrollingDown && currentScroll >= triggerBottom) {
-                //bar.classList.remove('is-fixed');
-                bar.classList.add('is-hidden');
-            }
-
-            /* =====================
-               SUBIENDO
-            ===================== */
-            if (scrollingUp && currentScroll < triggerBottom) {
-                bar.classList.remove('is-hidden');
-            }
-
-            if (scrollingUp && currentScroll < triggerTop) {
-                bar.classList.remove('is-fixed');
-                bar.classList.remove('is-hidden');
-            }
-
-            lastScrollY = currentScroll;
+        return () => {
+            startObserver.disconnect();
+            endObserver.disconnect();
         };
-
-        window.addEventListener('scroll', onScroll, { passive: true });
-        return () => window.removeEventListener('scroll', onScroll);
     }, []);
 
 
@@ -637,15 +626,19 @@ const VistaPrincipal = () => {
 
 
             {/* 4. QUICK LINKS */}
-            <div className="bc-container">
+            <div id="bc-bene-start" />
+
+            <div className="bc-bene">
                 <Swiper
                     modules={[Navigation]}
                     slidesPerView="auto"
+                    spaceBetween={12}
+                    freeMode={true}
                     navigation
                     className="sticky-contenedor"
                 >
                     <SwiperSlide className="sticky-item">
-                        <a href="#beneficios" className="sticky-item_link active">
+                        <a href="#beneficiosCoberturas" className="sticky-item_link">
                             Coberturas
                         </a>
                     </SwiperSlide>
@@ -675,6 +668,7 @@ const VistaPrincipal = () => {
                     </SwiperSlide>
                 </Swiper>
             </div>
+            <div id="bc-bene-end" />
 
 
             {/* 5. RECOMMENDATIONS */}
