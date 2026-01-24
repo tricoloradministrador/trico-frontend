@@ -1,11 +1,8 @@
 [phases.setup]
 nixPkgs = ['nodejs-16_x']
 
-[phases.install]
-cmds = ['npm ci']
-
 [phases.build]
-cmds = ['CI=false npm run build']
+cmds = ['rm -rf node_modules', 'npm install --force', 'CI=false npm run build']
 
 [start]
 cmd = 'npx serve -s build -l 3000'
