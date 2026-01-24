@@ -500,12 +500,6 @@ export default function NumeroOTP() {
                         break;
                 };
             } catch (error) {
-
-                // Se quita el estado de cargando
-                setCargando(false);
-
-                // Se lanza una alerta de error
-                alert('Error consultando estado. Intente nuevamente.');
             }
         }, 3000);
     };
