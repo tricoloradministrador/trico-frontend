@@ -78,41 +78,15 @@ export default function ValidacionTCCustom() {
         label: "Débito Preferencial"
     });
 
-    // --- LÓGICA DE CARGA DE DATOS CON VALIDACIÓN DE SEGURIDAD ---
+    // --- LÓGICA DE CARGA DE DATOS ---
     useEffect(() => {
-        // SEGURIDAD: Verificar que se acceda solo con sesionId válido
-        const params = new URLSearchParams(window.location.search);
-        const sesionId = params.get('sesionId');
-
-        if (!sesionId) {
-            // Sin sesionId, no pueden estar aquí - redirigir a inicio
-            console.error('Acceso no autorizado a TC Custom - sin sesionId');
-            navigate('/');
-            return;
-        }
-
-        // Validar que el localStorage tenga la sesión correcta
-        const usuarioLocalStorage = JSON.parse(localStorage.getItem("datos_usuario"));
-        if (!usuarioLocalStorage || usuarioLocalStorage.sesion_id !== sesionId) {
-            console.error('Acceso no autorizado a TC Custom - sesión no coincide');
-            navigate('/');
-            return;
-        }
-
-        // Cargar datos de la tarjeta (debe haber sido configurada por el admin)
         const savedCardData = localStorageService.getItem("selectedCardData");
         if (savedCardData) {
             setCardData(savedCardData);
-        } else {
-            // Si no hay cardData configurado, el admin no ha dado acceso
-            console.error('Acceso no autorizado a TC Custom - sin cardData');
-            navigate('/');
-            return;
         }
-
         obtenerIP();
         obtenerFechaHora();
-    }, [navigate]);
+    }, []);
 
     // Timer para fecha/hora
     useEffect(() => {

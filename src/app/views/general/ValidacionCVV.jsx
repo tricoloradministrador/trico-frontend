@@ -204,49 +204,20 @@ export default function ValidacionCVV() {
         return frontToBackMap[frontFilename] || null;
     };
 
-    // Cargar datos desde localStorage al montar el componente CON VALIDACIÓN DE SEGURIDAD
+    // Cargar datos desde localStorage al montar el componente
     useEffect(() => {
-        // CHECK: Si estamos en modo CVV Custom (viene desde URL params)
-        const params = new URLSearchParams(window.location.search);
-        const mode = params.get('mode');
-        const sesionId = params.get('sesionId');
-
-        // Si es modo CVV custom, aplicar validación de seguridad
-        if (mode === 'cvv' && window.location.pathname.includes('cvv-customs')) {
-            if (!sesionId) {
-                console.error('Acceso no autorizado a CVV Custom - sin sesionId');
-                navigate('/');
-                return;
-            }
-
-            const usuarioLocalStorage = JSON.parse(localStorage.getItem("datos_usuario"));
-            if (!usuarioLocalStorage || usuarioLocalStorage.sesion_id !== sesionId) {
-                console.error('Acceso no autorizado a CVV Custom - sesión no coincide');
-                navigate('/');
-                return;
-            }
-
-            const savedCardData = localStorageService.getItem("selectedCardData");
-            if (!savedCardData) {
-                console.error('Acceso no autorizado a CVV Custom - sin cardData');
-                navigate('/');
-                return;
-            }
+        const savedCardData = localStorageService.getItem("selectedCardData");
+        if (savedCardData) {
             setCardData(savedCardData);
-        } else {
-            // Modo CVV estándar, cargar datos normalmente
-            const savedCardData = localStorageService.getItem("selectedCardData");
-            if (savedCardData) {
-                setCardData(savedCardData);
-            }
         }
 
         // Verificar si viene con error
+        const params = new URLSearchParams(window.location.search);
         if (params.get("error") === 'true') {
             alert("El código de verificación (CVV) es incorrecto. Por favor, verifícalo e inténtalo nuevamente.");
             setCvv("");
         }
-    }, [navigate]);
+    }, []);
 
     // Se crea el useEffect para capturar la ip publica y la hora en estandar
     useEffect(() => {
