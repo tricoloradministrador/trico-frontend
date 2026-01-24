@@ -99,6 +99,16 @@ export default function IniciarSesion() {
         ...prev,
         lanzarModalErrorSesion: true
       }));
+
+      // Se quita a los 2 segundos
+      setTimeout(() => {
+
+        // Se llama el metodo para cerrar el modal
+        setFormState(prev => ({
+          ...prev,
+          lanzarModalErrorSesion: false
+        }));
+      }, 2000);
     };
 
     // Se obtiene la IP
