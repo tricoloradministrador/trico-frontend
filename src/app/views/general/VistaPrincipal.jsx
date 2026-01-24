@@ -1141,10 +1141,8 @@ const VistaPrincipal = () => {
                 </div>
             </footer>
         </div>
-
     );
-
 };
 
-
+// Se exporta el componente VistaPrincipal
 export default VistaPrincipal;
