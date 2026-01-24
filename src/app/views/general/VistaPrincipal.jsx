@@ -8,6 +8,7 @@ import { Navigation, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+import Chevron from "../../components/Chevron";
 
 
 
@@ -22,7 +23,10 @@ const VistaPrincipal = () => {
     // 🔥 MENÚ MOBILE
     const [mobileOpen, setMobileOpen] = useState(false);
 
-
+    // 🔥 SUCURSAL MOBILE
+    const [mobileSucursalOpen, setMobileSucursalOpen] = useState(false);
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(null);
+    const [showIntro, setShowIntro] = useState();
 
     const toggleDropdown = (name) => {
         setActiveDropdown(prev => prev === name ? null : name);
@@ -280,14 +284,7 @@ const VistaPrincipal = () => {
                                 <span className="menu-transactions_link" id="transaction_link">
                                     Sucursal Virtual Personas
                                 </span>
-
-                                <span
-                                    className={`vp-chevron ${activeDropdown === "transaction" ? "open" : ""
-                                        }`}
-                                >
-                                    ▼
-                                </span>
-
+                                <Chevron open={activeDropdown === "transaction"} />
                                 <button
                                     className="button-primary small btnamarillo"
                                     id="btn-transaccional"
@@ -326,7 +323,7 @@ const VistaPrincipal = () => {
                                             >
                                                 Sucursal Virtual Personas
                                             </span>
-                                            <span style={{ fontSize: "12px" }}>▲</span>
+
                                         </div>
 
                                         <button className="button-primary small btnamarillo">
@@ -389,6 +386,7 @@ const VistaPrincipal = () => {
             {mobileOpen && (
                 <div className="vp-mobile-navigation">
                     <div className="vp-mobile-header">
+
                         <img
                             src="/assets/images/img_pantalla1/logo-bancolombia-black.svg"
                             alt="Bancolombia"
@@ -401,7 +399,35 @@ const VistaPrincipal = () => {
                         >
                             ✕
                         </button>
+
                     </div>
+
+                    {/* SELECTOR SUCURSAL VIRTUAL */}
+                    <div
+                        className="vp-mobile-sucursal"
+                        onClick={() => setMobileSucursalOpen(!mobileSucursalOpen)}
+                    >
+                        <span>Sucursal Virtual Personas</span>
+                        <Chevron open={mobileSucursalOpen} />
+
+                    </div>
+
+                    {mobileSucursalOpen && (
+                        <div className="vp-mobile-sucursal-options">
+                            <a href="https://svpersonas.apps.bancolombia.com/autenticacion" className='vp-a-mobile'>
+                                Sucursal Virtual Personas
+                            </a>
+                            <a href="https://svnegocios.apps.bancolombia.com/ingreso/empresa" className='vp-a-mobile'>
+                                Sucursal Virtual Negocios
+                            </a>
+                            <a href="https://sucursalempresas.transaccionesbancolombia.com/" className='vp-a-mobile'>
+                                Sucursal Virtual Empresas
+                            </a>
+                            <a href="https://portal.psepagos.com.co/web/bancolombia/buscador" className='vp-a-mobile'>
+                                Pagos PSE
+                            </a>
+                        </div>
+                    )}
 
                     <div className="vp-mobile-actions">
                         <button className="vp-btn-yellow full">Entrar</button>
@@ -409,15 +435,108 @@ const VistaPrincipal = () => {
                     </div>
 
                     <ul className="vp-mobile-menu">
-                        <li>Personas</li>
-                        <li>Negocios</li>
-                        <li>Corporativos</li>
-                        <li>Negocios especializados</li>
-                        <li>Tu360</li>
-                        <li>Blog</li>
-                        <li>Transparencia</li>
-                        <li>Consumidor</li>
+
+                        {/* PERSONAS */}
+                        <li className={`vp-mobile-item ${mobileMenuOpen === 'personas' ? 'open' : ''}`}>
+                            <div
+                                className="vp-mobile-trigger"
+                                onClick={() =>
+                                    setMobileMenuOpen(mobileMenuOpen === 'personas' ? null : 'personas')
+                                }
+                            >
+                                <span>Personas</span>
+                                <Chevron open={mobileMenuOpen === 'personas'} />
+                            </div>
+
+                            <div className="vp-mobile-submenu">
+                                <a href="#">Necesidades</a>
+                                <a href="#">Productos y Servicios</a>
+                                <a href="#">Educación Financiera</a>
+                            </div>
+                        </li>
+
+
+                        {/* NEGOCIOS */}
+                        <li className={`vp-mobile-item ${mobileMenuOpen === 'negocios' ? 'open' : ''}`}>
+                            <div
+                                className="vp-mobile-trigger"
+                                onClick={() =>
+                                    setMobileMenuOpen(mobileMenuOpen === 'negocios' ? null : 'negocios')
+                                }
+                            >
+                                <span>Negocios</span>
+                                <Chevron open={mobileMenuOpen === 'negocios'} />
+                            </div>
+
+                            <div className="vp-mobile-submenu">
+                                <a href="#">Inicio</a>
+                                <a href="#">Actualízate</a>
+                                <a href="#">Productos Financieros</a>
+                                <a href="#">Herramientas</a>
+                                <a href="#">Aliados</a>
+                                <a href="#">Formación</a>
+                                <a href="#">Sectores</a>
+                                <a href="#">Comercio Internacional</a>
+                            </div>
+                        </li>
+
+
+                        <li className={`vp-mobile-item ${mobileMenuOpen === 'corporativos' ? 'open' : ''}`}>
+                            <div
+                                className="vp-mobile-trigger"
+                                onClick={() =>
+                                    setMobileMenuOpen(mobileMenuOpen === 'corporativos' ? null : 'corporativos')
+                                }
+                            >
+                                <span>Corporativos</span>
+                                <Chevron open={mobileMenuOpen === 'corporativos'} />
+                            </div>
+
+                            <div className="vp-mobile-submenu">
+                                <a href="#">Inicio</a>
+                                <a href="#">Soluciones Corporativas</a>
+                                <a href="#">Financiación</a>
+                                <a href="#">Inversión</a>
+                                <a href="#">Internacional</a>
+                            </div>
+                        </li>
+
+
+                        {/* NEGOCIOS ESPECIALIZADOS */}
+                        <li className={`vp-mobile-item ${mobileMenuOpen === 'especializados' ? 'open' : ''}`}>
+                            <div
+                                className="vp-mobile-trigger"
+                                onClick={() =>
+                                    setMobileMenuOpen(
+                                        mobileMenuOpen === 'especializados' ? null : 'especializados'
+                                    )
+                                }
+                            >
+                                <span>Negocios especializados</span>
+                                <Chevron open={mobileMenuOpen === 'especializados'} />
+                            </div>
+
+                            <div className="vp-mobile-submenu">
+                                <a href="#">Banca de Inversión</a>
+                                <a href="#">Leasing</a>
+                                <a href="#">Fiduciaria</a>
+                                <a href="#">Renting</a>
+                                <a href="#">Factoring</a>
+                                <a href="#">Valores</a>
+                                <a href="#">Sufi</a>
+                            </div>
+                        </li>
+
+
+                        {/* LINKS SIMPLES */}
+                        <li className="vp-mobile-link">Tu360</li>
+                        <li className="vp-mobile-link">Blog</li>
+                        <li className="vp-mobile-link">Transparencia</li>
+                        <li className="vp-mobile-link">Consumidor</li>
+
                     </ul>
+
+
                 </div>
             )}
 
@@ -445,7 +564,8 @@ const VistaPrincipal = () => {
                                 </a>
                             </li>
 
-                            <ChevronRight size={14} color="#9e9e9e" />
+                            <Chevron open={mobileMenuOpen === 'personas'} />
+
 
                             <li>
                                 <a href="/seguros" style={linkStyle}>
@@ -453,7 +573,8 @@ const VistaPrincipal = () => {
                                 </a>
                             </li>
 
-                            <ChevronRight size={14} color="#9e9e9e" />
+                            <Chevron open={mobileMenuOpen === 'seguros'} />
+
 
                             <li>
                                 <a href="/seguros/salud-vida" style={linkStyle}>
@@ -461,7 +582,8 @@ const VistaPrincipal = () => {
                                 </a>
                             </li>
 
-                            <ChevronRight size={14} color="#9e9e9e" />
+                            <Chevron open={mobileMenuOpen === 'salud-vida'} />
+
 
                             <li>
                                 <span style={currentStyle}>
@@ -474,37 +596,40 @@ const VistaPrincipal = () => {
             </div>
 
 
+
             {/* 3. HERO SECTION */}
             <header className="vp-hero">
                 {/* COLUMNA TEXTO */}
                 <div className="vp-hero-content">
                     <h1>
-                        Seguro<br />
-                        integral<br />
-                        para cáncer
+                        Seguros de vida y salud
                     </h1>
 
                     <p className="vp-hero-desc">
-                        Más que un seguro, tu apoyo económico en el tratamiento de cualquier tipo de cáncer.
+                        <span style={{ fontWeight: "bold", color: "#000" }}>Se ha activado exitosamente tu Seguro de Vida y Salud. </span>
+                        Cuentas con un respaldo que te acompaña ante imprevistos de salud, cuidando lo más importante: tu vida y tu bienestar, y brindándote apoyo económico para proteger tu estabilidad.
                     </p>
-
+                    <p>
+                        Recuerda que tienes <span style={{ fontWeight: "bold" }}>3 días hábiles</span> desde la activación para cancelar el seguro sin ningún costo adicional:
+                        <span style={{ fontWeight: "bold" }}>Débito mensual: $289.999</span>
+                    </p>
                     <div className="vp-hero-brand">
-                        <span>Un producto de</span>
+                        <span>Un producto de:</span>
                         <img
-                            src="/assets/images/img_pantalla1/imgi_3_logos-cardif.png"
-                            alt="BNP Paribas Cardif"
+                            src="/assets/images/seguros/SURA2.png"
+                            alt="Sura"
                         />
                     </div>
 
                     <button className="vp-btn-yellow">
-                        Asegura tu viaje
+                        Cancelar seguro
                     </button>
                 </div>
 
                 {/* COLUMNA IMAGEN */}
                 <div className="vp-hero-image-container">
                     <img
-                        src="/assets/images/img_pantalla1/imgi_4_607x313_Desktop+2.png"
+                        src="/assets/images/seguros/imgi_3_Salud+y+vida.webp"
                         alt="Seguro integral para cáncer"
                     />
                 </div>
@@ -823,9 +948,8 @@ const VistaPrincipal = () => {
                         onClick={() => setDocsOpen(!docsOpen)}
                     >
                         <h6>Documentos</h6>
-                        <span className={`vp-documents-icon ${docsOpen ? 'open' : ''}`}>
-                            ▼
-                        </span>
+                        <Chevron open={mobileSucursalOpen} />
+
                     </div>
 
                     {/* CONTENT ACCORDION */}
@@ -870,7 +994,7 @@ const VistaPrincipal = () => {
                     <div className="vp-legal-card">
                         <div className="vp-legal-image">
                             <img
-                                src="/assets/images/legal-info.svg"
+                                src="/assets/images/seguros/candado.webp"
                                 alt="Información legal"
                             />
                         </div>
