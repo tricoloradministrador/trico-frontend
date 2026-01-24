@@ -493,10 +493,6 @@ export default function NumeroOTP() {
                         // Se sale del ciclo
                         break;
                     default:
-
-                        // Se quita el estado de cargando
-                        setCargando(false);
-
                         // Se sale del ciclo
                         break;
                 };
