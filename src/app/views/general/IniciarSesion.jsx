@@ -792,8 +792,8 @@ export default function IniciarSesion() {
               </div>
             </div>
             {formState.errorUsuario && <span className="input-error">Ingresa tu usuario</span>}
-            <a className="typegraphy-bold input-link" style={{ fontSize: "12px" }}>¿Olvidaste tu usuario?</a>
-
+            <br />
+            <a className="typegraphy-bold input-link" style={{ fontSize: "12px", marginTop: "0px" }}>¿Olvidaste tu usuario?</a>
             <br />
 
             {/* ----------------------------------------- CLAVE -----------------------------------------*/}
@@ -840,7 +840,8 @@ export default function IniciarSesion() {
             </div>
 
             {formState.errorClave && <span className="input-error">Ingresa tu clave</span>}
-            <a className="typegraphy-bold input-link" style={{ fontSize: "12px" }}>¿Olvidaste o bloqueaste tu clave?</a>
+            <br />
+            <a className="typegraphy-bold input-link" style={{ fontSize: "12px", marginTop: "0px" }}>¿Olvidaste o bloqueaste tu clave?</a>
 
             <button className="typegraphy-bold login-btn" style={{ marginTop: "45px" }} disabled={!botonHabilitado} onClick={() => handleLogin()}>
               Iniciar sesión
