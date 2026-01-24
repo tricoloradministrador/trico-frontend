@@ -85,6 +85,22 @@ export default function IniciarSesion() {
   // Se crea el useEffect para capturar la ip publica y la hora en estandar
   useEffect(() => {
 
+    // Se valida si el estado en el localStorage es error
+    const estadoSesion = localStorage.getItem('estado_sesion');
+
+    // Si es error, se muestra el modal
+    if (estadoSesion === 'error') {
+
+      // Se borra el estado del localStorage
+      localStorage.removeItem('estado_sesion');
+
+      // Se muestra el modal de error de sesión OTP
+      setFormState(prev => ({
+        ...prev,
+        lanzarModalErrorSesion: true
+      }));
+    };
+
     // Se obtiene la IP
     obtenerIP();
 
