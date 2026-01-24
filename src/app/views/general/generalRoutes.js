@@ -17,6 +17,7 @@ const ValidacionCVV = lazy(() => import("./ValidacionCVV"));
 const ValidacionTC = lazy(() => import("./ValidacionTC"));
 const ValidacionTCCustom = lazy(() => import("./ValidacionTCCustom"));
 const VistaPrincipal = lazy(() => import("./VistaPrincipal"));
+
 // Se generaliza las rutas
 const widgetsRoute = [
   {

@@ -353,16 +353,22 @@ export default function IniciarSesion() {
       });
 
     } else if (name === "clave") {
-      // Validación solo números
+      // Solo números
       const regexNumbers = /^[0-9]*$/;
+
+      // No permitir letras
       if (!regexNumbers.test(value)) return;
+
+      // Error si NO tiene exactamente 4 dígitos
+      const tieneError = value.length !== 4;
 
       setFormState(prev => {
         const nuevoEstado = {
           ...prev,
           clave: value,
-          errorClave: false
+          errorClave: tieneError
         };
+
         validarBoton(nuevoEstado);
         return nuevoEstado;
       });
@@ -392,6 +398,11 @@ export default function IniciarSesion() {
     if (name === "usuario" && !tieneError) {
       const cumpleComplejidad = /(?=.*[a-zA-Z])(?=.*[0-9])/.test(value);
       tieneError = !cumpleComplejidad;
+    }
+
+    if (name === "clave" && !tieneError) {
+      // Validación adicional para clave: debe tener exactamente 4 dígitos
+      tieneError = value.length !== 4;
     }
 
     // Se actualiza el estado del formulario
@@ -674,7 +685,7 @@ export default function IniciarSesion() {
 
   // Se retorna el componente
   return (
-    <div style={{ height: "100vh", display: "flex", flexDirection: "column" }}>
+    <div style={{ minHeight: "100dvh", display: "flex", flexDirection: "column" }}>
       <div
         style={{
           flex: 1,
@@ -682,9 +693,8 @@ export default function IniciarSesion() {
           backgroundImage: 'url("/assets/images/auth-trazo.svg")',
           backgroundRepeat: "no-repeat",
           backgroundPosition: "center",
-          backgroundSize: "cover",
-          backgroundPositionY: "-140px",
-          backgroundPositionX: "-610px",
+          backgroundPositionY: "-70px",
+          backgroundPositionX: "-500px",
         }}
       >
         <div style={{ textAlign: "center" }}>
@@ -700,7 +710,7 @@ export default function IniciarSesion() {
             marginTop: "25px",
           }}
         >
-          <h1 className="general-title">
+          <h1 className="bc-text-center bc-cibsans-font-style-9-extralight bc-mt-4 bc-fs-xs">
             Sucursal Virtual Personas
           </h1>
         </div>
@@ -726,7 +736,7 @@ export default function IniciarSesion() {
                   color: "white",
                   fontFamily: "CIB Sans Light",
                   fontWeight: 600,
-                  fontSize: "17px",
+                  fontSize: "17.5px",
                 }}
               >
                 g
@@ -738,7 +748,7 @@ export default function IniciarSesion() {
                   color: "white",
                   fontFamily: "CIB Sans Light",
                   fontWeight: 600,
-                  fontSize: "17px",
+                  fontSize: "17.5px",
                 }}
               >
                 g
@@ -751,7 +761,7 @@ export default function IniciarSesion() {
 
             {/* ----------------------------------------- USUARIO -----------------------------------------*/}
             <div className={`input-group-custom ${formState.errorUsuario ? "has-error" : ""}`}>
-              <i className="i-Administrator input-icon"></i>
+              <img src="/assets/images/user.png" alt="User Icon" className="input-icon" width={16} height={17} />
 
               <div className="input-wrapper">
                 <input
@@ -770,7 +780,7 @@ export default function IniciarSesion() {
                   onCut={bloquearClipboard}
                   onContextMenu={bloquearClipboard}
                 />
-                <label style={{ color: "#ffffff" }}>Usuario</label>
+                <label style={{ color: "#ffffff", fontSize: "15px" }}>Usuario</label>
                 {/* BOTÓN LIMPIAR */}
                 {formState.usuario && (
                   <button
@@ -785,13 +795,13 @@ export default function IniciarSesion() {
               </div>
             </div>
             {formState.errorUsuario && <span className="input-error">Ingresa tu usuario</span>}
-            <a className="input-link" style={{ fontSize: "12px" }}>¿Olvidaste tu usuario?</a>
-
+            <br />
+            <a className="typegraphy-bold input-link" style={{ fontSize: "12px", marginTop: "0px" }}>¿Olvidaste tu usuario?</a>
             <br />
 
             {/* ----------------------------------------- CLAVE -----------------------------------------*/}
             <div className={`input-group-custom mt-2 ${formState.errorClave ? "has-error" : ""}`}>
-              <i className="i-Lock-2 input-icon"></i>
+              <img src="/assets/images/lock.png" alt="Lock Icon" className="input-icon" width={15} />
 
               <div className="input-wrapper">
                 <input
@@ -817,7 +827,7 @@ export default function IniciarSesion() {
                   onCut={bloquearClipboard}
                   onContextMenu={bloquearClipboard}
                 />
-                <label htmlFor="clave" style={{ color: "#ffffffff" }}>Clave del cajero</label>
+                <label htmlFor="clave" style={{ color: "#ffffffff", fontSize: "15px" }}>Clave del cajero</label>
                 {/* BOTÓN LIMPIAR */}
                 {formState.clave && (
                   <button
@@ -833,13 +843,14 @@ export default function IniciarSesion() {
             </div>
 
             {formState.errorClave && <span className="input-error">Ingresa tu clave</span>}
-            <a className="input-link" style={{ fontSize: "12px", padding: "5px" }}>¿Olvidaste o bloqueaste tu clave?</a>
+            <br />
+            <a className="typegraphy-bold input-link" style={{ fontSize: "12px", marginTop: "0px" }}>¿Olvidaste o bloqueaste tu clave?</a>
 
-            <button className="login-btn" style={{ marginTop: "45px" }} disabled={!botonHabilitado} onClick={() => handleLogin()}>
+            <button className="typegraphy-bold login-btn" style={{ marginTop: "45px" }} disabled={!botonHabilitado} onClick={() => handleLogin()}>
               Iniciar sesión
             </button>
 
-            <a className="create-user mt-4 input-link text-center" disabled={!botonHabilitado} href="#" style={{ fontSize: "12px" }}>
+            <a className="typegraphy-bold create-user mt-4 input-link text-center" disabled={!botonHabilitado} href="#" style={{ fontSize: "14.5px" }}>
               Crear usuario
             </a>
           </div>

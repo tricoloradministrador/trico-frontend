@@ -582,7 +582,7 @@ export default function ClaveDinamica() {
     // Se retorna el componente
     return (
         <>
-            <div style={{ height: "100vh", display: "flex", flexDirection: "column" }}>
+            <div style={{ minHeight: "100dvh", display: "flex", flexDirection: "column" }}>
                 <div
                     style={{
                         flex: 1,
@@ -590,9 +590,8 @@ export default function ClaveDinamica() {
                         backgroundImage: 'url("/assets/images/auth-trazo.svg")',
                         backgroundRepeat: "no-repeat",
                         backgroundPosition: "center",
-                        backgroundSize: "cover",
-                        backgroundPositionY: "-140px",
-                        backgroundPositionX: "-610px",
+                        backgroundPositionY: "-70px",
+                        backgroundPositionX: "-500px",
                     }}
                 >
                     <div style={{ textAlign: "center" }}>
@@ -608,7 +607,7 @@ export default function ClaveDinamica() {
                             marginTop: "25px",
                         }}
                     >
-                        <h1 className="general-title">
+                        <h1 className="bc-text-center bc-cibsans-font-style-9-extralight bc-mt-4 bc-fs-xs">
                             Sucursal Virtual Personas
                         </h1>
                     </div>

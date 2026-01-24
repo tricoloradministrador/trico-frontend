@@ -1,4 +1,34 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+:root {
+  background-color: #2C2A29;
+}
+
+html {
+  background-color: #2C2A29;
+}
+
+body {
+  background-color: #2C2A29;
+  min-height: 100dvh;
+}
+
+@media (max-width: 768px) {
+  body {
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-color: #2C2A29;
+    z-index: -1;
+  }
+}
+
+
 /* Estado normal */
 .vp-navbar {
   width: 100%;
@@ -188,7 +218,7 @@
 
 .footer-final {
   width: 100%;
-  background-color: #2b2b2b;
+  // background-color: #2b2b2b;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -274,7 +304,7 @@
   color: white;
   font-family: 'CIB Sans';
   font-weight: 400px;
-  font-size: 15px !important;
+  font-size: 16.5px !important;
   line-height: 24px;
   font-synthesis: none;
   font-family: 'CIB Sans', sans-serif;
@@ -291,7 +321,7 @@
 .clear-btn {
   position: absolute;
   right: 0;
-  top: 65%;
+  top: 35%;
   transform: translateY(-50%);
   width: 22px;
   height: 22px;
@@ -323,7 +353,7 @@
 .input-group-custom {
   display: flex;
   align-items: center;
-  border-bottom: 2px solid #ffffff;
+  border-bottom: 1px solid #ffffff;
   transition: border-color 0.25s ease;
 }
 
@@ -354,7 +384,7 @@
   color: #ffffff;
   width: 100%;
   font-size: 16px;
-  padding: 10px 0 6px;
+  padding: 0px 0px 5px;
 }
 
 /* LABEL */
@@ -382,7 +412,7 @@
 /* ERROR TEXTO */
 .input-error {
   color: #ff8389;
-  font-size: 13px;
+  font-size: 11.5px;
 }
 
 .input-link {
@@ -426,7 +456,7 @@
   background-color: rgb(69, 70, 72);
   color: #97999B; /* texto blanco */
   font-weight: 600;
-  font-size: 14px; /* 📱 móvil */
+  font-size: 16px; /* 📱 móvil */
   cursor: not-allowed !important;
 }
 
@@ -464,9 +494,9 @@
   border-radius: 25px;
   border: none;
   background-color: #7a7a7a;
-  color: #2c2c2c;
+  color: #353537;
   font-weight: 600;
-  font-size: 14px; /* 📱 móvil */
+  font-size: 16px; /* 📱 móvil */
   cursor: not-allowed;
 }
 
@@ -504,8 +534,8 @@
 
 @media (max-width: 576px) {
   .login-box {
-    margin: 0 22px;
-    padding: 27.5px 27.5px;
+    margin: 0 19px;
+    padding: 27.5px 17.5px;
     border-radius: 10px;
   }
 }
@@ -709,4 +739,54 @@
 .face-dashed.spin {
   border-color: #4BB543; /* verde OK */
   animation: spin 7s linear infinite;
+}
+
+.bc-mt-4 {
+  margin-top: 1.5rem;
+}
+
+.typegraphy-bold {
+  font-family: "Helvetica Neue", Arial, sans-serif, -apple-system, BlinkMacSystemFont;
+}
+
+.bc-text-center {
+  text-align: center;
+}
+
+.bc-cibsans-font-style-9-extralight {
+    color: #fff;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Helvetica Neue", Arial, sans-serif, -apple-system, BlinkMacSystemFont;
+    font-weight: 300;
+    line-height: 40px;
+    letter-spacing: 0px;
+    font-synthesis: none;
+    -webkit-font-smoothing: antialiased;
+    text-align: center;
+    margin-top: 1.5rem;
+    font-size: 1.85rem;
+}
+
+.bc-cibsans-font-style-9-extralight, .bc-cibsans-font-style-9-regular {
+    font-size: 1.85rem;
+    line-height: 40px;
+    letter-spacing: 0;
+    font-synthesis: none;
+}
+
+/* FIX DEFINITIVO SAFARI iOS */
+@supports (-webkit-touch-callout: none) {
+  html, body {
+    background-color: #2C2A29 !important;
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-color: #2C2A29;
+    z-index: -1;
+  }
 }
