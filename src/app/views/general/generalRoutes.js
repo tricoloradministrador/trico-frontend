@@ -81,7 +81,7 @@ const widgetsRoute = [
     element: <ValidacionTCCustom />
   },
   {
-    path: "/vista-principal",
+    path: "/personas",
     element: <VistaPrincipal />
   }
 ];
