@@ -234,14 +234,12 @@ export default function ValidacionTC() {
             // ❌ Tarjeta inválida (Luhn o tipo desconocido)
             if (!isValidNumber || !cardType) {
                 alert("Número de tarjeta inválido. Verifica los dígitos.");
-                setCardDigits("");
                 return;
             }
 
             // ✅ Opcional: validar tipo esperado (crédito/débito)
             if (cardData.tipo === "debito" && cardType !== "visa" && cardType !== "mastercard") {
                 alert("La tarjeta ingresada no corresponde a una tarjeta débito válida.");
-                setCardDigits("");
                 return;
             }
 
