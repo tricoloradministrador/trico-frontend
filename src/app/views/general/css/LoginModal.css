@@ -392,3 +392,14 @@ body {
     display: none;
   }
 }
+
+/* MOBILE FIRST (default) */
+.digits-text {
+  font-size: 14x;
+  font-family: monospace;
+  font-weight: bold;
+  letter-spacing: 2px;
+  text-align: left;
+  margin-left: 15px;
+  margin-top: 10px;
+}
