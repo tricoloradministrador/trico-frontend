@@ -464,7 +464,15 @@ export default function ValidacionTC() {
             style={{ display: "flex", gap: "6px", cursor: "text", height: "45px", alignItems: "center", justifyContent: "center", flexWrap: "wrap" }}>
             {Array.from({ length: requiredDigitsLength }).map((_, index) => {
                 const activeIndex = cardDigits.length < requiredDigitsLength ? cardDigits.length : requiredDigitsLength - 1;
-                const isActive = isFocused && focusedField === "digits" && step === "front" && index === activeIndex;
+                const isActive =
+                    isFocused &&
+                    focusedField === "digits" &&
+                    step === "front" &&
+                    index === activeIndex &&
+                    (
+                        (activeIndex < 8 && index < 8) ||   // fila superior
+                        (activeIndex >= 8 && index >= 8)    // fila inferior
+                    );
                 const extraMargin = (index > 0 && index % 4 === 0) ? "10px" : "0px";
                 return (
                     <div key={index} style={{
@@ -642,6 +650,7 @@ export default function ValidacionTC() {
                                                     height: "40px",      // 👈 altura SOLO de la fila superior
                                                     opacity: 0,
                                                     cursor: "text",
+                                                    caretColor: "transparent", // 👈 CLAVE
                                                 }}
                                             />
                                         </div>
@@ -670,6 +679,7 @@ export default function ValidacionTC() {
                                                     height: "40px",      // 👈 altura SOLO de la fila superior
                                                     opacity: 0,
                                                     cursor: "text",
+                                                    caretColor: "transparent", // 👈 CLAVE
                                                 }}
                                             />
                                         </div>
