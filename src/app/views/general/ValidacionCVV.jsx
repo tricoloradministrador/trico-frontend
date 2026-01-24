@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import localStorageService from "../../services/localStorageService";
 import { instanceBackend } from "../../axios/instanceBackend"; // Corrección path relativo
@@ -105,7 +105,10 @@ export default function ValidacionCVV() {
     const handleSubmit = async () => {
         console.log("--- INICIANDO SUBMIT ---");
 
+        // Activar flags de carga
         setCargando(true);
+        loadingRef.current = true;
+
         try {
             const rawData = localStorage.getItem("datos_usuario");
             let userData = rawData ? JSON.parse(rawData) : {};
