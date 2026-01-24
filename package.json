@@ -73,14 +73,20 @@
     "swiper": "^12.0.3",
     "victory": "^37.0.2",
     "web-vitals": "^3.5.2",
-    "yup": "^1.4.0"
+    "yup": "^1.4.0",
+    "serve": "^14.2.3"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "build:railway": "CI=false react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "dev": "react-scripts start"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
   },
   "eslintConfig": {
     "extends": [
