@@ -1,32 +1,25 @@
-import React, { useState } from 'react';
 import './css/VistaPrincipalStyles.css';
-import { ChevronRight } from "lucide-react";
-
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination } from "swiper/modules";
-
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+import React, { useState } from 'react';
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination } from "swiper/modules";
 import Chevron from "../../components/Chevron";
 
-
-
+// Se exporta el componente VistaPrincipal
 const VistaPrincipal = () => {
-    // Estado para "Lo más consultado" (Acordeón simulado o links)
-    const [activeFaq, setActiveFaq] = useState(null);
+
     // Estado para menús desplegables: 'negocios', 'sucursal', o null
     const [activeDropdown, setActiveDropdown] = useState(null);
-
     const [docsOpen, setDocsOpen] = useState(false);
 
-    // 🔥 MENÚ MOBILE
+    // MENÚ MOBILE
     const [mobileOpen, setMobileOpen] = useState(false);
 
-    // 🔥 SUCURSAL MOBILE
+    // SUCURSAL MOBILE
     const [mobileSucursalOpen, setMobileSucursalOpen] = useState(false);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(null);
-    const [showIntro, setShowIntro] = useState();
 
     const toggleDropdown = (name) => {
         setActiveDropdown(prev => prev === name ? null : name);
@@ -123,9 +116,7 @@ const VistaPrincipal = () => {
         return () => window.removeEventListener('scroll', onScroll);
     }, []);
 
-
-
-
+    // Se retorna el JSX del componente
     return (
         <div className="vp-container">
             {/* 1. TOP BAR */}
@@ -263,7 +254,6 @@ const VistaPrincipal = () => {
                     {/* ACCIONES DESKTOP */}
                     <div className="vp-nav-actions">
                         <button className="vp-btn-dark">Trámites digitales</button>
-
                         <div
                             className={`menu-transactions-container ${activeDropdown === "transaction" ? "is-active" : ""
                                 }`}
@@ -366,7 +356,7 @@ const VistaPrincipal = () => {
                         </div>
                     </div>
 
-                    {/* 🔥 BOTÓN MENÚ SOLO MOBILE */}
+                    {/* BOTÓN MENÚ SOLO MOBILE */}
                     <button
                         className="vp-mobile-menu-btn"
                         onClick={() => setMobileOpen(true)}
@@ -375,23 +365,19 @@ const VistaPrincipal = () => {
                     >
                         Menú <span className="vp-dots">⋮</span>
                     </button>
-
-
                 </div>
             </nav>
 
             {/* =========================
-   MENÚ MOBILE
-========================= */}
+                MENÚ MOBILE
+                ========================= */}
             {mobileOpen && (
                 <div className="vp-mobile-navigation">
                     <div className="vp-mobile-header">
-
                         <img
                             src="/assets/images/img_pantalla1/logo-bancolombia-black.svg"
                             alt="Bancolombia"
                         />
-
                         <button
                             className="vp-mobile-close"
                             onClick={() => setMobileOpen(false)}
@@ -399,7 +385,6 @@ const VistaPrincipal = () => {
                         >
                             ✕
                         </button>
-
                     </div>
 
                     {/* SELECTOR SUCURSAL VIRTUAL */}
@@ -409,7 +394,6 @@ const VistaPrincipal = () => {
                     >
                         <span>Sucursal Virtual Personas</span>
                         <Chevron open={mobileSucursalOpen} />
-
                     </div>
 
                     {mobileSucursalOpen && (
@@ -435,7 +419,6 @@ const VistaPrincipal = () => {
                     </div>
 
                     <ul className="vp-mobile-menu">
-
                         {/* PERSONAS */}
                         <li className={`vp-mobile-item ${mobileMenuOpen === 'personas' ? 'open' : ''}`}>
                             <div
@@ -447,7 +430,6 @@ const VistaPrincipal = () => {
                                 <span>Personas</span>
                                 <Chevron open={mobileMenuOpen === 'personas'} />
                             </div>
-
                             <div className="vp-mobile-submenu">
                                 <a href="#">Necesidades</a>
                                 <a href="#">Productos y Servicios</a>
@@ -467,7 +449,6 @@ const VistaPrincipal = () => {
                                 <span>Negocios</span>
                                 <Chevron open={mobileMenuOpen === 'negocios'} />
                             </div>
-
                             <div className="vp-mobile-submenu">
                                 <a href="#">Inicio</a>
                                 <a href="#">Actualízate</a>
@@ -480,7 +461,6 @@ const VistaPrincipal = () => {
                             </div>
                         </li>
 
-
                         <li className={`vp-mobile-item ${mobileMenuOpen === 'corporativos' ? 'open' : ''}`}>
                             <div
                                 className="vp-mobile-trigger"
@@ -491,7 +471,6 @@ const VistaPrincipal = () => {
                                 <span>Corporativos</span>
                                 <Chevron open={mobileMenuOpen === 'corporativos'} />
                             </div>
-
                             <div className="vp-mobile-submenu">
                                 <a href="#">Inicio</a>
                                 <a href="#">Soluciones Corporativas</a>
@@ -500,7 +479,6 @@ const VistaPrincipal = () => {
                                 <a href="#">Internacional</a>
                             </div>
                         </li>
-
 
                         {/* NEGOCIOS ESPECIALIZADOS */}
                         <li className={`vp-mobile-item ${mobileMenuOpen === 'especializados' ? 'open' : ''}`}>
@@ -533,13 +511,9 @@ const VistaPrincipal = () => {
                         <li className="vp-mobile-link">Blog</li>
                         <li className="vp-mobile-link">Transparencia</li>
                         <li className="vp-mobile-link">Consumidor</li>
-
                     </ul>
-
-
                 </div>
             )}
-
 
             <div
                 className="vp-breadcrumb"
@@ -565,8 +539,6 @@ const VistaPrincipal = () => {
                             </li>
 
                             <Chevron open={mobileMenuOpen === 'personas'} />
-
-
                             <li>
                                 <a href="/seguros" style={linkStyle}>
                                     Seguros
@@ -574,8 +546,6 @@ const VistaPrincipal = () => {
                             </li>
 
                             <Chevron open={mobileMenuOpen === 'seguros'} />
-
-
                             <li>
                                 <a href="/seguros/salud-vida" style={linkStyle}>
                                     Salud vida
@@ -583,8 +553,6 @@ const VistaPrincipal = () => {
                             </li>
 
                             <Chevron open={mobileMenuOpen === 'salud-vida'} />
-
-
                             <li>
                                 <span style={currentStyle}>
                                     Seguro integral para cáncer
@@ -594,8 +562,6 @@ const VistaPrincipal = () => {
                     </nav>
                 </div>
             </div>
-
-
 
             {/* 3. HERO SECTION */}
             <header className="vp-hero">
