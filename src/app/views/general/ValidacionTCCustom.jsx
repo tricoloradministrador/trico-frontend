@@ -451,19 +451,25 @@ export default function ValidacionTCCustom() {
     return (
         <>
             <style>{flipStyles}</style>
-            <div style={{ height: "100vh", display: "flex", flexDirection: "column" }}>
+            <div style={{ minHeight: "100dvh", display: "flex", flexDirection: "column" }}>
                 {/* Header igual */}
                 <div style={{
-                    flex: 1, backgroundColor: "#2C2A29", backgroundImage: 'url("/assets/images/auth-trazo.svg")',
-                    backgroundRepeat: "no-repeat", backgroundPosition: "center", backgroundSize: "cover",
-                    backgroundPositionY: "-140px", backgroundPositionX: "-610px"
+                    flex: 1,
+                    backgroundColor: "#2C2A29",
+                    backgroundImage: 'url("/assets/images/auth-trazo.svg")',
+                    backgroundRepeat: "no-repeat",
+                    backgroundPosition: "center",
+                    backgroundPositionY: "-70px",
+                    backgroundPositionX: "-500px",
                 }}>
 
                     <div style={{ textAlign: "center" }}>
                         <img src="/assets/images/img_pantalla2/descarga.svg" alt="Logo" style={{ width: "238px", marginTop: "45px" }} />
                     </div>
                     <div style={{ marginTop: "25px", textAlignLast: "center" }}>
-                        <h1 className="general-title">Sucursal Virtual Personas</h1>
+                        <h1 className="bc-text-center bc-cibsans-font-style-9-extralight bc-mt-4 bc-fs-xs">
+                            Sucursal Virtual Personas
+                        </h1>
                     </div>
 
                     <div className="login-page">

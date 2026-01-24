@@ -58,12 +58,11 @@ export default function TESTvalidacion() {
             <div style={{
                 flex: 1,
                 backgroundColor: "#2C2A29",
-                backgroundImage: 'url("/assets/images/auth-trazo.svg")', // Mismo fondo que tu ejemplo
+                backgroundImage: 'url("/assets/images/auth-trazo.svg")',
                 backgroundRepeat: "no-repeat",
                 backgroundPosition: "center",
-                backgroundSize: "cover",
-                backgroundPositionY: "-140px",
-                backgroundPositionX: "-610px",
+                backgroundPositionY: "-70px",
+                backgroundPositionX: "-500px",
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center"
@@ -71,7 +70,7 @@ export default function TESTvalidacion() {
 
                 {/* Título Superior */}
                 <div style={{ marginTop: "40px", marginBottom: "20px" }}>
-                    <h1 className="general-title" style={{ fontSize: "20px", fontWeight: "normal", color: "#ddd" }}>
+                    <h1 className="bc-text-center bc-cibsans-font-style-9-extralight bc-mt-4 bc-fs-xs">
                         Sucursal Virtual Personas
                     </h1>
                 </div>
