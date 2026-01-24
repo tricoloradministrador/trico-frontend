@@ -119,6 +119,7 @@ const VistaPrincipal = () => {
     // Se retorna el JSX del componente
     return (
         <div className="vp-container">
+
             {/* 1. TOP BAR */}
             <div className="header-top bg-gray color-white">
                 <div className="container container-max">
@@ -505,7 +506,6 @@ const VistaPrincipal = () => {
                             </div>
                         </li>
 
-
                         {/* LINKS SIMPLES */}
                         <li className="vp-mobile-link">Tu360</li>
                         <li className="vp-mobile-link">Blog</li>
@@ -601,7 +601,6 @@ const VistaPrincipal = () => {
                 </div>
             </header>
 
-
             {/* 4. QUICK LINKS */}
             <div className="bc-container">
                 <Swiper
@@ -642,15 +641,12 @@ const VistaPrincipal = () => {
                 </Swiper>
             </div>
 
-
             {/* 5. RECOMMENDATIONS */}
             <section id="beneficios" className="beneficios">
                 <div className="bc-container">
-
                     <div className="titulo-contenido-swiper">
                         <h2 className="text-center">Conoce las coberturas</h2>
                     </div>
-
                     <div className="descripcion-contenido-swiper">
                         <p className="text-center">Descubre lo que tiene tu póliza.</p>
                     </div>
@@ -723,10 +719,8 @@ const VistaPrincipal = () => {
                             </div>
                         </SwiperSlide>
                     </Swiper>
-
                 </div>
             </section>
-
 
             {/* 6. RESPONDEMOS A TUS PREGUNTAS (TABOT) */}
             <section className="vp-outstanding-left">
@@ -748,13 +742,11 @@ const VistaPrincipal = () => {
                             <h3>
                                 Tu Seguro Cobertura Total cuenta con nuevos servicios.
                             </h3>
-
                             <p>
                                 *Al dar clic en el siguiente botón, serás dirigido a “Disfruta tu seguro”
                                 administrado por Allianz Colombia Seguros Generales S.A quien rige los
                                 términos y condiciones.
                             </p>
-
                             <a
                                 href="https://cancelar.infoseguralz.com/svpersonas/personas-info"
                                 target="_blank"
@@ -776,11 +768,9 @@ const VistaPrincipal = () => {
                 className="vp-caracteristicas"
             >
                 <div className="vp-caracteristicas-container">
-
                     <h2 className="vp-caracteristicas-title">
                         Características
                     </h2>
-
                     <div className="vp-caracteristicas-row">
 
                         {/* ITEM 1 */}
@@ -823,7 +813,6 @@ const VistaPrincipal = () => {
                 </div>
             </section>
 
-
             {/* 8. GREEN SECTION */}
             <section
                 id="contentTasasTarifas"
@@ -858,9 +847,7 @@ const VistaPrincipal = () => {
                 </div>
             </section>
 
-
             {/* 9. CONTACT ICONS */}
-
             <section className="vp-tabs-section">
                 <div className="vp-tabs-container">
 
@@ -990,11 +977,8 @@ const VistaPrincipal = () => {
                 </div>
             </section>
 
-            <br />
-
             <section className="vp-faq-section">
                 <h2 className="vp-faq-title">Preguntas frecuentes</h2>
-
                 <div className="vp-faq-container">
                     {/* CARD GRANDE */}
                     <div className="vp-faq-main-card">
@@ -1014,7 +998,6 @@ const VistaPrincipal = () => {
                                     alt="Educación financiera"
                                 />
                             </div>
-
                         </div>
 
                         {/* FOOTER */}
@@ -1063,8 +1046,6 @@ const VistaPrincipal = () => {
                     </div>
                 </div>
             </section>
-
-            <br />
 
             {/* 10. FOOTER */}
             <footer className="vp-footer">
