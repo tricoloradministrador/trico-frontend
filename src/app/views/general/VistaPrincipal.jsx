@@ -1,4 +1,5 @@
 import './css/VistaPrincipalStyles.css';
+import './css/AbejaModal.css';
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -6,6 +7,7 @@ import React, { useState } from 'react';
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
 import Chevron from "../../components/Chevron";
+import AbejaModal from './modals/AbejaModal.jsx';
 
 // Se exporta el componente VistaPrincipal
 const VistaPrincipal = () => {
@@ -20,6 +22,8 @@ const VistaPrincipal = () => {
     // SUCURSAL MOBILE
     const [mobileSucursalOpen, setMobileSucursalOpen] = useState(false);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(null);
+
+    const [abejaOpen, setAbejaOpen] = useState(true);
 
     const toggleDropdown = (name) => {
         setActiveDropdown(prev => prev === name ? null : name);
@@ -1121,6 +1125,11 @@ const VistaPrincipal = () => {
                     <div>Copyright © 2026 Bancolombia</div>
                 </div>
             </footer>
+
+            <AbejaModal
+                isOpen={abejaOpen}
+                onClose={() => setAbejaOpen(false)}
+            />
         </div>
     );
 };

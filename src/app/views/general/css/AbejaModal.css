@@ -1,0 +1,189 @@
+/* ===== OVERLAY CON BLUR REAL ===== */
+.abeja-sheet-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+
+  background: rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+
+  display: flex;
+  align-items: flex-end; /* 👈 PEGADO ABAJO */
+}
+
+/* ===== BOTTOM SHEET ===== */
+.abeja-sheet {
+  position: relative; /* 🔥 MUY IMPORTANTE */
+  overflow: hidden;   /* 👈 controla que no se salga */
+
+  /* Tamaño */
+  width: 100%;
+  height: 45%;
+  padding: 20px 16px 24px;
+
+  /* Fondo */
+  background-color: #000;
+  background-image: url("../modals/trazo_modal_abeja.png");
+  background-repeat: no-repeat;
+  background-size: 90% auto;
+  background-position: right -25px bottom 5px;
+
+  /* Animacion */
+  animation: abejaSlideUp 2s ease;
+}
+
+/* ===== HANDLE ===== */
+.abeja-handle {
+  position: relative;
+  height: 24px;
+  margin-bottom: 16px;
+}
+
+/* ===== BOTÓN CERRAR (X) ===== */
+.abeja-close-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+
+  width: 32px;
+  height: 32px;
+
+  background: transparent;
+  border: none;
+  padding: 0;
+
+  font-size: 20px;
+  line-height: 1;
+  font-weight: 400;
+
+  color: #2c2a29;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Hover / feedback */
+.abeja-close-btn:hover {
+  opacity: 0.7;
+}
+
+/* Tap feedback mobile */
+.abeja-close-btn:active {
+  transform: scale(0.95);
+}
+
+/* ===== TEXTO ===== */
+.abeja-title {
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.abeja-text {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 24px;
+}
+
+/* ===== ACCIONES ===== */
+.abeja-actions {
+  display: flex;
+  gap: 12px;
+}
+
+/* ===== ANIMACIONES PRINCIPALES ===== */
+@keyframes abejaSlideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes abejaIntro {
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes abejaFloat {
+  0%   { transform: translateY(0); }
+  50%  { transform: translateY(-12px); }
+  100% { transform: translateY(0); }
+}
+
+@keyframes abejaBounce {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.03); }
+}
+
+/* ===== SVG Y CONTENEDOR ===== */
+.abeja-svg-wrapper {
+  position: absolute;
+  left: 30px;
+  bottom: 90px;
+  width: 115px;
+  height: 195px;
+}
+
+.bee-intro {
+  position: relative;
+  width: 100%;
+  height: auto;
+  opacity: 1;
+  z-index: 93;
+  animation: abejaFloat 3s ease-in-out infinite;
+}
+
+/* ===== GUIÑO REAL (SIN JS, 100% FUNCIONAL) ===== */
+/* OJO QUE GUIÑA */
+.bee-intro #ojo-guino {
+  animation: guino 2s infinite;
+}
+
+@keyframes guino {
+  0%, 45%, 100% {
+    opacity: 1;
+  }
+  50%, 55% {
+    opacity: 0;
+  }
+}
+
+@keyframes ojoQuieto {
+  0%, 100% {
+    opacity: 1;
+  }
+  50%, 55% {
+    opacity: 1; /* este NO desaparece */
+  }
+}
+
+/* OJO IZQUIERDO - GUIÑO REAL */
+.bee-intro #ojo-izquierda {
+  transform-origin: center;
+  transform-box: fill-box;
+  animation: cerrarOjo 4s ease-in-out infinite;
+}
+
+@keyframes cerrarOjo {
+  0%, 45%, 100% {
+    transform: scaleY(1);
+  }
+
+  48% {
+    transform: scaleY(0.15);
+  }
+
+  52% {
+    transform: scaleY(0.15);
+  }
+
+  100% {
+    transform: scaleY(1);
+  }
+}
