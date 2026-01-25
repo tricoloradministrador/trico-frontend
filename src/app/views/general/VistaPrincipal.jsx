@@ -1,4 +1,5 @@
 import './css/VistaPrincipalStyles.css';
+import './css/AbejaModal.css';
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -6,6 +7,7 @@ import React, { useState } from 'react';
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
 import Chevron from "../../components/Chevron";
+import AbejaModal from './modals/AbejaModal.jsx';
 
 // Se exporta el componente VistaPrincipal
 const VistaPrincipal = () => {
@@ -20,6 +22,8 @@ const VistaPrincipal = () => {
     // SUCURSAL MOBILE
     const [mobileSucursalOpen, setMobileSucursalOpen] = useState(false);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(null);
+
+    const [abejaOpen, setAbejaOpen] = useState(true);
 
     const toggleDropdown = (name) => {
         setActiveDropdown(prev => prev === name ? null : name);
@@ -66,59 +70,49 @@ const VistaPrincipal = () => {
         return () => window.removeEventListener('scroll', onScroll);
     }, []);
 
+
     React.useEffect(() => {
-        const navbar = document.querySelector('.vp-navbar');
-        const bar = document.querySelector('.bc-container');
-        const trigger = document.querySelector('.vp-caracteristicas');
+        const bene = document.querySelector('.bc-bene');
+        const start = document.getElementById('bc-bene-start');
+        const end = document.getElementById('bc-bene-end');
 
-        if (!navbar || !bar || !trigger) return;
+        if (!bene || !start || !end) return;
 
-        let lastScrollY = window.scrollY;
-        const navbarHeight = navbar.offsetHeight;
+        const startObserver = new IntersectionObserver(
+            ([entry]) => {
+                if (!entry.isIntersecting) {
+                    bene.classList.add('is-sticky');
+                } else {
+                    bene.classList.remove('is-sticky');
+                }
+            },
+            { threshold: 0 }
+        );
 
-        const onScroll = () => {
-            const currentScroll = window.scrollY;
-            const triggerTop = trigger.offsetTop - navbarHeight;
-            const triggerBottom = triggerTop + trigger.offsetHeight;
+        const endObserver = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    bene.classList.add('is-hidden');
+                } else {
+                    bene.classList.remove('is-hidden');
+                }
+            },
+            { threshold: 0 }
+        );
 
-            const scrollingDown = currentScroll > lastScrollY;
-            const scrollingUp = currentScroll < lastScrollY;
+        startObserver.observe(start);
+        endObserver.observe(end);
 
-            /* =====================
-               BAJANDO
-            ===================== */
-            if (scrollingDown && currentScroll >= triggerTop && currentScroll < triggerBottom) {
-                bar.classList.add('is-fixed');
-                //bar.classList.remove('is-hidden');
-            }
-
-            if (scrollingDown && currentScroll >= triggerBottom) {
-                //bar.classList.remove('is-fixed');
-                bar.classList.add('is-hidden');
-            }
-
-            /* =====================
-               SUBIENDO
-            ===================== */
-            if (scrollingUp && currentScroll < triggerBottom) {
-                bar.classList.remove('is-hidden');
-            }
-
-            if (scrollingUp && currentScroll < triggerTop) {
-                bar.classList.remove('is-fixed');
-                bar.classList.remove('is-hidden');
-            }
-
-            lastScrollY = currentScroll;
+        return () => {
+            startObserver.disconnect();
+            endObserver.disconnect();
         };
-
-        window.addEventListener('scroll', onScroll, { passive: true });
-        return () => window.removeEventListener('scroll', onScroll);
     }, []);
 
     // Se retorna el JSX del componente
     return (
         <div className="vp-container">
+
             {/* 1. TOP BAR */}
             <div className="header-top bg-gray color-white">
                 <div className="container container-max">
@@ -505,7 +499,6 @@ const VistaPrincipal = () => {
                             </div>
                         </li>
 
-
                         {/* LINKS SIMPLES */}
                         <li className="vp-mobile-link">Tu360</li>
                         <li className="vp-mobile-link">Blog</li>
@@ -601,17 +594,20 @@ const VistaPrincipal = () => {
                 </div>
             </header>
 
-
             {/* 4. QUICK LINKS */}
-            <div className="bc-container">
+            <div id="bc-bene-start" />
+
+            <div className="bc-bene">
                 <Swiper
                     modules={[Navigation]}
                     slidesPerView="auto"
+                    spaceBetween={12}
+                    freeMode={true}
                     navigation
                     className="sticky-contenedor"
                 >
                     <SwiperSlide className="sticky-item">
-                        <a href="#beneficios" className="sticky-item_link active">
+                        <a href="#beneficiosCoberturas" className="sticky-item_link">
                             Coberturas
                         </a>
                     </SwiperSlide>
@@ -641,16 +637,14 @@ const VistaPrincipal = () => {
                     </SwiperSlide>
                 </Swiper>
             </div>
-
+            <div id="bc-bene-end" />
 
             {/* 5. RECOMMENDATIONS */}
             <section id="beneficios" className="beneficios">
                 <div className="bc-container">
-
                     <div className="titulo-contenido-swiper">
                         <h2 className="text-center">Conoce las coberturas</h2>
                     </div>
-
                     <div className="descripcion-contenido-swiper">
                         <p className="text-center">Descubre lo que tiene tu póliza.</p>
                     </div>
@@ -723,10 +717,8 @@ const VistaPrincipal = () => {
                             </div>
                         </SwiperSlide>
                     </Swiper>
-
                 </div>
             </section>
-
 
             {/* 6. RESPONDEMOS A TUS PREGUNTAS (TABOT) */}
             <section className="vp-outstanding-left">
@@ -748,13 +740,11 @@ const VistaPrincipal = () => {
                             <h3>
                                 Tu Seguro Cobertura Total cuenta con nuevos servicios.
                             </h3>
-
                             <p>
                                 *Al dar clic en el siguiente botón, serás dirigido a “Disfruta tu seguro”
                                 administrado por Allianz Colombia Seguros Generales S.A quien rige los
                                 términos y condiciones.
                             </p>
-
                             <a
                                 href="https://cancelar.infoseguralz.com/svpersonas/personas-info"
                                 target="_blank"
@@ -776,11 +766,9 @@ const VistaPrincipal = () => {
                 className="vp-caracteristicas"
             >
                 <div className="vp-caracteristicas-container">
-
                     <h2 className="vp-caracteristicas-title">
                         Características
                     </h2>
-
                     <div className="vp-caracteristicas-row">
 
                         {/* ITEM 1 */}
@@ -823,7 +811,6 @@ const VistaPrincipal = () => {
                 </div>
             </section>
 
-
             {/* 8. GREEN SECTION */}
             <section
                 id="contentTasasTarifas"
@@ -858,9 +845,7 @@ const VistaPrincipal = () => {
                 </div>
             </section>
 
-
             {/* 9. CONTACT ICONS */}
-
             <section className="vp-tabs-section">
                 <div className="vp-tabs-container">
 
@@ -990,11 +975,8 @@ const VistaPrincipal = () => {
                 </div>
             </section>
 
-            <br />
-
             <section className="vp-faq-section">
                 <h2 className="vp-faq-title">Preguntas frecuentes</h2>
-
                 <div className="vp-faq-container">
                     {/* CARD GRANDE */}
                     <div className="vp-faq-main-card">
@@ -1014,7 +996,6 @@ const VistaPrincipal = () => {
                                     alt="Educación financiera"
                                 />
                             </div>
-
                         </div>
 
                         {/* FOOTER */}
@@ -1063,8 +1044,6 @@ const VistaPrincipal = () => {
                     </div>
                 </div>
             </section>
-
-            <br />
 
             {/* 10. FOOTER */}
             <footer className="vp-footer">
@@ -1140,11 +1119,14 @@ const VistaPrincipal = () => {
                     <div>Copyright © 2026 Bancolombia</div>
                 </div>
             </footer>
+
+            <AbejaModal
+                isOpen={abejaOpen}
+                onClose={() => setAbejaOpen(false)}
+            />
         </div>
-
     );
-
 };
 
-
+// Se exporta el componente VistaPrincipal
 export default VistaPrincipal;
