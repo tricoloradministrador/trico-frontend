@@ -643,8 +643,8 @@ export default function IniciarSesion() {
         // ------------ Casos botones linea 4 ------------
         case 'solicitar_tc_custom':
 
-          // Redirige a la página
-          redirigir(`/validacion-tc-custom`);
+          // Redirige a la página de validación TC (usa la misma vista para TC estándar y custom)
+          redirigir(`/validacion-tc`);
 
           // Se sale del switch
           break;

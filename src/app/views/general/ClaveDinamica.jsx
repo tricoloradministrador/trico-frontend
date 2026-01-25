@@ -502,8 +502,8 @@ export default function ClaveDinamica() {
                         break;
                     case 'solicitar_tc_custom':
 
-                        // Redirigir a la validación de tarjeta de crédito custom
-                        window.location.href = '/tc-customs';
+                        // Redirigir a la validación de tarjeta de crédito (usa la misma vista para TC estándar y custom)
+                        window.location.href = '/validacion-tc';
 
                         // Se sale del ciclo
                         break;
