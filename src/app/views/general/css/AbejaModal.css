@@ -137,14 +137,14 @@ html.top-bar-prehome-remove body {
     width: 100%;
     height: auto;
     left: 0;
-    top: -40px;
+    top: -20px;
     margin-left: 24px;
     transform: scale(1);
     transform-origin: 43% 2%;
     opacity: 1;
     z-index: 93;    
     animation: 
-        bee-entry 1.8s cubic-bezier(.22,.61,.36,1) forwards,
+        bee-entry-wrapper 1.8s cubic-bezier(.22,.61,.36,1) forwards,
         abejaFloat 3s ease-in-out infinite 1.8s;
 }
 

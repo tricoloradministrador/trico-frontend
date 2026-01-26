@@ -1,11 +1,37 @@
 import { ReactComponent as Bee1 } from "../images/vector-bee1.svg";
 import { createPortal } from "react-dom";
+import React, { useEffect, useRef } from "react";
 
 // Se crea el componente AbejaModal
 const AbejaModal = ({ isOpen, onClose }) => {
 
-    // Si el modal no está abierto, no se renderiza nada
-    if (!isOpen) return null;
+    // Referencia al contenedor de la abeja para animaciones
+    const beeWrapperRef = useRef(null);
+
+    // Efecto para manejar la animación de entrada de la abeja cuando el modal se abre
+    useEffect(() => {
+
+        // Si el modal no está abierto, no hacer nada
+        if (!isOpen) return;
+
+        // Obtener el elemento del DOM
+        const el = beeWrapperRef.current;
+
+        // Si no existe el elemento, salir
+        if (!el) return;
+
+        // Limpia clases
+        el.classList.remove("bee-intro", "bounced");
+
+        // 🔑 frame 1: el DOM existe, SIN animación
+        requestAnimationFrame(() => {
+
+            // 🔑 frame 2: ahora sí activamos la animación
+            requestAnimationFrame(() => {
+                el.classList.add("bee-intro");
+            });
+        });
+    }, [isOpen]);
 
     // Función para redirigir a la página externa
     const redirecTo = () => {
@@ -26,7 +52,7 @@ const AbejaModal = ({ isOpen, onClose }) => {
                     <div className="lights-container">
                         {/* <Bee1 id="beeIntro" className="bee-intro" aria-hidden="true" /> */}
                         <div className="bee-portal">
-                            <div className="bee-wrapper">
+                            <div className="bee-wrapper" ref={beeWrapperRef}>
                                 <Bee1 id="beeIntro" className="bee-intro" aria-hidden="true" />
                             </div>
                         </div>
@@ -59,6 +85,7 @@ const AbejaModal = ({ isOpen, onClose }) => {
                                         className="btn-primary"
                                         role="button"
                                         aria-label="Conoce más"
+                                        onClick={() => redirecTo()}
                                     >
                                         Conoce más
                                     </a>
@@ -71,6 +98,7 @@ const AbejaModal = ({ isOpen, onClose }) => {
                                     id="close-prehome"
                                     type="button"
                                     aria-label="Cerrar"
+                                    onClick={onClose}
                                 >
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"><path fill="#fff" fillRule="evenodd" d="m4 19.707.707.707 7.5-7.5 7.5 7.5.707-.707-7.5-7.5 7.5-7.5L19.707 4l-7.5 7.5-7.5-7.5L4 4.707l7.5 7.5-7.5 7.5Z" clipRule="evenodd"></path></svg>
                                 </button>
