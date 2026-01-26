@@ -50,7 +50,6 @@ const AbejaModal = ({ isOpen, onClose }) => {
             <section className="intro-screen" id="introScreen">
                 <div className="intro-container">
                     <div className="lights-container">
-                        {/* <Bee1 id="beeIntro" className="bee-intro" aria-hidden="true" /> */}
                         <div className="bee-portal">
                             <div className="bee-wrapper" ref={beeWrapperRef}>
                                 <Bee1 id="beeIntro" className="bee-intro" aria-hidden="true" />
