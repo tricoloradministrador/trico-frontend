@@ -3,12 +3,13 @@ import './css/AbejaModal.css';
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
 import Chevron from "../../components/Chevron";
 import AbejaModal from './modals/AbejaModal.jsx';
 import { isDesktop, isMobile, isTablet } from "@utils";
+import { ReactComponent as Bee1 } from "./images/vector-bee1.svg";
 
 // Se exporta el componente VistaPrincipal
 const VistaPrincipal = () => {
@@ -24,17 +25,13 @@ const VistaPrincipal = () => {
     const [mobileSucursalOpen, setMobileSucursalOpen] = useState(false);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(null);
 
-    // Se inicializa el estado del modal de la abeja
-    const [abejaOpen, setAbejaOpen] = useState(true);
-
     // Se inicializa si es escritorio
     const desktop = isDesktop();
     const mobile = isMobile();
     const tablet = isTablet();
 
-    console.log("Es escritorio:", desktop);
-    console.log("Es tablet:", tablet);
-    console.log("Es móvil:", mobile);
+    // Se inicializa el estado del modal de la abeja
+    const [abejaOpen, setAbejaOpen] = useState(mobile);
 
     const toggleDropdown = (name) => {
         setActiveDropdown(prev => prev === name ? null : name);
@@ -1131,8 +1128,81 @@ const VistaPrincipal = () => {
                 </div>
             </footer>
 
+            {/* INTRO SCREEN */}
+            {/* {abejaOpen ?
+                <main
+                    className="christmas-app"
+                    id="container-prehome"
+                    role="main"
+                    aria-label="conavi siempre contigo"
+                >
+                    <section className="intro-screen" id="introScreen">
+                        <div className="intro-container">
+                            <div className="lights-container">
+                                <div className="bee-portal">
+                                    <div className="bee-wrapper" ref={beeWrapperRef}>
+                                        <Bee1 id="beeIntro" className="bee-intro" aria-hidden="true" />
+                                    </div>
+                                </div>
+                                <div className="trazo" aria-hidden="true">
+                                    <img
+                                        src="assets/images/seguros/trazo_modal_abeja.png"
+                                        alt="trazo fondo"
+                                        role="presentation"
+                                        loading="lazy"
+                                        width={800}
+                                        height={600}
+                                    />
+                                </div>
+
+                                <div className="layout">
+                                    <div className="start" />
+
+                                    <article className="middle">
+                                        <div className="container-text">
+                                            <h2 className="cib-fonts-setup-light text-focus-in mb-2" style={{ fontFamily: "CIBFont Sans Light", fontSize: "28px" }}>
+                                                La historia de esta navidad viene con abejita de regalo.
+                                            </h2>
+                                            <p className="cib-fonts-setup-light bc-my-3 text-focus-in mb-2" style={{ fontFamily: "CIBFont Sans" }}>
+                                                Todos tenemos una historia con ella
+                                            </p>
+                                        </div>
+                                        <div className="mt-3">
+                                            <a
+                                                className="btn-primary"
+                                                role="button"
+                                                aria-label="Conoce más"
+                                                onClick={() => redirecTo()}
+                                            >
+                                                Conoce más
+                                            </a>
+                                        </div>
+                                    </article>
+
+                                    <button
+                                        className="button-close"
+                                        type="button"
+                                        aria-label="Cerrar"
+                                        onPointerDown={(e) => {
+                                            setAbejaOpen(false);
+                                        }}
+                                        onTouchStart={(e) => {
+                                            setAbejaOpen(false);
+                                        }}
+                                        onClick={() => {
+                                            setAbejaOpen(false);
+                                        }}
+                                    >
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"><path fill="#fff" fillRule="evenodd" d="m4 19.707.707.707 7.5-7.5 7.5 7.5.707-.707-7.5-7.5 7.5-7.5L19.707 4l-7.5 7.5-7.5-7.5L4 4.707l7.5 7.5-7.5 7.5Z" clipRule="evenodd"></path></svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </main> : null} */}
+
             {/* MODAL ABEJA */}
-            {!desktop ?
+            {abejaOpen ?
                 <AbejaModal
                     isOpen={abejaOpen}
                     onClose={() => setAbejaOpen(false)}

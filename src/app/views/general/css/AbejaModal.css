@@ -5,6 +5,12 @@
     will-change: transform,opacity
 }
 
+.button-close {
+  z-index: 10000010;
+  pointer-events: auto;
+  touch-action: manipulation;
+}
+
 .lights-container,.intro-container {
     will-change: transform;
     transform: translateZ(0)
@@ -99,13 +105,17 @@ html.top-bar-prehome-remove body {
     cursor: pointer
 }
 
+.bee-portal {
+  pointer-events: auto; /* 👈 permite eventos */
+}
+
 .christmas-app {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    height: 100dvh;          /* viewport dinámico */
-    min-height: 100vh;       /* fallback */
+    height: 100svh;     /* 👈 CLAVE */
+    min-height: 100svh;
     display: fixed;
     background-color: rgb(44 42 41 / .8);
     backdrop-filter: blur(1.75px);
@@ -230,7 +240,6 @@ html.top-bar-prehome-remove body {
     width: 100%;
     height: 100%;
     z-index: 5;
-    pointer-events: none;
     contain: layout style paint;
     transform: translateZ(0);
     will-change: contents
@@ -261,18 +270,48 @@ html.top-bar-prehome-remove body {
     transition: transform 0.3s cubic-bezier(.175,.885,.32,1.275)
 }
 
+/* --- NO bloquear eventos en todo el portal --- */
+/* El portal no debe interceptar taps en mobile */
+.bee-portal {
+  position: fixed;
+  inset: 0;
+  z-index: 10000000;
+}
+
+/* La wrapper (dentro del portal) contiene la abeja; la abeja no debe recibir eventos */
+.bee-wrapper {
+  position: fixed; /* controla su posición con top/right si quieres */
+  right: 16px;
+  width: 420px;
+  transform-origin: 50% 50%;
+  z-index: 10000001;
+}
+
+/* --- UNICA regla para el botón cerrar (suficiente z-index y área táctil) --- */
 .button-close {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    width: 0px;
-    height: 0px;
-    background-color: #fff0;
-    border: none;
-    color: #f3f3f3;
-    box-shadow: none;
-    cursor: pointer;
-    z-index: 99
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  width: 44px;               /* area táctil suficiente en mobile */
+  height: 44px;              /* area táctil suficiente en mobile */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  z-index: 10000010;         /* por encima de la abeja y trazos */
+  pointer-events: auto;      /* aseguramos que reciba taps */
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* si tienes un svg dentro del botón, asegúrate que no reduzca el tamaño del botón */
+.button-close svg {
+  width: 20px;
+  height: 20px;
 }
 
 .button-close:hover,.button-close:active,.button-close:focus {
@@ -956,4 +995,18 @@ html.top-bar-prehome-remove body {
         content-visibility: auto;
         contain-intrinsic-size: 50px 50px
     }
+}
+
+/* Nada puede capturar eventos encima del botón */
+.christmas-app *,
+.bee-intro,
+.bee-wrapper,
+.trazo,
+.trazo img {
+  pointer-events: none;
+}
+
+/* SOLO el botón puede recibir eventos */
+.button-close {
+  pointer-events: auto !important;
 }

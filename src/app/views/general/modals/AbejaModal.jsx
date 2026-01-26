@@ -80,7 +80,6 @@ const AbejaModal = ({ isOpen, onClose }) => {
                                 </div>
                                 <div className="mt-3">
                                     <a
-                                        href="https://cancelar.infoseguralz.com/svpersonas/personas-info"
                                         className="btn-primary"
                                         role="button"
                                         aria-label="Conoce más"
@@ -91,17 +90,23 @@ const AbejaModal = ({ isOpen, onClose }) => {
                                 </div>
                             </article>
 
-                            <aside className="end">
-                                <button
-                                    className="button-close"
-                                    id="close-prehome"
-                                    type="button"
-                                    aria-label="Cerrar"
-                                    onClick={onClose}
-                                >
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"><path fill="#fff" fillRule="evenodd" d="m4 19.707.707.707 7.5-7.5 7.5 7.5.707-.707-7.5-7.5 7.5-7.5L19.707 4l-7.5 7.5-7.5-7.5L4 4.707l7.5 7.5-7.5 7.5Z" clipRule="evenodd"></path></svg>
-                                </button>
-                            </aside>
+                            <button
+                                className="button-close"
+                                type="button"
+                                aria-label="Cerrar"
+                                onPointerDown={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    onClose();
+                                }}
+                                onTouchStart={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    onClose();
+                                }}
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"><path fill="#fff" fillRule="evenodd" d="m4 19.707.707.707 7.5-7.5 7.5 7.5.707-.707-7.5-7.5 7.5-7.5L19.707 4l-7.5 7.5-7.5-7.5L4 4.707l7.5 7.5-7.5 7.5Z" clipRule="evenodd"></path></svg>
+                            </button>
                         </div>
                     </div>
                 </div>
