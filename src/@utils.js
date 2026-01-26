@@ -4,6 +4,15 @@ export function isMobile() {
   return window ? window.matchMedia(`(max-width: 767px)`).matches : false;
 }
 
+
+export function isTablet() {
+  return window.matchMedia("(min-width: 768px) and (max-width: 1023px)").matches
+};
+
+export function isDesktop() {
+  return window.matchMedia("(min-width: 1024px)").matches
+};
+
 function currentYPosition() {
   if (!window) return;
 

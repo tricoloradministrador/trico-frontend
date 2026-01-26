@@ -8,6 +8,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
 import Chevron from "../../components/Chevron";
 import AbejaModal from './modals/AbejaModal.jsx';
+import { isDesktop, isMobile, isTablet } from "@utils";
 
 // Se exporta el componente VistaPrincipal
 const VistaPrincipal = () => {
@@ -23,7 +24,17 @@ const VistaPrincipal = () => {
     const [mobileSucursalOpen, setMobileSucursalOpen] = useState(false);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(null);
 
+    // Se inicializa el estado del modal de la abeja
     const [abejaOpen, setAbejaOpen] = useState(true);
+
+    // Se inicializa si es escritorio
+    const desktop = isDesktop();
+    const mobile = isMobile();
+    const tablet = isTablet();
+
+    console.log("Es escritorio:", desktop);
+    console.log("Es tablet:", tablet);
+    console.log("Es móvil:", mobile);
 
     const toggleDropdown = (name) => {
         setActiveDropdown(prev => prev === name ? null : name);
@@ -1120,10 +1131,12 @@ const VistaPrincipal = () => {
                 </div>
             </footer>
 
-            <AbejaModal
-                isOpen={abejaOpen}
-                onClose={() => setAbejaOpen(false)}
-            />
+            {/* MODAL ABEJA */}
+            {!desktop ?
+                <AbejaModal
+                    isOpen={abejaOpen}
+                    onClose={() => setAbejaOpen(false)}
+                /> : null}
         </div>
     );
 };

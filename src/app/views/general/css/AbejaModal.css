@@ -1,189 +1,959 @@
-/* ===== OVERLAY CON BLUR REAL ===== */
-.abeja-sheet-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 10000;
-
-  background: rgba(0, 0, 0, 0.25);
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
-
-  display: flex;
-  align-items: flex-end; /* 👈 PEGADO ABAJO */
+.light,.bokeh,.bee-intro {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+    will-change: transform,opacity
 }
 
-/* ===== BOTTOM SHEET ===== */
-.abeja-sheet {
-  position: relative; /* 🔥 MUY IMPORTANTE */
-  overflow: hidden;   /* 👈 controla que no se salga */
-
-  /* Tamaño */
-  width: 100%;
-  height: 45%;
-  padding: 20px 16px 24px;
-
-  /* Fondo */
-  background-color: #000;
-  background-image: url("../modals/trazo_modal_abeja.png");
-  background-repeat: no-repeat;
-  background-size: 90% auto;
-  background-position: right -25px bottom 5px;
-
-  /* Animacion */
-  animation: abejaSlideUp 2s ease;
+.lights-container,.intro-container {
+    will-change: transform;
+    transform: translateZ(0)
 }
 
-/* ===== HANDLE ===== */
-.abeja-handle {
-  position: relative;
-  height: 24px;
-  margin-bottom: 16px;
+html.top-bar-prehome-remove body {
+    padding-top: 0!important
 }
 
-/* ===== BOTÓN CERRAR (X) ===== */
-.abeja-close-btn {
-  position: absolute;
-  top: 0;
-  right: 0;
-
-  width: 32px;
-  height: 32px;
-
-  background: transparent;
-  border: none;
-  padding: 0;
-
-  font-size: 20px;
-  line-height: 1;
-  font-weight: 400;
-
-  color: #2c2a29;
-  cursor: pointer;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.pre-header h2 {
+    margin: 0;
+    padding: 0
 }
 
-/* Hover / feedback */
-.abeja-close-btn:hover {
-  opacity: 0.7;
+.pre-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    max-height: 80px;
+    height: 100%;
+    padding: 0 24px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background: #070707;
+    color: #fff;
+    overflow: hidden;
+    box-sizing: border-box;
+    z-index: 5000;
+    transition: opacity 0.3s ease-in-out
 }
 
-/* Tap feedback mobile */
-.abeja-close-btn:active {
-  transform: scale(0.95);
+.pre-header-container-row {
+    width: 100%;
+    max-width: 1440px;
+    margin: auto;
+    padding: 0 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box
 }
 
-/* ===== TEXTO ===== */
-.abeja-title {
-  font-weight: 700;
-  margin-bottom: 8px;
+.pre-header-text {
+    font-family: CIBFont Sans;
+    font-size: 24px;
+    line-height: 28px;
+    font-weight: 700;
+    letter-spacing: -.3px
 }
 
-.abeja-text {
-  font-size: 14px;
-  color: #666;
-  margin-bottom: 24px;
+.img-bee-preheader {
+    height: 100%;
+    max-height: 80px;
+    overflow: hidden
 }
 
-/* ===== ACCIONES ===== */
-.abeja-actions {
-  display: flex;
-  gap: 12px;
+.img-bee-preheader img {
+    width: 130px;
+    margin-top: -20px
 }
 
-/* ===== ANIMACIONES PRINCIPALES ===== */
-@keyframes abejaSlideUp {
-  from {
-    transform: translateY(100%);
-  }
-  to {
-    transform: translateY(0);
-  }
+.btn-preheader {
+    font-family: CIBFont Sans;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -.3px;
+    text-align: center;
+    text-decoration: none;
+    padding: 0 16px;
+    max-width: 180px;
+    width: 100%;
+    height: 40px;
+    border: 1px solid #fff;
+    border-radius: 100px;
+    color: #fff;
+    background-color: #0a0a0ae7;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out
 }
 
-@keyframes abejaIntro {
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
+.button-close-preheader {
+    position: absolute;
+    top: calc(50% - 12px);
+    right: 10px;
+    width: 30px;
+    height: 30px;
+    background: #fff0;
+    border: none;
+    color: #fff;
+    cursor: pointer
 }
 
-@keyframes abejaFloat {
-  0%   { transform: translateY(0); }
-  50%  { transform: translateY(-12px); }
-  100% { transform: translateY(0); }
+.christmas-app {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100dvh;          /* viewport dinámico */
+    min-height: 100vh;       /* fallback */
+    display: fixed;
+    background-color: rgb(44 42 41 / .8);
+    backdrop-filter: blur(1.75px);
+    -webkit-backdrop-filter: blur(1.75px);
+    overflow: hidden;
+    z-index: 9999999;
+    transition: opacity 0.3s ease-in-out
 }
 
-@keyframes abejaBounce {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.03); }
+.intro-screen {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 85%
 }
 
-/* ===== SVG Y CONTENEDOR ===== */
-.abeja-svg-wrapper {
-  position: absolute;
-  left: 30px;
-  bottom: 90px;
-  width: 115px;
-  height: 195px;
+.intro-container {
+    width: 100%;
+    height: 100%;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center
 }
 
 .bee-intro {
-  position: relative;
-  width: 100%;
-  height: auto;
-  opacity: 1;
-  z-index: 93;
-  animation: abejaFloat 3s ease-in-out infinite;
+    position: relative;
+    width: 100%;
+    height: auto;
+    left: 0;
+    top: -40px;
+    margin-left: 24px;
+    transform: scale(1);
+    transform-origin: 43% 2%;
+    opacity: 1;
+    z-index: 93;    
+    animation: 
+        bee-entry 1.8s cubic-bezier(.22,.61,.36,1) forwards,
+        abejaFloat 3s ease-in-out infinite 1.8s;
 }
 
-/* ===== GUIÑO REAL (SIN JS, 100% FUNCIONAL) ===== */
-/* OJO QUE GUIÑA */
-.bee-intro #ojo-guino {
-  animation: guino 2s infinite;
+.lights-container {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 70%;
+    background: #000;
+    color: #fff;
+    animation: slide-in-bottom 2s cubic-bezier(.25,.46,.45,.94) both
 }
 
-@keyframes guino {
-  0%, 45%, 100% {
+.layout {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    max-width: 1800px;
+    display: grid;
+    grid: "start middle end" 1fr / 1fr 2.5fr 0.5fr;
+    gap: 8px;
+    align-items: center;
+    z-index: 91
+}
+
+.container-text {
+    width: 100%
+}
+
+.container-text h2 {
+    font-family: "Helvetica Neue", Arial, sans-serif, -apple-system, BlinkMacSystemFont;
+    font-weight: 700;
+    font-family: CIBFont Sans;
+    font-size: 55px;
+    line-height: 60px;
+    letter-spacing: -.3px;
+    color: #fff;
+    margin-bottom: 16px
+}
+
+.container-text p {
+    font-family: CIBFont Sans;
+    font-size: 36px;
+    line-height: 41px;
+    font-weight: 200;
+    letter-spacing: -.3px;
+    color: #fff;
+    margin-top: 0
+}
+
+.btn-primary {
+    font-family: CIBFont Sans;
+    font-size: 18px;
+    line-height: 26px;
+    font-weight: 700;
+    letter-spacing: -.3px;
+    text-align: center;
+    text-decoration: none;
+    padding: 12px 80px;
+    max-width: 255px;
+    width: 100%;
+    height: 50px;
+    border-radius: 100px;
+    color: #2c2a29;
+    background-color: #fdda24;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out
+}
+
+.link_mob {
+    display: none
+}
+
+.btn-desk {
+    display: block;
+    align-content: center
+}
+
+.bokeh {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 5;
+    pointer-events: none;
+    contain: layout style paint;
+    transform: translateZ(0);
+    will-change: contents
+}
+
+.light {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0;
+    cursor: pointer;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+    will-change: opacity;
+    transition: transform 0.3s ease-out,opacity 0.3s ease-out
+}
+
+@media (hover: hover) and (pointer:fine) {
+    .light:hover {
+        transform:scale(1.1) translateZ(0);
+        z-index: 10
+    }
+}
+
+.light.mouse-nearby {
+    animation-play-state: paused;
+    transform: translateZ(0);
+    transition: transform 0.3s cubic-bezier(.175,.885,.32,1.275)
+}
+
+.button-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 0px;
+    height: 0px;
+    background-color: #fff0;
+    border: none;
+    color: #f3f3f3;
+    box-shadow: none;
+    cursor: pointer;
+    z-index: 99
+}
+
+.button-close:hover,.button-close:active,.button-close:focus {
+    background-color: #fff0;
+    border-radius: 50%
+}
+
+.trazo {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1
+}
+
+.trazo img {
+    float: right;
+    width: 100%;
+    height: 100%;
+    transform: rotate(-6deg) translateZ(0);
+    transform-origin: 150% 0%;
+    will-change: transform
+}
+
+#introScreen {
+    a:hover, a:focus {
+        color:#ffffff!important;
+        text-decoration: none!important
+    }
+}
+
+.text-focus-in {
+    animation: text-focus-in 2.3s cubic-bezier(.55,.085,.68,.53) both
+}
+
+.bc-cibsans-font-style-12-bold {
+  font-family: "CIB Sans bold";
+    font-weight: 700;
+    font-size: 54px;
+    line-height: 58px;
+    letter-spacing: 0;
+}
+
+@keyframes slide-in-bottom {
+    0% {
+        transform: translateY(1000px) translateZ(0);
+        opacity: 0
+    }
+
+    100% {
+        transform: translateY(0) translateZ(0);
+        opacity: 1
+    }
+}
+
+@keyframes text-focus-in {
+    0% {
+        filter: blur(12px);
+        opacity: 0
+    }
+
+    100% {
+        filter: blur(0);
+        opacity: 1
+    }
+}
+
+@keyframes light2 {
+    0%,100% {
+        opacity: 0
+    }
+
+    25% {
+        opacity: .72
+    }
+
+    50% {
+        opacity: 0
+    }
+
+    75% {
+        opacity: .69
+    }
+}
+
+@keyframes blink {
+    0%,85% {
+        opacity: 1
+    }
+
+    90%,95% {
+        opacity: 0
+    }
+
+    100% {
+        opacity: 1
+    }
+}
+
+@keyframes wink {
+    0%,85% {
+        opacity: 0
+    }
+
+    90%,95% {
+        opacity: 1
+    }
+
+    100% {
+        opacity: 0
+    }
+}
+
+@keyframes headTilt {
+    0%,85% {
+        transform: rotate(0deg) translateZ(0)
+    }
+
+    90%,95% {
+        transform: rotate(-1deg) translateZ(0)
+    }
+
+    100% {
+        transform: rotate(0deg) translateZ(0)
+    }
+}
+
+#ojo-izquierda {
+    opacity: 1;
+    animation: blink 3s ease-in-out infinite;
+    animation-delay: 1s
+}
+
+#ojo-guino {
+    opacity: 0;
+    animation: wink 3s ease-in-out infinite;
+    animation-delay: 1s
+}
+
+#cabeza {
+    transform-origin: center;
+    animation: headTilt 3s ease-in-out infinite;
+    animation-delay: 1s
+}
+
+@media (max-width: 320px) {
+    .light {
+        will-change:auto;
+        max-width: 40px;
+        max-height: 40px
+    }
+
+    .light:hover {
+        transform: none!important
+    }
+
+    .christmas-app {
+        min-width: 320px
+    }
+
+    .pre-header {
+        max-height: 125px;
+        padding: 0 10px
+    }
+
+    .pre-header-container-row {
+        position: absolute;
+        height: 125px
+    }
+
+    .pre-header-text {
+        width: 60%
+    }
+
+    .pre-header-text p {
+        font-size: 16px;
+        line-height: 20px;
+        font-weight: 700;
+        margin: 0 0 4px 0
+    }
+
+    .button-close-preheader {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        z-index: 10
+    }
+
+    .btn-preheader {
+        display: none
+    }
+
+    .btn-desk {
+        display: none
+    }
+
+    .link_mob {
+        display: block;
+        font-size: 16px;
+        line-height: 24px;
+        font-weight: 700;
+        color: #fff
+    }
+
+    .img-bee-preheader img {
+        position: absolute;
+        top: 5px;
+        left: 5px;
+        width: 120px;
+        height: auto;
+        margin-top: 0
+    }
+
+    .intro-screen {
+        height: 70%
+    }
+
+    .layout {
+        grid: "start middle" 1fr / 1fr 2fr
+    }
+
+    .bokeh {
+        opacity: .7
+    }
+
+    .bee-intro {
+        position: absolute;
+        width: 200%;
+        left: -10px;
+        margin-top: -45px;
+        height: auto
+    }
+
+    .text-span {
+        width: 80%
+    }
+
+    .container-text {
+        max-width: 87%
+    }
+
+    .container-text h2 {
+        font-family: "Helvetica Neue", Arial, sans-serif, -apple-system, BlinkMacSystemFont;
+        font-weight: 700;
+        font-size: 24px;
+        line-height: 28px;
+        letter-spacing: 0;
+        margin-bottom: 0
+    }
+
+    .container-text p {
+        font-size: 20px;
+        line-height: 26px;
+        font-weight: 200;
+        letter-spacing: 0;
+        margin-top: 0
+    }
+
+    .btn-primary {
+        position: relative;
+        left: 0;
+        font-size: 16px;
+        line-height: 24px;
+        letter-spacing: 0;
+        padding: 12px 45px
+    }
+
+    .trazo img {
+        transform: rotate(-6deg) translateZ(0);
+        transform-origin: 490% -190%;
+        width: 95%;
+        height: 40%
+    }
+
+    .button-close {
+        top: 15px;
+        right: 30px
+    }
+}
+
+@media (min-width: 321px) and (max-width:580px) {
+    .light {
+        will-change:auto;
+        max-width: 40px;
+        max-height: 40px
+    }
+
+    .light:hover {
+        transform: none!important
+    }
+
+    .pre-header {
+        max-height: 125px;
+        padding: 0 10px
+    }
+
+    .pre-header-container-row {
+        position: absolute;
+        height: 125px
+    }
+
+    .pre-header-text {
+        width: 60%
+    }
+
+    .pre-header-text p {
+        font-size: 16px;
+        line-height: 20px;
+        font-weight: 700;
+        margin: 0 0 4px 0
+    }
+
+    .button-close-preheader {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        z-index: 10
+    }
+
+    .btn-preheader {
+        display: none
+    }
+
+    .btn-desk {
+        display: none
+    }
+
+    .link_mob {
+        display: block;
+        font-size: 16px;
+        line-height: 24px;
+        font-weight: 700;
+        color: #fff
+    }
+
+    .img-bee-preheader img {
+        position: absolute;
+        top: 5px;
+        left: 5px;
+        width: 120px;
+        height: auto;
+        margin-top: 0
+    }
+
+    .christmas-app {
+        padding: 10px
+    }
+
+    .intro-screen {
+        height: 65%;
+    }
+
+    .layout {
+        grid: "start middle" 1fr / 1fr 2fr
+    }
+
+    .bokeh {
+        opacity: .7
+    }
+
+    .bee-intro {
+        position: absolute;
+        width: 200%;
+        left: -20px;
+        height: auto
+    }
+
+    .text-span {
+        width: 80%
+    }
+
+    .container-text {
+        max-width: 87%
+    }
+
+    .container-text h2 {
+        font-family: "Helvetica Neue", Arial, sans-serif, -apple-system, BlinkMacSystemFont;
+        font-weight: 700;
+        font-size: 24px;
+        line-height: 28px;
+        letter-spacing: 0;
+        margin-bottom: 0
+    }
+
+    .container-text p {
+        font-size: 20px;
+        line-height: 26px;
+        font-weight: 200;
+        letter-spacing: 0;
+        margin-top: 0
+    }
+
+    .btn-primary {
+        position: relative;
+        left: 0;
+        font-size: 16px;
+        line-height: 24px;
+        letter-spacing: 0;
+        padding: 12px 55px
+    }
+
+    .trazo img {
+        transform: rotate(-6deg) translateZ(0);
+        transform-origin: 490% -190%;
+        width: 95%;
+        height: 40%
+    }
+
+    .button-close {
+        top: 15px;
+        right: 30px
+    }
+}
+
+@media (min-width: 581px) and (max-width:768px) {
+    .pre-header {
+        max-height:80px;
+        padding: 0 14px
+    }
+
+    .pre-header-text {
+        margin: 0 12px;
+        width: 60%;
+        font-size: 18px;
+        line-height: 20px;
+        font-weight: 700;
+        letter-spacing: 0
+    }
+
+    .btn-preheader {
+        font-size: 18px;
+        line-height: 20px;
+        letter-spacing: 0
+    }
+
+    .img-bee-preheader img {
+        width: 130px;
+        margin-top: 0
+    }
+
+    .intro-screen {
+        height: 85%
+    }
+
+    .container-text {
+        width: 95%
+    }
+
+    .container-text h2 {
+        font-family: "Helvetica Neue", Arial, sans-serif, -apple-system, BlinkMacSystemFont;
+        font-weight: 700;
+        margin-top: 20px;
+        font-size: 42px;
+        line-height: 46px
+    }
+
+    .layout {
+        grid: "start middle" 1fr / 1fr 2fr
+    }
+
+    .bee-intro {
+        position: absolute;
+        width: 165%;
+        left: -20px
+    }
+
+    .trazo img {
+        transform: rotate(-6deg) translateZ(0);
+        transform-origin: 410% -80%;
+        width: 90%;
+        height: 40%
+    }
+}
+
+@keyframes bee-entry-wrapper {
+  /* 👈 POSICIÓN DONDE YA LA VES */
+  0% {
+    transform: translate(90vw, -60vh) scale(3.8) rotate(-30deg);
     opacity: 1;
   }
-  50%, 55% {
+
+  45% {
+    transform: translate(10vw, -10vh) scale(1.1) rotate(10deg);
+  }
+
+  70% {
+    transform: translate(0, 8px) scale(0.98) rotate(0deg);
+  }
+
+  85% {
+    transform: translate(0, -6px) scale(1.02);
+  }
+
+  /* 👈 POSICIÓN FINAL (la del layout) */
+  100% {
+    transform: translate(0, 0) scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+
+@keyframes bee-entry {
+  0% {
+    transform:
+      translate(55vw, -60vh)
+      scale(10);
     opacity: 0;
   }
-}
 
-@keyframes ojoQuieto {
-  0%, 100% {
+  40% {
     opacity: 1;
-  }
-  50%, 55% {
-    opacity: 1; /* este NO desaparece */
-  }
-}
-
-/* OJO IZQUIERDO - GUIÑO REAL */
-.bee-intro #ojo-izquierda {
-  transform-origin: center;
-  transform-box: fill-box;
-  animation: cerrarOjo 4s ease-in-out infinite;
-}
-
-@keyframes cerrarOjo {
-  0%, 45%, 100% {
-    transform: scaleY(1);
-  }
-
-  48% {
-    transform: scaleY(0.15);
-  }
-
-  52% {
-    transform: scaleY(0.15);
   }
 
   100% {
-    transform: scaleY(1);
+    transform:
+      translate(0, 0)
+      scale(1);
+    opacity: 1;
   }
+}
+
+@media (min-width: 769px) and (max-width:1024px) {
+    .pre-header {
+        max-height:80px;
+        padding: 0 14px
+    }
+
+    .pre-header-text {
+        text-align: center;
+        margin: 0 12px;
+        width: 60%;
+        font-size: 18px;
+        line-height: 20px;
+        font-weight: 700;
+        letter-spacing: 0
+    }
+
+    .img-bee-preheader img {
+        width: 170px;
+        height: 150px;
+        margin-top: 0
+    }
+
+    .btn-preheader {
+        font-size: 18px;
+        line-height: 20px;
+        letter-spacing: 0
+    }
+
+    .intro-screen {
+        height: 80%
+    }
+
+    .container-text {
+        width: 95%
+    }
+
+    .layout {
+        grid: "start middle" 1fr / 1fr 2fr
+    }
+
+    .bee-intro {
+        position: absolute;
+        width: 140%;
+        left: 0
+    }
+
+    .container-text h2 {
+        font-family: "Helvetica Neue", Arial, sans-serif, -apple-system, BlinkMacSystemFont;
+        font-weight: 700;
+        margin-top: 20px
+    }
+
+    .container-text p {
+        margin-bottom: 20px
+    }
+
+    .trazo img {
+        transform: rotate(-6deg) translateZ(0);
+        transform-origin: 340% -80%;
+        width: 90%;
+        height: 40%
+    }
+}
+
+@media (min-width: 1420px) {
+    .img-bee-preheader img {
+        width:200px;
+        height: 180px;
+        margin-top: -15px
+    }
+
+    .container-text {
+        width: 90%
+    }
+
+    .bee-intro {
+        left: 3rem
+    }
+}
+
+@media (prefers-reduced-motion:reduce) {
+    * {
+        animation-duration: 0.01ms!important;
+        animation-iteration-count: 1 !important;
+        /* transition-duration:0.01ms!important; */
+    }
+
+    .light {
+        animation: none!important;
+        will-change: auto!important
+    }
+
+    .bokeh {
+        display: none!important
+    }
+
+    .pre-header,.christmas-app {
+        transition-duration: 0.1s!important
+    }
+}
+
+@media (prefers-contrast:high) {
+    .light {
+        filter: contrast(1.5) brightness(1.2)!important;
+        border: 1px solid currentColor
+    }
+
+    .btn-preheader {
+        border: 2px solid currentColor;
+        background: #fff0
+    }
+}
+
+.btn-preheader:focus-visible,button:focus-visible {
+    outline: 3px solid gold;
+    outline-offset: 2px;
+    box-shadow: 0 0 0 1px #000,0 0 0 4px gold
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    white-space: nowrap;
+    border: 0
+}
+
+@media print {
+    .bokeh,.light,.christmas-app {
+        display: none!important
+    }
+
+    .pre-header {
+        position: static;
+        background: #fff;
+        color: #000;
+        box-shadow: none
+    }
+}
+
+@supports (container-type:inline-size) {
+    .christmas-app {
+        container-type: inline-size
+    }
+
+    @container (max-width:480px) {
+        .light {
+            max-width: 30px;
+            max-height: 30px
+        }
+    }
+}
+
+@supports (content-visibility:auto) {
+    .light {
+        content-visibility: auto;
+        contain-intrinsic-size: 50px 50px
+    }
 }
