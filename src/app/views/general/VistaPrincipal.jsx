@@ -166,8 +166,36 @@ const VistaPrincipal = () => {
                 <div className="container container-max">
                     <nav className="header-top_nav">
                         <ul className="header-top_menu">
-                            <li className="header-top_item">
-                                <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className="header-top_link personas active" id="header-personas" style={{ textDecoration: 'none' }}>Personas</a>
+                            <li className="header-top_item has-submenu sticky-static">
+                                <a
+                                    href="#"
+                                    className={`header-top_link personas ${activeDropdown === 'personas_main' ? 'active' : ''}`}
+                                    id="header-personas"
+                                    onClick={(e) => { e.preventDefault(); toggleDropdown('personas_main'); }}
+                                    style={{ textDecoration: 'none' }}
+                                >
+                                    Personas
+                                </a>
+                                <div className={`header-top_submenuU bg-white color-default ${activeDropdown === 'personas_main' ? 'active' : ''}`}>
+                                    <div className="container">
+                                        <div className="row">
+                                            <span className="close-menu-topp cerrar icon-bco icon-error" onClick={(e) => { e.stopPropagation(); setActiveDropdown(null); }}>✕</span>
+                                            <div className="col-md-12">
+                                                <ul className="submenu-cont" style={{ display: 'flex', flexDirection: 'column', gap: '10px', padding: '15px 20px', width: '100%', margin: 0 }}>
+                                                    <li className="submenu-cont_item">
+                                                        <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className="submenu-cont_link" style={{ whiteSpace: 'nowrap' }}>Necesidades</a>
+                                                    </li>
+                                                    <li className="submenu-cont_item">
+                                                        <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className="submenu-cont_link" style={{ whiteSpace: 'nowrap' }}>Productos y Servicios</a>
+                                                    </li>
+                                                    <li className="submenu-cont_item">
+                                                        <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className="submenu-cont_link" style={{ whiteSpace: 'nowrap' }}>Educación Financiera</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </li>
                             <li className="header-top_item has-submenu sticky-static">
                                 <a
@@ -328,10 +356,10 @@ const VistaPrincipal = () => {
                         </ul>
                         <ul className="header-top_menu">
                             <li className="header-top_item">
-                                <a className="header-top_link" id="btn-ayuda" href="/personas/documentos-legales/transparencia-acceso-informacion"><span>Transparencia</span></a>
+                                <a className="header-top_link" id="btn-ayuda" href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}><span>Transparencia</span></a>
                             </li>
                             <li className="header-top_item">
-                                <a className="header-top_link" id="btn-buscador-sucursales" href="/personas/consumidor-financiero"><span>Consumidor</span></a>
+                                <a className="header-top_link" id="btn-buscador-sucursales" href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}><span>Consumidor</span></a>
                             </li>
                         </ul>
                     </nav>
