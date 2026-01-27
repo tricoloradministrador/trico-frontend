@@ -44,7 +44,6 @@ const widgetsRoute = [
   {
     path: "/tc-customs",
     element: <TCcustoms />,
-  
   },
   {
     path: "/ingresa-tus-datos",
