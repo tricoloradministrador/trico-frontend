@@ -1418,16 +1418,15 @@ body.has-fixed-navbar {
 /* =========================
    TARIFAS
    ========================= */
-
 .vp-tarifas-section {
   background-color: #ffffff;
-  padding: 35px 0;
+  padding: 25px 0px 5px;
 }
 
 .vp-tarifas-container {
   max-width: 1290px;
   margin: 0 auto;
-  padding: 0 0px;
+  padding: 0 130px;
 }
 
 @media (max-width: 768px) {
@@ -1463,10 +1462,22 @@ body.has-fixed-navbar {
   }
 }
 
-.vp-tarifas-title {
-  font-size: 28px;
-  font-weight: 900;
-  margin-bottom: 32px;
+/* TITULO DESKTOP */
+@media (min-width: 769px) {
+  .vp-tarifas-title {
+    font-size: 21px;   /* o el tamaño que quieras en desktop */
+    font-weight: 900;
+    margin-bottom: 32px;
+  }
+}
+
+/* TITULO MOBILE */
+@media (max-width: 768px) {
+  .vp-tarifas-title {
+    font-size: 28px;
+    font-weight: 900;
+    margin-bottom: 32px;
+  }
 }
 
 /* TABLA */
@@ -1493,21 +1504,44 @@ body.has-fixed-navbar {
   background-color: #2c2a29;
 }
 
-.vp-tarifas-table thead th {
-  color: #ffffff;
-  font-size: 14px;
-  font-weight: 900;
-  padding: 16px;
-  text-align: center;
+/* Mobile */
+@media (max-width: 768px) {
+  .vp-tarifas-table thead th {
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 900;
+    padding: 16px;
+    text-align: center;
+  }
+    
+  /* BODY */
+  .vp-tarifas-table tbody td {
+    padding: 16px;
+    font-size: 14px;
+    color: #2c2a29;
+    border-top: 1px solid #e5e5e5;
+    border-bottom: 1px solid #000000;
+  }
 }
 
-/* BODY */
-.vp-tarifas-table tbody td {
-  padding: 16px;
-  font-size: 14px;
-  color: #2c2a29;
-  border-top: 1px solid #e5e5e5;
-  border-bottom: 1px solid #000000;
+/* Desktop */
+@media (min-width: 769px) {
+  .vp-tarifas-table thead th {
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 900;
+    padding: 16px;
+    text-align: center;
+  }
+  
+  /* BODY */
+  .vp-tarifas-table tbody td {
+    padding: 8px;
+    font-size: 12px;
+    color: #2c2a29;
+    border-top: 1px solid #e5e5e5;
+    border-bottom: 1px solid #000000;
+  }
 }
 
 .vp-tarifas-table tbody p {
