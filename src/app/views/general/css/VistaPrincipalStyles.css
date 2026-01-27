@@ -1129,13 +1129,18 @@ body.has-fixed-navbar {
 }
 
 .modulo-carusel {
-  width: 408px !important;
+  width: 100%;
+  height: 100%;
   background: #fff;
   border-radius: 12px;
   padding: 32px;
   display: flex;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  gap: 24px;
+  gap: 16px;
+  text-align: center;
+  box-sizing: border-box;
 }
 
 /* ICONO */
@@ -1143,6 +1148,10 @@ body.has-fixed-navbar {
   width: 64px;
   height: 64px;
   flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
 }
 
 .img-swiper img {
@@ -2969,6 +2978,3 @@ body.has-fixed-navbar {
     display: none !important;
   }
 }
-
-
-
