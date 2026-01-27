@@ -12,7 +12,7 @@ const AbejaModal = ({ isOpen, onClose }) => {
     useEffect(() => {
 
         // Si el modal no está abierto, no hacer nada
-        if (!isOpen) return;
+        if (isOpen !== 1) return;
 
         // Obtener el elemento del DOM
         const el = beeWrapperRef.current;
@@ -72,7 +72,7 @@ const AbejaModal = ({ isOpen, onClose }) => {
                             <article className="middle">
                                 <div className="container-text">
                                     <h2 className="cib-fonts-setup-light text-focus-in mb-2" style={{ fontFamily: "CIBFont Sans Light", fontSize: "28px" }}>
-                                        La historia de esta navidad viene con abejita de regalo.
+                                        La historia de este año viene con abejita de regalo.
                                     </h2>
                                     <p className="cib-fonts-setup-light bc-my-3 text-focus-in mb-2" style={{ fontFamily: "CIBFont Sans" }}>
                                         Todos tenemos una historia con ella
@@ -80,10 +80,19 @@ const AbejaModal = ({ isOpen, onClose }) => {
                                 </div>
                                 <div className="mt-3">
                                     <a
-                                        className="btn-primary"
+                                        className="btn-primary button-additional"
                                         role="button"
                                         aria-label="Conoce más"
-                                        onClick={() => redirecTo()}
+                                        onPointerDown={(e) => {
+                                            e.preventDefault();
+                                            e.stopPropagation();
+                                            redirecTo();
+                                        }}
+                                        onTouchStart={(e) => {
+                                            e.preventDefault();
+                                            e.stopPropagation();
+                                            redirecTo();
+                                        }}
                                     >
                                         Conoce más
                                     </a>
