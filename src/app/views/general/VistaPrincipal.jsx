@@ -1,15 +1,16 @@
 import './css/VistaPrincipalStyles.css';
+import './css/Footer.css';
 import './css/AbejaModal.css';
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
 import Chevron from "../../components/Chevron";
 import AbejaModal from './modals/AbejaModal.jsx';
 import { isDesktop, isMobile, isTablet } from "@utils";
-import { ReactComponent as Bee1 } from "./images/vector-bee1.svg";
+import Footer from './components/Footer';
 
 // Se exporta el componente VistaPrincipal
 const VistaPrincipal = () => {
@@ -31,87 +32,152 @@ const VistaPrincipal = () => {
     const tablet = isTablet();
 
     // Se inicializa el estado del modal de la abeja
-    const [abejaOpen, setAbejaOpen] = useState(mobile);
+    const [abejaOpen, setAbejaOpen] = useState(mobile === true ? 1 : 2);
 
+    // Función para alternar menús desplegables
     const toggleDropdown = (name) => {
+
+        // Alterna el estado del menú desplegable
         setActiveDropdown(prev => prev === name ? null : name);
     };
 
+    // Cerrar dropdown al hacer clic fuera
     React.useEffect(() => {
+
+        // Función para manejar clics fuera del dropdown
         const handleClickOutside = (event) => {
+
+            // Si hay un dropdown activo y el clic no es dentro de un elemento con clase 'has-submenu' o 'menu-transactions-container', cerrar el dropdown
             if (activeDropdown && !event.target.closest('.has-submenu') && !event.target.closest('.menu-transactions-container')) {
+
+                // Cerrar el dropdown
                 setActiveDropdown(null);
             }
         };
+
+        // Agregar el event listener
         document.addEventListener('mousedown', handleClickOutside);
+
+        // Limpiar el event listener al desmontar
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, [activeDropdown]);
 
+    // Estilos para breadcrumb
     const linkStyle = {
+
+        // Estilo común para los enlaces
         color: "#6f6f6f",
         textDecoration: "none",
         fontWeight: 400
     };
 
+    // Estilo para el enlace actual
     const currentStyle = {
+
+        // Estilo para el enlace actual
         color: "#2c2a29",
         fontWeight: 600
     };
 
+    // Se efecto para manejar la fijación del navbar al hacer scroll
     React.useEffect(() => {
+
+        // Obtener el navbar
         const navbar = document.querySelector('.vp-navbar');
+
+        // Si no existe el navbar, salir
         if (!navbar) return;
 
+        // Obtener la altura del navbar
         const navHeight = navbar.offsetHeight;
 
+        // Función para manejar el scroll
         const onScroll = () => {
+
+            // Si el scroll es mayor que la altura del navbar, fijar el navbar
             if (window.scrollY > navHeight) {
+
+                // Fijar el navbar
                 navbar.classList.add('is-fixed');
+
+                // Ajustar el padding del body para evitar salto de contenido
                 document.body.style.paddingTop = `${navHeight}px`;
             } else {
+
+                // Quitar la fijación del navbar
                 navbar.classList.remove('is-fixed');
+
+                // Quitar el padding del body
                 document.body.style.paddingTop = '0px';
-            }
+            };
         };
 
+        // Agregar el event listener para el scroll
         window.addEventListener('scroll', onScroll, { passive: true });
+
+        // Limpiar el event listener al desmontar
         return () => window.removeEventListener('scroll', onScroll);
     }, []);
 
-
+    // Efecto para manejar la visibilidad del componente de beneficios al hacer scroll
     React.useEffect(() => {
+
+        // Obtener los elementos necesarios
         const bene = document.querySelector('.bc-bene');
         const start = document.getElementById('bc-bene-start');
         const end = document.getElementById('bc-bene-end');
 
+        // Si no existen los elementos, salir
         if (!bene || !start || !end) return;
 
+        // Crear los observadores de intersección
         const startObserver = new IntersectionObserver(
+
+            // Callback para el observador de inicio
             ([entry]) => {
+
+                // Si el elemento de inicio no está intersectando, fijar el componente de beneficios
                 if (!entry.isIntersecting) {
+
+                    // Fijar el componente de beneficios
                     bene.classList.add('is-sticky');
                 } else {
+
+                    // Quitar la fijación del componente de beneficios
                     bene.classList.remove('is-sticky');
-                }
+                };
             },
             { threshold: 0 }
         );
 
+        // Callback para el observador de fin
         const endObserver = new IntersectionObserver(
+
+            // Callback para el observador de fin
             ([entry]) => {
+
+                // Si el elemento de fin está intersectando, ocultar el componente de beneficios
                 if (entry.isIntersecting) {
+
+                    // Ocultar el componente de beneficios
                     bene.classList.add('is-hidden');
                 } else {
+
+                    // Mostrar el componente de beneficios
                     bene.classList.remove('is-hidden');
-                }
+                };
             },
             { threshold: 0 }
         );
 
+        // Iniciar la observación
         startObserver.observe(start);
         endObserver.observe(end);
 
+        // Limpiar los observadores al desmontar
         return () => {
+
+            // Desconectar los observadores
             startObserver.disconnect();
             endObserver.disconnect();
         };
@@ -1054,159 +1120,15 @@ const VistaPrincipal = () => {
             </section>
 
             {/* 10. FOOTER */}
-            <footer className="vp-footer">
-                <div className="vp-footer-cols">
-                    <div>
-                        <h4>Te puede interesar</h4>
-                        <a href="#" className="vp-footer-link">Accesibilidad</a>
-                        <a href="#" className="vp-footer-link">Acerca de nosotros</a>
-                        <a href="#" className="vp-footer-link">Centro de Ayuda</a>
-                        <a href="#" className="vp-footer-link">Comunidad Nexos</a>
-                        <a href="#" className="vp-footer-link">Estado de canales</a>
-                        <a href="#" className="vp-footer-link">Mapa del Sitio</a>
-                        <a href="#" className="vp-footer-link">Bancolombia</a>
-                        <a href="#" className="vp-footer-link">Puntos de atención</a>
-                        <a href="#" className="vp-footer-link">Trabaja con nosotros</a>
-                    </div>
-                    <div>
-                        <h4>Legales</h4>
-                        <a href="#" className="vp-footer-link">Gobierno Corporativo</a>
-                        <a href="#" className="vp-footer-link">SARLAFT</a>
-                        <a href="#" className="vp-footer-link">Protección de datos</a>
-                        <a href="#" className="vp-footer-link">Términos y Condiciones de uso</a>
-                        <a href="#" className="vp-footer-link">Proceso licitatorio seguros 2025-2027</a>
-                        <a href="#" className="vp-footer-link">Tarifas</a>
-                        <a href="#" className="vp-footer-link">Autorización para tratamiento de datos personales</a>
-                        <a href="#" className="vp-footer-link">Política de Resarcimiento</a>
-                        <a href="#" className="vp-footer-link">Notificaciones Judiciales</a>
-                    </div>
-                    <div>
-                        {/* Column 3 shifted content - simulating Transparencia y Acceso */}
-                        <a href="#" className="vp-footer-link">Transparencia y Acceso a la Información</a>
-                        <a href="#" className="vp-footer-link">Atención al Consumidor Financiero</a>
-                        <a href="#" className="vp-footer-link">Defensor del Consumidor Financiero</a>
-                        <a href="#" className="vp-footer-link">Operadores de Información Financiera</a>
-                    </div>
-                    <div>
-                        {/* Empty/Spacing col or address */}
-                        <div style={{ marginBottom: '20px' }}>
-                            Carrera 48 # 26 - 85 Medellín - Colombia
-                        </div>
-                        <div style={{ marginBottom: '20px' }}>
-                            Bogotá +57 (601) 343 0000
-                        </div>
-                        <div style={{ marginBottom: '20px' }}>
-                            Medellín +57 (604) 510 9000
-                        </div>
-                        <div style={{ marginBottom: '20px' }}>
-                            Línea gratuita resto del país: 01 8000 9 12345
-                        </div>
-                        <div style={{ marginBottom: '20px' }}>
-                            Línea ética 01 8000 524499
-                        </div>
-                    </div>
-                    <div>
-                        {/* Logos */}
-                        <p style={{ marginBottom: '10px' }}>Productos y servicios de Banca, Fiducia...</p>
-                        <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-                            <div style={{ border: '1px solid white', padding: '5px', fontSize: '10px' }}>VIGILADO SUPERINTENDENCIA FINANCIERA</div>
-                            <div style={{ fontSize: '10px' }}>BANCOLOMBIA S.A. Establecimiento Bancario</div>
-                        </div>
-                        <div style={{ display: 'flex', gap: '15px', marginTop: '20px' }}>
-                            {/* Social Icons Placeholders */}
-                            <div style={{ width: '20px', height: '20px', background: 'white', borderRadius: '50%' }}></div>
-                            <div style={{ width: '20px', height: '20px', background: 'white', borderRadius: '50%' }}></div>
-                            <div style={{ width: '20px', height: '20px', background: 'white', borderRadius: '50%' }}></div>
-                            <div style={{ width: '20px', height: '20px', background: 'white', borderRadius: '50%' }}></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="vp-copyright">
-                    <div style={{ fontWeight: 'bold', fontSize: '16px' }}>Bancolombia</div>
-                    <div>Copyright © 2026 Bancolombia</div>
-                </div>
-            </footer>
-
-            {/* INTRO SCREEN */}
-            {/* {abejaOpen ?
-                <main
-                    className="christmas-app"
-                    id="container-prehome"
-                    role="main"
-                    aria-label="conavi siempre contigo"
-                >
-                    <section className="intro-screen" id="introScreen">
-                        <div className="intro-container">
-                            <div className="lights-container">
-                                <div className="bee-portal">
-                                    <div className="bee-wrapper" ref={beeWrapperRef}>
-                                        <Bee1 id="beeIntro" className="bee-intro" aria-hidden="true" />
-                                    </div>
-                                </div>
-                                <div className="trazo" aria-hidden="true">
-                                    <img
-                                        src="assets/images/seguros/trazo_modal_abeja.png"
-                                        alt="trazo fondo"
-                                        role="presentation"
-                                        loading="lazy"
-                                        width={800}
-                                        height={600}
-                                    />
-                                </div>
-
-                                <div className="layout">
-                                    <div className="start" />
-
-                                    <article className="middle">
-                                        <div className="container-text">
-                                            <h2 className="cib-fonts-setup-light text-focus-in mb-2" style={{ fontFamily: "CIBFont Sans Light", fontSize: "28px" }}>
-                                                La historia de esta navidad viene con abejita de regalo.
-                                            </h2>
-                                            <p className="cib-fonts-setup-light bc-my-3 text-focus-in mb-2" style={{ fontFamily: "CIBFont Sans" }}>
-                                                Todos tenemos una historia con ella
-                                            </p>
-                                        </div>
-                                        <div className="mt-3">
-                                            <a
-                                                className="btn-primary"
-                                                role="button"
-                                                aria-label="Conoce más"
-                                                onClick={() => redirecTo()}
-                                            >
-                                                Conoce más
-                                            </a>
-                                        </div>
-                                    </article>
-
-                                    <button
-                                        className="button-close"
-                                        type="button"
-                                        aria-label="Cerrar"
-                                        onPointerDown={(e) => {
-                                            setAbejaOpen(false);
-                                        }}
-                                        onTouchStart={(e) => {
-                                            setAbejaOpen(false);
-                                        }}
-                                        onClick={() => {
-                                            setAbejaOpen(false);
-                                        }}
-                                    >
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"><path fill="#fff" fillRule="evenodd" d="m4 19.707.707.707 7.5-7.5 7.5 7.5.707-.707-7.5-7.5 7.5-7.5L19.707 4l-7.5 7.5-7.5-7.5L4 4.707l7.5 7.5-7.5 7.5Z" clipRule="evenodd"></path></svg>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-                </main> : null} */}
+            <Footer />
 
             {/* MODAL ABEJA */}
-            {abejaOpen ?
+            {abejaOpen === 1 ?
                 <AbejaModal
                     isOpen={abejaOpen}
                     onClose={() => setAbejaOpen(false)}
-                /> : null}
+                />
+                : null}
         </div>
     );
 };
