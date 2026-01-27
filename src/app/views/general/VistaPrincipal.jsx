@@ -868,6 +868,7 @@ const VistaPrincipal = () => {
             <section
                 id="caracteristicas"
                 className="vp-caracteristicas"
+                style={{ textAlign: 'center' }}
             >
                 <div className="vp-caracteristicas-container mt-2">
                     <h2 className="vp-caracteristicas-title">
