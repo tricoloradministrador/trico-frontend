@@ -421,9 +421,8 @@ const VistaPrincipal = () => {
                     className="container-max"
                     style={{
                         display: "flex",
-                        justifyContent: "space-between",
                         alignItems: "center",
-                        width: "100%"
+                        width: "100%",
                     }}
                 >
                     {/* LOGO */}
@@ -435,15 +434,15 @@ const VistaPrincipal = () => {
                     </div>
 
                     {/* MENÚ DESKTOP */}
-                    <div className="vp-nav-menu">
-                        <span style={{ fontWeight: "600" }} className='vp-nav-link'>Inicio</span>
-                        <span className='vp-nav-link'>Necesidades</span>
-                        <span className='vp-nav-link'>Productos y Servicios</span>
-                        <span className='vp-nav-link'>Educación Financiera</span>
+                    <div className="vp-nav-menu" style={{ marginLeft: '11.5%' }}>
+                        <span style={{ fontWeight: "600" }} className='vp-nav-link opensans-regular'>Inicio</span>
+                        <span style={{ fontWeight: "600" }} className='vp-nav-link opensans-regular'>Necesidades</span>
+                        <span style={{ fontWeight: "600" }} className='vp-nav-link opensans-regular'>Productos y Servicios</span>
+                        <span style={{ fontWeight: "600" }} className='vp-nav-link opensans-regular'>Educación Financiera</span>
                     </div>
 
                     {/* ACCIONES DESKTOP */}
-                    <div className="vp-nav-actions">
+                    <div className="vp-nav-actions" style={{ marginLeft: '13%' }}>
                         <button className="vp-btn-dark" onClick={(e) => { e.preventDefault(); redirecTo() }}>Trámites digitales</button>
                         <div className="menu-transactions-container">
                             {/* BLOQUE IZQUIERDO: selector */}

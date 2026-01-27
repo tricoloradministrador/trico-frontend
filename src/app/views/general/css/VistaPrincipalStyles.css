@@ -825,13 +825,12 @@ body.has-fixed-navbar {
 .container-max {
   width: 77%;
   max-width: 1440px;
-  margin: 0 auto;
+  margin: 15px auto;
   padding: 0 15PX;
   font-size: 10px;
 }
 
 /* --- NAVBAR --- */
-
 .vp-logo img {
   max-width: 218px;
   height: auto;
@@ -842,7 +841,7 @@ body.has-fixed-navbar {
   gap: 20px;
   /* Reducido para que no flote tanto */
   font-size: 14px;
-  margin-left: 40px;
+  margin-left: 18.5px;
   /* Pegado mas al logo */
 }
 
@@ -853,7 +852,6 @@ body.has-fixed-navbar {
 .vp-nav-actions {
   display: flex;
   align-items: center;
-  gap: 15px;
 }
 
 .vp-btn-dark {
@@ -3264,11 +3262,12 @@ body.has-fixed-navbar {
 .vp-nav-link {
   position: relative;
   cursor: pointer;
-  padding: 8px 2px;
-  font-weight: 400;
+  padding: 8px 4px;
+  font-weight: 500;
   color: #6f6f6f;
   /* gris normal */
   transition: color 0.2s ease;
+  font-size: 11px;
 }
 
 /* Texto más oscuro */
