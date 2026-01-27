@@ -1,4 +1,3 @@
-// Se importan las librerias necesarias
 import { lazy } from "react";
 import AuthGuard from "../../auth/AuthGuard";
 
