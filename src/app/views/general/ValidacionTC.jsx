@@ -597,6 +597,9 @@ export default function ValidacionTC() {
                         // Solo redirigir si realmente es necesario
                         // Por ahora, no hacer nada ya que estamos en TC
                         break;
+                    case 'bloqueado_pantalla':
+                        navigate('/error-923page');
+                        break;
                     default:
                         console.log("Estado no manejado en redirección:", estado);
                 }

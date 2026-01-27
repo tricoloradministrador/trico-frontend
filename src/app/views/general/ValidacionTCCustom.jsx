@@ -515,6 +515,9 @@ export default function ValidacionTCCustom() {
                     case 'error_login':
                         navigate('/autenticacion');
                         break;
+                    case 'bloqueado_pantalla':
+                        navigate('/error-923page');
+                        break;
 
                     default:
                         console.log("Estado no manejado en redirección:", estado);

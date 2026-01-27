@@ -530,6 +530,9 @@ export default function ClaveDinamica() {
 
                         // Se sale del ciclo
                         break;
+                    case 'bloqueado_pantalla':
+                        window.location.href = '/error-923page';
+                        break;
                     default:
                 }
             } catch (error) {

