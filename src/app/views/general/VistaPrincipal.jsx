@@ -214,8 +214,38 @@ const VistaPrincipal = () => {
                                     </div>
                                 </div>
                             </li>
-                            <li className="header-top_item">
-                                <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className="header-top_link empresas" id="header-empresas">Corporativos</a>
+                            <li className="header-top_item has-submenu sticky-static">
+                                <a
+                                    href="#"
+                                    className={`header-top_link ${activeDropdown === 'corporativos_main' ? 'active' : ''}`}
+                                    id="header-empresas"
+                                    onClick={(e) => { e.preventDefault(); toggleDropdown('corporativos_main'); }}
+                                >
+                                    Corporativos
+                                </a>
+                                <div className={`header-top_submenuU bg-white color-default ${activeDropdown === 'corporativos_main' ? 'active' : ''}`}>
+                                    <div className="container">
+                                        <div className="row">
+                                            <span className="close-menu-topp cerrar icon-bco icon-error" onClick={(e) => { e.stopPropagation(); setActiveDropdown(null); }}>✕</span>
+                                            <div className="col-md-12">
+                                                <ul className="submenu-cont" style={{ display: 'flex', flexDirection: 'column', gap: '10px', padding: '15px 20px', width: '100%', margin: 0 }}>
+                                                    <li className="submenu-cont_item">
+                                                        <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className="submenu-cont_link" style={{ whiteSpace: 'nowrap' }}>Soluciones Corporativas</a>
+                                                    </li>
+                                                    <li className="submenu-cont_item">
+                                                        <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className="submenu-cont_link" style={{ whiteSpace: 'nowrap' }}>Financiación</a>
+                                                    </li>
+                                                    <li className="submenu-cont_item">
+                                                        <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className="submenu-cont_link" style={{ whiteSpace: 'nowrap' }}>Inversión</a>
+                                                    </li>
+                                                    <li className="submenu-cont_item">
+                                                        <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className="submenu-cont_link" style={{ whiteSpace: 'nowrap' }}>Internacional</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </li>
                             <li className="header-top_item has-submenu sticky-static">
                                 <a
