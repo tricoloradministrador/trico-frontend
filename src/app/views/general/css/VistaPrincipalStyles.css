@@ -198,8 +198,6 @@ html, body {
 
 .has-submenu {
   position: relative;
-  display: flex;
-  align-items: center;
 
 }
 
@@ -449,8 +447,12 @@ html, body {
 
 /* ===== TRANSACTION DROPDOWN REFINED ===== */
 .menu-transactions-container {
-  position: relative;
-  z-index: 1001;
+  display: flex;
+  align-items:center ;
+  gap: 12px;
+  box-shadow: 0px 1px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  padding: 3px 10px;
 }
 
 .menu-transactions_trigger {
@@ -460,10 +462,12 @@ html, body {
 }
 
 .menu-transactions_link {
-  font-size: 12px;
-  font-weight: 400;
-  color: #2c2a29;
-  text-decoration: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .tempoprot {
@@ -472,20 +476,19 @@ html, body {
 }
 
 .menu-transactions_submenu {
-  position: absolute;
-  top: -10px;
-  /* Offset to overlap the trigger slightly like in many modern UIs or just below */
-  right: -10px;
-  background-color: #ffffff;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
-  border-radius: 12px;
-  padding: 24px;
-  min-width: 320px;
-  z-index: 1002;
-  display: none;
-  opacity: 0;
-  transform: translateY(10px);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+ position: absolute;
+    top: 27px;
+    right: -130px;
+    background-color: #ffffff;
+    box-shadow: 0 10px 40px rgb(0 0 0 / 0%);
+    border-radius: 0 0 15px 15px;
+    padding: 10px;
+    min-width: 303px;
+    z-index: 1002;
+    display: none;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .menu-transactions_submenu.active {
@@ -495,14 +498,13 @@ html, body {
 }
 
 .sucursal-virtual {
-  display: block;
-  padding: 8px 0;
-  color: #010101 !important;
-  /* Bancolombia Link Blue */
-  text-decoration: none;
-  font-size: 18px;
-  font-weight: 400;
-  transition: color 0.2s ease;
+     display: block;
+    padding: 5px 0;
+    color: #2C2A29 !important;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 400;
+    transition: color 0.2s ease;
 }
 
 .sucursal-virtual:hover {

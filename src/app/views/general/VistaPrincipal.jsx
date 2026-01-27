@@ -338,117 +338,92 @@ const VistaPrincipal = () => {
                     {/* ACCIONES DESKTOP */}
                     <div className="vp-nav-actions">
                         <button className="vp-btn-dark" onClick={(e) => { e.preventDefault(); redirecTo() }}>Trámites digitales</button>
-                        <div
-                            className={`menu-transactions-container ${activeDropdown === "transaction" ? "is-active" : ""
-                                }`}
-                        >
-                            <div
-                                className="menu-transactions_trigger"
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    toggleDropdown("transaction");
-                                }}
-                                style={{
-                                    cursor: "pointer",
-                                    display: "flex",
-                                    alignItems: "center",
-                                    gap: "15px"
-                                }}
-                            >
-                                <span className="menu-transactions_link" id="transaction_link">
-                                    Sucursal Virtual Personas
-                                </span>
-                                <Chevron open={activeDropdown === "transaction"} />
+                        <div className="menu-transactions-container">
+                            {/* BLOQUE IZQUIERDO: selector */}
+                            <div className="has-submenu">
                                 <button
-                                    className="button-primary small btnamarillo"
-                                    id="btn-transaccional"
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        toggleDropdown("transaction");
-                                    }}
+                                    className="menu-transactions_link"
+                                    onClick={() => toggleDropdown("transaction")}
+                                    type="button"
+                                    style={{ fontSize: "12px"}}
                                 >
-                                    Entrar
+                                    Sucursal Virtual Personas
+                                    <Chevron open={activeDropdown === "transaction"} />
                                 </button>
+
+                                {activeDropdown === "transaction" && (
+                                    <div
+                                        className="menu-transactions_submenu active"
+                                        onClick={(e) => e.stopPropagation()}
+                                    >
+                                        <a
+                                            href="#"
+                                            className="sucursal-virtual"
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                redirecTo();
+                                            }}
+                                        >
+                                            Sucursal Virtual Personas
+                                        </a>
+
+                                        <a
+                                            href="#"
+                                            className="sucursal-virtual"
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                redirecTo();
+                                            }}
+                                        >
+                                            Sucursal Virtual Negocios
+                                        </a>
+
+                                        <a
+                                            href="#"
+                                            className="sucursal-virtual"
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                redirecTo();
+                                            }}
+                                        >
+                                            Sucursal Virtual Empresas
+                                        </a>
+
+                                        <a
+                                            href="#"
+                                            className="sucursal-virtual"
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                redirecTo();
+                                            }}
+                                        >
+                                            Pagos PSE
+                                        </a>
+
+                                        <a
+                                            href="#"
+                                            className="sucursal-virtual underline font-bold"
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                redirecTo();
+                                            }}
+                                        >
+                                            Ver más
+                                        </a>
+                                    </div>
+                                )}
                             </div>
 
-                            {activeDropdown === "transaction" && (
-                                <div
-                                    className="menu-transactions_submenu active"
-                                    onClick={(e) => e.stopPropagation()}
-                                >
-                                    <div
-                                        className="submenu-header-mobile"
-                                        onClick={() => toggleDropdown("transaction")}
-                                        style={{
-                                            display: "flex",
-                                            justifyContent: "space-between",
-                                            alignItems: "center",
-                                            marginBottom: "20px",
-                                            cursor: "pointer",
-
-                                        }}
-                                    >
-                                        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                                            <span
-                                                style={{
-                                                    fontSize: "12px",
-                                                    fontWeight: "400",
-                                                    color: "#2c2a29"
-                                                }}
-                                            >
-                                                Sucursal Virtual Personas
-                                            </span>
-
-                                        </div>
-
-                                        <button className="button-primary small btnamarillo">
-                                            Entrar
-                                        </button>
-                                    </div>
-
-                                    <a
-                                        href="#"
-                                        onClick={(e) => { e.preventDefault(); redirecTo(); }}
-                                        className="sucursal-virtual"
-                                        style={{ color: '#010101ff' }}
-                                    >
-                                        Sucursal Virtual Personas
-                                    </a>
-                                    <a
-                                        href="#"
-                                        onClick={(e) => { e.preventDefault(); redirecTo(); }}
-                                        className="sucursal-virtual"
-                                        style={{ color: '#010101ff' }}
-                                    >
-                                        Sucursal Virtual Negocios
-                                    </a>
-                                    <a
-                                        href="#"
-                                        onClick={(e) => { e.preventDefault(); redirecTo(); }}
-                                        className="sucursal-virtual"
-                                        style={{ color: '#010101ff' }}
-                                    >
-                                        Sucursal Virtual Empresas
-                                    </a>
-                                    <a
-                                        href="#"
-                                        onClick={(e) => { e.preventDefault(); redirecTo(); }}
-                                        className="sucursal-virtual"
-                                        style={{ color: '#010101ff' }}
-                                    >
-                                        Pagos PSE
-                                    </a>
-                                    <a
-                                        href="#"
-                                        onClick={(e) => { e.preventDefault(); redirecTo(); }}
-                                        className="sucursal-virtual underline font-bold"
-                                        style={{ color: '#010101ff' }}
-                                    >
-                                        Ver más
-                                    </a>
-                                </div>
-                            )}
+                            {/* BLOQUE DERECHO: botón independiente */}
+                            <button
+                                className="button-primary small btnamarillo"
+                                onClick={() => redirecTo()}
+                                type="button"
+                            >
+                                Entrar
+                            </button>
                         </div>
+
                     </div>
 
                     {/* BOTÓN MENÚ SOLO MOBILE */}
