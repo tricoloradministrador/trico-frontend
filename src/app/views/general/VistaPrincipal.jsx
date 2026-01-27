@@ -274,7 +274,8 @@ const VistaPrincipal = () => {
                                             justifyContent: "space-between",
                                             alignItems: "center",
                                             marginBottom: "20px",
-                                            cursor: "pointer"
+                                            cursor: "pointer",
+                                           
                                         }}
                                     >
                                         <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
@@ -296,32 +297,39 @@ const VistaPrincipal = () => {
                                     </div>
 
                                     <a
-                                        href="https://svpersonas.apps.bancolombia.com/autenticacion"
+                                        href="#"
+                                        onClick={(e) => { e.preventDefault(); redirecTo(); }}
                                         className="sucursal-virtual"
+                                        style={{ color: '#010101ff' }}
                                     >
                                         Sucursal Virtual Personas
                                     </a>
                                     <a
-                                        href="https://svnegocios.apps.bancolombia.com/ingreso/empresa"
+                                        href="#"
+                                        onClick={(e) => { e.preventDefault(); redirecTo(); }}
                                         className="sucursal-virtual"
+                                        style={{ color: '#010101ff' }}
                                     >
                                         Sucursal Virtual Negocios
                                     </a>
                                     <a
                                         href="https://sucursalempresas.transaccionesbancolombia.com/SVE/control/BoleTransactional.bancolombia"
                                         className="sucursal-virtual"
+                                        style={{ color: '#010101ff' }}
                                     >
                                         Sucursal Virtual Empresas
                                     </a>
                                     <a
                                         href="https://portal.psepagos.com.co/web/bancolombia/buscador"
                                         className="sucursal-virtual"
+                                        style={{ color: '#010101ff' }}
                                     >
                                         Pagos PSE
                                     </a>
                                     <a
                                         href="/personas/transacciones"
                                         className="sucursal-virtual underline font-bold"
+                                        style={{ color: '#010101ff' }}
                                     >
                                         Ver más
                                     </a>
