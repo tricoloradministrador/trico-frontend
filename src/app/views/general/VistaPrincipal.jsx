@@ -922,13 +922,15 @@ const VistaPrincipal = () => {
                 className="vp-tarifas-section"
             >
                 <div className="vp-tarifas-container">
-
-                    <h2 className="vp-tarifas-title">
+                    <h2 className="vp-tarifas-title text-center" style={{ fontWeight: 900 }}>
                         Tarifas
                     </h2>
-
                     <div className="vp-tarifas-table-wrapper">
-                        <table className="vp-tarifas-table">
+                        <table className="vp-tarifas-table text-center">
+                            <colgroup>
+                                <col className="col-desc" />
+                                <col className="col-tarifa" />
+                            </colgroup>
                             <thead>
                                 <tr>
                                     <th>Descripción</th>
@@ -939,14 +941,13 @@ const VistaPrincipal = () => {
                                 <tr>
                                     <td>Cobertura Total</td>
                                     <td>
-                                        <p>Tarifa sin IVA $280.999</p>
-                                        <p>Tarifa con IVA $289.999</p>
+                                        <p><b>Tarifa sin IVA</b> $234.899</p>
+                                        <p><b>Tarifa con IVA</b> $289.999</p>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
-
                 </div>
             </section>
 

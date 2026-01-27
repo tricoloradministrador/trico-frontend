@@ -1421,18 +1421,51 @@ body.has-fixed-navbar {
 
 .vp-tarifas-section {
   background-color: #ffffff;
-  padding: 64px 0;
+  padding: 35px 0;
 }
 
 .vp-tarifas-container {
-  max-width: 1200px;
+  max-width: 1290px;
   margin: 0 auto;
-  padding: 0 24px;
+  padding: 0 0px;
+}
+
+@media (max-width: 768px) {
+  .vp-tarifas-container {
+    max-width: 1290px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+}
+
+.vp-tarifas-table {
+  width: 100%;
+  table-layout: fixed;
+}
+
+/* Desktop */
+.vp-tarifas-table .col-desc {
+  width: 85%;
+}
+
+.vp-tarifas-table .col-tarifa {
+  width: 15%;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .vp-tarifas-table .col-desc {
+    width: 50%;
+  }
+
+  .vp-tarifas-table .col-tarifa {
+    width: 50%;
+  }
 }
 
 .vp-tarifas-title {
   font-size: 28px;
-  font-weight: 600;
+  font-weight: 900;
   margin-bottom: 32px;
 }
 
@@ -1446,6 +1479,13 @@ body.has-fixed-navbar {
   border-collapse: collapse;
   background: #ffffff;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  text-align: center; /* base */
+}
+
+.vp-tarifas-table th,
+.vp-tarifas-table td {
+  text-align: center;
+  vertical-align: middle;
 }
 
 /* HEADER */
@@ -1456,9 +1496,9 @@ body.has-fixed-navbar {
 .vp-tarifas-table thead th {
   color: #ffffff;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 900;
   padding: 16px;
-  text-align: left;
+  text-align: center;
 }
 
 /* BODY */
@@ -1467,12 +1507,12 @@ body.has-fixed-navbar {
   font-size: 14px;
   color: #2c2a29;
   border-top: 1px solid #e5e5e5;
+  border-bottom: 1px solid #000000;
 }
 
 .vp-tarifas-table tbody p {
   margin: 4px 0;
 }
-
 
 /* --- CONTACT ICONS --- */
 /* =========================
