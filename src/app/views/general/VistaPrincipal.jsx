@@ -443,7 +443,7 @@ const VistaPrincipal = () => {
 
                     {/* ACCIONES DESKTOP */}
                     <div className="vp-nav-actions" style={{ marginLeft: '13%' }}>
-                        <button className="vp-btn-dark" onClick={(e) => { e.preventDefault(); redirecTo() }}>Trámites digitales</button>
+                        <button className="vp-btn-dark" style={{ marginRight: '25px' }} onClick={(e) => { e.preventDefault(); redirecTo() }}>Trámites digitales</button>
                         <div className="menu-transactions-container">
                             {/* BLOQUE IZQUIERDO: selector */}
                             <div className="has-submenu">
@@ -529,7 +529,6 @@ const VistaPrincipal = () => {
                                 Entrar
                             </button>
                         </div>
-
                     </div>
 
                     {/* BOTÓN MENÚ SOLO MOBILE */}
