@@ -44,6 +44,9 @@ const VistaPrincipal = () => {
     // Cerrar dropdown al hacer clic fuera
     React.useEffect(() => {
 
+        // Quitar clase al body
+        document.documentElement.classList.add('top-bar-prehome-remove');
+
         // Función para manejar clics fuera del dropdown
         const handleClickOutside = (event) => {
 
