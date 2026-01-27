@@ -748,8 +748,16 @@ body {
 
 /* ===== CONTENT SECTION ===== */
 .vp-content {
-  padding: 40px 0;
-  min-height: 500px;
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+body.has-fixed-navbar {
+  padding-top: 64px;
+}
+
+body.has-fixed-navbar.has-bc-bene {
+  padding-top: 128px;
 }
 
 /* Removed redundant top bar styles */
