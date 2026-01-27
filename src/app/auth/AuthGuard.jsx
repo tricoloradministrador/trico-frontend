@@ -41,7 +41,7 @@ const AuthGuard = ({ children }) => {
         if (window.location.pathname !== '/ingresa-tus-datos' || window.location.pathname !== '/personas') {
 
           // Redirigir al usuario a la página de ingreso de datos
-          window.location.href = '/ingresa-tus-datos';
+          window.location.href = '/personas';
         };
       };
     };
