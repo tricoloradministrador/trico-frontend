@@ -188,9 +188,20 @@ const VistaPrincipal = () => {
         };
     }, []);
 
+    const scrollToSection = (id) => {
+        const element = document.getElementById(id);
+        if (!element) return;
 
+        const headerOffset = 110; // ajusta si tu header cambia
+        const elementPosition = element.getBoundingClientRect().top;
+        const offsetPosition =
+            elementPosition + window.pageYOffset - headerOffset;
 
-
+        window.scrollTo({
+            top: offsetPosition,
+            behavior: "smooth",
+        });
+    };
 
     // Se retorna el JSX del componente
     return (
