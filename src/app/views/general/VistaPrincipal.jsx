@@ -89,9 +89,6 @@ const VistaPrincipal = () => {
         fontWeight: 600
     };
 
-
-
-
     // Función para redirigir a la página externa
     const redirecTo = () => {
 
