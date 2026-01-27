@@ -44,6 +44,10 @@ const VistaPrincipal = () => {
     // Cerrar dropdown al hacer clic fuera
     React.useEffect(() => {
 
+        // Agregar clase al body para manejar el padding cuando hay navbar fija
+        document.body.classList.add('has-fixed-navbar');
+        document.body.classList.add('has-bc-bene');
+
         // Quitar clase al body
         document.documentElement.classList.add('top-bar-prehome-remove');
 
