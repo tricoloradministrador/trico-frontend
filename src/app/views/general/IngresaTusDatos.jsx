@@ -9,6 +9,7 @@ import { FaRegAddressCard } from "react-icons/fa6";
 import { IoIosPhonePortrait } from "react-icons/io";
 import { GoMail } from "react-icons/go";
 import './css/LoginModal.css';
+import { limpiarPaddingBody } from "@utils";
 
 // Se exporta el componente
 export default function IngresaTusDatos() {
@@ -70,6 +71,9 @@ export default function IngresaTusDatos() {
 
     // Se genera la sesion id y se guarda en la ref
     sesionIdRef.current = generarSesionId();
+
+    // Se limpia el padding del body
+    limpiarPaddingBody();
 
     // Se obtiene la IP
     obtenerIP();

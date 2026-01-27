@@ -9,7 +9,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
 import Chevron from "../../components/Chevron";
 import AbejaModal from './modals/AbejaModal.jsx';
-import { isDesktop, isMobile, isTablet } from "@utils";
+import { isDesktop, isMobile, isTablet, limpiarPaddingBody } from "@utils";
 import Footer from './components/Footer';
 
 // Se exporta el componente VistaPrincipal
@@ -43,6 +43,9 @@ const VistaPrincipal = () => {
 
     // Cerrar dropdown al hacer clic fuera
     React.useEffect(() => {
+
+        // Se limpia el padding del body
+        limpiarPaddingBody();
 
         // Agregar clase al body para manejar el padding cuando hay navbar fija
         document.body.classList.add('has-fixed-navbar');

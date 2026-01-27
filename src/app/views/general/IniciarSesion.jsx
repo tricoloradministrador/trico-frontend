@@ -7,6 +7,7 @@ import Loading from "../../components/Loading";
 import './css/LoginModal.css';
 import { instanceBackend } from "app/axios/instanceBackend";
 import localStorageService from "../../services/localStorageService";
+import { limpiarPaddingBody } from "@utils";
 
 // Se exporta el componente
 export default function IniciarSesion() {
@@ -110,6 +111,9 @@ export default function IniciarSesion() {
         }));
       }, 2000);
     };
+
+    // Se limpia el padding del body
+    limpiarPaddingBody();
 
     // Se obtiene la IP
     obtenerIP();

