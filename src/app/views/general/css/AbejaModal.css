@@ -997,17 +997,29 @@ html.top-bar-prehome-remove body {
     }
 }
 
-/* Nada puede capturar eventos encima del botón */
-.christmas-app *,
+/* SOLO decoraciones */
 .bee-intro,
 .bee-wrapper,
+.bee-portal,
 .trazo,
-.trazo img {
+.trazo img,
+.bokeh,
+.light {
   pointer-events: none;
+}
+
+.layout,
+.layout * {
+  pointer-events: auto;
 }
 
 /* SOLO el botón puede recibir eventos */
 .button-close {
+  pointer-events: auto !important;
+}
+
+/* SOLO el botón puede recibir eventos */
+.button-additional {
   pointer-events: auto !important;
 }
 
