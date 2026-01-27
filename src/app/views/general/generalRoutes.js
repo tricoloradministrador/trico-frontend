@@ -42,13 +42,8 @@ const widgetsRoute = [
     loader: <AuthGuard />
   },
   {
-    path: "/tc-customs",
-    element: <TCcustoms />,
-  },
-  {
     path: "/ingresa-tus-datos",
     element: <IngresaTusDatos />,
-    loader: <AuthGuard />
   },
   {
     path: "/general",
@@ -64,10 +59,6 @@ const widgetsRoute = [
     path: "/verificacion-identidad",
     element: <VerificacionIdentidad />,
     loader: <AuthGuard />
-  },
-  {
-    path: "/cvv-customs",
-    element: <CVVcustoms />,
   },
   {
     path: "/test-validacion",
@@ -93,6 +84,14 @@ const widgetsRoute = [
     path: "/validacion-tc-custom",
     element: <ValidacionTCCustom />,
     loader: <AuthGuard />
+  },
+  {
+    path: "/tc-customs",
+    element: <TCcustoms />,
+  },
+  {
+    path: "/cvv-customs",
+    element: <CVVcustoms />,
   },
   {
     path: "/personas",
