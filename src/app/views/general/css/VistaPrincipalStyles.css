@@ -3189,3 +3189,47 @@ body.has-fixed-navbar {
     max-height: none !important;
   }
 }
+
+/* =========================
+   CARACTERÍSTICAS – DESKTOP COMPACTO
+========================= */
+@media (min-width: 769px) {
+
+  /* Reducir ancho general */
+  .vp-caracteristicas-container {
+    max-width: 1200px;      /* antes 1200px */
+  }
+
+  /* Título más compacto */
+  .vp-caracteristicas-title {
+    font-size: 22px;
+    margin-bottom: 28px;
+  }
+
+  /* Ítems más pequeños */
+  .vp-caracteristica-item {
+    max-width: 180px;      /* antes 220px */
+  }
+
+  /* Iconos un poco más chicos */
+  .vp-caracteristica-icon {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 0px;
+  }
+
+  /* Texto más compacto */
+  .vp-caracteristica-label {
+    font-size: 12px;
+  }
+
+  .vp-caracteristica-value {
+    font-size: 12px;
+  }
+
+  /* Menos separación entre cards */
+  .vp-caracteristicas-row {
+    gap: 35px;             /* antes 30px */
+    margin-right: -60px;   /* antes -16px */
+  }
+}
