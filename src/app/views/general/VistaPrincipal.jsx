@@ -79,46 +79,6 @@ const VistaPrincipal = () => {
         fontWeight: 600
     };
 
-    // Se efecto para manejar la fijación del navbar al hacer scroll
-    React.useEffect(() => {
-
-        // Obtener el navbar
-        const navbar = document.querySelector('.vp-navbar');
-
-        // Si no existe el navbar, salir
-        if (!navbar) return;
-
-        // Obtener la altura del navbar
-        const navHeight = navbar.offsetHeight;
-
-        // Función para manejar el scroll
-        const onScroll = () => {
-
-            // Si el scroll es mayor que la altura del navbar, fijar el navbar
-            if (window.scrollY > navHeight) {
-
-                // Fijar el navbar
-                navbar.classList.add('is-fixed');
-
-                // Ajustar el padding del body para evitar salto de contenido
-                document.body.style.paddingTop = `${navHeight}px`;
-            } else {
-
-                // Quitar la fijación del navbar
-                navbar.classList.remove('is-fixed');
-
-                // Quitar el padding del body
-                document.body.style.paddingTop = '0px';
-            };
-        };
-
-        // Agregar el event listener para el scroll
-        window.addEventListener('scroll', onScroll, { passive: true });
-
-        // Limpiar el event listener al desmontar
-        return () => window.removeEventListener('scroll', onScroll);
-    }, []);
-
     // Efecto para manejar la visibilidad del componente de beneficios al hacer scroll
     React.useEffect(() => {
 
