@@ -869,8 +869,9 @@ const VistaPrincipal = () => {
                 id="caracteristicas"
                 className="vp-caracteristicas"
             >
-                <div className="vp-caracteristicas-container">
+                <div className="vp-caracteristicas-container mt-2">
                     <h2 className="vp-caracteristicas-title">
+                        <br />
                         Características
                     </h2>
                     <div className="vp-caracteristicas-row">
@@ -882,7 +883,7 @@ const VistaPrincipal = () => {
                                 <img src="/assets/images/seguros/rostro_chulo.png" alt="" />
                             </div>
                             <p className="vp-caracteristica-label">Debes tener</p>
-                            <p className="vp-caracteristica-value">Entre 18 y 64 años</p>
+                            <p className="vp-caracteristica-value" style={{ fontWeight: 900 }}>Entre 18 y 64 años</p>
                         </div>
 
                         {/* ITEM 2 */}
@@ -893,7 +894,7 @@ const VistaPrincipal = () => {
                             <p className="vp-caracteristica-label">
                                 Edad máxima de permanencia
                             </p>
-                            <p className="vp-caracteristica-value">
+                            <p className="vp-caracteristica-value" style={{ fontWeight: 900 }}>
                                 69 años + 364 días
                             </p>
                         </div>
@@ -906,12 +907,11 @@ const VistaPrincipal = () => {
                             <p className="vp-caracteristica-label">
                                 Te permite cubrir
                             </p>
-                            <p className="vp-caracteristica-value">
+                            <p className="vp-caracteristica-value" style={{ fontWeight: 900 }}>
                                 Todas tus Tarjetas Débito y Crédito Bancolombia
                             </p>
                         </div>
-
-                    </div>
+                    </div><br /><br />
                 </div>
             </section>
 
