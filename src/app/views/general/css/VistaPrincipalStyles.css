@@ -33,6 +33,11 @@ body {
   border-radius: 8px;
 }
 
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
 .vp-container {
   font-family: 'Open Sans', sans-serif;
   color: #2c2a29;
