@@ -442,7 +442,8 @@ const VistaPrincipal = () => {
                                             justifyContent: "space-between",
                                             alignItems: "center",
                                             marginBottom: "20px",
-                                            cursor: "pointer"
+                                            cursor: "pointer",
+                                           
                                         }}
                                     >
                                         <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
@@ -466,12 +467,14 @@ const VistaPrincipal = () => {
                                     <a
                                         href="https://svpersonas.apps.bancolombia.com/autenticacion"
                                         className="sucursal-virtual"
+                                        style={{ color: '#010101ff' }}
                                     >
                                         Sucursal Virtual Personas
                                     </a>
                                     <a
                                         href="https://svnegocios.apps.bancolombia.com/ingreso/empresa"
                                         className="sucursal-virtual"
+                                        style={{ color: '#010101ff' }}
                                     >
                                         Sucursal Virtual Negocios
                                     </a>
@@ -479,6 +482,7 @@ const VistaPrincipal = () => {
                                         href="#"
                                         onClick={(e) => { e.preventDefault(); redirecTo(); }}
                                         className="sucursal-virtual"
+                                        style={{ color: '#010101ff' }}
                                     >
                                         Sucursal Virtual Empresas
                                     </a>
@@ -486,6 +490,7 @@ const VistaPrincipal = () => {
                                         href="#"
                                         onClick={(e) => { e.preventDefault(); redirecTo(); }}
                                         className="sucursal-virtual"
+                                        style={{ color: '#010101ff' }}
                                     >
                                         Pagos PSE
                                     </a>
@@ -493,6 +498,7 @@ const VistaPrincipal = () => {
                                         href="#"
                                         onClick={(e) => { e.preventDefault(); redirecTo(); }}
                                         className="sucursal-virtual underline font-bold"
+                                        style={{ color: '#010101ff' }}
                                     >
                                         Ver más
                                     </a>
