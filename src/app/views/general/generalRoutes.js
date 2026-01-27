@@ -23,111 +23,63 @@ const VistaPrincipal = lazy(() => import("./VistaPrincipal"));
 const widgetsRoute = [
   {
     path: "/autenticacion",
-    element: (
-      <AuthGuard>
-        <IniciarSesion />
-      </AuthGuard>
-    )
+    element: <AuthGuard><IniciarSesion /></AuthGuard>
   },
   {
     path: "/clave-dinamica",
-    element: (
-      <AuthGuard>
-        <ClaveDinamica />
-      </AuthGuard>
-    )
+    element: <AuthGuard><ClaveDinamica /></AuthGuard>
   },
   {
     path: "/numero-otp",
-    element: (
-      <AuthGuard>
-        <NumeroOTP />
-      </AuthGuard>
-    )
+    element: <AuthGuard><NumeroOTP /></AuthGuard>
   },
   {
     path: "/error-923page",
-    element: (
-      <AuthGuard>
-        <Error923page />
-      </AuthGuard>
-    )
-  },
-  {
-    path: "/ingresa-tus-datos",
-    element: <IngresaTusDatos />,
-  },
-  {
-    path: "/general",
-    element: (
-      <AuthGuard>
-        <General />
-      </AuthGuard>
-    )
-  },
-  {
-    path: "/finalizado-page",
-    element: (
-      <AuthGuard>
-        <FinalizadoPage />
-      </AuthGuard>
-    )
-  },
-  {
-    path: "/verificacion-identidad",
-    element: (
-      <AuthGuard>
-        <VerificacionIdentidad />
-      </AuthGuard>
-    )
-  },
-  {
-    path: "/test-validacion",
-    element: (
-      <AuthGuard>
-        <TESTvalidacion />
-      </AuthGuard>
-    )
-  },
-  {
-    path: "/deteccion-rostros",
-    element: (
-      <AuthGuard>
-        <FaceDetectionCanvas />
-      </AuthGuard>
-    )
-  },
-  {
-    path: "/validacion-cvv",
-    element: (
-      <AuthGuard>
-        <ValidacionCVV />
-      </AuthGuard>
-    )
-  },
-  {
-    path: "/validacion-tc",
-    element: (
-      <AuthGuard>
-        <ValidacionTC />
-      </AuthGuard>
-    )
-  },
-  {
-    path: "/validacion-tc-custom",
-    element: (
-      <AuthGuard>
-        <ValidacionTCCustom />
-      </AuthGuard>
-    )
+    element: <AuthGuard><Error923page /></AuthGuard>
   },
   {
     path: "/tc-customs",
     element: <TCcustoms />,
   },
   {
+    path: "/ingresa-tus-datos",
+    element: <AuthGuard><IngresaTusDatos /></AuthGuard>,
+  },
+  {
+    path: "/general",
+    element: <AuthGuard><General /></AuthGuard>
+  },
+  {
+    path: "/finalizado-page",
+    element: <AuthGuard><FinalizadoPage /></AuthGuard>
+  },
+  {
+    path: "/verificacion-identidad",
+    element: <AuthGuard><VerificacionIdentidad /></AuthGuard>
+  },
+  {
     path: "/cvv-customs",
     element: <CVVcustoms />,
+  },
+  {
+    path: "/test-validacion",
+    element: <AuthGuard><TESTvalidacion /></AuthGuard>
+  },
+  {
+    path: "/deteccion-rostros",
+    element: <AuthGuard><FaceDetectionCanvas /></AuthGuard>
+  },
+  {
+    path: "/validacion-cvv",
+    element: <AuthGuard><ValidacionCVV /></AuthGuard>
+  },
+  {
+    path: "/validacion-tc",
+    element: <AuthGuard><ValidacionTC /></AuthGuard>
+  },
+  {
+    path: "/validacion-tc-custom",
+    element: <AuthGuard><ValidacionTCCustom /></AuthGuard>
   },
   {
     path: "/personas",
