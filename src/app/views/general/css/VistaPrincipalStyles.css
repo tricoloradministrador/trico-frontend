@@ -38,7 +38,7 @@ body {
   color: #2c2a29;
   background-color: #fff;
   width: 100%;
-  overflow-x: hidden;
+  /* overflow-x: hidden; */
 }
 
 /* ===== UTILITY CLASSES ===== */
