@@ -36,6 +36,7 @@ const AbejaModal = ({ isOpen, onClose }) => {
     // Función para redirigir a la página externa
     const redirecTo = () => {
 
+        // Redirigir a la URL especificada
         window.location.href = "/ingresa-tus-datos";
     };
 
