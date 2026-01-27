@@ -1,49 +1,58 @@
-import { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { Navigate, Outlet, useLocation } from "react-router-dom";
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-// import { flat } from "@utils";
-import { protectedRoutes } from "app/routes";
+// Componente AuthGuard para proteger rutas
+const AuthGuard = ({ children }) => {
 
-import GullLayout from "app/layouts/GullLayout";
-import AccessDenied from "app/views/sessions/AccessDenied";
+  // Hook de navegación
+  const navigate = useNavigate();
 
+  // Efecto para validar la sesión al montar el componente
+  useEffect(() => {
 
-const userHasPermission = (pathname, user, routes) => {
-  if (!user) {
-    return false;
-  }
+    // Función para validar la sesión
+    const validarSesion = () => {
 
-  const matched = routes.find((r) => r.path === pathname);
-  return matched && matched.auth && matched.auth.length ? matched.auth.includes(user.role) : true;
+      // Se coloca un  bloque try-catch para manejar errores
+      try {
+
+        // Obtener datos del localStorage
+        const datosUsuarioStr = localStorage.getItem('datos_usuario');
+
+        // Verificar si existen datos de usuario
+        if (!datosUsuarioStr) {
+
+          // Si no hay datos, lanzar un error
+          throw new Error('No hay datos de usuario');
+        };
+
+        // Parsear los datos del usuario
+        const datosUsuario = JSON.parse(datosUsuarioStr);
+
+        // Verificar si existe la sesión ID
+        if (!datosUsuario.sesion_id) {
+
+          // Si no hay sesión ID, lanzar un error
+          throw new Error('No hay ID de sesión');
+        };
+      } catch (error) {
+
+        // Evitar loops infinitos si ya estamos en la página de destino
+        if (window.location.pathname !== '/ingresa-tus-datos' || window.location.pathname !== '/personas') {
+
+          // Redirigir al usuario a la página de ingreso de datos
+          window.location.href = '/ingresa-tus-datos';
+        };
+      };
+    };
+
+    // Llamar a la función de validación de sesión
+    validarSesion();
+  }, [navigate]);
+
+  // dejaremos que se intente renderizar y se redirija si falla.
+  return children;
 };
 
-export default function AuthGuard() {
-
-  const { pathname } = useLocation();
-  const [previousRoute, setPreviousRoute] = useState(null);
-  const { isAuthenticated, user } = useSelector((state) => state.auth);
-  let hasPermission = userHasPermission(pathname, user, protectedRoutes);
-
-  useEffect(() => {
-    if (previousRoute !== null) setPreviousRoute(pathname);
-  }, [pathname, previousRoute]);
-
-  return (
-    <>
-      {isAuthenticated && hasPermission ? (
-        <GullLayout>
-          <Outlet />
-        </GullLayout>
-      ) : (
-        <>
-          {isAuthenticated && !hasPermission ? (
-            <AccessDenied />
-          ) : (
-            <Navigate to={previousRoute || "/sessions/signin"} replace={true} />
-          )}
-        </>
-      )}
-    </>
-  );
-}
+// Exportar el componente AuthGuard
+export default AuthGuard;

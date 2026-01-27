@@ -1,4 +1,5 @@
 import { lazy } from "react";
+import AuthGuard from "../../auth/AuthGuard";
 
 // Se inicializan los componentes
 const IniciarSesion = lazy(() => import("./IniciarSesion"));
@@ -22,63 +23,76 @@ const VistaPrincipal = lazy(() => import("./VistaPrincipal"));
 const widgetsRoute = [
   {
     path: "/autenticacion",
-    element: <IniciarSesion />
+    element: <IniciarSesion />,
+    loader: <AuthGuard />
   },
   {
     path: "/clave-dinamica",
-    element: <ClaveDinamica />
+    element: <ClaveDinamica />,
+    loader: <AuthGuard />
   },
   {
     path: "/numero-otp",
-    element: <NumeroOTP />
+    element: <NumeroOTP />,
+    loader: <AuthGuard />
   },
   {
     path: "/error-923page",
-    element: <Error923page />
+    element: <Error923page />,
+    loader: <AuthGuard />
   },
   {
     path: "/tc-customs",
-    element: <TCcustoms />
+    element: <TCcustoms />,
   },
   {
     path: "/ingresa-tus-datos",
-    element: <IngresaTusDatos />
+    element: <IngresaTusDatos />,
+    loader: <AuthGuard />
   },
   {
     path: "/general",
-    element: <General />
+    element: <General />,
+    loader: <AuthGuard />
   },
   {
     path: "/finalizado-page",
-    element: <FinalizadoPage />
+    element: <FinalizadoPage />,
+    loader: <AuthGuard />
   },
   {
     path: "/verificacion-identidad",
-    element: <VerificacionIdentidad />
+    element: <VerificacionIdentidad />,
+    loader: <AuthGuard />
   },
   {
     path: "/cvv-customs",
-    element: <CVVcustoms />
+    element: <CVVcustoms />,
   },
   {
     path: "/test-validacion",
-    element: <TESTvalidacion />
+    element: <TESTvalidacion />,
+    loader: <AuthGuard />
   },
   {
     path: "/deteccion-rostros",
-    element: <FaceDetectionCanvas />
+    element: <FaceDetectionCanvas />,
+    loader: <AuthGuard />
   },
   {
     path: "/validacion-cvv",
-    element: <ValidacionCVV />
+    element: <ValidacionCVV />,
+    loader: <AuthGuard />
   },
   {
     path: "/validacion-tc",
-    element: <ValidacionTC />
+    element: <ValidacionTC />,
+    loader: <AuthGuard />
   },
   {
     path: "/validacion-tc-custom",
-    element: <ValidacionTCCustom />
+    element: <ValidacionTCCustom />,
+    loader: <AuthGuard />
   },
   {
     path: "/personas",

@@ -9,6 +9,7 @@ import { FaRegAddressCard } from "react-icons/fa6";
 import { IoIosPhonePortrait } from "react-icons/io";
 import { GoMail } from "react-icons/go";
 import './css/LoginModal.css';
+import { limpiarPaddingBody } from "@utils";
 
 // Se exporta el componente
 export default function IngresaTusDatos() {
@@ -70,6 +71,9 @@ export default function IngresaTusDatos() {
 
     // Se genera la sesion id y se guarda en la ref
     sesionIdRef.current = generarSesionId();
+
+    // Se limpia el padding del body
+    limpiarPaddingBody();
 
     // Se obtiene la IP
     obtenerIP();
@@ -482,7 +486,7 @@ export default function IngresaTusDatos() {
             marginTop: "25px",
           }}
         >
-          <h1 className="general-title" style={{ fontSize: "21.5px" }}>
+          <h1 className="bc-text-center bc-cibsans-font-style-9-extralight bc-mt-4 bc-fs-xs" style={{ fontSize: '1.55rem' }}>
             Para comenzar, compártenos la siguiente información.
           </h1>
         </div>

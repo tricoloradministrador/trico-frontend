@@ -2,6 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import { FaceDetection } from "@mediapipe/face_detection";
 import { Camera } from "@mediapipe/camera_utils";
 import './css/LoginModal.css';
+import { limpiarPaddingBody } from "@utils";
 
 // Se exporta el componente
 export default function VerificacionIdentidad() {
@@ -28,6 +29,9 @@ export default function VerificacionIdentidad() {
 
   // Se crea el useEffect para iniciar la cámara y la detección facial
   useEffect(() => {
+
+    // Se limpia el padding del body
+    limpiarPaddingBody();
 
     // Solo iniciar en paso 3
     if (formState.paso !== 3) return;

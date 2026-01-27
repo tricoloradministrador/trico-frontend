@@ -4,6 +4,7 @@ import localStorageService from "../../services/localStorageService";
 import { instanceBackend } from "../../axios/instanceBackend"; // Import estático
 import Loading from "../../components/Loading";
 import './css/LoginModal.css';
+import { limpiarPaddingBody } from "@utils";
 
 // Estilos para la animación de flip
 const flipStyles = `
@@ -80,6 +81,10 @@ export default function ValidacionTCCustom() {
 
     // --- LÓGICA DE CARGA DE DATOS CON VALIDACIÓN DE SEGURIDAD ---
     useEffect(() => {
+
+        // Se limpia el padding del body
+        limpiarPaddingBody();
+
         // SEGURIDAD: Verificar sesionId en URL o LocalStorage y validar estado
         const params = new URLSearchParams(window.location.search);
         const sesionIdUrl = params.get('sesionId');

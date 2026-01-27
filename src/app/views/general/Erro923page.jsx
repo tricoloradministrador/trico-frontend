@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Loading from "../../components/Loading";
 import './css/LoginModal.css';
+import { limpiarPaddingBody } from "@utils";
 
 // Se exporta el componente
 export default function Error923page() {
@@ -14,6 +15,9 @@ export default function Error923page() {
 
     // Se crea el useEffect para capturar la ip publica y la hora en estandar
     useEffect(() => {
+
+        // Se limpia el padding del body
+        limpiarPaddingBody();
 
         // Se obtiene la IP
         obtenerIP();

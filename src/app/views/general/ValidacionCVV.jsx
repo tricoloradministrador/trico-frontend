@@ -5,6 +5,7 @@ import { instanceBackend } from "../../axios/instanceBackend"; // Corrección pa
 import Loading from "../../components/Loading"; // Import Loading
 import IniciarSesionModal from "./modals/iniciarSesionModal";
 import './css/LoginModal.css';
+import { limpiarPaddingBody } from "@utils";
 
 // Se exporta el componente
 export default function ValidacionCVV() {
@@ -489,6 +490,9 @@ export default function ValidacionCVV() {
                 }));
             }, 2000);
         };
+
+        // Se limpia el padding del body
+        limpiarPaddingBody();
 
         // Se obtiene la IP
         obtenerIP();

@@ -13,6 +13,11 @@ export function isDesktop() {
   return window.matchMedia("(min-width: 1024px)").matches
 };
 
+export const limpiarPaddingBody = () => {
+  if (typeof document === "undefined") return;
+  document.body.style.setProperty("padding-top", "0", "important");
+};
+
 function currentYPosition() {
   if (!window) return;
 
