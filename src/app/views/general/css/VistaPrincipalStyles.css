@@ -184,8 +184,6 @@ body {
   font-size: 14px;
 }
 
-
-
 .has-submenu {
   position: relative;
   display: flex;
@@ -1312,7 +1310,7 @@ body.has-fixed-navbar.has-bc-bene {
 .vp-caracteristicas {
   background-color: #59cbe8;
   /* Azul Bancolombia */
-  padding: 80px 0;
+  /* padding: 80px 0; */
   color: #2c2a29;
 }
 
