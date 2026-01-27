@@ -329,10 +329,10 @@ const VistaPrincipal = () => {
 
                     {/* MENÚ DESKTOP */}
                     <div className="vp-nav-menu">
-                        <span style={{ fontWeight: "600" }}>Inicio</span>
-                        <span>Necesidades</span>
-                        <span>Productos y Servicios</span>
-                        <span>Educación Financiera</span>
+                        <span style={{ fontWeight: "600" }} className='vp-nav-link'>Inicio</span>
+                        <span className='vp-nav-link'>Necesidades</span>
+                        <span className='vp-nav-link'>Productos y Servicios</span>
+                        <span className='vp-nav-link'>Educación Financiera</span>   
                     </div>
 
                     {/* ACCIONES DESKTOP */}

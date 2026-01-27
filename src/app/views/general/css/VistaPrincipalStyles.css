@@ -171,20 +171,64 @@ html, body {
 }
 
 .header-top_link {
+   position: relative;
   color: #ffffff;
-  text-decoration: none;
-  font-size: 14px;
-  padding: 10px 12px;
-  display: flex;
-  align-items: center;
-  height: 100%;
-  transition: all 0.3s ease;
   font-weight: 400;
+  transition: color 0.2s ease;
 }
 
 .header-top_link:hover {
-  color: #FDDA24;
+ color: #ffffff;
+  font-weight: 600;
 }
+
+.header-top_link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 4px;
+  width: 100%;
+  height: 2px;
+  background-color: #fdda24;
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.25s ease;
+}
+
+/* ===== TOP BAR TAB HOVER (INVERTIDO) ===== */
+
+.header-top_item {
+  height: 100%;
+  display: flex;
+  align-items: stretch;
+}
+
+/* Link base */
+.header-top_link {
+  display: flex;
+  align-items: center;
+  padding: 0 14px;
+  height: 100%;
+  color: #ffffff;
+  background-color: transparent;
+  font-weight: 400;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* HOVER → fondo blanco, texto negro */
+.header-top_item:hover > .header-top_link {
+  background-color: #ffffff;
+  color: #2c2a29;
+  font-weight: 600;
+}
+
+/* ESTADO ACTIVO (cuando el menú está abierto) */
+.header-top_link.active {
+  background-color: #ffffff;
+  color: #2c2a29;
+  font-weight: 600;
+}
+
 
 .header-top_item {
   margin: 0 8px;
@@ -3022,4 +3066,40 @@ body.has-fixed-navbar {
     min-height: unset !important;
     max-height: none !important;
   }
+}
+
+
+
+/* Links del menú principal */
+.vp-nav-link {
+  position: relative;
+  cursor: pointer;
+  padding: 8px 2px;
+  font-weight: 400;
+  color: #6f6f6f; /* gris normal */
+  transition: color 0.2s ease;
+}
+
+/* Texto más oscuro */
+.vp-nav-link:hover {
+  color: #000;
+}
+
+/* Línea amarilla */
+.vp-nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 100%;
+  height: 3px;
+  background-color: #fdda24;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s ease;
+}
+
+/* Mostrar línea al hover */
+.vp-nav-link:hover::after {
+  transform: scaleX(1);
 }
