@@ -326,7 +326,7 @@ const VistaPrincipal = () => {
                             </li>
                             <li className="header-top_item has-submenu sticky-static">
                                 <a
-                                    className={`header-top_link ${activeDropdown === 'negocios' ? 'active' : ''}`}
+                                    className={`header-top_link header-top_link--arrow ${activeDropdown === 'negocios' ? 'active' : ''}`}
                                     href="#"
                                     id="header-negocios"
                                     onClick={(e) => { e.preventDefault(); toggleDropdown('negocios'); }}

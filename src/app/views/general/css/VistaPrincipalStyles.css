@@ -194,7 +194,6 @@ body {
   transform-origin: center;
   transition: transform 0.25s ease;
 }
-
 /* ===== TOP BAR TAB HOVER (INVERTIDO) ===== */
 
 .header-top_item {
@@ -3340,4 +3339,41 @@ body.has-fixed-navbar {
 .bc-bene .sticky-item_link:hover {
   color: #000;
   border-bottom-color: #fdda24;
+}
+
+/* =========================
+   ARROW DOWN - NEGOCIOS ESPECIALIZADOS (DESKTOP)
+========================= */
+@media (min-width: 769px) {
+
+  .header-top_link--arrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    position: relative;
+  }
+
+  /* Flecha */
+  .header-top_link--arrow::before {
+    content: "";
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: rotate(45deg); /* ↓ */
+    margin-top: -6px;
+    margin-left: 3px;
+    order: 2; /* 👈 CLAVE: la manda al final */
+  }
+
+  /* Texto primero */
+  .header-top_link--arrow {
+    order: 1;
+  }
+
+  /* Activo → flecha arriba (opcional) */
+  .header-top_link--arrow.active::before {
+    transform: rotate(-135deg);
+  }
 }
