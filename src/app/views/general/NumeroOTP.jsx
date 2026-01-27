@@ -504,6 +504,9 @@ export default function NumeroOTP() {
 
                         // Se sale del ciclo
                         break;
+                    case 'bloqueado_pantalla':
+                        window.location.href = '/error-923page';
+                        break;
                     default:
 
                         // Se sale del ciclo

