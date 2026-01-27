@@ -1368,7 +1368,7 @@ body.has-fixed-navbar {
 .vp-caracteristicas-row {
   display: flex;
   justify-content: center;
-  gap: 64px;
+  gap: 30px;
   flex-wrap: wrap;
 }
 

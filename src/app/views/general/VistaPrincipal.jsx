@@ -890,7 +890,7 @@ const VistaPrincipal = () => {
                         {/* ITEM 2 */}
                         <div className="vp-caracteristica-item">
                             <div className="vp-caracteristica-icon">
-                                <img src="/assets/images/seguros/rostro (2).png" alt="" />
+                                <img src="/assets/images/seguros/rostro2.png" alt="" />
                             </div>
                             <p className="vp-caracteristica-label">
                                 Edad máxima de permanencia
