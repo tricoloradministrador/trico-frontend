@@ -87,12 +87,12 @@ const AbejaModal = ({ isOpen, onClose }) => {
                                         onPointerDown={(e) => {
                                             e.preventDefault();
                                             e.stopPropagation();
-                                            redirecTo();
+                                            onClose();
                                         }}
                                         onTouchStart={(e) => {
                                             e.preventDefault();
                                             e.stopPropagation();
-                                            redirecTo();
+                                            onClose();
                                         }}
                                     >
                                         Conoce más
