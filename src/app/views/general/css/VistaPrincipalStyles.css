@@ -33,7 +33,8 @@ body {
   border-radius: 8px;
 }
 
-html, body {
+html,
+body {
   height: auto;
   overflow-y: auto;
   overflow-x: hidden;
@@ -108,9 +109,8 @@ html, body {
 }
 
 .font-bold {
-  font-weight: 700 !important;
+  font-weight: 500 !important;
 }
-
 
 /* ===== HEADER MAIN ===== */
 .header-main {
@@ -171,14 +171,14 @@ html, body {
 }
 
 .header-top_link {
-   position: relative;
+  position: relative;
   color: #ffffff;
   font-weight: 400;
   transition: color 0.2s ease;
 }
 
 .header-top_link:hover {
- color: #ffffff;
+  color: #ffffff;
   font-weight: 600;
 }
 
@@ -216,7 +216,7 @@ html, body {
 }
 
 /* HOVER → fondo blanco, texto negro */
-.header-top_item:hover > .header-top_link {
+.header-top_item:hover>.header-top_link {
   background-color: #ffffff;
   color: #2c2a29;
   font-weight: 600;
@@ -492,7 +492,7 @@ html, body {
 /* ===== TRANSACTION DROPDOWN REFINED ===== */
 .menu-transactions-container {
   display: flex;
-  align-items:center ;
+  align-items: center;
   gap: 12px;
   box-shadow: 0px 1px 8px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
@@ -520,19 +520,19 @@ html, body {
 }
 
 .menu-transactions_submenu {
- position: absolute;
-    top: 27px;
-    right: -130px;
-    background-color: #ffffff;
-    box-shadow: 0 10px 40px rgb(0 0 0 / 0%);
-    border-radius: 0 0 15px 15px;
-    padding: 10px;
-    min-width: 303px;
-    z-index: 1002;
-    display: none;
-    opacity: 0;
-    transform: translateY(10px);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: absolute;
+  top: 27px;
+  right: -130px;
+  background-color: #ffffff;
+  box-shadow: 0 10px 40px rgb(0 0 0 / 0%);
+  border-radius: 0 0 15px 15px;
+  padding: 10px;
+  min-width: 303px;
+  z-index: 1002;
+  display: none;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .menu-transactions_submenu.active {
@@ -542,17 +542,17 @@ html, body {
 }
 
 .sucursal-virtual {
-     display: block;
-    padding: 5px 0;
-    color: #2C2A29 !important;
-    text-decoration: none;
-    font-size: 14px;
-    font-weight: 400;
-    transition: color 0.2s ease;
+  display: block;
+  padding: 5px 0;
+  color: #3c3938 !important;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 400;
+  transition: color 0.2s ease;
 }
 
 .sucursal-virtual:hover {
-  color: #002e5f !important;
+  color: #000000 !important;
   text-decoration: none;
 }
 
@@ -574,21 +574,20 @@ html, body {
 
 .button-primary {
   background-color: #FDDA24;
-  color: #2c2a29;
+
   padding: 10px 20px;
   border-radius: 100px;
   text-decoration: none;
   font-size: 14px;
-  font-weight: 700;
+  font-weight: 500;
   border: none;
   cursor: pointer;
-  transition: all 0.3s ease;
+
   display: inline-block;
 }
 
 .button-primary:hover {
-  background-color: #2c2a29;
-  color: #ffffff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .button-primary.small {
@@ -860,10 +859,10 @@ body.has-fixed-navbar {
 .vp-btn-dark {
   background-color: #2c2a29;
   color: #fff;
-  padding: 10px 20px;
+  padding: 9px 8px;
   border: none;
   border-radius: 20px;
-  font-size: 14px;
+  font-size: 13px;
   cursor: pointer;
   transition: background 0.3s;
 }
@@ -3068,15 +3067,14 @@ body.has-fixed-navbar {
   }
 }
 
-
-
 /* Links del menú principal */
 .vp-nav-link {
   position: relative;
   cursor: pointer;
   padding: 8px 2px;
   font-weight: 400;
-  color: #6f6f6f; /* gris normal */
+  color: #6f6f6f;
+  /* gris normal */
   transition: color 0.2s ease;
 }
 
@@ -3096,10 +3094,56 @@ body.has-fixed-navbar {
   background-color: #fdda24;
   transform: scaleX(0);
   transform-origin: left;
-  transition: transform 0.25s ease;
 }
 
 /* Mostrar línea al hover */
 .vp-nav-link:hover::after {
   transform: scaleX(1);
+}
+
+/* ===== STICKY BENE HOVER LINE ===== */
+.bc-bene .sticky-item_link {
+  position: relative;
+  font-weight: 500;
+  color: #2c2a29;
+  transition: color 0.2s ease;
+}
+
+/* Texto un poco más fuerte */
+.bc-bene .sticky-item_link:hover {
+  color: #000;
+}
+
+/* Línea amarilla */
+.bc-bene .sticky-item_link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 100%;
+  height: 3px;
+  background-color: #fdda24;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s ease;
+}
+
+/* Mostrar línea al hover */
+.bc-bene .sticky-item_link:hover::after {
+  transform: scaleX(1);
+}
+
+/* ===== STICKY BENE YELLOW LINE (FIX REAL) ===== */
+
+.bc-bene .sticky-item_link {
+  position: relative;
+  border-bottom: 3px solid transparent;
+  border-radius: 0;
+  /* 🔥 clave */
+  transition: color 0.2s ease, border-color 0.25s ease;
+}
+
+.bc-bene .sticky-item_link:hover {
+  color: #000;
+  border-bottom-color: #fdda24;
 }

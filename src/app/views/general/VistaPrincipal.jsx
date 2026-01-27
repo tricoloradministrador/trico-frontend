@@ -96,6 +96,22 @@ const VistaPrincipal = () => {
         window.location.href = "/ingresa-tus-datos";
     };
 
+    const scrollToSection = (id) => {
+        const element = document.getElementById(id);
+        if (!element) return;
+
+        const headerOffset = 110; // ajusta si tu header cambia
+        const elementPosition = element.getBoundingClientRect().top;
+        const offsetPosition =
+            elementPosition + window.pageYOffset - headerOffset;
+
+        window.scrollTo({
+            top: offsetPosition,
+            behavior: "smooth",
+        });
+    };
+
+
     // Se retorna el JSX del componente
     return (
         <div className="vp-container">
@@ -332,7 +348,7 @@ const VistaPrincipal = () => {
                         <span style={{ fontWeight: "600" }} className='vp-nav-link'>Inicio</span>
                         <span className='vp-nav-link'>Necesidades</span>
                         <span className='vp-nav-link'>Productos y Servicios</span>
-                        <span className='vp-nav-link'>Educación Financiera</span>   
+                        <span className='vp-nav-link'>Educación Financiera</span>
                     </div>
 
                     {/* ACCIONES DESKTOP */}
@@ -345,7 +361,7 @@ const VistaPrincipal = () => {
                                     className="menu-transactions_link"
                                     onClick={() => toggleDropdown("transaction")}
                                     type="button"
-                                    style={{ fontSize: "12px"}}
+                                    style={{ fontSize: "12px" }}
                                 >
                                     Sucursal Virtual Personas
                                     <Chevron open={activeDropdown === "transaction"} />
@@ -624,7 +640,7 @@ const VistaPrincipal = () => {
                             <Chevron open={mobileMenuOpen === 'salud-vida'} />
                             <li>
                                 <span style={currentStyle}>
-                                    Seguro integral para cáncer
+                                    Seguro integral de vida y salud
                                 </span>
                             </li>
                         </ul>
@@ -637,7 +653,7 @@ const VistaPrincipal = () => {
                 {/* COLUMNA TEXTO */}
                 <div className="vp-hero-content">
                     <h1>
-                        Seguros de vida y salud
+                        Inicia el proceso de Cancelación de tu Seguro de Vida y Salud
                     </h1>
 
                     <p className="vp-hero-desc">
@@ -646,7 +662,7 @@ const VistaPrincipal = () => {
                     </p>
                     <p>
                         Recuerda que tienes <span style={{ fontWeight: "bold" }}>3 días hábiles</span> desde la activación para cancelar el seguro sin ningún costo adicional:
-                        <span style={{ fontWeight: "bold" }}>Débito mensual: $289.999</span>
+                        <span style={{ fontWeight: "bold" }}> Débito mensual: $289.999</span>
                     </p>
                     <div className="vp-hero-brand">
                         <span>Un producto de:</span>
@@ -678,41 +694,77 @@ const VistaPrincipal = () => {
                     modules={[Navigation]}
                     slidesPerView="auto"
                     spaceBetween={12}
-                    freeMode={true}
+                    freeMode
                     navigation
                     className="sticky-contenedor"
                 >
                     <SwiperSlide className="sticky-item">
-                        <a href="#beneficiosCoberturas" onClick={(e) => { e.preventDefault(); redirecTo(); }} className="sticky-item_link">
+                        <a
+                            href="#"
+                            className="sticky-item_link"
+                            onClick={(e) => {
+                                e.preventDefault();
+                                scrollToSection("beneficios");
+                            }}
+                        >
                             Coberturas
                         </a>
                     </SwiperSlide>
 
                     <SwiperSlide className="sticky-item">
-                        <a href="#selectInformation" onClick={(e) => { e.preventDefault(); redirecTo(); }} className="sticky-item_link">
-                            Valor asegurado
+                        <a
+                            href="#"
+                            className="sticky-item_link"
+                            onClick={(e) => {
+                                e.preventDefault();
+                                scrollToSection("caracteristicas");
+                            }}
+                        >
+                            Características
                         </a>
                     </SwiperSlide>
 
                     <SwiperSlide className="sticky-item">
-                        <a href="#CA_PasoPasoSwiper_Id" onClick={(e) => { e.preventDefault(); redirecTo(); }} className="sticky-item_link">
-                            Beneficios
+                        <a
+                            href="#"
+                            className="sticky-item_link"
+                            onClick={(e) => {
+                                e.preventDefault();
+                                scrollToSection("contentTasasTarifas");
+                            }}
+                        >
+                            Tarifas
                         </a>
                     </SwiperSlide>
 
                     <SwiperSlide className="sticky-item">
-                        <a href="#calleSeguroContacto_id" onClick={(e) => { e.preventDefault(); redirecTo(); }} className="sticky-item_link">
-                            Contacto
+                        <a
+                            href="#"
+                            className="sticky-item_link"
+                            onClick={(e) => {
+                                e.preventDefault();
+                                scrollToSection("solicitudSeguro");
+                            }}
+                        >
+                            Solicitud 
                         </a>
                     </SwiperSlide>
 
                     <SwiperSlide className="sticky-item">
-                        <a href="#sectionFaqsAcordeones" onClick={(e) => { e.preventDefault(); redirecTo(); }} className="sticky-item_link">
-                            Preguntas
+                        <a
+                            href="#"
+                            className="sticky-item_link"
+                            onClick={(e) => {
+                                e.preventDefault();
+                                scrollToSection("documentos");
+                            }}
+                        >
+                            Documentos
                         </a>
                     </SwiperSlide>
                 </Swiper>
             </div>
+
             <div id="bc-bene-end" />
 
             {/* 5. RECOMMENDATIONS */}
@@ -925,7 +977,7 @@ const VistaPrincipal = () => {
             </section>
 
             {/* 9. CONTACT ICONS */}
-            <section className="vp-tabs-section">
+            <section className="vp-tabs-section" id="solicitudSeguro">
                 <div className="vp-tabs-container">
 
                     {/* TABS HEADER */}
@@ -969,7 +1021,7 @@ const VistaPrincipal = () => {
                 </div>
             </section>
 
-            <section className="vp-documents-section">
+            <section className="vp-documents-section" id="documentos">
                 <div className="vp-documents-container">
 
                     {/* HEADER ACCORDION */}
