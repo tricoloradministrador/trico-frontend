@@ -79,6 +79,15 @@ body {
   margin-left: auto;
 }
 
+/* Max container ajustado para mobile */
+@media (max-width: 768px) {
+  .container-max {
+    display: flex;
+    justify-content: space-between !important;
+    align-items: center;
+  }
+}
+
 .container-max {
   max-width: 1398px;
   /* Un poco mas compacto como el original */
