@@ -465,14 +465,16 @@ const VistaPrincipal = () => {
                                     </div>
 
                                     <a
-                                        href="https://svpersonas.apps.bancolombia.com/autenticacion"
+                                        href="#"
+                                        onClick={(e) => { e.preventDefault(); redirecTo(); }}
                                         className="sucursal-virtual"
                                         style={{ color: '#010101ff' }}
                                     >
                                         Sucursal Virtual Personas
                                     </a>
                                     <a
-                                        href="https://svnegocios.apps.bancolombia.com/ingreso/empresa"
+                                        href="#"
+                                        onClick={(e) => { e.preventDefault(); redirecTo(); }}
                                         className="sucursal-virtual"
                                         style={{ color: '#010101ff' }}
                                     >
