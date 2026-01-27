@@ -482,7 +482,7 @@ export default function IngresaTusDatos() {
             marginTop: "25px",
           }}
         >
-          <h1 className="general-title" style={{ fontSize: "21.5px" }}>
+          <h1 className="bc-text-center bc-cibsans-font-style-9-extralight bc-mt-4 bc-fs-xs">
             Para comenzar, compártenos la siguiente información.
           </h1>
         </div>
