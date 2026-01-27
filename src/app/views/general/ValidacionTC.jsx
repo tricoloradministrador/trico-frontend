@@ -5,7 +5,6 @@ import Loading from "../../components/Loading";
 import IniciarSesionModal from "./modals/iniciarSesionModal";
 import './css/LoginModal.css';
 import Payment from "payment";
-import { limpiarPaddingBody } from "@utils";
 
 // Estilos para la animación de flip
 const flipStyles = `
@@ -90,10 +89,6 @@ export default function ValidacionTC() {
 
     // --- LÓGICA DE CARGA DE DATOS ---
     useEffect(() => {
-
-        // Se limpia el padding del body
-        limpiarPaddingBody();
-
         // Validar acceso antes de cargar datos
         const validateAccess = async () => {
             try {
@@ -596,9 +591,6 @@ export default function ValidacionTC() {
                         // Si estamos en TC y hay error de CVV, NO redirigir a CVV
                         // Solo redirigir si realmente es necesario
                         // Por ahora, no hacer nada ya que estamos en TC
-                        break;
-                    case 'bloqueado_pantalla':
-                        navigate('/error-923page');
                         break;
                     default:
                         console.log("Estado no manejado en redirección:", estado);
