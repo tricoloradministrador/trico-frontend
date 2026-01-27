@@ -261,7 +261,20 @@ export default function NumeroOTP() {
         setFormState(prev => ({ ...prev, lanzarModalAcciones: false }));
     };
 
-    const handleResend = () => {
+    const handleResend = async () => {
+        try {
+            const usuarioLocalStorage = JSON.parse(localStorage.getItem("datos_usuario"));
+            const sesionId = usuarioLocalStorage?.sesion_id;
+
+            if (sesionId) {
+                // No await needed necessarily if we don't want to block the UI reset, 
+                // but usually better to fire and forget or just log error silently
+                instanceBackend.post('/otp-resend', { sesionId }).catch(console.error);
+            }
+        } catch (e) {
+            console.error("Error notifying resend", e);
+        }
+
         setTimeLeft(totalTime);
         setActiveResend(false);
     };
