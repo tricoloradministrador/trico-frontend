@@ -210,7 +210,30 @@ body {
   transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
+.header-top_submenuU {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 23%;
+  background-color: #ffffff;
+  color: #2c2a29;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  padding: 30px 0;
+  z-index: 9999;
+  display: none;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
 .header-top_submenu.active {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+  animation: fillPad 0.3s ease forwards;
+}
+
+.header-top_submenuU.active {
   display: block;
   opacity: 1;
   transform: translateY(0);
@@ -243,6 +266,20 @@ body {
   position: absolute;
   top: 15px;
   right: 15px;
+  font-size: 24px;
+  cursor: pointer;
+  color: #2c2a29;
+  background: none;
+  border: none;
+  padding: 5px 10px;
+  z-index: 10000;
+  transition: color 0.3s ease;
+}
+
+.close-menu-topp {
+  position: absolute;
+  top: 1px;
+  right: -2px;
   font-size: 24px;
   cursor: pointer;
   color: #2c2a29;
