@@ -958,8 +958,8 @@ const VistaPrincipal = () => {
                                 <tr>
                                     <td>Cobertura Total</td>
                                     <td>
-                                        <p>Tarifa sin IVA $411.764</p>
-                                        <p>Tarifa con IVA $489.999</p>
+                                        <p>Tarifa sin IVA $280.764</p>
+                                        <p>Tarifa con IVA $289.999</p>
                                     </td>
                                 </tr>
                             </tbody>
