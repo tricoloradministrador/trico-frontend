@@ -33,12 +33,24 @@ body {
   border-radius: 8px;
 }
 
+html, body {
+  height: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
 .vp-container {
   font-family: 'Open Sans', sans-serif;
   color: #2c2a29;
   background-color: #fff;
   width: 100%;
+  overflow-y: hidden;
   overflow-x: hidden;
+}
+
+/* Se quita el scroll hacia la izquierda para mobile */
+.vp-container::-webkit-scrollbar {
+  display: none;
 }
 
 /* ===== UTILITY CLASSES ===== */
@@ -1546,6 +1558,15 @@ body.has-fixed-navbar {
   line-height: 1.6;
 }
 
+@media (max-width: 768px) {
+
+  .vp-tab-scroll {
+    max-height: 280px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
 /* CONTENEDOR */
 .vp-documents-section {
   background: #f4f4f4;
@@ -2976,5 +2997,27 @@ body.has-fixed-navbar {
   .swiper-button-prev,
   .swiper-button-next {
     display: none !important;
+  }
+}
+
+@media (min-width: 769px) {
+
+  .vp-tab-scroll,
+  .vp-tabs-section,
+  .vp-documents-content,
+  .vp-faq-cards {
+    max-height: none !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
+}
+
+@media (min-width: 769px) {
+
+  .intro-modal,
+  .bc-intro-modal {
+    height: auto !important;
+    min-height: unset !important;
+    max-height: none !important;
   }
 }
