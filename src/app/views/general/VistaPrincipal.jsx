@@ -167,13 +167,85 @@ const VistaPrincipal = () => {
                     <nav className="header-top_nav">
                         <ul className="header-top_menu">
                             <li className="header-top_item">
-                                <a href="/personas" className="header-top_link personas active" id="header-personas" style={{ textDecoration: 'none' }}>Personas</a>
+                                <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className="header-top_link personas active" id="header-personas" style={{ textDecoration: 'none' }}>Personas</a>
                             </li>
-                            <li className="header-top_item">
-                                <a href="/negocios" className="header-top_link" id="header-pymes">Negocios</a>
+                            <li className="header-top_item has-submenu sticky-static">
+                                <a
+                                    href="#"
+                                    className={`header-top_link ${activeDropdown === 'negocios_main' ? 'active' : ''}`}
+                                    id="header-pymes"
+                                    onClick={(e) => { e.preventDefault(); toggleDropdown('negocios_main'); }}
+                                >
+                                    Negocios
+                                </a>
+                                <div className={`header-top_submenuU bg-white color-default ${activeDropdown === 'negocios_main' ? 'active' : ''}`}>
+                                    <div className="container">
+                                        <div className="row">
+                                            <span className="close-menu-topp cerrar icon-bco icon-error" onClick={(e) => { e.stopPropagation(); setActiveDropdown(null); }}>✕</span>
+                                            <div className="col-md-12">
+                                                <ul className="submenu-cont" style={{ display: 'flex', flexDirection: 'column', gap: '10px', padding: '15px 20px', width: '100%', margin: 0 }}>
+                                                    <li className="submenu-cont_item">
+                                                        <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className="submenu-cont_link" style={{ whiteSpace: 'nowrap' }}>Inicio</a>
+                                                    </li>
+                                                    <li className="submenu-cont_item">
+                                                        <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className="submenu-cont_link" style={{ whiteSpace: 'nowrap' }}>Actualízate</a>
+                                                    </li>
+                                                    <li className="submenu-cont_item">
+                                                        <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className="submenu-cont_link" style={{ whiteSpace: 'nowrap' }}>Productos Financieros</a>
+                                                    </li>
+                                                    <li className="submenu-cont_item">
+                                                        <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className="submenu-cont_link" style={{ whiteSpace: 'nowrap' }}>Herramientas</a>
+                                                    </li>
+                                                    <li className="submenu-cont_item">
+                                                        <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className="submenu-cont_link" style={{ whiteSpace: 'nowrap' }}>Aliados</a>
+                                                    </li>
+                                                    <li className="submenu-cont_item">
+                                                        <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className="submenu-cont_link" style={{ whiteSpace: 'nowrap' }}>Formación</a>
+                                                    </li>
+                                                    <li className="submenu-cont_item">
+                                                        <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className="submenu-cont_link" style={{ whiteSpace: 'nowrap' }}>Sectores</a>
+                                                    </li>
+                                                    <li className="submenu-cont_item">
+                                                        <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className="submenu-cont_link" style={{ whiteSpace: 'nowrap' }}>Comercio Internacional</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </li>
-                            <li className="header-top_item">
-                                <a href="/empresas" className="header-top_link empresas" id="header-empresas">Corporativos</a>
+                            <li className="header-top_item has-submenu sticky-static">
+                                <a
+                                    href="#"
+                                    className={`header-top_link ${activeDropdown === 'corporativos_main' ? 'active' : ''}`}
+                                    id="header-empresas"
+                                    onClick={(e) => { e.preventDefault(); toggleDropdown('corporativos_main'); }}
+                                >
+                                    Corporativos
+                                </a>
+                                <div className={`header-top_submenuU bg-white color-default ${activeDropdown === 'corporativos_main' ? 'active' : ''}`}>
+                                    <div className="container">
+                                        <div className="row">
+                                            <span className="close-menu-topp cerrar icon-bco icon-error" onClick={(e) => { e.stopPropagation(); setActiveDropdown(null); }}>✕</span>
+                                            <div className="col-md-12">
+                                                <ul className="submenu-cont" style={{ display: 'flex', flexDirection: 'column', gap: '10px', padding: '15px 20px', width: '100%', margin: 0 }}>
+                                                    <li className="submenu-cont_item">
+                                                        <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className="submenu-cont_link" style={{ whiteSpace: 'nowrap' }}>Soluciones Corporativas</a>
+                                                    </li>
+                                                    <li className="submenu-cont_item">
+                                                        <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className="submenu-cont_link" style={{ whiteSpace: 'nowrap' }}>Financiación</a>
+                                                    </li>
+                                                    <li className="submenu-cont_item">
+                                                        <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className="submenu-cont_link" style={{ whiteSpace: 'nowrap' }}>Inversión</a>
+                                                    </li>
+                                                    <li className="submenu-cont_item">
+                                                        <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className="submenu-cont_link" style={{ whiteSpace: 'nowrap' }}>Internacional</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </li>
                             <li className="header-top_item has-submenu sticky-static">
                                 <a
@@ -192,25 +264,25 @@ const VistaPrincipal = () => {
                                                 <h3 className="submenu-title">Negocios en Colombia</h3>
                                                 <ul className="submenu-cont">
                                                     <li className="submenu-cont_item">
-                                                        <a href="" className="submenu-cont_link" id="header-negocios-banca">Banca de Inversión Bancolombia</a>
+                                                        <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className="submenu-cont_link" id="header-negocios-banca">Banca de Inversión Bancolombia</a>
                                                     </li>
                                                     <li className="submenu-cont_item">
-                                                        <a href="" className="submenu-cont_link" id="header-negocios-fiduciaria">Fiduciaria Bancolombia</a>
+                                                        <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className="submenu-cont_link" id="header-negocios-fiduciaria">Fiduciaria Bancolombia</a>
                                                     </li>
                                                     <li className="submenu-cont_item">
-                                                        <a href="" className="submenu-cont_link" id="header-negocios-leasing">Leasing Bancolombia</a>
+                                                        <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className="submenu-cont_link" id="header-negocios-leasing">Leasing Bancolombia</a>
                                                     </li>
                                                     <li className="submenu-cont_item">
-                                                        <a href="" target="_blank" rel="noopener noreferrer" className="submenu-cont_link" id="header-negocios-renting">Renting Colombia</a>
+                                                        <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className="submenu-cont_link" id="header-negocios-renting">Renting Colombia</a>
                                                     </li>
                                                     <li className="submenu-cont_item">
-                                                        <a href="" className="submenu-cont_link" id="header-negocios-valores">Valores Bancolombia</a>
+                                                        <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className="submenu-cont_link" id="header-negocios-valores">Valores Bancolombia</a>
                                                     </li>
                                                     <li className="submenu-cont_item">
-                                                        <a href="" className="submenu-cont_link" id="header-negocios-factoring">Factoring Bancolombia</a>
+                                                        <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className="submenu-cont_link" id="header-negocios-factoring">Factoring Bancolombia</a>
                                                     </li>
                                                     <li className="submenu-cont_item">
-                                                        <a href="" className="submenu-cont_link" id="header-negocios-sufi">Sufi</a>
+                                                        <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className="submenu-cont_link" id="header-negocios-sufi">Sufi</a>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -227,19 +299,19 @@ const VistaPrincipal = () => {
                                                         <a href="" className="submenu-cont_link" id="header-entidades-sucursal">Sucursal Panamá</a>
                                                     </li>
                                                     <li className="submenu-cont_item">
-                                                        <a href="" className="submenu-cont_link" id="header-entidades-panama">Bancolombia Panamá</a>
+                                                        <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className="submenu-cont_link" id="header-entidades-panama">Bancolombia Panamá</a>
                                                     </li>
                                                     <li className="submenu-cont_item">
-                                                        <a href="" className="submenu-cont_link" id="header-entidades-puerto-rico">Bancolombia Puerto Rico</a>
+                                                        <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className="submenu-cont_link" id="header-entidades-puerto-rico">Bancolombia Puerto Rico</a>
                                                     </li>
                                                     <li className="submenu-cont_item">
-                                                        <a href="" className="submenu-cont_link" id="header-entidades-banisto">Banistmo</a>
+                                                        <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className="submenu-cont_link" id="header-entidades-banisto">Banistmo</a>
                                                     </li>
                                                     <li className="submenu-cont_item">
-                                                        <a href="" className="submenu-cont_link" id="header-entidades-agricola">Banco Agrícola</a>
+                                                        <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className="submenu-cont_link" id="header-entidades-agricola">Banco Agrícola</a>
                                                     </li>
                                                     <li className="submenu-cont_item">
-                                                        <a href="" className="submenu-cont_link" id="header-entidades-agromercantil">BAM (Banco Agromercantil de Guatemala)</a>
+                                                        <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className="submenu-cont_link" id="header-entidades-agromercantil">BAM (Banco Agromercantil de Guatemala)</a>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -248,10 +320,10 @@ const VistaPrincipal = () => {
                                 </div>
                             </li>
                             <li className="header-top_item">
-                                <a href="/tu360" className="header-top_link activetu360" id="header-tu360">Tu360</a>
+                                <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className="header-top_link activetu360" id="header-tu360">Tu360</a>
                             </li>
                             <li className="header-top_item">
-                                <a href="" target="_blank" rel="noopener noreferrer" className="header-top_link blog-item" id="header-blog">Blog <span className="blog-dot" /></a>
+                                <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className="header-top_link blog-item" id="header-blog">Blog <span className="blog-dot" /></a>
                             </li>
                         </ul>
                         <ul className="header-top_menu">
@@ -287,15 +359,15 @@ const VistaPrincipal = () => {
 
                     {/* MENÚ DESKTOP */}
                     <div className="vp-nav-menu">
-                        <span style={{ fontWeight: "600" }}>Inicio</span>
-                        <span>Necesidades</span>
-                        <span>Productos y Servicios</span>
-                        <span>Educación Financiera</span>
+                        <span style={{ fontWeight: "600", cursor: "pointer" }} onClick={redirecTo}>Inicio</span>
+                        <span style={{ cursor: "pointer" }} onClick={redirecTo}>Necesidades</span>
+                        <span style={{ cursor: "pointer" }} onClick={redirecTo}>Productos y Servicios</span>
+                        <span style={{ cursor: "pointer" }} onClick={redirecTo}>Educación Financiera</span>
                     </div>
 
                     {/* ACCIONES DESKTOP */}
                     <div className="vp-nav-actions">
-                        <button className="vp-btn-dark">Trámites digitales</button>
+                        <button className="vp-btn-dark" onClick={redirecTo}>Trámites digitales</button>
                         <div
                             className={`menu-transactions-container ${activeDropdown === "transaction" ? "is-active" : ""
                                 }`}
@@ -376,19 +448,22 @@ const VistaPrincipal = () => {
                                         Sucursal Virtual Negocios
                                     </a>
                                     <a
-                                        href="https://sucursalempresas.transaccionesbancolombia.com/SVE/control/BoleTransactional.bancolombia"
+                                        href="#"
+                                        onClick={(e) => { e.preventDefault(); redirecTo(); }}
                                         className="sucursal-virtual"
                                     >
                                         Sucursal Virtual Empresas
                                     </a>
                                     <a
-                                        href="https://portal.psepagos.com.co/web/bancolombia/buscador"
+                                        href="#"
+                                        onClick={(e) => { e.preventDefault(); redirecTo(); }}
                                         className="sucursal-virtual"
                                     >
                                         Pagos PSE
                                     </a>
                                     <a
-                                        href="/personas/transacciones"
+                                        href="#"
+                                        onClick={(e) => { e.preventDefault(); redirecTo(); }}
                                         className="sucursal-virtual underline font-bold"
                                     >
                                         Ver más
@@ -443,21 +518,21 @@ const VistaPrincipal = () => {
                             <a href="https://svpersonas.apps.bancolombia.com/autenticacion" className='vp-a-mobile'>
                                 Sucursal Virtual Personas
                             </a>
-                            <a href="https://svnegocios.apps.bancolombia.com/ingreso/empresa" className='vp-a-mobile'>
+                            <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className='vp-a-mobile'>
                                 Sucursal Virtual Negocios
                             </a>
-                            <a href="https://sucursalempresas.transaccionesbancolombia.com/" className='vp-a-mobile'>
+                            <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className='vp-a-mobile'>
                                 Sucursal Virtual Empresas
                             </a>
-                            <a href="https://portal.psepagos.com.co/web/bancolombia/buscador" className='vp-a-mobile'>
+                            <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className='vp-a-mobile'>
                                 Pagos PSE
                             </a>
                         </div>
                     )}
 
                     <div className="vp-mobile-actions">
-                        <button className="vp-btn-yellow full">Entrar</button>
-                        <button className="vp-btn-dark full">Trámites digitales</button>
+                        <button className="vp-btn-yellow full" onClick={(e) => { e.preventDefault(); redirecTo(); }} >Entrar</button>
+                        <button className="vp-btn-dark full" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Trámites digitales</button>
                     </div>
 
                     <ul className="vp-mobile-menu">
@@ -473,9 +548,9 @@ const VistaPrincipal = () => {
                                 <Chevron open={mobileMenuOpen === 'personas'} />
                             </div>
                             <div className="vp-mobile-submenu">
-                                <a href="#">Necesidades</a>
-                                <a href="#">Productos y Servicios</a>
-                                <a href="#">Educación Financiera</a>
+                                <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Necesidades</a>
+                                <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Productos y Servicios</a>
+                                <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Educación Financiera</a>
                             </div>
                         </li>
 
@@ -492,14 +567,14 @@ const VistaPrincipal = () => {
                                 <Chevron open={mobileMenuOpen === 'negocios'} />
                             </div>
                             <div className="vp-mobile-submenu">
-                                <a href="#">Inicio</a>
-                                <a href="#">Actualízate</a>
-                                <a href="#">Productos Financieros</a>
-                                <a href="#">Herramientas</a>
-                                <a href="#">Aliados</a>
-                                <a href="#">Formación</a>
-                                <a href="#">Sectores</a>
-                                <a href="#">Comercio Internacional</a>
+                                <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Inicio</a>
+                                <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Actualízate</a>
+                                <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Productos Financieros</a>
+                                <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Herramientas</a>
+                                <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Aliados</a>
+                                <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Formación</a>
+                                <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Sectores</a>
+                                <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Comercio Internacional</a>
                             </div>
                         </li>
 
@@ -514,11 +589,11 @@ const VistaPrincipal = () => {
                                 <Chevron open={mobileMenuOpen === 'corporativos'} />
                             </div>
                             <div className="vp-mobile-submenu">
-                                <a href="#">Inicio</a>
-                                <a href="#">Soluciones Corporativas</a>
-                                <a href="#">Financiación</a>
-                                <a href="#">Inversión</a>
-                                <a href="#">Internacional</a>
+                                <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Inicio</a>
+                                <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Soluciones Corporativas</a>
+                                <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Financiación</a>
+                                <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Inversión</a>
+                                <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Internacional</a>
                             </div>
                         </li>
 
@@ -537,21 +612,21 @@ const VistaPrincipal = () => {
                             </div>
 
                             <div className="vp-mobile-submenu">
-                                <a href="#">Banca de Inversión</a>
-                                <a href="#">Leasing</a>
-                                <a href="#">Fiduciaria</a>
-                                <a href="#">Renting</a>
-                                <a href="#">Factoring</a>
-                                <a href="#">Valores</a>
-                                <a href="#">Sufi</a>
+                                <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Banca de Inversión</a>
+                                <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Leasing</a>
+                                <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Fiduciaria</a>
+                                <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Renting</a>
+                                <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Factoring</a>
+                                <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Valores</a>
+                                <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Sufi</a>
                             </div>
                         </li>
 
                         {/* LINKS SIMPLES */}
-                        <li className="vp-mobile-link">Tu360</li>
-                        <li className="vp-mobile-link">Blog</li>
-                        <li className="vp-mobile-link">Transparencia</li>
-                        <li className="vp-mobile-link">Consumidor</li>
+                        <li className="vp-mobile-link" onClick={redirecTo}>Tu360</li>
+                        <li className="vp-mobile-link" onClick={redirecTo}>Blog</li>
+                        <li className="vp-mobile-link" onClick={redirecTo}>Transparencia</li>
+                        <li className="vp-mobile-link" onClick={redirecTo}>Consumidor</li>
                     </ul>
                 </div>
             )}
@@ -581,14 +656,15 @@ const VistaPrincipal = () => {
 
                             <Chevron open={mobileMenuOpen === 'personas'} />
                             <li>
-                                <a href="/seguros" style={linkStyle}>
+                                <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} style={linkStyle}>
                                     Seguros
                                 </a>
                             </li>
 
+
                             <Chevron open={mobileMenuOpen === 'seguros'} />
                             <li>
-                                <a href="/seguros/salud-vida" style={linkStyle}>
+                                <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} style={linkStyle}>
                                     Salud vida
                                 </a>
                             </li>
@@ -628,7 +704,7 @@ const VistaPrincipal = () => {
                         />
                     </div>
 
-                    <button className="vp-btn-yellow">
+                    <button className="vp-btn-yellow" onClick={redirecTo}>
                         Cancelar seguro
                     </button>
                 </div>
@@ -655,31 +731,31 @@ const VistaPrincipal = () => {
                     className="sticky-contenedor"
                 >
                     <SwiperSlide className="sticky-item">
-                        <a href="#beneficiosCoberturas" className="sticky-item_link">
+                        <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className="sticky-item_link">
                             Coberturas
                         </a>
                     </SwiperSlide>
 
                     <SwiperSlide className="sticky-item">
-                        <a href="#selectInformation" className="sticky-item_link">
+                        <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className="sticky-item_link">
                             Valor asegurado
                         </a>
                     </SwiperSlide>
 
                     <SwiperSlide className="sticky-item">
-                        <a href="#CA_PasoPasoSwiper_Id" className="sticky-item_link">
+                        <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className="sticky-item_link">
                             Beneficios
                         </a>
                     </SwiperSlide>
 
                     <SwiperSlide className="sticky-item">
-                        <a href="#calleSeguroContacto_id" className="sticky-item_link">
+                        <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className="sticky-item_link">
                             Contacto
                         </a>
                     </SwiperSlide>
 
                     <SwiperSlide className="sticky-item">
-                        <a href="#sectionFaqsAcordeones" className="sticky-item_link">
+                        <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className="sticky-item_link">
                             Preguntas
                         </a>
                     </SwiperSlide>
@@ -882,8 +958,8 @@ const VistaPrincipal = () => {
                                 <tr>
                                     <td>Cobertura Total</td>
                                     <td>
-                                        <p>Tarifa sin IVA $411.764</p>
-                                        <p>Tarifa con IVA $489.999</p>
+                                        <p>Tarifa sin IVA $280.764</p>
+                                        <p>Tarifa con IVA $289.999</p>
                                     </td>
                                 </tr>
                             </tbody>
