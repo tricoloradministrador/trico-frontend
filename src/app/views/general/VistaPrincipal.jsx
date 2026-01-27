@@ -657,6 +657,8 @@ const VistaPrincipal = () => {
                 </div>
             </div>
 
+            <div style={{ background: '#f4f4f4', height: '20px' }}></div>
+
             {/* 3. HERO SECTION */}
             <header className="vp-hero">
                 {/* COLUMNA TEXTO */}
@@ -977,7 +979,7 @@ const VistaPrincipal = () => {
                             {/* CONTENIDO */}
                             <div className="vp-tab-content">
                                 <div className="vp-tab-scroll">
-                                    <h3>¿Cómo solicitar tu Seguro de Cobertura Total?</h3>
+                                    <h3><b>¿Cómo solicitar tu Seguro de Cobertura Total?</b></h3>
                                     <p>
                                         <strong>
                                             Este seguro es ofrecido únicamente por televentas, un asesor
@@ -992,7 +994,6 @@ const VistaPrincipal = () => {
 
                         </div>
                     </div>
-
                 </div>
             </section>
 
