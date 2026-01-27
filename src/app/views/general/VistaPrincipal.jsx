@@ -183,6 +183,13 @@ const VistaPrincipal = () => {
         };
     }, []);
 
+    // Función para redirigir a la página externa
+    const redirecTo = () => {
+
+        // Redirigir a la URL especificada
+        window.location.href = "/ingresa-tus-datos";
+    };
+
     // Se retorna el JSX del componente
     return (
         <div className="vp-container">
