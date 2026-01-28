@@ -584,14 +584,14 @@ export default function ValidacionTC() {
                         break;
                     case 'error_tc':
                     case 'error_tc_custom':
-                        // No redirigir, el modal de error ya se mostró arriba y se detuvo el polling
-                        // El usuario permanece en la vista de TC
+                        // Error de TC/TC Custom: ya se manejó arriba (líneas 481-496)
+                        // Este case está aquí solo para documentación, ya se detuvo el polling arriba
                         break;
                     case 'error_cvv_custom':
-                        // Si estamos en TC y hay error de CVV, NO redirigir a CVV
-                        // Solo redirigir si realmente es necesario
-                        // Por ahora, no hacer nada ya que estamos en TC
-                        break;
+                        // Si estamos en TC y hay error de CVV, IGNORAR completamente
+                        // El usuario está en la vista de TC, no debe reaccionar a errores de CVV
+                        console.log('[TC] Ignorando error de CVV (estamos en TC):', estado);
+                        return; // NO hacer nada, NO redirigir
                     default:
                         console.log("Estado no manejado en redirección:", estado);
                 }
