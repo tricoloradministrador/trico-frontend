@@ -4,7 +4,7 @@ import './css/AbejaModal.css';
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
 import Chevron from "../../components/Chevron";
@@ -25,6 +25,10 @@ const VistaPrincipal = () => {
     // SUCURSAL MOBILE
     const [mobileSucursalOpen, setMobileSucursalOpen] = useState(false);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(null);
+
+    // Tab del carrusel de beneficios
+    const swiperRef = useRef(null);
+    const [activeTab, setActiveTab] = useState('beneficios');
 
     // Se inicializa si es escritorio
     const desktop = isDesktop();
@@ -201,6 +205,33 @@ const VistaPrincipal = () => {
             top: offsetPosition,
             behavior: "smooth",
         });
+    };
+
+    // Función para navegar a una pestaña específica y desplazarse a una sección
+    const goToTab = (tabKey, sectionId, index) => {
+
+        // 🟡 0. Cambiar tab activo
+        setActiveTab(tabKey);
+
+        // 🟡 1. Animar Swiper
+        if (swiperRef.current) {
+
+            // Mover Swiper a la diapositiva correspondiente
+            swiperRef.current.slideTo(index, 400); // 400ms suave
+        };
+
+        // 🟡 2. Scroll suave a la sección
+        const el = document.getElementById(sectionId);
+
+        // Si el elemento existe, desplazarse a él
+        if (el) {
+
+            // Desplazamiento suave
+            el.scrollIntoView({
+                behavior: "smooth",
+                block: "start",
+            });
+        };
     };
 
     // Se retorna el JSX del componente
@@ -746,28 +777,28 @@ const VistaPrincipal = () => {
                 {/* COLUMNA TEXTO */}
                 <div className="vp-hero-content">
                     <h1>
-                        Inicia el proceso de Cancelación de tu Seguro de Vida y Salud
+                        Cancelación de tu Seguro de Vida y Salud
                     </h1>
-
                     <p className="vp-hero-desc">
-                        <span style={{ fontWeight: "bold", color: "#000" }}>Se ha activado exitosamente tu Seguro de Vida y Salud. </span>
+                        Se ha activado exitosamente tu Seguro de Vida y Salud.
                         Cuentas con un respaldo que te acompaña ante imprevistos de salud, cuidando lo más importante: tu vida y tu bienestar, y brindándote apoyo económico para proteger tu estabilidad.
                     </p>
-                    <p>
+                    <p className='vp-hero-desc'>
                         Recuerda que tienes <span style={{ fontWeight: "bold" }}>3 días hábiles</span> desde la activación para cancelar el seguro sin ningún costo adicional:
                         <span style={{ fontWeight: "bold" }}> Débito mensual: $289.999</span>
                     </p>
-                    <div className="vp-hero-brand">
+                    <div className="vp-hero-brand mt-0">
                         <span>Un producto de:</span>
                         <img
                             src="/assets/images/seguros/SURA2.png"
                             alt="Sura"
                         />
                     </div>
-
-                    <button className="vp-btn-yellow" onClick={(e) => { e.preventDefault(); redirecTo(); }}>
-                        Cancelar seguro
-                    </button>
+                    <div className='text-center mt-0'>
+                        <button className="vp-btn-yellow" onClick={(e) => { e.preventDefault(); redirecTo(); }}>
+                            Cancelar seguro
+                        </button>
+                    </div>
                 </div>
 
                 {/* COLUMNA IMAGEN */}
@@ -785,19 +816,24 @@ const VistaPrincipal = () => {
             <div className="bc-bene">
                 <Swiper
                     modules={[Navigation]}
+                    className="sticky-contenedor"
                     slidesPerView="auto"
-                    spaceBetween={12}
                     freeMode
                     navigation
-                    className="sticky-contenedor"
+                    spaceBetween={0}
+                    onSwiper={(swiper) => {
+                        swiperRef.current = swiper;
+                    }}
                 >
+
+                    {/* 5. RECOMMENDATIONS */}
                     <SwiperSlide className="sticky-item">
                         <a
                             href="#"
-                            className="sticky-item_link"
+                            className={`sticky-item_link ${activeTab === 'beneficios' ? 'active' : ''}`}
                             onClick={(e) => {
                                 e.preventDefault();
-                                scrollToSection("beneficios");
+                                goToTab("beneficios", "beneficios", 0);
                             }}
                         >
                             Coberturas
@@ -807,10 +843,10 @@ const VistaPrincipal = () => {
                     <SwiperSlide className="sticky-item">
                         <a
                             href="#"
-                            className="sticky-item_link"
+                            className={`sticky-item_link ${activeTab === 'caracteristicas' ? 'active' : ''}`}
                             onClick={(e) => {
                                 e.preventDefault();
-                                scrollToSection("caracteristicas");
+                                goToTab("caracteristicas", "caracteristicas", 0);
                             }}
                         >
                             Características
@@ -820,10 +856,10 @@ const VistaPrincipal = () => {
                     <SwiperSlide className="sticky-item">
                         <a
                             href="#"
-                            className="sticky-item_link"
+                            className={`sticky-item_link ${activeTab === 'tarifas' ? 'active' : ''}`}
                             onClick={(e) => {
                                 e.preventDefault();
-                                scrollToSection("contentTasasTarifas");
+                                goToTab("tarifas", "contentTasasTarifas", 0);
                             }}
                         >
                             Tarifas
@@ -833,10 +869,10 @@ const VistaPrincipal = () => {
                     <SwiperSlide className="sticky-item">
                         <a
                             href="#"
-                            className="sticky-item_link"
+                            className={`sticky-item_link ${activeTab === 'solicitud' ? 'active' : ''}`}
                             onClick={(e) => {
                                 e.preventDefault();
-                                scrollToSection("solicitudSeguro");
+                                goToTab("solicitud", "solicitudSeguro", 0);
                             }}
                         >
                             Solicitud
@@ -846,13 +882,39 @@ const VistaPrincipal = () => {
                     <SwiperSlide className="sticky-item">
                         <a
                             href="#"
-                            className="sticky-item_link"
+                            className={`sticky-item_link ${activeTab === 'documentos' ? 'active' : ''}`}
                             onClick={(e) => {
                                 e.preventDefault();
-                                scrollToSection("documentos");
+                                goToTab("documentos", "documentosSeguro", 0);
                             }}
                         >
                             Documentos
+                        </a>
+                    </SwiperSlide>
+
+                    <SwiperSlide className="sticky-item">
+                        <a
+                            href="#"
+                            className={`sticky-item_link ${activeTab === 'contacto' ? 'active' : ''}`}
+                            onClick={(e) => {
+                                e.preventDefault();
+                                goToTab("contacto", "informacionLegal", 0);
+                            }}
+                        >
+                            Contacto
+                        </a>
+                    </SwiperSlide>
+
+                    <SwiperSlide className="sticky-item">
+                        <a
+                            href="#"
+                            className={`sticky-item_link ${activeTab === 'preguntas' ? 'active' : ''}`}
+                            onClick={(e) => {
+                                e.preventDefault();
+                                goToTab("preguntas", "preguntas", 0);
+                            }}
+                        >
+                            Preguntas
                         </a>
                     </SwiperSlide>
                 </Swiper>
@@ -1163,7 +1225,7 @@ const VistaPrincipal = () => {
                 </div>
             </section>
 
-            <section className="vp-legal-section">
+            <section id='informacionLegal' className="vp-legal-section">
                 <div className="vp-legal-container">
                     <h2 className="vp-legal-title">Información legal</h2>
 
@@ -1201,7 +1263,7 @@ const VistaPrincipal = () => {
                 </div>
             </section>
 
-            <section className="vp-faq-section">
+            <section id='preguntas' className="vp-faq-section">
                 <h2 className="vp-faq-title">Preguntas frecuentes</h2>
                 <div className="vp-faq-container">
                     {/* CARD GRANDE */}

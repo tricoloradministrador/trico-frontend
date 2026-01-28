@@ -881,11 +881,12 @@ body.has-fixed-navbar {
 .vp-btn-yellow {
   background-color: #FDDA24;
   color: #2c2a29;
-  padding: 10px 20px;
+  padding: 12px 14px;
   border: none;
   border-radius: 20px;
   font-weight: 600;
   font-size: 14px;
+  width: 45%;
   cursor: pointer;
 }
 
@@ -1133,12 +1134,12 @@ body.has-fixed-navbar {
 }
 
 /* --- QUICK LINKS --- */
-
-
 .sticky-contenedor {
   width: 100%;
   max-width: 1200px;
   border-bottom: 1px solid #e5e5e5;
+  width: 100%;
+  padding: 0 12px;
 }
 
 /* Cada tab */
@@ -1149,27 +1150,145 @@ body.has-fixed-navbar {
   align-items: center;
 }
 
-/* Link normal */
-.sticky-item_link {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 16px 78px;
-  font-size: 14px;
-  color: #2c2a29;
-  text-decoration: none;
-  white-space: nowrap;
-  border-bottom: 2px solid transparent;
-  border-radius: 6px 6px 0 0;
-  transition: background-color 0.2s ease, color 0.2s ease;
+/* sticky-item_link para Desktop */
+@media (max-width: 769px) {
+
+  /* CONTENEDOR */
+  .sticky-contenedor {
+    border-bottom: 1px solid #e5e5e5;
+  }
+
+  /* CADA SLIDE */
+  .sticky-item {
+    width: auto !important;
+  }
+
+  /* TAB BASE */
+  .sticky-item_link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 14px 48px;
+    min-height: 48px;
+
+    font-size: 14px;
+    font-weight: 500;
+    color: #2c2a29;
+    text-decoration: none;
+    white-space: nowrap;
+
+    background: #ffffff;
+    border: none;
+    border-bottom: 3px solid transparent;
+    border-radius: 0;
+
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+
+  /* TAB ACTIVO (IMAGEN REAL) */
+  .sticky-item_link.active {
+    background-color: #2c2a29;   /* negro */
+    color: #ffffff !important;
+    font-weight: 600;
+    border-bottom-color: #fdda24; /* amarillo */
+
+    border-bottom: 3px solid #fdda24;
+
+    /* 👇 BORDES SOLO ARRIBA */
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  /* HOVER (opcional, muy sutil) */
+  .sticky-item_link:not(.active):hover {
+    background-color: #f5f5f5;
+  }
+
+  /* 🔴 DESACTIVAR CUALQUIER LÍNEA EXTRA */
+  .sticky-item_link::after {
+    display: none !important;
+  }
+}
+
+/* =========================
+   STICKY TABS – MOBILE
+========================= */
+@media (max-width: 768px) {
+
+  /* CONTENEDOR */
+  .sticky-contenedor {
+    border-bottom: 1px solid #e5e5e5;
+  }
+
+  /* CADA SLIDE */
+  .sticky-item {
+    width: auto !important;
+  }
+
+  /* TAB BASE */
+  .sticky-item_link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 14px 48px;
+    min-height: 48px;
+
+    font-size: 14px;
+    font-weight: 500;
+    color: #2c2a29;
+    text-decoration: none;
+    white-space: nowrap;
+
+    background: #ffffff;
+    border: none;
+    border-bottom: 3px solid transparent;
+    border-radius: 0;
+
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+
+  /* TAB ACTIVO (IMAGEN REAL) */
+  .sticky-item_link.active {
+    background-color: #2c2a29;   /* negro */
+    color: #ffffff !important;
+    font-weight: 600;
+    border-bottom-color: #fdda24; /* amarillo */
+
+    border-bottom: 2px solid #fdda24;
+
+    /* 👇 BORDES SOLO ARRIBA */
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  /* HOVER (opcional, muy sutil) */
+  .sticky-item_link:not(.active):hover {
+    background-color: #f5f5f5;
+  }
+
+  /* TAB NO ACTIVO → borde negro inferior */
+  .sticky-item_link:not(.active) {
+    border-bottom: 1px solid #000000;
+    background-color: #ffffff;
+    color: #2c2a29;
+  }
+
+  /* 🔴 DESACTIVAR CUALQUIER LÍNEA EXTRA */
+  .sticky-item_link::after {
+    display: none !important;
+  }
 }
 
 .beneficios {
   background-color: #f4f4f4;
   padding: 64px 0;
 }
-
-
 
 .text-center {
   text-align: center;
@@ -1251,24 +1370,6 @@ body.has-fixed-navbar {
 .swiper-button-prev {
   color: #2c2a29;
 }
-
-/* HOVER (suave) */
-.sticky-item_link:hover {
-  background-color: #f5f5f5;
-}
-
-/* ACTIVO (NEGRO + AMARILLO) */
-.sticky-item_link.active {
-  background-color: #2c2a29;
-  /* negro */
-  color: #ffffff;
-  font-weight: 600;
-  border-bottom: 3px solid #fdda24;
-  /* amarillo Bancolombia */
-}
-
-
-
 
 /* --- RECOMMENDATIONS (Cards) --- */
 .vp-section {
@@ -2324,19 +2425,34 @@ body.has-fixed-navbar {
   letter-spacing: -0.5px;
 }
 
-.vp-hero-brand {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-size: 14px;
-  color: #2c2a29;
-  margin-bottom: 24px;
+ /* Para desktop */
+@media (min-width: 769px) {
+  .vp-hero-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 14px;
+    color: #2c2a29;
+    margin-bottom: 24px;
+  }
+}
+
+/* Para dispositivos mobile */
+@media (max-width: 768px) {
+  .vp-hero-brand {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    font-size: 14px;
+    color: #2c2a29;
+    margin-bottom: 24px;
+  }
 }
 
 .vp-hero-brand img {
   height: 44px;
   width: auto;
-  margin-left: 60px;
 }
 
 .vp-hero-image-container {
@@ -2353,7 +2469,7 @@ body.has-fixed-navbar {
 @media (max-width: 768px) {
   .vp-hero {
     flex-direction: column;
-    padding: 32px 16px;
+    padding: 32px 35px;
     min-height: auto;
   }
 
@@ -2366,7 +2482,7 @@ body.has-fixed-navbar {
   }
 
   .vp-hero-image-container img {
-    max-width: 85%;
+    max-width: 100%;
     height: auto;
   }
 
@@ -2374,16 +2490,19 @@ body.has-fixed-navbar {
   .vp-hero-content {
     order: 2;
     max-width: 100%;
+    text-align: center;
   }
 
   .vp-hero h1 {
-    font-size: 36px;
+    font-size: 28px;
     line-height: 1.15;
+    margin-bottom: 15px;
   }
 
   .vp-hero-desc {
     font-size: 15px;
     margin-bottom: 20px;
+    text-align: justify;
   }
 }
 
@@ -3195,46 +3314,10 @@ body.has-fixed-navbar {
   overflow: hidden;
 }
 
-/* CONTENEDOR DEL CARRUSEL */
-.sticky-contenedor {
-  width: 100%;
-  padding: 0 12px;
-}
-
 /* CADA SLIDE */
 .sticky-item {
   width: auto !important;
   flex-shrink: 0;
-}
-
-/* LINK */
-.sticky-item_link {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 12px 20px;
-  white-space: nowrap;
-
-  font-size: 14px;
-  font-weight: 500;
-  color: #2c2a29;
-  text-decoration: none;
-
-  border-radius: 999px;
-  border: 1px solid transparent;
-  transition: all 0.25s ease;
-}
-
-/* ACTIVO */
-.sticky-item_link.active {
-  background: #2c2a29;
-  color: #fff;
-  border-color: #2c2a29;
-}
-
-/* HOVER */
-.sticky-item_link:hover {
-  background: #f4f4f4;
 }
 
 @media (max-width: 768px) {
@@ -3300,53 +3383,6 @@ body.has-fixed-navbar {
 /* Mostrar línea al hover */
 .vp-nav-link:hover::after {
   transform: scaleX(1);
-}
-
-/* ===== STICKY BENE HOVER LINE ===== */
-.bc-bene .sticky-item_link {
-  position: relative;
-  font-weight: 500;
-  color: #2c2a29;
-  transition: color 0.2s ease;
-}
-
-/* Texto un poco más fuerte */
-.bc-bene .sticky-item_link:hover {
-  color: #000;
-}
-
-/* Línea amarilla */
-.bc-bene .sticky-item_link::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: -6px;
-  width: 100%;
-  height: 3px;
-  background-color: #fdda24;
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.25s ease;
-}
-
-/* Mostrar línea al hover */
-.bc-bene .sticky-item_link:hover::after {
-  transform: scaleX(1);
-}
-
-/* ===== STICKY BENE YELLOW LINE (FIX REAL) ===== */
-
-.bc-bene .sticky-item_link {
-  position: relative;
-  border-bottom: 3px solid transparent;
-  border-radius: 0;
-  /* 🔥 clave */
-  transition: color 0.2s ease, border-color 0.25s ease;
-}
-
-.bc-bene .sticky-item_link:hover {
-  color: #000;
-  border-bottom-color: #fdda24;
 }
 
 /* =========================
