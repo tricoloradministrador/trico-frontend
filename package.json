@@ -1,9 +1,6 @@
 {
   "name": "gull-react-redux",
   "version": "3.1.0",
-  "engines": {
-    "node": "16.x"
-  },
   "private": true,
   "dependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",

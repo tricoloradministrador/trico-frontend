@@ -1292,14 +1292,12 @@ const VistaPrincipal = () => {
             <Footer />
 
             {/* MODAL ABEJA */}
-            {
-                abejaOpen === 1 ?
-                    <AbejaModal
-                        isOpen={abejaOpen}
-                        onClose={() => setAbejaOpen(false)}
-                    />
-                    : null
-            }
+            {abejaOpen === 1 ?
+                <AbejaModal
+                    isOpen={abejaOpen}
+                    onClose={() => setAbejaOpen(false)}
+                />
+                : null}
         </div >
     );
 };

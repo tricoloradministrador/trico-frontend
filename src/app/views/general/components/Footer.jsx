@@ -1,34 +1,14 @@
-import {
-    siWhatsapp,
-    siFacebook,
-    siX,
-    siInstagram,
-    siYoutube,
-} from "simple-icons";
+// import {
+//     siWhatsapp,
+//     siFacebook,
+//     siX,
+//     siInstagram,
+//     siYoutube,
+// } from "simple-icons";
 
 const Footer = () => {
 
-    const SocialIcon = ({ icon, url, label }) => (
-        <li title={label}>
-            <a
-                href={url}
-                target="_blank"
-                rel="noreferrer"
-                aria-label={label}
-                dangerouslySetInnerHTML={{ __html: icon.svg }}
-            />
-        </li>
-    );
-
-    const linkedinSvg = `
-<svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.6 0 4.266 2.368 4.266 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.062-2.06 2.062 2.062 0 112.062 2.06zm1.777 13.019H3.56V9h3.554v11.452zM22.225 0H1.771C.792 0 0 .771 0 1.723v20.555C0 23.23.792 24 1.771 24h20.451C23.2 24 24 23.23 24 22.278V1.723C24 .771 23.2 0 22.222 0z"/>
-</svg>
-`;
-
-
-
-
+    // SVG de LinkedIn
     return (
         <footer id="footer">
             {/* ======================
@@ -41,16 +21,12 @@ const Footer = () => {
                         {/* TE PUEDE INTERESAR */}
                         <div className="bc-col-12 bc-col-lg-2 acors-group">
                             <div className="acor">
-                                <div
-
-                                >
+                                <div>
                                     <div className="acor-header">
                                         <h6>Te puede interesar</h6>
                                     </div>
 
                                 </div>
-
-
                                 <div className="acor-content">
                                     <ul>
                                         <li><a href="#" className="footer-link" style={{ color: "#ffffff" }}>Accesibilidad</a></li>
@@ -63,22 +39,15 @@ const Footer = () => {
                                         <li><a href="#" className="footer-link" style={{ color: "#ffffff" }}>Trabaja con nosotros</a></li>
                                     </ul>
                                 </div>
-
                             </div>
                         </div>
 
                         {/* LEGALES */}
                         <div className="bc-col-12 bc-col-lg-4 acors-group">
                             <div className="acor">
-                                <div
-                                    className="acor-header"
-
-                                >
+                                <div className="acor-header">
                                     <h6>Legales</h6>
-
                                 </div>
-
-
                                 <div className="acor-content">
                                     <div className="bc-row">
 
@@ -107,25 +76,17 @@ const Footer = () => {
                                                 </li>
                                             </ul>
                                         </div>
-
                                     </div>
                                 </div>
-
                             </div>
                         </div>
 
                         {/* CONTÁCTANOS */}
                         <div className="bc-col-12 bc-col-lg-2 acors-group">
                             <div className="acor">
-                                <div
-                                    className="acor-header"
-
-                                >
+                                <div className="acor-header">
                                     <h6>Contáctanos</h6>
-
                                 </div>
-
-
                                 <div className="acor-content">
                                     <ul>
                                         <li>Carrera 48 # 26 - 85 Medellín – Colombia</li>
@@ -135,7 +96,6 @@ const Footer = () => {
                                         <li><a href="tel:018000524499" className="footer-link">Línea ética</a></li>
                                     </ul>
                                 </div>
-
                             </div>
                         </div>
 
@@ -154,7 +114,7 @@ const Footer = () => {
                                 </div>
 
                                 {/* TODO: REDES SOCIALES */}
-                                <ul className="social-media">
+                                {/* <ul className="social-media">
                                     <SocialIcon
                                         icon={siWhatsapp}
                                         url="https://wa.me/573013536788"
@@ -185,21 +145,16 @@ const Footer = () => {
                                         url="https://www.linkedin.com/company/22690"
                                         label="LinkedIn"
                                     />
-
-
-                                </ul>
-
-
+                                </ul> */}
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
 
             {/* ======================
-          FONDO CLARO
-      ====================== */}
+                FONDO CLARO
+            ====================== */}
             <div className="footer_bg_light">
                 <div className="bc-container">
                     <div className="footer-bottom">
@@ -222,7 +177,7 @@ const Footer = () => {
             </div>
 
 
-        </footer>
+        </footer >
     );
 };
 
