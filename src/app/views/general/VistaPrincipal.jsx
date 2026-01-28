@@ -126,112 +126,42 @@ const VistaPrincipal = () => {
         return () => window.removeEventListener('scroll', onScroll);
     }, []);
 
-    React.useEffect(() => {
-        const bene = document.querySelector('.bc-bene');
-        const start = document.getElementById('bc-bene-start');
-        if (!bene || !start) return;
-
-        let lastScrollY = window.scrollY;
-        let isBelowBene = false;
-        let initialized = false;
-
-        bene.classList.remove('is-active', 'push-down');
-
-        const observer = new IntersectionObserver(
-            ([entry]) => {
-                const wasBelow = isBelowBene;
-                isBelowBene = !entry.isIntersecting;
-
-                // amortigua el cruce
-                if (wasBelow !== isBelowBene) {
-                    bene.classList.add('is-transitioning');
-                    requestAnimationFrame(() => {
-                        bene.classList.remove('is-transitioning');
-                    });
-                }
-
-                if (!initialized) initialized = true;
-            },
-            { threshold: 0 }
-        );
-
-        observer.observe(start);
-
-        const onScroll = () => {
-            if (!initialized) return;
-
-            const currentScrollY = window.scrollY;
-
-            // 🔼 SCROLL UP → bc-bene empujado
-            if (currentScrollY < lastScrollY) {
-                if (isBelowBene) {
-                    bene.classList.add('is-active', 'push-down');
-                } else {
-                    bene.classList.remove('is-active', 'push-down');
-                }
-            }
-
-            // 🔽 SCROLL DOWN → solo bc-bene
-            if (currentScrollY > lastScrollY) {
-                if (isBelowBene) {
-                    bene.classList.add('is-active');
-                    bene.classList.remove('push-down');
-                } else {
-                    bene.classList.remove('is-active', 'push-down');
-                }
-            }
-
-            lastScrollY = currentScrollY;
-        };
-
-        window.addEventListener('scroll', onScroll, { passive: true });
-
-        return () => {
-            observer.disconnect();
-            window.removeEventListener('scroll', onScroll);
-        };
-    }, []);
-
-    const scrollToSection = (id) => {
-        const element = document.getElementById(id);
-        if (!element) return;
-
-        const headerOffset = 110; // ajusta si tu header cambia
-        const elementPosition = element.getBoundingClientRect().top;
-        const offsetPosition =
-            elementPosition + window.pageYOffset - headerOffset;
-
-        window.scrollTo({
-            top: offsetPosition,
-            behavior: "smooth",
-        });
-    };
-
     // Función para navegar a una pestaña específica y desplazarse a una sección
     const goToTab = (tabKey, sectionId, index) => {
-
-        // 🟡 0. Cambiar tab activo
         setActiveTab(tabKey);
 
-        // 🟡 1. Animar Swiper
+        // 1️⃣ CENTRAR TAB EN SWIPER
         if (swiperRef.current) {
+            const swiper = swiperRef.current;
 
-            // Mover Swiper a la diapositiva correspondiente
-            swiperRef.current.slideTo(index, 400); // 400ms suave
-        };
+            const slide = swiper.slides[index];
+            if (slide) {
+                const slideLeft = slide.offsetLeft;
+                const slideWidth = slide.offsetWidth;
+                const swiperWidth = swiper.el.offsetWidth;
 
-        // 🟡 2. Scroll suave a la sección
-        const el = document.getElementById(sectionId);
+                const target =
+                    slideLeft - swiperWidth / 2 + slideWidth / 2;
 
-        // Si el elemento existe, desplazarse a él
-        if (el) {
+                swiper.setTransition(300);
+                swiper.setTranslate(-target);
+            }
+        }
 
-            // Desplazamiento suave
-            el.scrollIntoView({
+        // 2️⃣ SCROLL SUAVE A LA SECCIÓN
+        const section = document.getElementById(sectionId);
+        if (section) {
+            const yOffset = -72; // altura del header si aplica
+            const y =
+                section.getBoundingClientRect().top +
+                window.pageYOffset +
+                yOffset;
+
+            window.scrollTo({
+                top: y,
                 behavior: "smooth",
-                block: "start",
             });
-        };
+        }
     };
 
     // Se retorna el JSX del componente
@@ -821,18 +751,23 @@ const VistaPrincipal = () => {
                     freeMode
                     navigation
                     spaceBetween={0}
+                    touchStartPreventDefault={false}
+                    preventClicks={false}
+                    preventClicksPropagation={false}
                     onSwiper={(swiper) => {
                         swiperRef.current = swiper;
                     }}
                 >
-
                     {/* 5. RECOMMENDATIONS */}
                     <SwiperSlide className="sticky-item">
                         <a
                             href="#"
+                            role="button"
+                            tabIndex={0}
                             className={`sticky-item_link ${activeTab === 'beneficios' ? 'active' : ''}`}
                             onClick={(e) => {
                                 e.preventDefault();
+                                e.stopPropagation();
                                 goToTab("beneficios", "beneficios", 0);
                             }}
                         >
@@ -843,10 +778,13 @@ const VistaPrincipal = () => {
                     <SwiperSlide className="sticky-item">
                         <a
                             href="#"
+                            role="button"
+                            tabIndex={1}
                             className={`sticky-item_link ${activeTab === 'caracteristicas' ? 'active' : ''}`}
                             onClick={(e) => {
                                 e.preventDefault();
-                                goToTab("caracteristicas", "caracteristicas", 0);
+                                e.stopPropagation();
+                                goToTab("caracteristicas", "caracteristicas", 1);
                             }}
                         >
                             Características
@@ -856,10 +794,13 @@ const VistaPrincipal = () => {
                     <SwiperSlide className="sticky-item">
                         <a
                             href="#"
+                            role="button"
+                            tabIndex={2}
                             className={`sticky-item_link ${activeTab === 'tarifas' ? 'active' : ''}`}
                             onClick={(e) => {
                                 e.preventDefault();
-                                goToTab("tarifas", "contentTasasTarifas", 0);
+                                e.stopPropagation();
+                                goToTab("tarifas", "contentTasasTarifas", 2);
                             }}
                         >
                             Tarifas
@@ -869,10 +810,13 @@ const VistaPrincipal = () => {
                     <SwiperSlide className="sticky-item">
                         <a
                             href="#"
+                            role="button"
+                            tabIndex={3}
                             className={`sticky-item_link ${activeTab === 'solicitud' ? 'active' : ''}`}
                             onClick={(e) => {
                                 e.preventDefault();
-                                goToTab("solicitud", "solicitudSeguro", 0);
+                                e.stopPropagation();
+                                goToTab("solicitud", "solicitudSeguro", 3);
                             }}
                         >
                             Solicitud
@@ -882,10 +826,13 @@ const VistaPrincipal = () => {
                     <SwiperSlide className="sticky-item">
                         <a
                             href="#"
+                            role="button"
+                            tabIndex={4}
                             className={`sticky-item_link ${activeTab === 'documentos' ? 'active' : ''}`}
                             onClick={(e) => {
                                 e.preventDefault();
-                                goToTab("documentos", "documentosSeguro", 0);
+                                e.stopPropagation();
+                                goToTab("documentos", "documentos", 4);
                             }}
                         >
                             Documentos
@@ -895,10 +842,13 @@ const VistaPrincipal = () => {
                     <SwiperSlide className="sticky-item">
                         <a
                             href="#"
+                            role="button"
+                            tabIndex={5}
                             className={`sticky-item_link ${activeTab === 'contacto' ? 'active' : ''}`}
                             onClick={(e) => {
                                 e.preventDefault();
-                                goToTab("contacto", "informacionLegal", 0);
+                                e.stopPropagation();
+                                goToTab("contacto", "informacionLegal", 5);
                             }}
                         >
                             Contacto
@@ -908,10 +858,13 @@ const VistaPrincipal = () => {
                     <SwiperSlide className="sticky-item">
                         <a
                             href="#"
+                            role="button"
+                            tabIndex={6}
                             className={`sticky-item_link ${activeTab === 'preguntas' ? 'active' : ''}`}
                             onClick={(e) => {
                                 e.preventDefault();
-                                goToTab("preguntas", "preguntas", 0);
+                                e.stopPropagation();
+                                goToTab("preguntas", "preguntas", 6);
                             }}
                         >
                             Preguntas
@@ -956,7 +909,7 @@ const VistaPrincipal = () => {
 
                         {/* SLIDE 1 */}
                         <SwiperSlide className="modulo-carusel">
-                            <div className="img-swiper">
+                            <div className="img-swiper" style={{ marginBottom: '0px', height: '60px' }}>
                                 {/* 👉 AQUÍ VA LA IMAGEN */}
                                 <img
                                     src="/assets/images/seguros/logo_dinero.svg"
@@ -966,39 +919,41 @@ const VistaPrincipal = () => {
 
                             <div className="cont-swiper">
                                 <h3>Cuentas con un pago como respaldo</h3>
-                                <p>En caso de diagnóstico de cáncer.</p>
+                                <p>En caso de un evento de salud que impacte tu bienestar.</p>
                             </div>
                         </SwiperSlide>
 
                         {/* SLIDE 2 */}
                         <SwiperSlide className="modulo-carusel">
-                            <div className="img-swiper">
+                            <div className="img-swiper" style={{ marginBottom: '0px', height: '60px' }}>
                                 {/* 👉 AQUÍ VA LA IMAGEN */}
                                 <img
-                                    src="/assets/images/seguros/logo__billete.svg"
+                                    src="/assets/images/seguros/logo_billete.svg"
                                     alt="Pago único beneficiarios"
+                                    height={49}
                                 />
                             </div>
 
                             <div className="cont-swiper">
-                                <h3>Ante una muerte accidental o por cáncer</h3>
+                                <h3>Ante una muerte accidental o por causa natural</h3>
                                 <p>Tus beneficiarios recibirán un pago único.</p>
                             </div>
                         </SwiperSlide>
 
                         {/* SLIDE 3 */}
                         <SwiperSlide className="modulo-carusel">
-                            <div className="img-swiper">
+                            <div className="img-swiper" style={{ marginBottom: '0px', height: '64px' }}>
                                 {/* 👉 AQUÍ VA LA IMAGEN */}
                                 <img
-                                    src="/assets/images/seguros/logo_lazo.svg"
+                                    src="/assets/images/seguros/logo_salud.png"
                                     alt="Protección cáncer de piel"
+                                    height={49}
                                 />
                             </div>
 
                             <div className="cont-swiper">
-                                <h3>Protección en cáncer de piel</h3>
-                                <p>Respaldo para todo tipo de cáncer.</p>
+                                <h3>Protección para tu vida y tu salud</h3>
+                                <p>Respaldo ante situaciones que impacten tu bienestar.</p>
                             </div>
                         </SwiperSlide>
                     </Swiper>
