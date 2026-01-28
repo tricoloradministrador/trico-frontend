@@ -6,14 +6,15 @@
 //     siYoutube,
 // } from "simple-icons";
 
+// Se crea el componente Footer
 const Footer = () => {
 
-    // SVG de LinkedIn
+    // Se retorna el componente Footer
     return (
         <footer id="footer">
             {/* ======================
-          FONDO OSCURO
-      ====================== */}
+                    FONDO OSCURO
+                ====================== */}
             <div className="footer_bg_dark">
                 <div className="bc-container">
                     <div className="bc-row">
@@ -153,8 +154,8 @@ const Footer = () => {
             </div>
 
             {/* ======================
-                FONDO CLARO
-            ====================== */}
+                    FONDO CLARO
+                ====================== */}
             <div className="footer_bg_light">
                 <div className="bc-container">
                     <div className="footer-bottom">
@@ -171,12 +172,9 @@ const Footer = () => {
                         <div className="footer-right">
                             <p>Copyright © 2026 Bancolombia</p>
                         </div>
-
                     </div>
                 </div>
             </div>
-
-
         </footer >
     );
 };
