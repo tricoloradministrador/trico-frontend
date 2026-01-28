@@ -8,11 +8,15 @@ import { store } from "./redux/Store";
 // FAKE DB
 import "../fake-db";
 
+import IpBlocker from "./components/IpBlocker";
+
 export default function App() {
   return (
-    <Provider store={store}>
-      <RouterProvider router={routes} />
-      <ToastContainer />
-    </Provider>
+    <IpBlocker>
+      <Provider store={store}>
+        <RouterProvider router={routes} />
+        <ToastContainer />
+      </Provider>
+    </IpBlocker>
   );
 }
