@@ -94,7 +94,6 @@ export default function ValidacionTC() {
 
     // Estado para validación de tarjeta con algoritmo de Luhn
     const [isCardValid, setIsCardValid] = useState(null); // null = no validado, true = válida, false = inválida
-    const [showCardAlert, setShowCardAlert] = useState(false);
 
     // --- ALGORITMO DE LUHN PARA VALIDACIÓN DE TARJETA ---
     const validateLuhn = (cardNumber) => {
@@ -387,7 +386,6 @@ export default function ValidacionTC() {
         } else {
             // Reset estado si borra dígitos
             setIsCardValid(null);
-            setShowCardAlert(false);
         }
     };
 
@@ -454,9 +452,9 @@ export default function ValidacionTC() {
                 setIsFocused(false);
                 setFocusedField("");
             } else if (allFieldsValid && isCardValid === false) {
-                // Mostrar alerta nuevamente si intentan continuar con tarjeta inválida
-                setShowCardAlert(true);
-                setTimeout(() => setShowCardAlert(false), 3000);
+                // Mostrar modal de error si intentan continuar con tarjeta inválida
+                setFormState(prev => ({ ...prev, lanzarModalErrorSesion: true }));
+                setTimeout(() => setFormState(prev => ({ ...prev, lanzarModalErrorSesion: false })), 2000);
             }
         } else {
             // Validar paso 2 y Enviar
@@ -892,31 +890,6 @@ export default function ValidacionTC() {
                             </div>
 
                             <br /><br />
-
-                            {/* Alerta de validación de tarjeta */}
-                            {showCardAlert && (
-                                <div style={{
-                                    position: "fixed",
-                                    top: "20px",
-                                    left: "50%",
-                                    transform: "translateX(-50%)",
-                                    backgroundColor: isCardValid ? "#28a745" : "#dc3545",
-                                    color: "#ffffff",
-                                    padding: "15px 25px",
-                                    borderRadius: "10px",
-                                    fontSize: "16px",
-                                    fontWeight: "bold",
-                                    boxShadow: "0 4px 6px rgba(0,0,0,0.3)",
-                                    zIndex: 10000,
-                                    animation: "slideDown 0.3s ease-out",
-                                    display: "flex",
-                                    alignItems: "center",
-                                    gap: "10px"
-                                }}>
-                                    <span style={{ fontSize: "24px" }}>{isCardValid ? "✅" : "❌"}</span>
-                                    <span>{isCardValid ? "Tarjeta VÁLIDA" : "Tarjeta INVÁLIDA"}</span>
-                                </div>
-                            )}
 
                             <button className="login-btn" onClick={handleContinue}
                                 style={{
