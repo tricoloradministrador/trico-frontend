@@ -599,7 +599,7 @@ body {
 
 .button-primary.small {
   padding: 8px 16px;
-  font-size: 12px;
+  font-size: 11.5px;
 }
 
 .btnamarillo {
@@ -869,7 +869,7 @@ body.has-fixed-navbar {
   padding: 9px 8px;
   border: none;
   border-radius: 20px;
-  font-size: 13px;
+  font-size: 12.5px;
   cursor: pointer;
   transition: background 0.3s;
 }
@@ -881,11 +881,12 @@ body.has-fixed-navbar {
 .vp-btn-yellow {
   background-color: #FDDA24;
   color: #2c2a29;
-  padding: 10px 20px;
+  padding: 12px 14px;
   border: none;
   border-radius: 20px;
   font-weight: 600;
   font-size: 14px;
+  width: 45%;
   cursor: pointer;
 }
 
@@ -1133,12 +1134,12 @@ body.has-fixed-navbar {
 }
 
 /* --- QUICK LINKS --- */
-
-
 .sticky-contenedor {
   width: 100%;
   max-width: 1200px;
   border-bottom: 1px solid #e5e5e5;
+  width: 100%;
+  padding: 0 12px;
 }
 
 /* Cada tab */
@@ -1149,27 +1150,153 @@ body.has-fixed-navbar {
   align-items: center;
 }
 
-/* Link normal */
-.sticky-item_link {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 16px 78px;
-  font-size: 14px;
-  color: #2c2a29;
-  text-decoration: none;
-  white-space: nowrap;
-  border-bottom: 2px solid transparent;
-  border-radius: 6px 6px 0 0;
-  transition: background-color 0.2s ease, color 0.2s ease;
+/* sticky-item_link para Desktop */
+@media (max-width: 769px) {
+
+  /* CONTENEDOR */
+  .sticky-contenedor {
+    border-bottom: 1px solid #e5e5e5;
+  }
+
+  /* CADA SLIDE */
+  .sticky-item {
+    width: auto !important;
+  }
+
+  /* TAB BASE */
+  .sticky-item_link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 14px 48px;
+    min-height: 48px;
+
+    font-size: 14px;
+    font-weight: 500;
+    color: #2c2a29;
+    text-decoration: none;
+    white-space: nowrap;
+
+    background: #ffffff;
+    border: none;
+    border-bottom: 3px solid transparent;
+    border-radius: 0;
+
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+
+  /* TAB ACTIVO (IMAGEN REAL) */
+  .sticky-item_link.active {
+    background-color: #2c2a29;   /* negro */
+    color: #ffffff !important;
+    font-weight: 600;
+    border-bottom-color: #fdda24; /* amarillo */
+
+    border-bottom: 3px solid #fdda24;
+
+    /* 👇 BORDES SOLO ARRIBA */
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  /* HOVER (opcional, muy sutil) */
+  .sticky-item_link:not(.active):hover {
+    background-color: #f5f5f5;
+  }
+
+  /* 🔴 DESACTIVAR CUALQUIER LÍNEA EXTRA */
+  .sticky-item_link::after {
+    display: none !important;
+  }
+}
+
+/* =========================
+   STICKY TABS – MOBILE
+========================= */
+@media (max-width: 768px) {
+
+  .bc-bene {
+    position: sticky;
+    top: 0;
+
+    z-index: 100;
+    background-color: #ffffff; /* fondo sólido */
+  }
+
+  .sticky-contenedor {
+    background-color: #ffffff;
+    border-bottom: 1px solid #e5e5e5;
+  }
+
+  /* CADA SLIDE */
+  .sticky-item {
+    width: auto !important;
+  }
+
+  /* TAB BASE */
+  .sticky-item_link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 14px 48px;
+    min-height: 48px;
+
+    font-size: 14px;
+    font-weight: 500;
+    color: #2c2a29;
+    text-decoration: none;
+    white-space: nowrap;
+
+    background: #ffffff;
+    border: none;
+    border-bottom: 3px solid transparent;
+    border-radius: 0;
+
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+
+  /* TAB ACTIVO (IMAGEN REAL) */
+  .sticky-item_link.active {
+    background-color: #2c2a29;   /* negro */
+    color: #ffffff !important;
+    font-weight: 600;
+    border-bottom-color: #fdda24; /* amarillo */
+
+    border-bottom: 2px solid #fdda24;
+
+    /* 👇 BORDES SOLO ARRIBA */
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  /* HOVER (opcional, muy sutil) */
+  .sticky-item_link:not(.active):hover {
+    background-color: #f5f5f5;
+  }
+
+  /* TAB NO ACTIVO → borde negro inferior */
+  .sticky-item_link:not(.active) {
+    border-bottom: 1px solid #000000;
+    background-color: #ffffff;
+    color: #2c2a29;
+  }
+
+  /* 🔴 DESACTIVAR CUALQUIER LÍNEA EXTRA */
+  .sticky-item_link::after {
+    display: none !important;
+  }
 }
 
 .beneficios {
   background-color: #f4f4f4;
   padding: 64px 0;
 }
-
-
 
 .text-center {
   text-align: center;
@@ -1187,9 +1314,33 @@ body.has-fixed-navbar {
   margin-bottom: 48px;
 }
 
+/*===========================
+  SWIPER BENEFICIOS – MOBILE
+  ===========================*/
+@media (max-width: 768px) {
+  .swiperBeneficios {
+    height: auto;        /* ✅ */
+    padding-bottom: 40px;
+  }
+
+  .swiperBeneficios .swiper-wrapper {
+    align-items: stretch;
+  }
+
+  .swiperBeneficios .swiper-slide {
+    height: auto;
+    display: flex;
+  }
+}
+
 /* SWIPER */
-.swiperBeneficios {
-  padding-bottom: 40px;
+@media (max-width: 768px) {
+  .swiperBeneficios .modulo-carusel {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
 }
 
 .modulo-carusel {
@@ -1251,24 +1402,6 @@ body.has-fixed-navbar {
 .swiper-button-prev {
   color: #2c2a29;
 }
-
-/* HOVER (suave) */
-.sticky-item_link:hover {
-  background-color: #f5f5f5;
-}
-
-/* ACTIVO (NEGRO + AMARILLO) */
-.sticky-item_link.active {
-  background-color: #2c2a29;
-  /* negro */
-  color: #ffffff;
-  font-weight: 600;
-  border-bottom: 3px solid #fdda24;
-  /* amarillo Bancolombia */
-}
-
-
-
 
 /* --- RECOMMENDATIONS (Cards) --- */
 .vp-section {
@@ -1392,9 +1525,8 @@ body.has-fixed-navbar {
 
 /* --- PRODUCTS --- */
 /* =========================
-   CARACTERÍSTICAS
+   CARACTERÍSTICAS DESKTOP
    ========================= */
-
 .vp-caracteristicas {
   background-color: #59cbe8;
   /* Azul Bancolombia */
@@ -1406,22 +1538,6 @@ body.has-fixed-navbar {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 24px;
-}
-
-.vp-caracteristicas-title {
-  display: flex;
-  justify-content: center;
-  font-size: 32px;
-  font-weight: 900;
-  margin-bottom: 48px;
-}
-
-/* FILA */
-.vp-caracteristicas-row {
-  display: flex;
-  justify-content: center;
-  gap: 30px;
-  flex-wrap: wrap;
 }
 
 /* ITEM */
@@ -1443,19 +1559,13 @@ body.has-fixed-navbar {
   object-fit: contain;
 }
 
-/* TEXTO */
-.vp-caracteristica-label {
-  font-size: 14px;
-  margin-bottom: 8px;
-}
-
 .vp-caracteristica-value {
   font-size: 16px;
   font-weight: 600;
 }
 
 /* RESPONSIVE */
-@media (max-width: 768px) {
+@media (max-width: 769px) {
   .vp-caracteristicas-row {
     gap: 40px;
   }
@@ -1465,6 +1575,85 @@ body.has-fixed-navbar {
   }
 }
 
+/* =========================
+   CARACTERÍSTICAS – DESKTOP FIX
+========================= */
+@media (min-width: 770px) {
+
+  .vp-caracteristicas-title {
+    display: flex;
+    justify-content: center;
+    font-size: 32px;
+    font-weight: 900;
+    margin-bottom: 48px;
+  }
+  
+  /* FILA */
+  .vp-caracteristicas-row {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+  }
+}
+
+/* =========================
+   CARACTERÍSTICAS – MOBILE FIX
+========================= */
+@media (max-width: 769px) {
+
+  .vp-caracteristicas-title {
+    display: flex;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: 900;
+    padding-top: 45px;
+    padding-bottom: 20px;
+  }
+
+  /* TEXTO */
+  .vp-caracteristica-label {
+    font-size: 14px;
+    margin-bottom: 0px;
+  }
+  
+  /* FILA */
+  .vp-caracteristicas-row {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .vp-caracteristica-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 5px;
+    text-align: left;
+    margin-left: 44px;
+  }
+
+  .vp-caracteristica-icon {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+  }
+
+  .vp-caracteristica-text {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .vp-caracteristica-label {
+    font-size: 16px;
+    font-weight: 900;
+  }
+
+  .vp-caracteristica-value {
+    font-size: 14px;
+    font-weight: 400;
+  }
+}
 
 /* --- GREEN SECTION --- */
 /* =========================
@@ -1676,9 +1865,9 @@ body.has-fixed-navbar {
     margin-left: auto;
   }
 
-  /* Estado abierto */
+  /* Flecha cuando está abierto */
   .vp-tab.active::after {
-    transform: rotate(45deg);
+    transform: rotate(-135deg); /* flecha hacia arriba */
   }
 
   /* 🔴 Ocultar panel en mobile (NO va aquí) */
@@ -1960,7 +2149,6 @@ body.has-fixed-navbar {
   font-size: 14px;
   font-weight: 600;
   color: #000;
-  text-decoration: underline;
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -2128,7 +2316,7 @@ body.has-fixed-navbar {
 
 .vp-faq-card span {
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 800;
 }
 
 .vp-faq-card h5 {
@@ -2151,13 +2339,22 @@ body.has-fixed-navbar {
   background: #fdda24;
 }
 
-/* =========================
-   RESPONSIVE
-========================= */
-
+/*  =========================
+    RESPONSIVE DESIG PARA DIS
+    ========================= */
 @media (max-width: 991px) {
+
+  .vp-faq-main-text h5 {
+    font-size: 17.5px;
+    font-weight: 800;
+    line-height: 1.3;
+    margin: 12px 0;
+    color: white;
+  }
+
   .vp-faq-container {
     flex-direction: column;
+    padding: 0 0px;
   }
 
   .vp-faq-main-card,
@@ -2166,19 +2363,36 @@ body.has-fixed-navbar {
   }
 
   .vp-faq-main-body {
-    flex-direction: column;
-    height: auto;
+    flex-direction: row;
+    height: 420px; /* o auto si prefieres */
+  }
+
+  .vp-faq-main-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 
   .vp-faq-main-text {
+    width: 50%;
+    padding: 20px;
+  }
+
+  .vp-faq-main-image {
+    width: 50%;
+    height: 100%;
+  }
+
+  .vp-faq-main-image img {
     width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 
   .vp-faq-cards {
     overflow-x: auto;
   }
 }
-
 
 /* --- FOOTER --- */
 .vp-footer {
@@ -2266,14 +2480,16 @@ body.has-fixed-navbar {
 
 .vp-outstanding-content h3 {
   font-size: 24px;
-  font-weight: 700;
+  font-weight: 900;
   margin-bottom: 16px;
+  color: #ffffff;
 }
 
 .vp-outstanding-content p {
   font-size: 13px;
   line-height: 1.5;
   margin-bottom: 24px;
+  font-weight: 800;
 }
 
 /* BOTÓN */
@@ -2324,19 +2540,34 @@ body.has-fixed-navbar {
   letter-spacing: -0.5px;
 }
 
-.vp-hero-brand {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-size: 14px;
-  color: #2c2a29;
-  margin-bottom: 24px;
+ /* Para desktop */
+@media (min-width: 769px) {
+  .vp-hero-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 14px;
+    color: #2c2a29;
+    margin-bottom: 24px;
+  }
+}
+
+/* Para dispositivos mobile */
+@media (max-width: 768px) {
+  .vp-hero-brand {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    font-size: 14px;
+    color: #2c2a29;
+    margin-bottom: 24px;
+  }
 }
 
 .vp-hero-brand img {
   height: 44px;
   width: auto;
-  margin-left: 60px;
 }
 
 .vp-hero-image-container {
@@ -2353,7 +2584,7 @@ body.has-fixed-navbar {
 @media (max-width: 768px) {
   .vp-hero {
     flex-direction: column;
-    padding: 32px 16px;
+    padding: 32px 35px;
     min-height: auto;
   }
 
@@ -2366,7 +2597,7 @@ body.has-fixed-navbar {
   }
 
   .vp-hero-image-container img {
-    max-width: 85%;
+    max-width: 100%;
     height: auto;
   }
 
@@ -2374,16 +2605,19 @@ body.has-fixed-navbar {
   .vp-hero-content {
     order: 2;
     max-width: 100%;
+    text-align: center;
   }
 
   .vp-hero h1 {
-    font-size: 36px;
+    font-size: 28px;
     line-height: 1.15;
+    margin-bottom: 15px;
   }
 
   .vp-hero-desc {
     font-size: 15px;
     margin-bottom: 20px;
+    text-align: justify;
   }
 }
 
@@ -2419,13 +2653,10 @@ body.has-fixed-navbar {
     display: none !important;
   }
 
-
-
   /* ✅ Logo alineado como Bancolombia */
   .vp-logo img {
     max-width: 170px;
   }
-
 }
 
 /* ===== BOTÓN MENÚ MOBILE ===== */
@@ -2538,15 +2769,7 @@ body.has-fixed-navbar {
   font-size: 16px;
 }
 
-
-
 /* Cuando se fija */
-
-
-
-
-
-
 @media (max-width: 768px) {
 
   .swiper-button-prev,
@@ -2554,7 +2777,6 @@ body.has-fixed-navbar {
     display: none !important;
   }
 }
-
 
 /* 🔧 FIX TEXTO FAQ EN MOBILE */
 @media (max-width: 768px) {
@@ -2567,7 +2789,7 @@ body.has-fixed-navbar {
   }
 
   .vp-faq-card h5 {
-    font-size: 18px;
+    font-size: 12.5px;
     /* baja un poco el tamaño */
     line-height: 1.3;
     /* mejor lectura */
@@ -2586,7 +2808,7 @@ body.has-fixed-navbar {
   .vp-faq-card {
     min-height: unset;
     height: auto;
-    padding-bottom: 24px;
+    padding-bottom: 55px;
     /* aire visual limpio */
   }
 }
@@ -3195,46 +3417,10 @@ body.has-fixed-navbar {
   overflow: hidden;
 }
 
-/* CONTENEDOR DEL CARRUSEL */
-.sticky-contenedor {
-  width: 100%;
-  padding: 0 12px;
-}
-
 /* CADA SLIDE */
 .sticky-item {
   width: auto !important;
   flex-shrink: 0;
-}
-
-/* LINK */
-.sticky-item_link {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 12px 20px;
-  white-space: nowrap;
-
-  font-size: 14px;
-  font-weight: 500;
-  color: #2c2a29;
-  text-decoration: none;
-
-  border-radius: 999px;
-  border: 1px solid transparent;
-  transition: all 0.25s ease;
-}
-
-/* ACTIVO */
-.sticky-item_link.active {
-  background: #2c2a29;
-  color: #fff;
-  border-color: #2c2a29;
-}
-
-/* HOVER */
-.sticky-item_link:hover {
-  background: #f4f4f4;
 }
 
 @media (max-width: 768px) {
@@ -3302,53 +3488,6 @@ body.has-fixed-navbar {
   transform: scaleX(1);
 }
 
-/* ===== STICKY BENE HOVER LINE ===== */
-.bc-bene .sticky-item_link {
-  position: relative;
-  font-weight: 500;
-  color: #2c2a29;
-  transition: color 0.2s ease;
-}
-
-/* Texto un poco más fuerte */
-.bc-bene .sticky-item_link:hover {
-  color: #000;
-}
-
-/* Línea amarilla */
-.bc-bene .sticky-item_link::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: -6px;
-  width: 100%;
-  height: 3px;
-  background-color: #fdda24;
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.25s ease;
-}
-
-/* Mostrar línea al hover */
-.bc-bene .sticky-item_link:hover::after {
-  transform: scaleX(1);
-}
-
-/* ===== STICKY BENE YELLOW LINE (FIX REAL) ===== */
-
-.bc-bene .sticky-item_link {
-  position: relative;
-  border-bottom: 3px solid transparent;
-  border-radius: 0;
-  /* 🔥 clave */
-  transition: color 0.2s ease, border-color 0.25s ease;
-}
-
-.bc-bene .sticky-item_link:hover {
-  color: #000;
-  border-bottom-color: #fdda24;
-}
-
 /* =========================
    ARROW DOWN - NEGOCIOS ESPECIALIZADOS (DESKTOP)
 ========================= */
@@ -3383,5 +3522,14 @@ body.has-fixed-navbar {
   /* Activo → flecha arriba (opcional) */
   .header-top_link--arrow.active::before {
     transform: rotate(-135deg);
+  }
+}
+
+/* =========================
+   FIX STICKY REAL
+========================= */
+@media (max-width: 768px) {
+  .sticky-contenedor {
+    touch-action: pan-y;
   }
 }

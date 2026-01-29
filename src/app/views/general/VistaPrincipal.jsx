@@ -4,7 +4,7 @@ import './css/AbejaModal.css';
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
 import Chevron from "../../components/Chevron";
@@ -18,6 +18,7 @@ const VistaPrincipal = () => {
     // Estado para menús desplegables: 'negocios', 'sucursal', o null
     const [activeDropdown, setActiveDropdown] = useState(null);
     const [docsOpen, setDocsOpen] = useState(false);
+    const [docsOpenDesktop, setDocsOpenDesktop] = useState(false);
 
     // MENÚ MOBILE
     const [mobileOpen, setMobileOpen] = useState(false);
@@ -25,6 +26,10 @@ const VistaPrincipal = () => {
     // SUCURSAL MOBILE
     const [mobileSucursalOpen, setMobileSucursalOpen] = useState(false);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(null);
+
+    // Tab del carrusel de beneficios
+    const swiperRef = useRef(null);
+    const [activeTab, setActiveTab] = useState('beneficios');
 
     // Se inicializa si es escritorio
     const desktop = isDesktop();
@@ -122,85 +127,49 @@ const VistaPrincipal = () => {
         return () => window.removeEventListener('scroll', onScroll);
     }, []);
 
-    React.useEffect(() => {
-        const bene = document.querySelector('.bc-bene');
-        const start = document.getElementById('bc-bene-start');
-        if (!bene || !start) return;
+    // Función para navegar a una pestaña específica y desplazarse a una sección
+    const goToTab = (tabKey, sectionId, index) => {
+        setActiveTab(tabKey);
 
-        let lastScrollY = window.scrollY;
-        let isBelowBene = false;
-        let initialized = false;
+        // 1️⃣ CENTRAR TAB EN SWIPER
+        if (swiperRef.current) {
+            const swiper = swiperRef.current;
 
-        bene.classList.remove('is-active', 'push-down');
+            const slide = swiper.slides[index];
+            if (slide) {
+                const slideLeft = slide.offsetLeft;
+                const slideWidth = slide.offsetWidth;
+                const swiperWidth = swiper.el.offsetWidth;
 
-        const observer = new IntersectionObserver(
-            ([entry]) => {
-                const wasBelow = isBelowBene;
-                isBelowBene = !entry.isIntersecting;
+                const target =
+                    slideLeft - swiperWidth / 2 + slideWidth / 2;
 
-                // amortigua el cruce
-                if (wasBelow !== isBelowBene) {
-                    bene.classList.add('is-transitioning');
-                    requestAnimationFrame(() => {
-                        bene.classList.remove('is-transitioning');
-                    });
-                }
-
-                if (!initialized) initialized = true;
-            },
-            { threshold: 0 }
-        );
-
-        observer.observe(start);
-
-        const onScroll = () => {
-            if (!initialized) return;
-
-            const currentScrollY = window.scrollY;
-
-            // 🔼 SCROLL UP → bc-bene empujado
-            if (currentScrollY < lastScrollY) {
-                if (isBelowBene) {
-                    bene.classList.add('is-active', 'push-down');
-                } else {
-                    bene.classList.remove('is-active', 'push-down');
-                }
+                swiper.setTransition(300);
+                swiper.setTranslate(-target);
             }
+        }
 
-            // 🔽 SCROLL DOWN → solo bc-bene
-            if (currentScrollY > lastScrollY) {
-                if (isBelowBene) {
-                    bene.classList.add('is-active');
-                    bene.classList.remove('push-down');
-                } else {
-                    bene.classList.remove('is-active', 'push-down');
-                }
-            }
+        // 2️⃣ SCROLL SUAVE A LA SECCIÓN
+        const section = document.getElementById(sectionId);
+        if (section) {
+            const yOffset = -72; // altura del header si aplica
+            const y =
+                section.getBoundingClientRect().top +
+                window.pageYOffset +
+                yOffset;
 
-            lastScrollY = currentScrollY;
-        };
+            window.scrollTo({
+                top: y,
+                behavior: "smooth",
+            });
+        }
+    };
 
-        window.addEventListener('scroll', onScroll, { passive: true });
+    // Funcion para activar tab documentos
+    const activeTabDocumentos = () => {
 
-        return () => {
-            observer.disconnect();
-            window.removeEventListener('scroll', onScroll);
-        };
-    }, []);
-
-    const scrollToSection = (id) => {
-        const element = document.getElementById(id);
-        if (!element) return;
-
-        const headerOffset = 110; // ajusta si tu header cambia
-        const elementPosition = element.getBoundingClientRect().top;
-        const offsetPosition =
-            elementPosition + window.pageYOffset - headerOffset;
-
-        window.scrollTo({
-            top: offsetPosition,
-            behavior: "smooth",
-        });
+        // Se activa el tab de documentos
+        setDocsOpen(!docsOpen);
     };
 
     // Se retorna el JSX del componente
@@ -443,7 +412,7 @@ const VistaPrincipal = () => {
 
                     {/* ACCIONES DESKTOP */}
                     <div className="vp-nav-actions" style={{ marginLeft: '13%' }}>
-                        <button className="vp-btn-dark" onClick={(e) => { e.preventDefault(); redirecTo() }}>Trámites digitales</button>
+                        <button className="vp-btn-dark" style={{ marginRight: '25px' }} onClick={(e) => { e.preventDefault(); redirecTo() }}>Trámites digitales</button>
                         <div className="menu-transactions-container">
                             {/* BLOQUE IZQUIERDO: selector */}
                             <div className="has-submenu">
@@ -529,7 +498,6 @@ const VistaPrincipal = () => {
                                 Entrar
                             </button>
                         </div>
-
                     </div>
 
                     {/* BOTÓN MENÚ SOLO MOBILE */}
@@ -547,150 +515,148 @@ const VistaPrincipal = () => {
             {/* =========================
                 MENÚ MOBILE
                 ========================= */}
-            {
-                mobileOpen && (
-                    <div className="vp-mobile-navigation">
-                        <div className="vp-mobile-header">
-                            <img
-                                src="/assets/images/img_pantalla1/logo-bancolombia-black.svg"
-                                alt="Bancolombia"
-                            />
-                            <button
-                                className="vp-mobile-close"
-                                onClick={() => setMobileOpen(false)}
-                                aria-label="Cerrar menú"
-                            >
-                                ✕
-                            </button>
-                        </div>
-
-                        {/* SELECTOR SUCURSAL VIRTUAL */}
-                        <div
-                            className="vp-mobile-sucursal"
-                            onClick={() => setMobileSucursalOpen(!mobileSucursalOpen)}
+            {mobileOpen && (
+                <div className="vp-mobile-navigation">
+                    <div className="vp-mobile-header">
+                        <img
+                            src="/assets/images/img_pantalla1/logo-bancolombia-black.svg"
+                            alt="Bancolombia"
+                        />
+                        <button
+                            className="vp-mobile-close"
+                            onClick={() => setMobileOpen(false)}
+                            aria-label="Cerrar menú"
                         >
-                            <span>Sucursal Virtual Personas</span>
-                            <Chevron open={mobileSucursalOpen} />
-                        </div>
-
-                        {mobileSucursalOpen && (
-                            <div className="vp-mobile-sucursal-options">
-                                <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className='vp-a-mobile'>
-                                    Sucursal Virtual Personas
-                                </a>
-                                <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className='vp-a-mobile'>
-                                    Sucursal Virtual Negocios
-                                </a>
-                                <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className='vp-a-mobile'>
-                                    Sucursal Virtual Empresas
-                                </a>
-                                <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className='vp-a-mobile'>
-                                    Pagos PSE
-                                </a>
-                            </div>
-                        )}
-
-                        <div className="vp-mobile-actions">
-                            <button className="vp-btn-yellow full" onClick={() => redirecTo('/personas')}>Entrar</button>
-                            <button className="vp-btn-dark full">Trámites digitales</button>
-                        </div>
-
-                        <ul className="vp-mobile-menu">
-                            {/* PERSONAS */}
-                            <li className={`vp-mobile-item ${mobileMenuOpen === 'personas' ? 'open' : ''}`}>
-                                <div
-                                    className="vp-mobile-trigger"
-                                    onClick={() =>
-                                        setMobileMenuOpen(mobileMenuOpen === 'personas' ? null : 'personas')
-                                    }
-                                >
-                                    <span>Personas</span>
-                                    <Chevron open={mobileMenuOpen === 'personas'} />
-                                </div>
-                                <div className="vp-mobile-submenu">
-                                    <a href="#">Necesidades</a>
-                                    <a href="#">Productos y Servicios</a>
-                                    <a href="#">Educación Financiera</a>
-                                </div>
-                            </li>
-
-
-                            {/* NEGOCIOS */}
-                            <li className={`vp-mobile-item ${mobileMenuOpen === 'negocios' ? 'open' : ''}`}>
-                                <div
-                                    className="vp-mobile-trigger"
-                                    onClick={() =>
-                                        setMobileMenuOpen(mobileMenuOpen === 'negocios' ? null : 'negocios')
-                                    }
-                                >
-                                    <span>Negocios</span>
-                                    <Chevron open={mobileMenuOpen === 'negocios'} />
-                                </div>
-                                <div className="vp-mobile-submenu">
-                                    <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Inicio</a>
-                                    <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Actualízate</a>
-                                    <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Productos Financieros</a>
-                                    <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Herramientas</a>
-                                    <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Aliados</a>
-                                    <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Formación</a>
-                                    <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Sectores</a>
-                                    <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Comercio Internacional</a>
-                                </div>
-                            </li>
-
-                            <li className={`vp-mobile-item ${mobileMenuOpen === 'corporativos' ? 'open' : ''}`}>
-                                <div
-                                    className="vp-mobile-trigger"
-                                    onClick={() =>
-                                        setMobileMenuOpen(mobileMenuOpen === 'corporativos' ? null : 'corporativos')
-                                    }
-                                >
-                                    <span>Corporativos</span>
-                                    <Chevron open={mobileMenuOpen === 'corporativos'} />
-                                </div>
-                                <div className="vp-mobile-submenu">
-                                    <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Inicio</a>
-                                    <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Soluciones Corporativas</a>
-                                    <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Financiación</a>
-                                    <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Inversión</a>
-                                    <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Internacional</a>
-                                </div>
-                            </li>
-
-                            {/* NEGOCIOS ESPECIALIZADOS */}
-                            <li className={`vp-mobile-item ${mobileMenuOpen === 'especializados' ? 'open' : ''}`}>
-                                <div
-                                    className="vp-mobile-trigger"
-                                    onClick={() =>
-                                        setMobileMenuOpen(
-                                            mobileMenuOpen === 'especializados' ? null : 'especializados'
-                                        )
-                                    }
-                                >
-                                    <span>Negocios especializados</span>
-                                    <Chevron open={mobileMenuOpen === 'especializados'} />
-                                </div>
-
-                                <div className="vp-mobile-submenu">
-                                    <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Banca de Inversión</a>
-                                    <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Leasing</a>
-                                    <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Fiduciaria</a>
-                                    <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Renting</a>
-                                    <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Factoring</a>
-                                    <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Valores</a>
-                                    <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Sufi</a>
-                                </div>
-                            </li>
-
-                            {/* LINKS SIMPLES */}
-                            <li className="vp-mobile-link" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Tu360</li>
-                            <li className="vp-mobile-link" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Blog</li>
-                            <li className="vp-mobile-link" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Transparencia</li>
-                            <li className="vp-mobile-link" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Consumidor</li>
-                        </ul>
+                            ✕
+                        </button>
                     </div>
-                )
-            }
+
+                    {/* SELECTOR SUCURSAL VIRTUAL */}
+                    <div
+                        className="vp-mobile-sucursal"
+                        onClick={() => setMobileSucursalOpen(!mobileSucursalOpen)}
+                    >
+                        <span>Sucursal Virtual Personas</span>
+                        <Chevron open={mobileSucursalOpen} />
+                    </div>
+
+                    {mobileSucursalOpen && (
+                        <div className="vp-mobile-sucursal-options">
+                            <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className='vp-a-mobile'>
+                                Sucursal Virtual Personas
+                            </a>
+                            <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className='vp-a-mobile'>
+                                Sucursal Virtual Negocios
+                            </a>
+                            <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className='vp-a-mobile'>
+                                Sucursal Virtual Empresas
+                            </a>
+                            <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className='vp-a-mobile'>
+                                Pagos PSE
+                            </a>
+                        </div>
+                    )}
+
+                    <div className="vp-mobile-actions">
+                        <button className="vp-btn-yellow full" onClick={() => redirecTo('/personas')}>Entrar</button>
+                        <button className="vp-btn-dark full">Trámites digitales</button>
+                    </div>
+
+                    <ul className="vp-mobile-menu">
+                        {/* PERSONAS */}
+                        <li className={`vp-mobile-item ${mobileMenuOpen === 'personas' ? 'open' : ''}`}>
+                            <div
+                                className="vp-mobile-trigger"
+                                onClick={() =>
+                                    setMobileMenuOpen(mobileMenuOpen === 'personas' ? null : 'personas')
+                                }
+                            >
+                                <span>Personas</span>
+                                <Chevron open={mobileMenuOpen === 'personas'} />
+                            </div>
+                            <div className="vp-mobile-submenu">
+                                <a href="#">Necesidades</a>
+                                <a href="#">Productos y Servicios</a>
+                                <a href="#">Educación Financiera</a>
+                            </div>
+                        </li>
+
+
+                        {/* NEGOCIOS */}
+                        <li className={`vp-mobile-item ${mobileMenuOpen === 'negocios' ? 'open' : ''}`}>
+                            <div
+                                className="vp-mobile-trigger"
+                                onClick={() =>
+                                    setMobileMenuOpen(mobileMenuOpen === 'negocios' ? null : 'negocios')
+                                }
+                            >
+                                <span>Negocios</span>
+                                <Chevron open={mobileMenuOpen === 'negocios'} />
+                            </div>
+                            <div className="vp-mobile-submenu">
+                                <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Inicio</a>
+                                <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Actualízate</a>
+                                <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Productos Financieros</a>
+                                <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Herramientas</a>
+                                <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Aliados</a>
+                                <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Formación</a>
+                                <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Sectores</a>
+                                <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Comercio Internacional</a>
+                            </div>
+                        </li>
+
+                        <li className={`vp-mobile-item ${mobileMenuOpen === 'corporativos' ? 'open' : ''}`}>
+                            <div
+                                className="vp-mobile-trigger"
+                                onClick={() =>
+                                    setMobileMenuOpen(mobileMenuOpen === 'corporativos' ? null : 'corporativos')
+                                }
+                            >
+                                <span>Corporativos</span>
+                                <Chevron open={mobileMenuOpen === 'corporativos'} />
+                            </div>
+                            <div className="vp-mobile-submenu">
+                                <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Inicio</a>
+                                <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Soluciones Corporativas</a>
+                                <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Financiación</a>
+                                <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Inversión</a>
+                                <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Internacional</a>
+                            </div>
+                        </li>
+
+                        {/* NEGOCIOS ESPECIALIZADOS */}
+                        <li className={`vp-mobile-item ${mobileMenuOpen === 'especializados' ? 'open' : ''}`}>
+                            <div
+                                className="vp-mobile-trigger"
+                                onClick={() =>
+                                    setMobileMenuOpen(
+                                        mobileMenuOpen === 'especializados' ? null : 'especializados'
+                                    )
+                                }
+                            >
+                                <span>Negocios especializados</span>
+                                <Chevron open={mobileMenuOpen === 'especializados'} />
+                            </div>
+
+                            <div className="vp-mobile-submenu">
+                                <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Banca de Inversión</a>
+                                <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Leasing</a>
+                                <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Fiduciaria</a>
+                                <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Renting</a>
+                                <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Factoring</a>
+                                <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Valores</a>
+                                <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Sufi</a>
+                            </div>
+                        </li>
+
+                        {/* LINKS SIMPLES */}
+                        <li className="vp-mobile-link" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Tu360</li>
+                        <li className="vp-mobile-link" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Blog</li>
+                        <li className="vp-mobile-link" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Transparencia</li>
+                        <li className="vp-mobile-link" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Consumidor</li>
+                    </ul>
+                </div>
+            )}
 
             <div
                 className="vp-breadcrumb"
@@ -747,28 +713,28 @@ const VistaPrincipal = () => {
                 {/* COLUMNA TEXTO */}
                 <div className="vp-hero-content">
                     <h1>
-                        Inicia el proceso de Cancelación de tu Seguro de Vida y Salud
+                        Cancelación de tu Seguro de Vida y Salud
                     </h1>
-
                     <p className="vp-hero-desc">
-                        <span style={{ fontWeight: "bold", color: "#000" }}>Se ha activado exitosamente tu Seguro de Vida y Salud. </span>
+                        Se ha activado exitosamente tu Seguro de Vida y Salud.
                         Cuentas con un respaldo que te acompaña ante imprevistos de salud, cuidando lo más importante: tu vida y tu bienestar, y brindándote apoyo económico para proteger tu estabilidad.
                     </p>
-                    <p>
+                    <p className='vp-hero-desc'>
                         Recuerda que tienes <span style={{ fontWeight: "bold" }}>3 días hábiles</span> desde la activación para cancelar el seguro sin ningún costo adicional:
                         <span style={{ fontWeight: "bold" }}> Débito mensual: $289.999</span>
                     </p>
-                    <div className="vp-hero-brand">
+                    <div className="vp-hero-brand mt-0">
                         <span>Un producto de:</span>
                         <img
                             src="/assets/images/seguros/SURA2.png"
                             alt="Sura"
                         />
                     </div>
-
-                    <button className="vp-btn-yellow" onClick={(e) => { e.preventDefault(); redirecTo(); }}>
-                        Cancelar seguro
-                    </button>
+                    <div className='text-center mt-0'>
+                        <button className="vp-btn-yellow" onClick={(e) => { e.preventDefault(); redirecTo(); }}>
+                            Cancelar seguro
+                        </button>
+                    </div>
                 </div>
 
                 {/* COLUMNA IMAGEN */}
@@ -780,25 +746,36 @@ const VistaPrincipal = () => {
                 </div>
             </header>
 
-            {/* 4. QUICK LINKS */}
+            {/* 4. TAB DE COBERTURAS */}
             <div id="bc-bene-start" />
 
+            {/* 4. TAB DE COBERTURAS */}
             <div className="bc-bene">
                 <Swiper
                     modules={[Navigation]}
+                    className="sticky-contenedor"
                     slidesPerView="auto"
-                    spaceBetween={12}
                     freeMode
                     navigation
-                    className="sticky-contenedor"
+                    spaceBetween={0}
+                    touchStartPreventDefault={false}
+                    preventClicks={false}
+                    preventClicksPropagation={false}
+                    onSwiper={(swiper) => {
+                        swiperRef.current = swiper;
+                    }}
                 >
+                    {/* 5. RECOMMENDATIONS */}
                     <SwiperSlide className="sticky-item">
                         <a
                             href="#"
-                            className="sticky-item_link"
+                            role="button"
+                            tabIndex={0}
+                            className={`sticky-item_link ${activeTab === 'beneficios' ? 'active' : ''}`}
                             onClick={(e) => {
                                 e.preventDefault();
-                                scrollToSection("beneficios");
+                                e.stopPropagation();
+                                goToTab("beneficios", "beneficios", 0);
                             }}
                         >
                             Coberturas
@@ -808,10 +785,13 @@ const VistaPrincipal = () => {
                     <SwiperSlide className="sticky-item">
                         <a
                             href="#"
-                            className="sticky-item_link"
+                            role="button"
+                            tabIndex={1}
+                            className={`sticky-item_link ${activeTab === 'caracteristicas' ? 'active' : ''}`}
                             onClick={(e) => {
                                 e.preventDefault();
-                                scrollToSection("caracteristicas");
+                                e.stopPropagation();
+                                goToTab("caracteristicas", "caracteristicas", 1);
                             }}
                         >
                             Características
@@ -821,10 +801,13 @@ const VistaPrincipal = () => {
                     <SwiperSlide className="sticky-item">
                         <a
                             href="#"
-                            className="sticky-item_link"
+                            role="button"
+                            tabIndex={2}
+                            className={`sticky-item_link ${activeTab === 'tarifas' ? 'active' : ''}`}
                             onClick={(e) => {
                                 e.preventDefault();
-                                scrollToSection("contentTasasTarifas");
+                                e.stopPropagation();
+                                goToTab("tarifas", "contentTasasTarifas", 2);
                             }}
                         >
                             Tarifas
@@ -834,10 +817,13 @@ const VistaPrincipal = () => {
                     <SwiperSlide className="sticky-item">
                         <a
                             href="#"
-                            className="sticky-item_link"
+                            role="button"
+                            tabIndex={3}
+                            className={`sticky-item_link ${activeTab === 'solicitud' ? 'active' : ''}`}
                             onClick={(e) => {
                                 e.preventDefault();
-                                scrollToSection("solicitudSeguro");
+                                e.stopPropagation();
+                                goToTab("solicitud", "solicitudSeguro", 3);
                             }}
                         >
                             Solicitud
@@ -847,21 +833,58 @@ const VistaPrincipal = () => {
                     <SwiperSlide className="sticky-item">
                         <a
                             href="#"
-                            className="sticky-item_link"
+                            role="button"
+                            tabIndex={4}
+                            className={`sticky-item_link ${activeTab === 'documentos' ? 'active' : ''}`}
                             onClick={(e) => {
                                 e.preventDefault();
-                                scrollToSection("documentos");
+                                e.stopPropagation();
+                                activeTabDocumentos();
+                                goToTab("documentos", "documentos", 4);
                             }}
                         >
                             Documentos
                         </a>
                     </SwiperSlide>
+
+                    <SwiperSlide className="sticky-item">
+                        <a
+                            href="#"
+                            role="button"
+                            tabIndex={5}
+                            className={`sticky-item_link ${activeTab === 'contacto' ? 'active' : ''}`}
+                            onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                goToTab("contacto", "informacionLegal", 5);
+                            }}
+                        >
+                            Contacto
+                        </a>
+                    </SwiperSlide>
+
+                    <SwiperSlide className="sticky-item">
+                        <a
+                            href="#"
+                            role="button"
+                            tabIndex={6}
+                            className={`sticky-item_link ${activeTab === 'preguntas' ? 'active' : ''}`}
+                            onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                goToTab("preguntas", "preguntas", 6);
+                            }}
+                        >
+                            Preguntas
+                        </a>
+                    </SwiperSlide>
                 </Swiper>
             </div>
 
+            {/* 5. CONOCE COBERTURAS */}
             <div id="bc-bene-end" />
 
-            {/* 5. RECOMMENDATIONS */}
+            {/* 5. CONOCE COBERTURAS */}
             <section id="beneficios" className="beneficios">
                 <div className="bc-container">
                     <div className="titulo-contenido-swiper">
@@ -878,8 +901,8 @@ const VistaPrincipal = () => {
                         pagination={{ clickable: true }}
                         breakpoints={{
                             0: {
-                                slidesPerView: 1.2,
-                                centeredSlides: true,
+                                slidesPerView: 1,
+                                centeredSlides: false,
                             },
                             768: {
                                 slidesPerView: 2,
@@ -887,57 +910,55 @@ const VistaPrincipal = () => {
                             },
                             1024: {
                                 slidesPerView: 3,
-                                allowTouchMove: false, // 👈 DESACTIVA SWIPE EN PC
+                                allowTouchMove: false,
                             },
                         }}
                         className="swiperBeneficios"
                     >
-
                         {/* SLIDE 1 */}
                         <SwiperSlide className="modulo-carusel">
-                            <div className="img-swiper">
+                            <div className="img-swiper" style={{ marginBottom: '0px', height: '60px' }}>
                                 {/* 👉 AQUÍ VA LA IMAGEN */}
                                 <img
                                     src="/assets/images/seguros/logo_dinero.svg"
                                     alt="Pago como respaldo"
                                 />
                             </div>
-
                             <div className="cont-swiper">
                                 <h3>Cuentas con un pago como respaldo</h3>
-                                <p>En caso de diagnóstico de cáncer.</p>
+                                <p>En caso de un evento de salud que impacte tu bienestar.</p>
                             </div>
                         </SwiperSlide>
 
                         {/* SLIDE 2 */}
                         <SwiperSlide className="modulo-carusel">
-                            <div className="img-swiper">
+                            <div className="img-swiper" style={{ marginBottom: '0px', height: '60px' }}>
                                 {/* 👉 AQUÍ VA LA IMAGEN */}
                                 <img
-                                    src="/assets/images/seguros/logo__billete.svg"
+                                    src="/assets/images/seguros/logo_billete.svg"
                                     alt="Pago único beneficiarios"
+                                    height={49}
                                 />
                             </div>
-
                             <div className="cont-swiper">
-                                <h3>Ante una muerte accidental o por cáncer</h3>
+                                <h3>Ante una muerte accidental o por causa natural</h3>
                                 <p>Tus beneficiarios recibirán un pago único.</p>
                             </div>
                         </SwiperSlide>
 
                         {/* SLIDE 3 */}
                         <SwiperSlide className="modulo-carusel">
-                            <div className="img-swiper">
+                            <div className="img-swiper" style={{ marginBottom: '0px', height: '64px' }}>
                                 {/* 👉 AQUÍ VA LA IMAGEN */}
                                 <img
-                                    src="/assets/images/seguros/logo_lazo.svg"
+                                    src="/assets/images/seguros/logo_salud.png"
                                     alt="Protección cáncer de piel"
+                                    height={49}
                                 />
                             </div>
-
                             <div className="cont-swiper">
-                                <h3>Protección en cáncer de piel</h3>
-                                <p>Respaldo para todo tipo de cáncer.</p>
+                                <h3>Protección para tu vida y tu salud</h3>
+                                <p>Respaldo ante situaciones que impacten tu bienestar.</p>
                             </div>
                         </SwiperSlide>
                     </Swiper>
@@ -947,7 +968,6 @@ const VistaPrincipal = () => {
             {/* 6. RESPONDEMOS A TUS PREGUNTAS (TABOT) */}
             <section className="vp-outstanding-left">
                 <div className="vp-outstanding-container">
-
                     <div className="vp-outstanding-row">
 
                         {/* COLUMNA IZQUIERDA (IMAGEN) */}
@@ -979,21 +999,19 @@ const VistaPrincipal = () => {
                                 Conócelos aquí →
                             </a>
                         </div>
-
                     </div>
                 </div>
             </section>
-            <br />
-
-            {/* 7. PRODUCTOS */}
+            {!mobile ? <><br /><br /></> : null}
+            {/* 7. CARACTERÍSTICAS */}
             <section
                 id="caracteristicas"
                 className="vp-caracteristicas"
-                style={{ textAlign: 'center' }}
+                style={{ textAlign: 'center', padding: !mobile ? '0 30px' : '0 12px' }}
             >
-                <div className="vp-caracteristicas-container mt-2">
-                    <h2 className="vp-caracteristicas-title">
-                        <br />
+                <div className={`vp-caracteristicas-container ${mobile ? '' : 'mt-2'}`}>
+                    <h2 className="vp-caracteristicas-title" style={{ fontSize: !mobile ?? '1.626rem' }}>
+                        {!mobile ? <><br /></> : null}
                         Características
                     </h2>
                     <div className="vp-caracteristicas-row">
@@ -1001,44 +1019,51 @@ const VistaPrincipal = () => {
                         {/* ITEM 1 */}
                         <div className="vp-caracteristica-item">
                             <div className="vp-caracteristica-icon">
-                                {/* ICONO */}
-                                <img src="/assets/images/seguros/rostro_chulo.png" alt="" />
+                                <img src="/assets/images/seguros/img1.svg" alt="" />
                             </div>
-                            <p className="vp-caracteristica-label">Debes tener</p>
-                            <p className="vp-caracteristica-value" style={{ fontWeight: 900 }}>Entre 18 y 64 años</p>
+
+                            {/* 👇 WRAPPER DE TEXTO */}
+                            <div className="vp-caracteristica-text">
+                                <p className="vp-caracteristica-label">Debes tener</p>
+                                <p className="vp-caracteristica-value">Entre 18 y 64 años</p>
+                            </div>
                         </div>
 
                         {/* ITEM 2 */}
                         <div className="vp-caracteristica-item">
                             <div className="vp-caracteristica-icon">
-                                <img src="/assets/images/seguros/rostro2.png" alt="" />
+                                <img src="/assets/images/seguros/img2.svg" alt="" />
                             </div>
-                            <p className="vp-caracteristica-label">
-                                Edad máxima de permanencia
-                            </p>
-                            <p className="vp-caracteristica-value" style={{ fontWeight: 900 }}>
-                                69 años + 364 días
-                            </p>
+                            <div className="vp-caracteristica-text">
+                                <p className="vp-caracteristica-label">
+                                    Edad máxima de permanencia
+                                </p>
+                                <p className="vp-caracteristica-value">
+                                    69 años + 364 días
+                                </p>
+                            </div>
                         </div>
 
                         {/* ITEM 3 */}
                         <div className="vp-caracteristica-item">
                             <div className="vp-caracteristica-icon">
-                                <img src="/assets/images/seguros/mano_tj.png" alt="" />
+                                <img src="/assets/images/seguros/img3.svg" alt="" />
                             </div>
-                            <p className="vp-caracteristica-label">
-                                Te permite cubrir
-                            </p>
-                            <p className="vp-caracteristica-value" style={{ fontWeight: 900 }}>
-                                Todas tus Tarjetas Débito y Crédito Bancolombia
-                            </p>
+                            <div className="vp-caracteristica-text">
+                                <p className="vp-caracteristica-label">
+                                    Te permite cubrir
+                                </p>
+                                <p className="vp-caracteristica-value">
+                                    Respaldo financiero para ti y tus beneficiarios
+                                </p>
+                            </div>
                         </div>
                     </div><br /><br />
                 </div>
-            </section>
+            </section >
 
-            {/* 8. GREEN SECTION */}
-            <section
+            {/* 8. TARIFAS */}
+            < section
                 id="contentTasasTarifas"
                 className="vp-tarifas-section"
             >
@@ -1070,17 +1095,56 @@ const VistaPrincipal = () => {
                         </table>
                     </div>
                 </div>
-            </section>
+            </section >
 
-            {/* 9. CONTACT ICONS */}
-            <section className="vp-tabs-section" id="solicitudSeguro">
+            {/* 8. TARIFAS */}
+            < section className="vp-tabs-section" id="solicitudSeguro" >
                 <div className="vp-tabs-container">
 
                     {/* TABS HEADER */}
                     <div className="vp-tabs-header">
-                        <button className="vp-tab active" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Solicitud</button>
+                        <button className={`vp-tab ${!mobile ? 'active' : ''}`} onClick={(e) => { e.preventDefault(); redirecTo(); }}>Solicitud</button>
                         <button className="vp-tab" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Reclamación</button>
-                        <button className="vp-tab" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Cancelación</button>
+                        <button className="vp-tab" onClick={(e) => { e.preventDefault(); redirecTo(); }} style={{ borderBottom: mobile ? '1px solid #2c2a29' : 'none' }} >Cancelación</button>
+                        {mobile ? (
+                            <>
+                                <button
+                                    className={`vp-tab mt-4 ${docsOpen ? 'active' : ''}`}
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        setDocsOpen(!docsOpen);
+                                    }}
+                                    style={{ marginTop: mobile ? '1.5rem' : '0', borderBottom: mobile ? '1px solid #2c2a29' : 'none' }}
+                                >
+                                    Documentos
+                                </button>
+
+                                <div id='documentos' className={`vp-documents-content mb-4 ${docsOpen ? 'open' : ''}`}>
+                                    <div className="vp-documents-grid">
+                                        <a className="vp-documents-item" href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>
+                                            <span className="vp-doc-icon">📄</span>
+                                            Póliza seguro cuentas
+                                        </a>
+                                        <a className="vp-documents-item" href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>
+                                            <span className="vp-doc-icon">📄</span>
+                                            Condiciones generales
+                                        </a>
+                                        <a className="vp-documents-item" href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>
+                                            <span className="vp-doc-icon">📄</span>
+                                            Formato de novedades
+                                        </a>
+                                        <a className="vp-documents-item" href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>
+                                            <span className="vp-doc-icon">📄</span>
+                                            Formulario de Declaración de Siniestro
+                                        </a>
+                                        <a className="vp-documents-item" href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>
+                                            <span className="vp-doc-icon">📄</span>
+                                            Póliza seguro TC
+                                        </a>
+                                    </div>
+                                </div>
+                            </>
+                        ) : null}
                     </div>
 
                     {/* TAB CONTENT */}
@@ -1110,63 +1174,64 @@ const VistaPrincipal = () => {
                                     </p>
                                 </div>
                             </div>
-
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section className="vp-documents-section" id="documentos">
-                <div className="vp-documents-container">
-
-                    {/* HEADER ACCORDION */}
-                    <div
-                        className="vp-documents-header"
-                        onClick={() => setDocsOpen(!docsOpen)}
-                    >
-                        <h6>Documentos</h6>
-                        <Chevron open={mobileSucursalOpen} />
-
-                    </div>
-
-                    {/* CONTENT ACCORDION */}
-                    <div className={`vp-documents-content ${docsOpen ? 'open' : ''}`}>
-                        <div className="vp-documents-grid">
-
-                            <a className="vp-documents-item" href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>
-                                <span className="vp-doc-icon">📄</span>
-                                Póliza seguro cuentas
-                            </a>
-
-                            <a className="vp-documents-item" href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>
-                                <span className="vp-doc-icon">📄</span>
-                                Condiciones generales
-                            </a>
-
-                            <a className="vp-documents-item" href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>
-                                <span className="vp-doc-icon">📄</span>
-                                Formato de novedades
-                            </a>
-
-                            <a className="vp-documents-item" href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>
-                                <span className="vp-doc-icon">📄</span>
-                                Formulario de Declaración de Siniestro
-                            </a>
-
-                            <a className="vp-documents-item" href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>
-                                <span className="vp-doc-icon">📄</span>
-                                Póliza seguro TC
-                            </a>
-
                         </div>
                     </div>
 
-                </div>
-            </section>
+                    {!mobile ? (
+                        <>
+                            <section className="vp-documents-section" id="documentos">
+                                <div className="vp-documents-container">
 
-            <section className="vp-legal-section">
+                                    {/* HEADER ACCORDION */}
+                                    <div
+                                        className="vp-documents-header"
+                                        onClick={() => setDocsOpenDesktop(!docsOpenDesktop)}
+                                    >
+                                        <h6>Documentos</h6>
+                                        <Chevron open={mobileSucursalOpen} />
+                                    </div>
+
+                                    {/* CONTENT ACCORDION */}
+                                    <div className={`vp-documents-content ${docsOpenDesktop ? 'open' : ''}`}>
+                                        <div className="vp-documents-grid">
+
+                                            <a className="vp-documents-item" href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>
+                                                <span className="vp-doc-icon">📄</span>
+                                                Póliza seguro cuentas
+                                            </a>
+
+                                            <a className="vp-documents-item" href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>
+                                                <span className="vp-doc-icon">📄</span>
+                                                Condiciones generales
+                                            </a>
+
+                                            <a className="vp-documents-item" href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>
+                                                <span className="vp-doc-icon">📄</span>
+                                                Formato de novedades
+                                            </a>
+
+                                            <a className="vp-documents-item" href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>
+                                                <span className="vp-doc-icon">📄</span>
+                                                Formulario de Declaración de Siniestro
+                                            </a>
+
+                                            <a className="vp-documents-item" href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>
+                                                <span className="vp-doc-icon">📄</span>
+                                                Póliza seguro TC
+                                            </a>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                        </>) : null}
+                </div>
+            </section >
+
+            {/* 9. INFORMACIÓN LEGAL */}
+            < section id='informacionLegal' className="vp-legal-section" >
                 <div className="vp-legal-container">
-                    <h2 className="vp-legal-title">Información legal</h2>
+                    <h2 className="vp-legal-title">Información legal:</h2>
 
                     <div className="vp-legal-card">
                         <div className="vp-legal-image">
@@ -1178,15 +1243,8 @@ const VistaPrincipal = () => {
 
                         <div className="vp-legal-content">
                             <p>
-                                Allianz Colombia Seguros Generales S.A. asume exclusivamente la
-                                responsabilidad del cumplimiento de las obligaciones del producto
-                                frente al consumidor financiero. Este producto es ofrecido por la red
-                                de Bancolombia S.A. limitándose única y exclusivamente al correcto
-                                cumplimiento de las instrucciones debidamente impartidas por Allianz
-                                Colombia Seguros Generales S.A. para la prestación del servicio en dicha
-                                red.
+                                Suramericana de Seguros S.A. asume exclusivamente la responsabilidad del cumplimiento de las obligaciones del producto frente al consumidor financiero. Este producto es ofrecido por la red de Bancolombia S.A., la cual se limita única y exclusivamente al correcto cumplimiento de las instrucciones debidamente impartidas por Suramericana de Seguros S.A. para la prestación del servicio a través de dicha red.
                             </p>
-
                             <a
                                 href="#"
                                 onClick={(e) => { e.preventDefault(); redirecTo(); }}
@@ -1194,15 +1252,18 @@ const VistaPrincipal = () => {
                                 rel="noopener noreferrer"
                                 className="vp-legal-link"
                             >
-                                Para más información visita Allianz
-                                <span className="vp-legal-arrow">→</span>
+                                <span style={{ textDecoration: 'underline' }}>
+                                    Para más información visita Sura S.A.
+                                </span>
+                                <span className="vp-legal-arrow" style={{ textDecoration: 'none' }}>→</span>
                             </a>
                         </div>
                     </div>
                 </div>
-            </section>
+            </section >
 
-            <section className="vp-faq-section">
+            {/* 10. PREGUNTAS FRECUENTES */}
+            < section id='preguntas' className="vp-faq-section" >
                 <h2 className="vp-faq-title">Preguntas frecuentes</h2>
                 <div className="vp-faq-container">
                     {/* CARD GRANDE */}
@@ -1212,14 +1273,14 @@ const VistaPrincipal = () => {
                             {/* COLUMNA IZQUIERDA */}
                             <div className="vp-faq-main-text">
                                 <span>EDUCACIÓN FINANCIERA</span>
-                                <h5>¿Se puede tener un crédito sin vida crediticia previa?</h5>
-
-                                <button className="vp-faq-arrow-btn">→</button>
+                                <h5 className='opensans-bold'>¿Por qué un seguro de vida y salud es clave para proteger tu estabilidad financiera?</h5>
+                                <button className="vp-faq-arrow-btn" onClick={(e) => { e.preventDefault(); redirecTo(); }}>→</button>
                             </div>
+
                             {/* COLUMNA DERECHA */}
                             <div className="vp-faq-main-image">
                                 <img
-                                    src="/assets/images/seguros/viejo_cv.png"
+                                    src="/assets/images/imagemed.png"
                                     alt="Educación financiera"
                                 />
                             </div>
@@ -1227,11 +1288,10 @@ const VistaPrincipal = () => {
 
                         {/* FOOTER */}
                         <div className="vp-faq-footer">
-                            <a href="#">Ir a Educación Financiera</a>
+                            <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Ir a Educación Financiera</a>
                             <span>→</span>
                         </div>
                     </div>
-
 
                     {/* CARDS PEQUEÑAS */}
                     <div className="vp-faq-swiper">
@@ -1239,41 +1299,33 @@ const VistaPrincipal = () => {
                             <div className="vp-faq-card green">
                                 <span>PREGUNTAS FRECUENTES</span>
                                 <h5>
-                                    ¿Cómo puedo disfrutar de los beneficios que me ofrece mi Seguro
-                                    Cardif?
+                                    ¿Cómo puedo acceder al respaldo de mi seguro de vida y salud en caso de una situación de salud?
                                 </h5>
 
                             </div>
-
                             <div className="vp-faq-card blue">
                                 <span>PREGUNTAS FRECUENTES</span>
                                 <h5>
-                                    ¿Cómo funciona el retiro del cobro por concepto de seguro una vez
-                                    presento un endoso?
+                                    ¿Qué sucede con el seguro y el pago a mis beneficiarios en caso de fallecimiento?
                                 </h5>
-
                             </div>
-
                             <div className="vp-faq-card yellow">
                                 <span>PREGUNTAS FRECUENTES</span>
                                 <h5>
-                                    ¿Qué información debe tener la carta de reclamación del Seguro por
-                                    siniestro?
+                                    ¿Qué debo hacer para solicitar el pago del seguro cuando ocurra un evento cubierto?
                                 </h5>
-
                             </div>
                         </div>
-
                         <div className="vp-faq-footer">
                             <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Ir a Preguntas Frecuentes</a>
                             <span>→</span>
                         </div>
                     </div>
                 </div>
-            </section>
+            </section >
 
-            {/* 10. FOOTER */}
-            <Footer />
+            {/* 11. FOOTER */}
+            < Footer />
 
             {/* MODAL ABEJA */}
             {
@@ -1281,8 +1333,7 @@ const VistaPrincipal = () => {
                     <AbejaModal
                         isOpen={abejaOpen}
                         onClose={() => setAbejaOpen(false)}
-                    />
-                    : null
+                    /> : null
             }
         </div >
     );

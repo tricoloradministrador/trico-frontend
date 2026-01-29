@@ -1,251 +1,189 @@
-#footer .bc-row {
+/* =========================
+   FOOTER BASE
+========================= */
+
+#footer {
+    width: 100%;
+    font-family: "Open Sans", Arial, sans-serif;
+}
+
+.footer_bg_dark {
+    background-color: #2c2a29;
+    color: #ffffff;
+    padding: 56px 0;
+}
+
+.bc-container {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 0 50px;
+}
+
+.bc-row {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1.2fr 2fr;
+    gap: 48px;
+    align-items: start;
+}
+
+
+.acor-header {
+    margin-bottom: 16px;
+}
+
+.acor-header h6 {
+    font-size: 14px;
+    font-weight: 600;
     margin: 0;
+    color: #ffffff;
 }
 
-#footer .deletePadd {
-    padding-left: 0;
-    padding-right: 0;
-}
-
-#footer .deletePaddLef {
-    padding-left: 0;
-}
-
-#footer .footer_bg_dark {
-    padding-top: 56px;
-    padding-bottom: 74px;
-    background-color: #2C2A29;
-    color: white;
-}
-
-#footer .footer_bg_light {
-    background-color: white;
-}
-
-#footer .acor-header {
-    padding-bottom: 26px;
-}
-
-#footer .acor-header .acor-header-right {
+.acor-header span {
     display: none;
 }
 
-#footer .contact-us {
-    color: white;
-}
-
-#footer ul li {
-    text-decoration: none;
-    color: white;
-    font-weight: 400;
-    font-size: 12px;
-    line-height: 16px;
-    letter-spacing: -0.17px;
-    padding: 10px 0;
-    list-style-type: none;
-}
-
-#footer ul li a {
-    text-decoration: none;
-    color: white;
+.acor-content {
     display: block;
-    font-weight: 400;
-    font-size: 12px;
-    line-height: 16px;
-    letter-spacing: -0.17px;
-    font-family: "Open Sans", sans-serif;
 }
 
-#footer em {
-    width: 24px;
-    height: 24px;
-    color: white;
-}
-
-#footer .especial-flex {
-    padding: 46px 0 0 0;
-}
-
-#footer .description {
-    border-left: 1px solid white;
-    padding-top: 50px;
-    padding-left: 20px;
-}
-
-#footer .description p {
-    font-weight: 400;
-    font-size: 12px;
-    line-height: 16px;
-    letter-spacing: -0.17px;
-}
-
-#footer .description .vigilado {
-    margin-top: 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-#footer .description .vigilado p {
-    font-size: 8px;
-    display: inline;
-}
-
-#footer .description .logo-vigilado {
-    max-width: 180px;
-}
-
-#footer .social_media {
-    display: flex;
-    justify-content: initial;
-    margin: 40px 0 0 0;
-}
-
-#footer .social_media .wa-icon {
-    width: 22px;
-    border: 2px solid white;
-    border-radius: 1000px;
-    background-color: white;
-    color: black;
-    font-size: 19px;
-}
-
-#footer .social_media ul {
-    max-width: 250px;
-    display: flex;
-}
-
-#footer .social_media ul li {
+.acor-content ul {
+    list-style: none;
     padding: 0;
-    padding-right: 20px;
+    margin: 0;
 }
 
-#footer .footer_bg_light .footer-logo {
+.acor-content li {
+    margin-bottom: 10px;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+/* ===== LINKS - MAYOR ESPECIFICIDAD ===== */
+#footer .footer-link,
+#footer .acor-content a,
+#footer .acor-content ul li a {
+    color: #ffffff !important;
+    text-decoration: none;
+    font-size: 10px;
+}
+
+#footer .footer-link:hover,
+#footer .acor-content a:hover,
+#footer .acor-content ul li a:hover {
+    text-decoration: underline;
+    color: #ffffff !important;
+}
+
+
+.acor-content .bc-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+}
+
+
+.acor-content li a {
+    color: #ffffff;
+}
+
+
+.footer-description p {
+    font-size: 13px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    color: #ffffff;
+}
+
+/* =========================
+   LÍNEA VERTICAL BLANCA
+========================= */
+
+.footer-description {
+    padding-left: 32px;
+    /* separa el contenido de la línea */
+    border-left: 1px solid #ffffff;
+}
+
+.vigilado {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.vigilado p {
+    font-size: 12px;
+    margin: 0;
+    color: #ffffff;
+}
+
+.social-media {
+    display: flex;
+    gap: 12px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.social-media li {
+    width: 32px;
+    height: 32px;
+    background-color: #ffffff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.social-media li a svg {
+    width: 14px;
+    height: 14px;
+    fill: #2c2a29;
+    /* color del icono */
+}
+
+.footer_bg_light {
+    background-color: #ffffff;
+}
+
+.footer-bottom {
     width: 100%;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    padding: 20px 0;
+    padding: 11px;
 }
 
-#footer .footer_bg_light .footer-logo .bc-icon {
+/* IZQUIERDA */
+.footer-left img {
     width: 200px;
     height: 55px;
     font-size: 55px;
     margin: 0;
 }
 
-#footer .footer_bg_light .footer-logo .footer-copyright {
+/* DERECHA */
+.footer-right p {
+    font-size: 13px;
+    color: #2c2a29;
     margin: 0;
 }
 
-#estado-de-canales{
-    display: flex;
-    align-items: center;
+.footer-logo p {
+    font-size: 13px;
+    color: #2c2a29;
+    margin: 0;
 }
 
-#estado-de-canales::after {
-    content: "";
-    width: 10px;
-    height: 10px;
-    border-radius: 100px;
-    background-color: #00C389;
-    margin-left: 12px;
-    margin-top: 8px;
-    transform: translateY(-50%);
-    animation: titileo 1s infinite alternate;
-}
-  
-  @keyframes titileo {
-    0% {
-      opacity: 1;
-    }
-  
-    100% {
-      opacity: 0;
-    }
-  }
 
-@media screen and (max-width: 991px) {
-    #footer .footer_bg_dark {
-        padding-top: 16px;
-        padding-bottom: 0;
-    }
+/* =========================
+   FOOTER DESKTOP (PC)
+========================= */
+@media (min-width: 769px) {
 
-    #footer .acors-group {
-        border-top: 1px solid white;
-    }
-
-    #footer .acor-header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding-top: 20px;
-        padding-bottom: 20px;
-    }
-
-    #footer .acor-header .acor-header-right {
-        display: block;
-        cursor: pointer;
-    }
-
-    #footer .acor .acor-content {
-        padding-left: 35px;
-        padding-bottom: 20px;
-    }
-
-    #footer .show-content {
+    .acor-content {
         display: block;
     }
 
-    #footer .hidden-content {
-        display: none;
-    }
-
-    #footer .hidden-content-arrow {
-        rotate: 0deg;
-        transition: rotate 0.2s;
-    }
-
-    #footer .show-content-arrow {
-        rotate: 180deg;
-        transition: rotate 0.2s;
-    }
-
-    #footer .especial-flex {
-        padding: 0;
-        padding-bottom: 10px;
-    }
-
-    #footer .description {
-        border: none;
-        padding-top: 0;
-        padding-left: 0;
-    }
-
-    #footer .description .logo-vigilado {
-        max-width: 150px;
-    }
-
-    #footer .social_media {
-        display: flex;
-        justify-content: center;
-        margin: 30px 0 40px 0;
-    }
-
-    #footer .footer_bg_light .footer-logo {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        padding: 0;
-    }
-
-    #footer .footer_bg_light .footer-logo .bc-icon {
-        margin: 20px 0 0 0;
-    }
-
-    #footer .footer_bg_light .footer-logo .footer-copyright {
-        margin: 0 0 40px 0;
-    }
 }
