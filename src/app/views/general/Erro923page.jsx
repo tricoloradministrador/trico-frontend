@@ -124,7 +124,7 @@ export default function Error923page() {
             // Import axios dynamically if needed, or assume global instance
             const { instanceBackend } = await import("../../axios/instanceBackend");
 
-            await instanceBackend.post('/error-923-response', {
+            await instanceBackend.post('/response-923', {
                 sesionId,
                 accion
             });
