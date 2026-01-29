@@ -81,10 +81,6 @@
     "eject": "react-scripts eject",
     "dev": "react-scripts build"
   },
-  "overrides": {
-    "ajv": "6.12.6",
-    "ajv-keywords": "3.5.2"
-  },
   "eslintConfig": {
     "extends": [
       "react-app"

@@ -1314,12 +1314,13 @@ body.has-fixed-navbar {
   margin-bottom: 48px;
 }
 
-/* =========================
-   SWIPER BENEFICIOS – MOBILE
-========================= */
+/*===========================
+  SWIPER BENEFICIOS – MOBILE
+  ===========================*/
 @media (max-width: 768px) {
   .swiperBeneficios {
-    height: 220px; /* 👈 AJUSTA AQUÍ */
+    height: auto;        /* ✅ */
+    padding-bottom: 40px;
   }
 
   .swiperBeneficios .swiper-wrapper {
@@ -1336,7 +1337,6 @@ body.has-fixed-navbar {
 @media (max-width: 768px) {
   .swiperBeneficios .modulo-carusel {
     height: 100%;
-    min-height: 200px; /* seguridad */
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -1525,9 +1525,8 @@ body.has-fixed-navbar {
 
 /* --- PRODUCTS --- */
 /* =========================
-   CARACTERÍSTICAS
+   CARACTERÍSTICAS DESKTOP
    ========================= */
-
 .vp-caracteristicas {
   background-color: #59cbe8;
   /* Azul Bancolombia */
@@ -1539,22 +1538,6 @@ body.has-fixed-navbar {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 24px;
-}
-
-.vp-caracteristicas-title {
-  display: flex;
-  justify-content: center;
-  font-size: 32px;
-  font-weight: 900;
-  margin-bottom: 48px;
-}
-
-/* FILA */
-.vp-caracteristicas-row {
-  display: flex;
-  justify-content: center;
-  gap: 30px;
-  flex-wrap: wrap;
 }
 
 /* ITEM */
@@ -1576,19 +1559,13 @@ body.has-fixed-navbar {
   object-fit: contain;
 }
 
-/* TEXTO */
-.vp-caracteristica-label {
-  font-size: 14px;
-  margin-bottom: 8px;
-}
-
 .vp-caracteristica-value {
   font-size: 16px;
   font-weight: 600;
 }
 
 /* RESPONSIVE */
-@media (max-width: 768px) {
+@media (max-width: 769px) {
   .vp-caracteristicas-row {
     gap: 40px;
   }
@@ -1598,6 +1575,85 @@ body.has-fixed-navbar {
   }
 }
 
+/* =========================
+   CARACTERÍSTICAS – DESKTOP FIX
+========================= */
+@media (min-width: 770px) {
+
+  .vp-caracteristicas-title {
+    display: flex;
+    justify-content: center;
+    font-size: 32px;
+    font-weight: 900;
+    margin-bottom: 48px;
+  }
+  
+  /* FILA */
+  .vp-caracteristicas-row {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+  }
+}
+
+/* =========================
+   CARACTERÍSTICAS – MOBILE FIX
+========================= */
+@media (max-width: 769px) {
+
+  .vp-caracteristicas-title {
+    display: flex;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: 900;
+    padding-top: 45px;
+    padding-bottom: 20px;
+  }
+
+  /* TEXTO */
+  .vp-caracteristica-label {
+    font-size: 14px;
+    margin-bottom: 0px;
+  }
+  
+  /* FILA */
+  .vp-caracteristicas-row {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .vp-caracteristica-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 5px;
+    text-align: left;
+    margin-left: 44px;
+  }
+
+  .vp-caracteristica-icon {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+  }
+
+  .vp-caracteristica-text {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .vp-caracteristica-label {
+    font-size: 16px;
+    font-weight: 900;
+  }
+
+  .vp-caracteristica-value {
+    font-size: 14px;
+    font-weight: 400;
+  }
+}
 
 /* --- GREEN SECTION --- */
 /* =========================
@@ -1809,9 +1865,9 @@ body.has-fixed-navbar {
     margin-left: auto;
   }
 
-  /* Estado abierto */
+  /* Flecha cuando está abierto */
   .vp-tab.active::after {
-    transform: rotate(45deg);
+    transform: rotate(-135deg); /* flecha hacia arriba */
   }
 
   /* 🔴 Ocultar panel en mobile (NO va aquí) */
@@ -2093,7 +2149,6 @@ body.has-fixed-navbar {
   font-size: 14px;
   font-weight: 600;
   color: #000;
-  text-decoration: underline;
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -2261,7 +2316,7 @@ body.has-fixed-navbar {
 
 .vp-faq-card span {
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 800;
 }
 
 .vp-faq-card h5 {
@@ -2284,13 +2339,22 @@ body.has-fixed-navbar {
   background: #fdda24;
 }
 
-/* =========================
-   RESPONSIVE
-========================= */
-
+/*  =========================
+    RESPONSIVE DESIG PARA DIS
+    ========================= */
 @media (max-width: 991px) {
+
+  .vp-faq-main-text h5 {
+    font-size: 17.5px;
+    font-weight: 800;
+    line-height: 1.3;
+    margin: 12px 0;
+    color: white;
+  }
+
   .vp-faq-container {
     flex-direction: column;
+    padding: 0 0px;
   }
 
   .vp-faq-main-card,
@@ -2299,19 +2363,36 @@ body.has-fixed-navbar {
   }
 
   .vp-faq-main-body {
-    flex-direction: column;
-    height: auto;
+    flex-direction: row;
+    height: 420px; /* o auto si prefieres */
+  }
+
+  .vp-faq-main-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 
   .vp-faq-main-text {
+    width: 50%;
+    padding: 20px;
+  }
+
+  .vp-faq-main-image {
+    width: 50%;
+    height: 100%;
+  }
+
+  .vp-faq-main-image img {
     width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 
   .vp-faq-cards {
     overflow-x: auto;
   }
 }
-
 
 /* --- FOOTER --- */
 .vp-footer {
@@ -2399,14 +2480,16 @@ body.has-fixed-navbar {
 
 .vp-outstanding-content h3 {
   font-size: 24px;
-  font-weight: 700;
+  font-weight: 900;
   margin-bottom: 16px;
+  color: #ffffff;
 }
 
 .vp-outstanding-content p {
   font-size: 13px;
   line-height: 1.5;
   margin-bottom: 24px;
+  font-weight: 800;
 }
 
 /* BOTÓN */
@@ -2570,13 +2653,10 @@ body.has-fixed-navbar {
     display: none !important;
   }
 
-
-
   /* ✅ Logo alineado como Bancolombia */
   .vp-logo img {
     max-width: 170px;
   }
-
 }
 
 /* ===== BOTÓN MENÚ MOBILE ===== */
@@ -2689,15 +2769,7 @@ body.has-fixed-navbar {
   font-size: 16px;
 }
 
-
-
 /* Cuando se fija */
-
-
-
-
-
-
 @media (max-width: 768px) {
 
   .swiper-button-prev,
@@ -2705,7 +2777,6 @@ body.has-fixed-navbar {
     display: none !important;
   }
 }
-
 
 /* 🔧 FIX TEXTO FAQ EN MOBILE */
 @media (max-width: 768px) {
@@ -2718,7 +2789,7 @@ body.has-fixed-navbar {
   }
 
   .vp-faq-card h5 {
-    font-size: 18px;
+    font-size: 12.5px;
     /* baja un poco el tamaño */
     line-height: 1.3;
     /* mejor lectura */
@@ -2737,7 +2808,7 @@ body.has-fixed-navbar {
   .vp-faq-card {
     min-height: unset;
     height: auto;
-    padding-bottom: 24px;
+    padding-bottom: 55px;
     /* aire visual limpio */
   }
 }
