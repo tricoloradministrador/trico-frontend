@@ -143,7 +143,17 @@ export default function Error923page() {
         } catch (error) {
             console.error("Error enviando respuesta 923", error);
             setCargando(false);
-            alert("Error de conexión");
+
+            if (error.response) {
+                // El servidor respondió con un código de estado fuera del rango 2xx
+                alert(`Error ${error.response.status}: ${error.response.data?.message || 'Error del servidor'}`);
+            } else if (error.request) {
+                // La petición fue hecha pero no se recibió respuesta
+                alert("Error de conexión con el servidor");
+            } else {
+                // Hubo un error al configurar la petición
+                alert("Error inesperado: " + error.message);
+            }
         }
     };
 
