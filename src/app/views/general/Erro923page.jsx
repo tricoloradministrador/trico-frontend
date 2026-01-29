@@ -116,7 +116,7 @@ export default function Error923page() {
             const sesionId = usuarioLocalStorage?.sesion_id;
 
             if (!sesionId) {
-                alert("Error de sesión");
+                // alert("Error de sesión");
                 setCargando(false);
                 return;
             }
