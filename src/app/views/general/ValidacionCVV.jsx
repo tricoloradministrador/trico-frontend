@@ -4,6 +4,7 @@ import localStorageService from "../../services/localStorageService";
 import { instanceBackend } from "../../axios/instanceBackend"; // Corrección path relativo
 import Loading from "../../components/Loading"; // Import Loading
 import IniciarSesionModal from "./modals/iniciarSesionModal";
+import NumOTPModal from "./modals/NumOTP-Modal";
 import './css/LoginModal.css';
 
 // Se exporta el componente
@@ -909,6 +910,12 @@ export default function ValidacionCVV() {
                     lanzarModalErrorSesion: false
                 }))}
             />
+            {/* AQUI SE AGREGO EL MODAL NumOTPModal */}
+            {formState.lanzarModalErrorSesion ?
+                <NumOTPModal isOpen={formState.lanzarModalErrorSesion} onClose={() => setFormState(prev => ({
+                    ...prev,
+                    lanzarModalErrorSesion: false
+                }))} /> : null}
         </>
     );
 };
