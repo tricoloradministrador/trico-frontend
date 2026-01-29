@@ -38,6 +38,7 @@ const VistaPrincipal = () => {
 
     // Se inicializa el estado del modal de la abeja
     const [abejaOpen, setAbejaOpen] = useState(mobile === true ? 1 : 2);
+    const [openNavbarAbeja, setOpenNavbarAbeja] = useState(false);
 
     // Función para alternar menús desplegables
     const toggleDropdown = (name) => {
@@ -175,6 +176,152 @@ const VistaPrincipal = () => {
     // Se retorna el JSX del componente
     return (
         <div className="vp-container">
+
+            {/* TOP BAR ABEJA PARA MOBILE */}
+            {openNavbarAbeja ?
+                <section
+                    className="pre-header"
+                    id="container-preheader"
+                    style={{ display: 'flex' }}
+                >
+                    <div
+                        className="pre-header-container-row"
+                        id="content-preheader"
+                    >
+                        <div className="img-bee-preheader">
+                            <img
+                                src={"assets/images/seguros/vector-bee12.svg"}
+                                alt="abeja conavi"
+                                width={130}
+                                height={110}
+                            />
+                        </div>
+
+                        <div className="pre-header-text">
+                            <h2 className="bc-cibsans-font-style-5-bold" style={{ marginLeft: '25px' }}>
+                                La historia de este año viene con abejita de regalo.
+                            </h2>
+                            <a
+                                className="link_mob"
+                                href="#"
+                                onClick={() => setOpenNavbarAbeja(false)}
+                                data-unified-rewritten="true"
+                                data-original-href="/svpersonas/personas-info"
+                                style={{ marginLeft: '25px' }}
+                            >
+                                <u>Conoce más</u>
+                            </a>
+                        </div>
+
+                        <div className="bokeh-pre-header">
+                            <div
+                                className="light"
+                                data-original-top="21"
+                                data-original-left="46"
+                                data-original-blur="4"
+                                style={{
+                                    width: '26px',
+                                    height: '26px',
+                                    top: '21%',
+                                    left: '46%',
+                                    background: 'rgba(254, 199, 63, 0.59)',
+                                    filter: 'blur(4px)',
+                                    animation: '34s linear 0.01s infinite normal none running light2'
+                                }}
+                            />
+
+                            <div
+                                className="light"
+                                data-original-top="14"
+                                data-original-left="86"
+                                data-original-blur="3"
+                                style={{
+                                    width: '25px',
+                                    height: '25px',
+                                    top: '14%',
+                                    left: '86%',
+                                    background: 'rgba(254, 199, 63, 0.59)',
+                                    filter: 'blur(3px)',
+                                    animation: '27s linear 0.45s infinite normal none running light2'
+                                }}
+                            />
+
+                            <div
+                                className="light"
+                                data-original-top="62"
+                                data-original-left="29"
+                                data-original-blur="3"
+                                style={{
+                                    width: '52px',
+                                    height: '52px',
+                                    top: '62%',
+                                    left: '29%',
+                                    background: 'rgba(254, 199, 63, 0.59)',
+                                    filter: 'blur(3px)',
+                                    animation: '13s linear 1.56s infinite normal none running light2'
+                                }}
+                            />
+
+                            <div
+                                className="light"
+                                data-original-top="16"
+                                data-original-left="80"
+                                data-original-blur="3"
+                                style={{
+                                    width: '35px',
+                                    height: '35px',
+                                    top: '16%',
+                                    left: '80%',
+                                    background: 'rgba(254, 215, 81, 0.604)',
+                                    filter: 'blur(3px)',
+                                    animation: '5s linear 0.12s infinite normal none running light2'
+                                }}
+                            />
+
+                            <div
+                                className="light"
+                                data-original-top="75"
+                                data-original-left="25"
+                                data-original-blur="3"
+                                style={{
+                                    width: '45px',
+                                    height: '45px',
+                                    top: '75%',
+                                    left: '25%',
+                                    background: 'rgba(254, 199, 63, 0.59)',
+                                    filter: 'blur(3px)',
+                                    animation: '26s linear 1.83s infinite normal none running light2'
+                                }}
+                            />
+                        </div>
+                    </div>
+
+                    <div className="btn-close-preheader">
+                        <button
+                            className="button-close-preheader"
+                            id="close-preheader-btn"
+                            type="button"
+                            aria-label="Cerrar preheader"
+                            onClick={() => setOpenNavbarAbeja(false)}
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="24"
+                                height="24"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    fill="#fff"
+                                    fillRule="evenodd"
+                                    clipRule="evenodd"
+                                    d="m4 19.707.707.707 7.5-7.5 7.5 7.5.707-.707-7.5-7.5 7.5-7.5L19.707 4l-7.5 7.5-7.5-7.5L4 4.707l7.5 7.5-7.5 7.5Z"
+                                />
+                            </svg>
+                        </button>
+                    </div>
+                </section>
+                : null}
 
             {/* 1. TOP BAR */}
             <div className="header-top bg-gray color-white">
@@ -385,7 +532,7 @@ const VistaPrincipal = () => {
             </div>
 
             {/* 2. NAVBAR */}
-            <nav className="vp-navbar">
+            <nav className="vp-navbar" style={{ marginTop: openNavbarAbeja ? '140px' : '0px' }}>
                 <div
                     className="container-max"
                     style={{
@@ -982,12 +1129,10 @@ const VistaPrincipal = () => {
                         {/* COLUMNA DERECHA (CONTENIDO) */}
                         <div className="vp-outstanding-content">
                             <h3>
-                                Tu Seguro Cobertura Total cuenta con nuevos servicios.
+                                Tu Seguro de Vida y Salud cuenta con nuevos servicios.
                             </h3>
                             <p>
-                                *Al dar clic en el siguiente botón, serás dirigido a “Disfruta tu seguro”
-                                administrado por Allianz Colombia Seguros Generales S.A quien rige los
-                                términos y condiciones.
+                                Al dar clic en el siguiente botón, serás dirigido a “Disfruta tu seguro”, administrado por Suramericana de Seguros S.A., entidad que rige los términos y condiciones aplicables.
                             </p>
                             <a
                                 href="#"
@@ -1003,6 +1148,7 @@ const VistaPrincipal = () => {
                 </div>
             </section>
             {!mobile ? <><br /><br /></> : null}
+
             {/* 7. CARACTERÍSTICAS */}
             <section
                 id="caracteristicas"
@@ -1328,13 +1474,11 @@ const VistaPrincipal = () => {
             < Footer />
 
             {/* MODAL ABEJA */}
-            {
-                abejaOpen === 1 ?
-                    <AbejaModal
-                        isOpen={abejaOpen}
-                        onClose={() => setAbejaOpen(false)}
-                    /> : null
-            }
+            {abejaOpen === 1 ?
+                <AbejaModal
+                    isOpen={abejaOpen}
+                    onClose={() => { setAbejaOpen(false); setOpenNavbarAbeja(true); }}
+                /> : null}
         </div >
     );
 };

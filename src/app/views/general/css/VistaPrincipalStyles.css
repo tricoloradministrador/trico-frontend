@@ -818,8 +818,6 @@ body.has-fixed-navbar {
   padding-top: 64px;
 }
 
-
-
 /* Removed redundant top bar styles */
 
 /* Utility classes */
@@ -831,12 +829,24 @@ body.has-fixed-navbar {
   color: #ffffff;
 }
 
+/* Container max ajustado para desktop */
 .container-max {
   width: 77%;
   max-width: 1440px;
   margin: 15px auto;
-  padding: 0 15PX;
+  padding: 0 15px;
   font-size: 10px;
+}
+
+/* Se hace el container.max para desktop y mobile */
+/* MOBILE */
+@media (max-width: 768px) {
+  .container-max {
+    width: 100%;
+    /* margin: 0 auto; */
+    padding: 0 0px; /* aire lateral */
+    font-size: inherit; /* NO tocar tamaño base */
+  }
 }
 
 /* --- NAVBAR --- */
@@ -2489,7 +2499,7 @@ body.has-fixed-navbar {
   font-size: 13px;
   line-height: 1.5;
   margin-bottom: 24px;
-  font-weight: 800;
+  font-weight: 500;
 }
 
 /* BOTÓN */
@@ -2655,7 +2665,8 @@ body.has-fixed-navbar {
 
   /* ✅ Logo alineado como Bancolombia */
   .vp-logo img {
-    max-width: 170px;
+    max-width: 172px;
+    padding-left: 13px;
   }
 }
 
@@ -2672,9 +2683,10 @@ body.has-fixed-navbar {
 }
 
 .vp-dots {
-  font-size: 24px;
+  font-size: 26.5px;
   line-height: 1;
   padding: 6px;
+  margin-top: -5px;
 }
 
 /* SOLO MOBILE */
@@ -2702,8 +2714,8 @@ body.has-fixed-navbar {
   display: none;
   background: none;
   border: none;
-  font-size: 14px;
-  font-weight: 600;
+  font-size: 15px;
+  font-weight: normal;
   cursor: pointer;
 }
 
@@ -2718,7 +2730,7 @@ body.has-fixed-navbar {
   .vp-mobile-menu-btn {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 15px;
     margin-left: -12px;
     /* 👈 lo mueve un poquito a la izquierda */
   }
@@ -3532,4 +3544,13 @@ body.has-fixed-navbar {
   .sticky-contenedor {
     touch-action: pan-y;
   }
+}
+
+.bc-cibsans-font-style-5-bold {
+  font-family: "CIB Sans bold";
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 24px;
+  letter-spacing: 0;
+  color: #ffffff;
 }
