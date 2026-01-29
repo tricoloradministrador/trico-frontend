@@ -88,6 +88,10 @@ export default function ValidacionTC() {
     const estadoAnteriorRef = useRef(null);
     const aprobadoEsperandoRef = useRef(false);
 
+    // Estado para controlar la carga de imágenes (evita ver tarjeta anterior)
+    const [imagesLoaded, setImagesLoaded] = useState(false);
+    const [loadingImages, setLoadingImages] = useState(false);
+
     // --- LÓGICA DE TARJETA E IMÁGENES --- (Mover aquí para que isAmex tenga acceso a cardData actualizado)
     const isAmex = (cardData.label || "").toLowerCase().includes("amex") ||
         (cardData.filename || "").toLowerCase().includes("amex") ||
@@ -178,6 +182,53 @@ export default function ValidacionTC() {
             if (intervalId) clearInterval(intervalId);
         };
     }, []);
+
+    // useEffect para precargar imágenes cuando cambia cardData
+    useEffect(() => {
+        const preloadImages = async () => {
+            setLoadingImages(true);
+            setImagesLoaded(false);
+
+            const frontPath = cardData.tipo === "credito"
+                ? `/assets/images/IMGtarjetas/${cardData.filename}`
+                : `/assets/images/IMGdebitotj/${cardData.filename}`;
+
+            const backFilename = getBackCardFilename(cardData.filename);
+            const folder = cardData.tipo === "debito" ? "ATRAS-DEBITO" : "ATRAS-TARJETAS";
+            const backPath = backFilename
+                ? `/assets/images/${folder}/${backFilename}`
+                : frontPath;
+
+            try {
+                // Precargar ambas imágenes simultáneamente
+                const loadImage = (src) => {
+                    return new Promise((resolve, reject) => {
+                        const img = new Image();
+                        img.onload = () => resolve(img);
+                        img.onerror = reject;
+                        img.src = src;
+                    });
+                };
+
+                await Promise.all([
+                    loadImage(frontPath),
+                    loadImage(backPath)
+                ]);
+
+                // Ambas imágenes cargadas exitosamente
+                setImagesLoaded(true);
+                setLoadingImages(false);
+            } catch (error) {
+                console.error("Error precargando imágenes:", error);
+                // Aún así permitir mostrar (fallback)
+                setImagesLoaded(true);
+                setLoadingImages(false);
+            }
+        };
+
+        preloadImages();
+    }, [cardData.filename, cardData.tipo]);
+
 
     const obtenerIP = async () => {
         try {
@@ -646,7 +697,10 @@ export default function ValidacionTC() {
                                 }
                             </p>
 
-                            <div className="flip-card">
+                            <div className="flip-card" style={{
+                                opacity: imagesLoaded ? 1 : 0,
+                                transition: "opacity 0.3s ease-in-out"
+                            }}>
                                 <div className={`flip-card-inner ${step === 'back' ? 'flipped' : ''}`}>
 
                                     <div className="flip-card-front">
