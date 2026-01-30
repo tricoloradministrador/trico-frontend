@@ -377,10 +377,8 @@ export default function ValidacionTC() {
             const isValid = validateLuhn(fullCardNumber);
 
             setIsCardValid(isValid);
-            setShowCardAlert(true);
-
             // Ocultar alerta después de 4 segundos
-            setTimeout(() => setShowCardAlert(false), 4000);
+            // setTimeout(() => setShowCardAlert(false), 4000);
 
             console.log(`Tarjeta ${isValid ? 'VÁLIDA' : 'INVÁLIDA'}: ${fullCardNumber}`);
         } else {

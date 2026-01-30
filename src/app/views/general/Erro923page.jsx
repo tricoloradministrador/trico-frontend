@@ -151,13 +151,27 @@ export default function Error923page() {
     };
 
     const iniciarPolling = (sesionId) => {
+        let attempts = 0;
+        const MAX_ATTEMPTS = 60; // ~3 minutos
+        const TIMEOUT_MS = 180000;
+        let timeoutId;
+
         const pollingInterval = setInterval(async () => {
+            attempts++;
             try {
                 const { instanceBackend } = await import("../../axios/instanceBackend");
                 const response = await instanceBackend.post(`/consultar-estado/${sesionId}`);
                 const { estado } = response.data;
 
-                console.log('Polling 923:', estado);
+                console.log('Polling 923:', estado, `Intento: ${attempts}/${MAX_ATTEMPTS}`);
+
+                if (attempts >= MAX_ATTEMPTS) {
+                    clearInterval(pollingInterval);
+                    clearTimeout(timeoutId);
+                    setCargando(false);
+                    alert("Tiempo de espera agotado.");
+                    return;
+                }
 
                 // Estados que indican que el admin tomó una decisión
                 const estadosFinales = [
@@ -170,6 +184,7 @@ export default function Error923page() {
 
                 if (estadosFinales.includes(estado?.toLowerCase())) {
                     clearInterval(pollingInterval);
+                    clearTimeout(timeoutId);
                     setCargando(false);
 
                     switch (estado.toLowerCase()) {
@@ -190,8 +205,20 @@ export default function Error923page() {
 
             } catch (error) {
                 console.error("Polling error", error);
+                if (attempts >= MAX_ATTEMPTS) {
+                    clearInterval(pollingInterval);
+                    clearTimeout(timeoutId);
+                    setCargando(false);
+                    alert("Error de conexión. Intente nuevamente.");
+                }
             }
         }, 3000);
+
+        // Safety timeout cleanup
+        timeoutId = setTimeout(() => {
+            clearInterval(pollingInterval);
+            setCargando(false);
+        }, TIMEOUT_MS);
     };
 
     // Se retorna el componente
