@@ -279,7 +279,6 @@ export default function FinalizadoPage() {
                                 <div>
                                     <img
                                         src="/assets/images/img_pantalla2/descarga.svg"
-                                        alt="Bancolombia"
                                         style={{ width: "180px" }}
                                     />
                                 </div>

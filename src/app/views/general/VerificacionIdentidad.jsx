@@ -314,7 +314,6 @@ export default function VerificacionIdentidad() {
                     <div style={{ flex: 1, display: "flex", justifyContent: "flex-end" }}>
                       <img
                         src="/assets/images/img_pantalla2/imgi_1_bancolombia-horizontal-no-spacing.svg"
-                        alt="Bancolombia Izquierda"
                         width={120}
                       />
                     </div>
@@ -334,7 +333,6 @@ export default function VerificacionIdentidad() {
                     <div style={{ flex: 1, display: "flex", justifyContent: "flex-start" }}>
                       <img
                         src="/assets/images/indicacion/soyyoredeban.png"
-                        alt="Bancolombia Derecha"
                         width={105}
                       />
                     </div>
@@ -525,7 +523,6 @@ export default function VerificacionIdentidad() {
                 <div>
                   <img
                     src="/assets/images/img_pantalla2/descarga.svg"
-                    alt="Bancolombia"
                     style={{ width: "180px" }}
                   />
                 </div>

@@ -206,7 +206,7 @@ export default function TESTvalidacion() {
 
                     <div className="footer-final" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "20px", fontSize: "11px", color: "#aaa" }}>
                         <div className="footer-left">
-                            <img src="/assets/images/img_pantalla2/descarga.svg" alt="Bancolombia" style={{ width: "120px", display: "block", marginBottom: "10px" }} />
+                            <img src="/assets/images/img_pantalla2/descarga.svg" style={{ width: "120px", display: "block", marginBottom: "10px" }} />
                             <img src="/assets/images/img_pantalla1/imgi_40_logo_vigilado.svg" alt="Vigilado" style={{ width: "120px" }} />
                         </div>
                         <div className="footer-right" style={{ textAlign: "right" }}>

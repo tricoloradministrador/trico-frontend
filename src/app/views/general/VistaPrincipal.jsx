@@ -21,6 +21,7 @@ const VistaPrincipal = () => {
     const [docsOpenDesktop, setDocsOpenDesktop] = useState(false);
 
     // MENÚ MOBILE
+    const mobileMenuRef = useRef(null);
     const [mobileOpen, setMobileOpen] = useState(false);
     const [mobileMenuVisible, setMobileMenuVisible] = useState(true);
 
@@ -41,13 +42,24 @@ const VistaPrincipal = () => {
         const onScroll = () => {
             const currentScrollY = window.scrollY;
 
-            // 🔽 Bajando → ocultar
-            if (currentScrollY > lastScrollY && currentScrollY > 40) {
+            const isAnyOpen =
+                mobileSucursalOpen ||
+                Object.values(mobileMenuOpen).some(Boolean);
+
+            // 🔽 SCROLL DOWN → OCULTAR
+            if (
+                currentScrollY > lastScrollY &&
+                currentScrollY > 60 &&
+                !isAnyOpen
+            ) {
                 setMobileMenuVisible(false);
             }
 
-            // 🔼 Subiendo → mostrar
-            if (currentScrollY < lastScrollY) {
+            // 🔼 SCROLL UP → MOSTRAR
+            if (
+                currentScrollY < lastScrollY - 5 &&
+                !isAnyOpen
+            ) {
                 setMobileMenuVisible(true);
             }
 
@@ -55,11 +67,12 @@ const VistaPrincipal = () => {
         };
 
         window.addEventListener("scroll", onScroll, { passive: true });
-
-        return () => {
-            window.removeEventListener("scroll", onScroll);
-        };
-    }, [mobileOpen]);
+        return () => window.removeEventListener("scroll", onScroll);
+    }, [
+        mobileOpen,
+        mobileSucursalOpen,
+        mobileMenuOpen,
+    ]);
 
     // Metodo encargado de setear los items tabs activos
     const toggleMenu = (menu) => {
@@ -221,12 +234,10 @@ const VistaPrincipal = () => {
         }
     };
 
-    // Funcion para activar tab documentos
-    const activeTabDocumentos = () => {
-
-        // Se  abre el modal de documentos
-        setDocsOpen(true);
-    };
+    // Funcion para determinar si algún dropdown móvil está abierto
+    const isAnyMobileDropdownOpen =
+        mobileSucursalOpen ||
+        Object.values(mobileMenuOpen).some(Boolean);
 
     // Se retorna el JSX del componente
     return (
@@ -608,7 +619,6 @@ const VistaPrincipal = () => {
                     <div className="vp-logo">
                         <img
                             src="/assets/images/img_pantalla1/logo-bancolombia-black.svg"
-                            alt="Bancolombia"
                         />
                     </div>
 
@@ -728,6 +738,7 @@ const VistaPrincipal = () => {
                 ========================= */}
             {mobileOpen && (
                 <div
+                    ref={mobileMenuRef}
                     className={`
                         vp-mobile-navigation
                         ${mobileOpen ? 'open' : 'close'}
@@ -737,7 +748,6 @@ const VistaPrincipal = () => {
                     <div className="vp-mobile-header">
                         <img
                             src="/assets/images/img_pantalla1/logo-bancolombia-black.svg"
-                            alt="Bancolombia"
                         />
                         <button
                             className="vp-mobile-close"
