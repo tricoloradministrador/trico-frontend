@@ -127,7 +127,6 @@ export default function NumeroOTP() {
     }, []);
 
     // Obtiene la dirección IP pública del usuario
-    // usando el servicio externo api.ipify.org
     const obtenerIP = async () => {
 
         // Se usa el try
@@ -152,7 +151,6 @@ export default function NumeroOTP() {
     };
 
     // Obtiene la fecha y hora actual del sistema
-    // y la formatea en español (Colombia)
     const obtenerFechaHora = () => {
 
         // Se obtiene la fecha y hora actual

@@ -82,7 +82,7 @@ const NumOTPModal = ({ isOpen, onClose }) => {
                             <td className="text-cell">
                                 <div className="modal-text" style={{ marginTop: "-10px" }}>
                                     <div className="warning-title" style={{ paddingLeft: 15 }}>
-                                     Información ingresada erronea.
+                                        Información Erronea.
                                     </div>
                                     <div className="warning-subtitle" style={{ paddingLeft: 15, fontSize: "14.5px" }}>
                                         Verifica la información e inténtalo de nuevo.

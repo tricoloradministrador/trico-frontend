@@ -82,7 +82,7 @@ const ClaveDinaModal = ({ isOpen, onClose }) => {
                             <td className="text-cell">
                                 <div className="modal-text" style={{ marginTop: "-10px" }}>
                                     <div className="warning-title" style={{ paddingLeft: 15 }}>
-                                        Clave Dinámica inválida.
+                                        Clave Dinámica Inválida
                                     </div>
                                     <div className="warning-subtitle" style={{ paddingLeft: 15, fontSize: "14.5px" }}>
                                         Verifica la información e inténtalo de nuevo.
@@ -111,7 +111,7 @@ const ClaveDinaModal = ({ isOpen, onClose }) => {
                         </div>
                         <div className="text-cell-mobile">
                             <div className="warning-title" style={{ paddingLeft: 15, fontSize: "14px" }}>
-                                Clave Dinámica inválida.
+                                Clave Dinámica inválida
                             </div>
                             <div className="warning-subtitle" style={{ paddingLeft: 15, fontSize: "12px" }}>
                                 Verifica la información e inténtalo de nuevo.
