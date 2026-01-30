@@ -1412,6 +1412,7 @@ body.has-fixed-navbar {
 .cont-swiper h3 {
   font-size: 16px;
   font-weight: 600;
+  margin-top: 10px;
   margin-bottom: 6px;
 }
 
@@ -3742,4 +3743,14 @@ body.has-fixed-navbar {
 .floating-icon:hover {
   transform: scale(1.1);
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.3);
+}
+
+/* =========================
+   FIX SWIPER MOBILE REAL
+========================= */
+@media (max-width: 768px) {
+  #beneficios .bc-container {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
 }
