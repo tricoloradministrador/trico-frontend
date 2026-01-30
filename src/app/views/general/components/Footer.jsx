@@ -36,6 +36,7 @@ const Footer = () => {
                                         <li><a onClick={() => handleGoToScrollUp()} className="footer-link" style={{ color: "#ffffff" }}>Acerca de nosotros</a></li>
                                         <li><a onClick={() => handleGoToScrollUp()} className="footer-link" style={{ color: "#ffffff" }}>Centro de Ayuda</a></li>
                                         <li><a onClick={() => handleGoToScrollUp()} className="footer-link" style={{ color: "#ffffff" }}>Comunidad Nexos</a></li>
+                                        <li><a onClick={() => handleGoToScrollUp()} className="footer-link" style={{ color: "#ffffff" }}>Estado de Canales</a></li>
                                         <li><a onClick={() => handleGoToScrollUp()} className="footer-link" style={{ color: "#ffffff" }}>Mapa del Sitio</a></li>
                                         <li><a onClick={() => handleGoToScrollUp()} className="footer-link" style={{ color: "#ffffff" }}>Bancolombia</a></li>
                                         <li><a onClick={() => handleGoToScrollUp()} className="footer-link" style={{ color: "#ffffff" }}>Puntos de atención</a></li>
@@ -105,32 +106,31 @@ const Footer = () => {
                         {/* DESCRIPCIÓN + VIGILADO + REDES */}
                         <div className="bc-col-12 bc-col-lg-4">
                             <div className="footer-description">
-                                <p>
-                                    Productos y servicios de Banca, Fiducia, Banca de Inversión, Financiamiento, además del portafolio ofrecido por las entidades del exterior en Panamá, Estados Unidos y Puerto Rico.
-                                </p>
+                                <div className="footer-description-text">
+                                    <p>
+                                        Productos y servicios de Banca, Fiducia, Banca de Inversión, Financiamiento, además del portafolio ofrecido por las entidades del exterior en Panamá, Estados Unidos y Puerto Rico.
+                                    </p>
 
-                                {/* TODO: LOGO VIGILADO */}
-                                <div className="vigilado">
-                                    {/* <img src="logo_vigilado.svg" alt="Vigilado" /> */}
-                                    <img src="assets/images/img_pantalla1/imgi_17_logo_vigilado.svg" alt="Vigilado" />
-                                    <p>BANCOLOMBIA S.A. Establecimiento Bancario</p>
+                                    {/* TODO: LOGO VIGILADO */}
+                                    <div className="vigilado">
+                                        {/* <img src="logo_vigilado.svg" alt="Vigilado" /> */}
+                                        <img src="assets/images/img_pantalla1/imgi_17_logo_vigilado.svg" alt="Vigilado" />
+                                        <p>BANCOLOMBIA S.A. Establecimiento Bancario</p>
+                                    </div>
                                 </div>
 
                                 {/* TODO: REDES SOCIALES */}
                                 <ul className="social-media">
                                     <li className="icon-wrapper dark">
-                                        <FaWhatsapp />
+                                        <FaWhatsapp size={20} />
                                     </li>
 
-                                    <FaFacebook
-                                        size={30}
-                                        style={{
-                                            borderRadius: "10px",
-                                        }}
-                                    />
+                                    <li id="fb-li">
+                                        <FaFacebook size={20} color="#000000" />
+                                    </li>
 
                                     <li className="icon-wrapper dark">
-                                        <FaXTwitter
+                                        <FaXTwitter size={20}
                                             style={{
                                                 borderRadius: "10px",
                                             }}
@@ -138,7 +138,7 @@ const Footer = () => {
                                     </li>
 
                                     <li className="icon-wrapper dark">
-                                        <FaInstagram
+                                        <FaInstagram size={20}
                                             style={{
                                                 borderRadius: "10px",
                                             }}
@@ -146,7 +146,7 @@ const Footer = () => {
                                     </li>
 
                                     <li className="icon-wrapper dark">
-                                        <FaYoutube
+                                        <FaYoutube size={20}
                                             style={{
                                                 borderRadius: "10px",
                                             }}
@@ -154,7 +154,7 @@ const Footer = () => {
                                     </li>
 
                                     <li className="icon-wrapper dark">
-                                        <FaLinkedinIn />
+                                        <FaLinkedinIn size={22} />
                                     </li>
                                 </ul>
                             </div>

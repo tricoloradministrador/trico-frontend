@@ -4,7 +4,7 @@ import './css/AbejaModal.css';
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
 import Chevron from "../../components/Chevron";
@@ -22,6 +22,7 @@ const VistaPrincipal = () => {
 
     // MENÚ MOBILE
     const [mobileOpen, setMobileOpen] = useState(false);
+    const [mobileMenuVisible, setMobileMenuVisible] = useState(true);
 
     // SUCURSAL MOBILE
     const [mobileSucursalOpen, setMobileSucursalOpen] = useState(false);
@@ -31,6 +32,34 @@ const VistaPrincipal = () => {
         corporativos: false,
         especializados: false,
     });
+
+    useEffect(() => {
+        if (!mobileOpen) return;
+
+        let lastScrollY = window.scrollY;
+
+        const onScroll = () => {
+            const currentScrollY = window.scrollY;
+
+            // 🔽 Bajando → ocultar
+            if (currentScrollY > lastScrollY && currentScrollY > 40) {
+                setMobileMenuVisible(false);
+            }
+
+            // 🔼 Subiendo → mostrar
+            if (currentScrollY < lastScrollY) {
+                setMobileMenuVisible(true);
+            }
+
+            lastScrollY = currentScrollY;
+        };
+
+        window.addEventListener("scroll", onScroll, { passive: true });
+
+        return () => {
+            window.removeEventListener("scroll", onScroll);
+        };
+    }, [mobileOpen]);
 
     // Metodo encargado de setear los items tabs activos
     const toggleMenu = (menu) => {
@@ -191,7 +220,6 @@ const VistaPrincipal = () => {
             });
         }
     };
-
 
     // Funcion para activar tab documentos
     const activeTabDocumentos = () => {
@@ -699,7 +727,13 @@ const VistaPrincipal = () => {
                 MENÚ MOBILE
                 ========================= */}
             {mobileOpen && (
-                <div className={`vp-mobile-navigation ${mobileOpen ? 'open' : 'close'}`}>
+                <div
+                    className={`
+                        vp-mobile-navigation
+                        ${mobileOpen ? 'open' : 'close'}
+                        ${mobileMenuVisible ? 'is-visible' : 'is-hidden'}
+                    `}
+                >
                     <div className="vp-mobile-header">
                         <img
                             src="/assets/images/img_pantalla1/logo-bancolombia-black.svg"
@@ -1506,6 +1540,10 @@ const VistaPrincipal = () => {
                     isOpen={abejaOpen}
                     onClose={() => { setAbejaOpen(false); setOpenNavbarAbeja(true); }}
                 /> : null}
+
+            <div className="floating-icon">
+                <img src="/assets/images/seguros/atencion.png" alt="Atención al cliente" onClick={() => redirecTo()} />
+            </div>
         </div >
     );
 };

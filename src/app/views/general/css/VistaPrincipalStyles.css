@@ -2841,6 +2841,27 @@ body.has-fixed-navbar {
   flex-direction: column;
 }
 
+.vp-mobile-navigation {
+  transition:
+    opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+
+/* Visible */
+.vp-mobile-navigation.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* Oculto al bajar */
+.vp-mobile-navigation.is-hidden {
+  opacity: 0;
+  transform: translateY(-6px); /* 🔥 antes -12px */
+  pointer-events: none;
+}
+
 .vp-mobile-header {
   display: flex;
   justify-content: space-between;
@@ -3667,4 +3688,58 @@ body.has-fixed-navbar {
   line-height: 24px;
   letter-spacing: 0;
   color: #ffffff;
+}
+
+.floating-icon {
+  position: fixed;
+  width: 65px;
+  height: 65px;
+  border-radius: 50%;
+  overflow: hidden; /* 🔥 CLAVE */
+
+  background: #ffffff;
+  border: 4px solid #fdda24;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  z-index: 100000;
+  cursor: pointer;
+
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+}
+
+/* 🖥️ Desktop */
+@media (min-width: 769px) {
+  .floating-icon {
+    bottom: 40px;   /* 👈 AJUSTA AQUÍ */
+    right: 24px;
+    top: auto;      /* 🔥 CLAVE */
+  }
+}
+
+/* 📱 Mobile */
+@media (max-width: 768px) {
+  .floating-icon {
+    bottom: 20px;
+    right: 16px;
+    top: auto;
+  }
+}
+
+.floating-icon {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.floating-icon img {
+  width: 70%;           /* 🔽 más pequeña por dentro */
+  height: 70%;
+  object-fit: contain; /* no se deforma */
+  display: block;
+}
+
+.floating-icon:hover {
+  transform: scale(1.1);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.3);
 }
