@@ -224,8 +224,8 @@ const VistaPrincipal = () => {
     // Funcion para activar tab documentos
     const activeTabDocumentos = () => {
 
-        // Se activa el tab de documentos
-        setDocsOpen(!docsOpen);
+        // Se  abre el modal de documentos
+        setDocsOpen(true);
     };
 
     // Se retorna el JSX del componente
@@ -1049,10 +1049,42 @@ const VistaPrincipal = () => {
                             tabIndex={4}
                             className={`sticky-item_link ${activeTab === 'documentos' ? 'active' : ''}`}
                             onClick={(e) => {
+
+                                // Prevenir comportamiento por defecto
                                 e.preventDefault();
                                 e.stopPropagation();
-                                activeTabDocumentos();
-                                goToTab("documentos", "documentos", 4);
+
+                                // Se activa el tab de documentos
+                                setActiveTab("documentos");
+
+                                // Se abre el dropdown de documentos dependiendo del dispositivo
+                                function openDocs() {
+
+                                    // Verificar si es mobile o desktop
+                                    if (mobile) {
+
+                                        // Abrir modal mobile
+                                        setDocsOpen(true);
+                                    } else {
+
+                                        // Abrir modal desktop
+                                        setDocsOpenDesktop(true);
+                                    };
+                                };
+
+                                // Se  abre el modal de documentos
+                                openDocs();
+
+                                // Se navega al tab de documentos después de un pequeño retraso
+                                setTimeout(() => {
+
+                                    // Navegar al tab de documentos
+                                    goToTab(
+                                        "documentos",
+                                        mobile ? "documentos-mobile" : "documentos-desktop",
+                                        4
+                                    );
+                                }, 50);
                             }}
                         >
                             Documentos
@@ -1330,7 +1362,7 @@ const VistaPrincipal = () => {
                                     Documentos
                                 </button>
 
-                                <div id='documentos' className={`vp-documents-content mb-4 ${docsOpen ? 'open' : ''}`}>
+                                <div id='documentos-mobile' className={`vp-documents-content mb-4 ${docsOpen ? 'open' : ''}`}>
                                     <div className="vp-documents-grid">
                                         <a className="vp-documents-item" href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>
                                             <span className="vp-doc-icon">📄</span>
@@ -1388,7 +1420,7 @@ const VistaPrincipal = () => {
 
                     {!mobile ? (
                         <>
-                            <section className="vp-documents-section" id="documentos">
+                            <section className="vp-documents-section" id="documentos-desktop">
                                 <div className="vp-documents-container">
                                     {/* HEADER ACCORDION */}
                                     <div
