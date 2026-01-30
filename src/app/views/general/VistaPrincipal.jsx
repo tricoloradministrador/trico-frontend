@@ -1338,18 +1338,16 @@ const VistaPrincipal = () => {
 
                             {/* CONTENIDO */}
                             <div className="vp-tab-content">
-                                <div className="vp-tab-scroll">
-                                    <h3><b>¿Cómo solicitar tu Seguro de Vida y Salud?</b></h3>
-                                    <p>
-                                        <strong>
-                                            Este seguro es ofrecido únicamente por televentas, un asesor
-                                            deberá contactarse contigo.
-                                        </strong>
-                                        Acepta la llamada para la vinculación y autoriza el débito de la
-                                        prima mensual, con cargo a la tarjeta de crédito, cuenta de ahorro
-                                        o corriente.
-                                    </p>
-                                </div>
+                                <h3 className='mb-4'><b>¿Cómo solicitar tu Seguro de Vida y Salud?</b></h3>
+                                <p>
+                                    <strong className='mb-2'>
+                                        Este seguro es ofrecido únicamente por televentas, un asesor
+                                        deberá contactarse contigo.
+                                    </strong> <br />
+                                    Acepta la llamada para la vinculación y autoriza el débito de la
+                                    prima mensual, con cargo a la tarjeta de crédito, cuenta de ahorro
+                                    o corriente.
+                                </p>
                             </div>
                         </div>
                     </div>

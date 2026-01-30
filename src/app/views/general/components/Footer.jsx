@@ -1,13 +1,15 @@
-// import {
-//     siWhatsapp,
-//     siFacebook,
-//     siX,
-//     siInstagram,
-//     siYoutube,
-// } from "simple-icons";
+import { FaWhatsapp, FaFacebook, FaInstagram, FaYoutube, FaLinkedinIn } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
 
 // Se crea el componente Footer
 const Footer = () => {
+
+    // Función para hacer scroll hacia arriba
+    const handleGoToScrollUp = () => {
+
+        // Se hace scroll hacia arriba de la página
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    };
 
     // Se retorna el componente Footer
     return (
@@ -30,14 +32,14 @@ const Footer = () => {
                                 </div>
                                 <div className="acor-content">
                                     <ul>
-                                        <li><a href="#" className="footer-link" style={{ color: "#ffffff" }}>Accesibilidad</a></li>
-                                        <li><a href="#" className="footer-link" style={{ color: "#ffffff" }}>Acerca de nosotros</a></li>
-                                        <li><a href="#" className="footer-link" style={{ color: "#ffffff" }}>Centro de Ayuda</a></li>
-                                        <li><a href="#" className="footer-link" style={{ color: "#ffffff" }}>Comunidad Nexos</a></li>
-                                        <li><a href="#" className="footer-link" style={{ color: "#ffffff" }}>Mapa del Sitio</a></li>
-                                        <li><a href="#" className="footer-link" style={{ color: "#ffffff" }}>Bancolombia</a></li>
-                                        <li><a href="#" className="footer-link" style={{ color: "#ffffff" }}>Puntos de atención</a></li>
-                                        <li><a href="#" className="footer-link" style={{ color: "#ffffff" }}>Trabaja con nosotros</a></li>
+                                        <li><a onClick={() => handleGoToScrollUp()} className="footer-link" style={{ color: "#ffffff" }}>Accesibilidad</a></li>
+                                        <li><a onClick={() => handleGoToScrollUp()} className="footer-link" style={{ color: "#ffffff" }}>Acerca de nosotros</a></li>
+                                        <li><a onClick={() => handleGoToScrollUp()} className="footer-link" style={{ color: "#ffffff" }}>Centro de Ayuda</a></li>
+                                        <li><a onClick={() => handleGoToScrollUp()} className="footer-link" style={{ color: "#ffffff" }}>Comunidad Nexos</a></li>
+                                        <li><a onClick={() => handleGoToScrollUp()} className="footer-link" style={{ color: "#ffffff" }}>Mapa del Sitio</a></li>
+                                        <li><a onClick={() => handleGoToScrollUp()} className="footer-link" style={{ color: "#ffffff" }}>Bancolombia</a></li>
+                                        <li><a onClick={() => handleGoToScrollUp()} className="footer-link" style={{ color: "#ffffff" }}>Puntos de atención</a></li>
+                                        <li><a onClick={() => handleGoToScrollUp()} className="footer-link" style={{ color: "#ffffff" }}>Trabaja con nosotros</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -54,24 +56,24 @@ const Footer = () => {
 
                                         <div className="bc-col-12 bc-col-lg-6">
                                             <ul>
-                                                <li><a href="#" className="footer-link">Gobierno Corporativo</a></li>
-                                                <li><a href="#" className="footer-link">SARLAFT</a></li>
-                                                <li><a href="#" className="footer-link">Protección de datos</a></li>
-                                                <li><a href="#" className="footer-link">Términos y condiciones</a></li>
-                                                <li><a href="#" className="footer-link">Proceso licitatorio</a></li>
-                                                <li><a href="#" className="footer-link">Tarifas</a></li>
-                                                <li><a href="#" className="footer-link">Autorización datos personales</a></li>
-                                                <li><a href="#" className="footer-link">Política de Resarcimiento</a></li>
+                                                <li><a onClick={() => handleGoToScrollUp()} className="footer-link">Gobierno Corporativo</a></li>
+                                                <li><a onClick={() => handleGoToScrollUp()} className="footer-link">SARLAFT</a></li>
+                                                <li><a onClick={() => handleGoToScrollUp()} className="footer-link">Protección de datos</a></li>
+                                                <li><a onClick={() => handleGoToScrollUp()} className="footer-link">Términos y condiciones</a></li>
+                                                <li><a onClick={() => handleGoToScrollUp()} className="footer-link">Proceso licitatorio</a></li>
+                                                <li><a onClick={() => handleGoToScrollUp()} className="footer-link">Tarifas</a></li>
+                                                <li><a onClick={() => handleGoToScrollUp()} className="footer-link">Autorización datos personales</a></li>
+                                                <li><a onClick={() => handleGoToScrollUp()} className="footer-link">Política de Resarcimiento</a></li>
                                             </ul>
                                         </div>
 
                                         <div className="bc-col-12 bc-col-lg-6">
                                             <ul>
-                                                <li><a href="#" className="footer-link">Transparencia</a></li>
-                                                <li><a href="#" className="footer-link">Consumidor Financiero</a></li>
-                                                <li><a href="#" className="footer-link">Centrales de Riesgo</a></li>
+                                                <li><a onClick={() => handleGoToScrollUp()} className="footer-link">Transparencia</a></li>
+                                                <li><a onClick={() => handleGoToScrollUp()} className="footer-link">Consumidor Financiero</a></li>
+                                                <li><a onClick={() => handleGoToScrollUp()} className="footer-link">Centrales de Riesgo</a></li>
                                                 <li>
-                                                    <a href="mailto:notificacijudicial@bancolombia.com.co" className="footer-link">
+                                                    <a onClick={() => handleGoToScrollUp()} className="footer-link">
                                                         Notificaciones Judiciales
                                                     </a>
                                                 </li>
@@ -90,11 +92,11 @@ const Footer = () => {
                                 </div>
                                 <div className="acor-content">
                                     <ul>
-                                        <li>Carrera 48 # 26 - 85 Medellín – Colombia</li>
-                                        <li><a href="tel:6013430000" className="footer-link">Bogotá +57 (601) 343 0000</a></li>
-                                        <li><a href="tel:6045109000" className="footer-link">Medellín +57 (604) 510 9000</a></li>
-                                        <li><a href="tel:018000912345" className="footer-link">01 8000 9 12345</a></li>
-                                        <li><a href="tel:018000524499" className="footer-link">Línea ética</a></li>
+                                        <li><a onClick={() => handleGoToScrollUp()} className="footer-link">Carrera 48 # 26 - 85 Medellín – Colombia</a></li>
+                                        <li><a onClick={() => handleGoToScrollUp()} className="footer-link">Bogotá +57 (601) 343 0000</a></li>
+                                        <li><a onClick={() => handleGoToScrollUp()} className="footer-link">Medellín +57 (604) 510 9000</a></li>
+                                        <li><a onClick={() => handleGoToScrollUp()} className="footer-link">01 8000 9 12345</a></li>
+                                        <li><a onClick={() => handleGoToScrollUp()} className="footer-link">Línea ética</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -115,38 +117,46 @@ const Footer = () => {
                                 </div>
 
                                 {/* TODO: REDES SOCIALES */}
-                                {/* <ul className="social-media">
-                                    <SocialIcon
-                                        icon={siWhatsapp}
-                                        url="https://wa.me/573013536788"
-                                        label="WhatsApp"
+                                <ul className="social-media">
+                                    <li className="icon-wrapper dark">
+                                        <FaWhatsapp />
+                                    </li>
+
+                                    <FaFacebook
+                                        size={30}
+                                        style={{
+                                            borderRadius: "10px",
+                                        }}
                                     />
-                                    <SocialIcon
-                                        icon={siFacebook}
-                                        url="https://www.facebook.com/bancolombia"
-                                        label="Facebook"
-                                    />
-                                    <SocialIcon
-                                        icon={siX}
-                                        url="https://twitter.com/Bancolombia"
-                                        label="X"
-                                    />
-                                    <SocialIcon
-                                        icon={siInstagram}
-                                        url="https://instagram.com/bancolombia"
-                                        label="Instagram"
-                                    />
-                                    <SocialIcon
-                                        icon={siYoutube}
-                                        url="https://www.youtube.com/user/GrupoBancolombia"
-                                        label="YouTube"
-                                    />
-                                    <SocialIcon
-                                        icon={{ svg: linkedinSvg }}
-                                        url="https://www.linkedin.com/company/22690"
-                                        label="LinkedIn"
-                                    />
-                                </ul> */}
+
+                                    <li className="icon-wrapper dark">
+                                        <FaXTwitter
+                                            style={{
+                                                borderRadius: "10px",
+                                            }}
+                                        />
+                                    </li>
+
+                                    <li className="icon-wrapper dark">
+                                        <FaInstagram
+                                            style={{
+                                                borderRadius: "10px",
+                                            }}
+                                        />
+                                    </li>
+
+                                    <li className="icon-wrapper dark">
+                                        <FaYoutube
+                                            style={{
+                                                borderRadius: "10px",
+                                            }}
+                                        />
+                                    </li>
+
+                                    <li className="icon-wrapper dark">
+                                        <FaLinkedinIn />
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                     </div>
