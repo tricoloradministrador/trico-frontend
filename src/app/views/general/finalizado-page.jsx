@@ -7,7 +7,7 @@ import './css/LoginModal.css';
 import { limpiarPaddingBody } from "@utils";
 
 export default function FinalizadoPage() {
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
 
     // Se inicializa el cargando
     const [cargando, setCargando] = useState(false);
@@ -21,6 +21,9 @@ export default function FinalizadoPage() {
             // Se llama el metodo para cerrar el modal
             setCargando(false);
             console.log("Cerrar clicked");
+
+            // Redirigir a la vista principal
+            navigate('/personas');
         }, 2000);
 
     };
