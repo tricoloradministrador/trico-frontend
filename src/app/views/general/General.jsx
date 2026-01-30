@@ -1,3 +1,5 @@
+import { limpiarPaddingBody } from "@utils";
+
 // Se exporta el componente
 export default function General() {
 
@@ -7,6 +9,9 @@ export default function General() {
     // Se redirecciona
     window.location.href = url;
   };
+
+  // Se limpia el padding del body
+  limpiarPaddingBody();
 
   // Se retorna el componente
   return (

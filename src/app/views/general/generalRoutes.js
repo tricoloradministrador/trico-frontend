@@ -60,9 +60,7 @@ const widgetsRoute = [
   {
     path: "/general",
     element: (
-      <AuthGuard>
-        <General />
-      </AuthGuard>
+      <General />
     )
   },
   {
