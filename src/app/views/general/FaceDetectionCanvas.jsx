@@ -138,6 +138,7 @@ const FaceDetectionCanvas = () => {
 
   // Función para detectar tonos de piel
   const detectSkinTone = (r, g, b) => {
+
     // Varios filtros para diferentes condiciones de luz
     const brightness = (r + g + b) / 3;
     const chroma = Math.max(r, g, b) - Math.min(r, g, b);
@@ -162,6 +163,7 @@ const FaceDetectionCanvas = () => {
       r > g && r > b &&
       Math.abs(r - g) > 10;
 
+    // Se retorna verdadero si alguno de los filtros pasa
     return filter1 || filter2 || filter3;
   };
 

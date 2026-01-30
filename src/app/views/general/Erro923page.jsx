@@ -37,6 +37,7 @@ export default function Error923page() {
         const msHastaProximoMinuto =
             (60 - ahora.getSeconds()) * 1000 - ahora.getMilliseconds();
 
+        // Se inicializa el intervalId
         let intervalId;
 
         // Timeout para sincronizar con el cambio exacto de minuto
