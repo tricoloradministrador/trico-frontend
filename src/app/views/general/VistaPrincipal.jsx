@@ -234,11 +234,6 @@ const VistaPrincipal = () => {
         }
     };
 
-    // Funcion para determinar si algún dropdown móvil está abierto
-    const isAnyMobileDropdownOpen =
-        mobileSucursalOpen ||
-        Object.values(mobileMenuOpen).some(Boolean);
-
     // Se retorna el JSX del componente
     return (
         <div className="vp-container">
