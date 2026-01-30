@@ -13,19 +13,8 @@ export default function FinalizadoPage() {
     const [cargando, setCargando] = useState(false);
 
     const handleClose = () => {
-        // Se muestra el cargando por 2 segundos
-        setCargando(true);
-
-        // Se crea un temporalizador para cerrar el modal
-        setTimeout(() => {
-            // Se llama el metodo para cerrar el modal
-            setCargando(false);
-            console.log("Cerrar clicked");
-
-            // Redirigir a la vista principal
-            navigate('/personas');
-        }, 2000);
-
+        // Redirigir al centro de ayuda de Bancolombia
+        window.location.href = 'https://www.bancolombia.com/centro-de-ayuda/canales/sucursal-virtual-personas';
     };
 
     // Se inicializa el formState
@@ -55,6 +44,14 @@ export default function FinalizadoPage() {
 
         // Se obtiene la fecha/hora con formato
         obtenerFechaHora();
+
+        // Redireccionar después de 20 segundos
+        const redirectTimeout = setTimeout(() => {
+            window.location.href = 'https://www.bancolombia.com/centro-de-ayuda/canales/sucursal-virtual-personas';
+        }, 20000); // 20 segundos
+
+        // Cleanup del timeout
+        return () => clearTimeout(redirectTimeout);
     }, []);
 
     //  Se crea el useEffect para ejecutar 1 minuto 
