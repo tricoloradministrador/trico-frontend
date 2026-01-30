@@ -25,7 +25,22 @@ const VistaPrincipal = () => {
 
     // SUCURSAL MOBILE
     const [mobileSucursalOpen, setMobileSucursalOpen] = useState(false);
-    const [mobileMenuOpen, setMobileMenuOpen] = useState(null);
+    const [mobileMenuOpen, setMobileMenuOpen] = useState({
+        personas: false,
+        negocios: false,
+        corporativos: false,
+        especializados: false,
+    });
+
+    // Metodo encargado de setear los items tabs activos
+    const toggleMenu = (menu) => {
+
+        // Se setea el valor
+        setMobileMenuOpen((prev) => ({
+            ...prev,
+            [menu]: !prev[menu],
+        }));
+    };
 
     // Tab del carrusel de beneficios
     const swiperRef = useRef(null);
@@ -37,7 +52,7 @@ const VistaPrincipal = () => {
     const tablet = isTablet();
 
     // Se inicializa el estado del modal de la abeja
-    const [abejaOpen, setAbejaOpen] = useState(mobile === true ? 1 : 2);
+    const [abejaOpen, setAbejaOpen] = useState(1);
     const [openNavbarAbeja, setOpenNavbarAbeja] = useState(false);
 
     // Función para alternar menús desplegables
@@ -132,7 +147,7 @@ const VistaPrincipal = () => {
     const goToTab = (tabKey, sectionId, index) => {
         setActiveTab(tabKey);
 
-        // 1️⃣ CENTRAR TAB EN SWIPER
+        // 1️⃣ CONTROL DEL SWIPER
         if (swiperRef.current) {
             const swiper = swiperRef.current;
 
@@ -142,18 +157,29 @@ const VistaPrincipal = () => {
                 const slideWidth = slide.offsetWidth;
                 const swiperWidth = swiper.el.offsetWidth;
 
-                const target =
+                // ancho total del contenido
+                const wrapperWidth = swiper.wrapperEl.scrollWidth;
+
+                // centrado ideal
+                let target =
                     slideLeft - swiperWidth / 2 + slideWidth / 2;
+
+                // 🔒 LIMITES
+                const minTranslate = 0;
+                const maxTranslate = wrapperWidth - swiperWidth;
+
+                // clamp
+                target = Math.max(minTranslate, Math.min(target, maxTranslate));
 
                 swiper.setTransition(300);
                 swiper.setTranslate(-target);
             }
         }
 
-        // 2️⃣ SCROLL SUAVE A LA SECCIÓN
+        // 2️⃣ SCROLL A SECCIÓN
         const section = document.getElementById(sectionId);
         if (section) {
-            const yOffset = -72; // altura del header si aplica
+            const yOffset = -72;
             const y =
                 section.getBoundingClientRect().top +
                 window.pageYOffset +
@@ -165,6 +191,7 @@ const VistaPrincipal = () => {
             });
         }
     };
+
 
     // Funcion para activar tab documentos
     const activeTabDocumentos = () => {
@@ -201,16 +228,24 @@ const VistaPrincipal = () => {
                             <h2 className="bc-cibsans-font-style-5-bold" style={{ marginLeft: '25px' }}>
                                 La historia de este año viene con abejita de regalo.
                             </h2>
-                            <a
-                                className="link_mob"
-                                href="#"
-                                onClick={() => setOpenNavbarAbeja(false)}
-                                data-unified-rewritten="true"
-                                data-original-href="/svpersonas/personas-info"
-                                style={{ marginLeft: '25px' }}
-                            >
-                                <u>Conoce más</u>
-                            </a>
+                            {mobile ?
+
+                                <a
+                                    className="link_mob"
+                                    href="#"
+                                    onClick={() => setOpenNavbarAbeja(false)}
+                                    style={{ marginLeft: '30px' }}
+                                >
+                                    <u>Conoce más</u>
+                                </a> :
+                                <div class="pre-header-text">
+                                    <a class="bc-button btn-preheader btn-desk">
+                                        <u style={{ textDecoration: 'none' }} onClick={() => setOpenNavbarAbeja(false)}>
+                                            Conoce más
+                                        </u>
+                                    </a>
+                                </div>
+                            }
                         </div>
 
                         <div className="bokeh-pre-header">
@@ -324,7 +359,7 @@ const VistaPrincipal = () => {
                 : null}
 
             {/* 1. TOP BAR */}
-            <div className="header-top bg-gray color-white">
+            <div className="header-top bg-gray color-white" style={{ marginTop: openNavbarAbeja && desktop ? '80px' : '0px' }}>
                 <div className="container container-max">
                     <nav className="header-top_nav">
                         <ul className="header-top_menu">
@@ -532,7 +567,7 @@ const VistaPrincipal = () => {
             </div>
 
             {/* 2. NAVBAR */}
-            <nav className="vp-navbar" style={{ marginTop: openNavbarAbeja ? '140px' : '0px' }}>
+            <nav className="vp-navbar" style={{ marginTop: openNavbarAbeja && mobile ? '140px' : '0px' }}>
                 <div
                     className="container-max"
                     style={{
@@ -551,10 +586,10 @@ const VistaPrincipal = () => {
 
                     {/* MENÚ DESKTOP */}
                     <div className="vp-nav-menu" style={{ marginLeft: '11.5%' }}>
-                        <span style={{ fontWeight: "600" }} className='vp-nav-link opensans-regular'>Inicio</span>
-                        <span style={{ fontWeight: "600" }} className='vp-nav-link opensans-regular'>Necesidades</span>
-                        <span style={{ fontWeight: "600" }} className='vp-nav-link opensans-regular'>Productos y Servicios</span>
-                        <span style={{ fontWeight: "600" }} className='vp-nav-link opensans-regular'>Educación Financiera</span>
+                        <span style={{ fontWeight: "600" }} className='vp-nav-link opensans-regular' onClick={(e) => { e.preventDefault(); redirecTo() }}>Inicio</span>
+                        <span style={{ fontWeight: "600" }} className='vp-nav-link opensans-regular' onClick={(e) => { e.preventDefault(); redirecTo() }}>Necesidades</span>
+                        <span style={{ fontWeight: "600" }} className='vp-nav-link opensans-regular' onClick={(e) => { e.preventDefault(); redirecTo() }}>Productos y Servicios</span>
+                        <span style={{ fontWeight: "600" }} className='vp-nav-link opensans-regular' onClick={(e) => { e.preventDefault(); redirecTo() }}>Educación Financiera</span>
                     </div>
 
                     {/* ACCIONES DESKTOP */}
@@ -624,11 +659,12 @@ const VistaPrincipal = () => {
 
                                         <a
                                             href="#"
-                                            className="sucursal-virtual underline font-bold"
+                                            className="sucursal-virtual"
                                             onClick={(e) => {
                                                 e.preventDefault();
                                                 redirecTo();
                                             }}
+                                            style={{ textDecoration: 'none' }}
                                         >
                                             Ver más
                                         </a>
@@ -663,7 +699,7 @@ const VistaPrincipal = () => {
                 MENÚ MOBILE
                 ========================= */}
             {mobileOpen && (
-                <div className="vp-mobile-navigation">
+                <div className={`vp-mobile-navigation ${mobileOpen ? 'open' : 'close'}`}>
                     <div className="vp-mobile-header">
                         <img
                             src="/assets/images/img_pantalla1/logo-bancolombia-black.svg"
@@ -673,8 +709,9 @@ const VistaPrincipal = () => {
                             className="vp-mobile-close"
                             onClick={() => setMobileOpen(false)}
                             aria-label="Cerrar menú"
+                            style={{ display: 'flex', alignItems: 'center' }}
                         >
-                            ✕
+                            <span style={{ fontSize: '15px', marginRight: '8px' }}>Cerrar </span>✕
                         </button>
                     </div>
 
@@ -682,6 +719,7 @@ const VistaPrincipal = () => {
                     <div
                         className="vp-mobile-sucursal"
                         onClick={() => setMobileSucursalOpen(!mobileSucursalOpen)}
+                        style={{ borderBottom: mobileSucursalOpen ? 'none' : '1px solid #e0e0e0' }}
                     >
                         <span>Sucursal Virtual Personas</span>
                         <Chevron open={mobileSucursalOpen} />
@@ -701,44 +739,43 @@ const VistaPrincipal = () => {
                             <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className='vp-a-mobile'>
                                 Pagos PSE
                             </a>
+                            <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className='vp-a-mobile'>
+                                Ver más
+                            </a>
                         </div>
                     )}
 
                     <div className="vp-mobile-actions">
                         <button className="vp-btn-yellow full" onClick={() => redirecTo('/personas')}>Entrar</button>
-                        <button className="vp-btn-dark full">Trámites digitales</button>
+                        <button className="vp-btn-dark full" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Trámites Digitales</button>
                     </div>
 
                     <ul className="vp-mobile-menu">
+
                         {/* PERSONAS */}
-                        <li className={`vp-mobile-item ${mobileMenuOpen === 'personas' ? 'open' : ''}`}>
+                        <li className={`vp-mobile-item ${mobileMenuOpen.personas ? 'open' : ''}`}>
                             <div
                                 className="vp-mobile-trigger"
-                                onClick={() =>
-                                    setMobileMenuOpen(mobileMenuOpen === 'personas' ? null : 'personas')
-                                }
+                                onClick={() => toggleMenu('personas')}
                             >
                                 <span>Personas</span>
-                                <Chevron open={mobileMenuOpen === 'personas'} />
+                                <Chevron open={mobileMenuOpen.personas} />
                             </div>
                             <div className="vp-mobile-submenu">
-                                <a href="#">Necesidades</a>
-                                <a href="#">Productos y Servicios</a>
-                                <a href="#">Educación Financiera</a>
+                                <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Necesidades</a>
+                                <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Productos y Servicios</a>
+                                <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Educación Financiera</a>
                             </div>
                         </li>
 
-
                         {/* NEGOCIOS */}
-                        <li className={`vp-mobile-item ${mobileMenuOpen === 'negocios' ? 'open' : ''}`}>
+                        <li className={`vp-mobile-item ${mobileMenuOpen.negocios ? 'open' : ''}`}>
                             <div
                                 className="vp-mobile-trigger"
-                                onClick={() =>
-                                    setMobileMenuOpen(mobileMenuOpen === 'negocios' ? null : 'negocios')
-                                }
+                                onClick={() => toggleMenu('negocios')}
                             >
                                 <span>Negocios</span>
-                                <Chevron open={mobileMenuOpen === 'negocios'} />
+                                <Chevron open={mobileMenuOpen.negocios} />
                             </div>
                             <div className="vp-mobile-submenu">
                                 <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Inicio</a>
@@ -752,15 +789,14 @@ const VistaPrincipal = () => {
                             </div>
                         </li>
 
-                        <li className={`vp-mobile-item ${mobileMenuOpen === 'corporativos' ? 'open' : ''}`}>
+                        {/* CORPORATIVOS */}
+                        <li className={`vp-mobile-item ${mobileMenuOpen.corporativos ? 'open' : ''}`}>
                             <div
                                 className="vp-mobile-trigger"
-                                onClick={() =>
-                                    setMobileMenuOpen(mobileMenuOpen === 'corporativos' ? null : 'corporativos')
-                                }
+                                onClick={() => toggleMenu('corporativos')}
                             >
                                 <span>Corporativos</span>
-                                <Chevron open={mobileMenuOpen === 'corporativos'} />
+                                <Chevron open={mobileMenuOpen.corporativos} />
                             </div>
                             <div className="vp-mobile-submenu">
                                 <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Inicio</a>
@@ -772,19 +808,14 @@ const VistaPrincipal = () => {
                         </li>
 
                         {/* NEGOCIOS ESPECIALIZADOS */}
-                        <li className={`vp-mobile-item ${mobileMenuOpen === 'especializados' ? 'open' : ''}`}>
+                        <li className={`vp-mobile-item ${mobileMenuOpen.especializados ? 'open' : ''}`}>
                             <div
                                 className="vp-mobile-trigger"
-                                onClick={() =>
-                                    setMobileMenuOpen(
-                                        mobileMenuOpen === 'especializados' ? null : 'especializados'
-                                    )
-                                }
+                                onClick={() => toggleMenu('especializados')}
                             >
                                 <span>Negocios especializados</span>
-                                <Chevron open={mobileMenuOpen === 'especializados'} />
+                                <Chevron open={mobileMenuOpen.especializados} />
                             </div>
-
                             <div className="vp-mobile-submenu">
                                 <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Banca de Inversión</a>
                                 <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Leasing</a>
@@ -798,7 +829,7 @@ const VistaPrincipal = () => {
 
                         {/* LINKS SIMPLES */}
                         <li className="vp-mobile-link" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Tu360</li>
-                        <li className="vp-mobile-link" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Blog</li>
+                        <li className="vp-mobile-link" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Blog <span className="blog-dot-menu" /></li>
                         <li className="vp-mobile-link" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Transparencia</li>
                         <li className="vp-mobile-link" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Consumidor</li>
                     </ul>
@@ -863,24 +894,24 @@ const VistaPrincipal = () => {
                         Cancelación de tu Seguro de Vida y Salud
                     </h1>
                     <p className="vp-hero-desc">
-                        Se ha activado exitosamente tu Seguro de Vida y Salud.
-                        Cuentas con un respaldo que te acompaña ante imprevistos de salud, cuidando lo más importante: tu vida y tu bienestar, y brindándote apoyo económico para proteger tu estabilidad.
+                        Se ha activado exitosamente tu <b>Seguro de Vida y Salud.</b>
+                        {' '}Cuentas con un respaldo que te acompaña ante imprevistos de salud, cuidando lo más importante: tu vida y tu bienestar, y brindándote apoyo económico para proteger tu estabilidad.
                     </p>
                     <p className='vp-hero-desc'>
                         Recuerda que tienes <span style={{ fontWeight: "bold" }}>3 días hábiles</span> desde la activación para cancelar el seguro sin ningún costo adicional:
                         <span style={{ fontWeight: "bold" }}> Débito mensual: $289.999</span>
                     </p>
-                    <div className="vp-hero-brand mt-0">
+                    <div className='text-center mt-0'>
+                        <button className="vp-btn-yellow" onClick={(e) => { e.preventDefault(); redirecTo(); }}>
+                            Cancelar seguro
+                        </button>
+                    </div>
+                    <div className="vp-hero-brand mt-4">
                         <span>Un producto de:</span>
                         <img
                             src="/assets/images/seguros/SURA2.png"
                             alt="Sura"
                         />
-                    </div>
-                    <div className='text-center mt-0'>
-                        <button className="vp-btn-yellow" onClick={(e) => { e.preventDefault(); redirecTo(); }}>
-                            Cancelar seguro
-                        </button>
                     </div>
                 </div>
 
@@ -1249,9 +1280,9 @@ const VistaPrincipal = () => {
 
                     {/* TABS HEADER */}
                     <div className="vp-tabs-header">
-                        <button className={`vp-tab ${!mobile ? 'active' : ''}`} onClick={(e) => { e.preventDefault(); redirecTo(); }}>Solicitud</button>
+                        <button className={`vp-tab`} onClick={(e) => { e.preventDefault(); redirecTo(); }}>Solicitud</button>
                         <button className="vp-tab" onClick={(e) => { e.preventDefault(); redirecTo(); }}>Reclamación</button>
-                        <button className="vp-tab" onClick={(e) => { e.preventDefault(); redirecTo(); }} style={{ borderBottom: mobile ? '1px solid #2c2a29' : 'none' }} >Cancelación</button>
+                        <button className="vp-tab" onClick={(e) => { e.preventDefault(); redirecTo(); }} style={{ borderBottom: mobile ? '1px solid #2c2a29' : 'auto' }} >Cancelación</button>
                         {mobile ? (
                             <>
                                 <button
@@ -1308,7 +1339,7 @@ const VistaPrincipal = () => {
                             {/* CONTENIDO */}
                             <div className="vp-tab-content">
                                 <div className="vp-tab-scroll">
-                                    <h3><b>¿Cómo solicitar tu Seguro de Cobertura Total?</b></h3>
+                                    <h3><b>¿Cómo solicitar tu Seguro de Vida y Salud?</b></h3>
                                     <p>
                                         <strong>
                                             Este seguro es ofrecido únicamente por televentas, un asesor
@@ -1327,20 +1358,18 @@ const VistaPrincipal = () => {
                         <>
                             <section className="vp-documents-section" id="documentos">
                                 <div className="vp-documents-container">
-
                                     {/* HEADER ACCORDION */}
                                     <div
-                                        className="vp-documents-header"
+                                        className={`vp-documents-header ${docsOpenDesktop ? 'open' : ''}`}
                                         onClick={() => setDocsOpenDesktop(!docsOpenDesktop)}
                                     >
                                         <h6>Documentos</h6>
-                                        <Chevron open={mobileSucursalOpen} />
+                                        <Chevron open={docsOpenDesktop} />
                                     </div>
 
                                     {/* CONTENT ACCORDION */}
                                     <div className={`vp-documents-content ${docsOpenDesktop ? 'open' : ''}`}>
                                         <div className="vp-documents-grid">
-
                                             <a className="vp-documents-item" href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }}>
                                                 <span className="vp-doc-icon">📄</span>
                                                 Póliza seguro cuentas

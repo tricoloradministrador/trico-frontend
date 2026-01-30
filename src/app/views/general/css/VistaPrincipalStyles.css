@@ -555,12 +555,13 @@ body {
   text-decoration: none;
   font-size: 14px;
   font-weight: 400;
-  transition: color 0.2s ease;
+  transition: transform 0.2s ease, color 0.2s ease;
 }
 
 .sucursal-virtual:hover {
   color: #000000 !important;
   text-decoration: none;
+  transform: scale(1.02);
 }
 
 .sucursal-vermas {
@@ -884,6 +885,20 @@ body.has-fixed-navbar {
   transition: background 0.3s;
 }
 
+@media (max-width: 991px) {
+  .vp-btn-yellow {
+    font-weight: 900;
+  }
+}
+
+@media (max-width: 991px) {
+  .vp-btn-dark {
+    padding: 11px 14px;
+    font-weight: 900;
+    width: 60%;
+  }
+}
+
 .vp-btn-dark:hover {
   background-color: #000;
 }
@@ -898,6 +913,15 @@ body.has-fixed-navbar {
   font-size: 14px;
   width: 45%;
   cursor: pointer;
+}
+
+@media (max-width: 991px) {
+  .vp-btn-yellow {
+    padding: 7px 14px;
+    font-weight: 900;
+    width: 60%;
+    margin-bottom: 15px;
+  }
 }
 
 .vp-btn-yellow:hover {
@@ -1077,7 +1101,6 @@ body.has-fixed-navbar {
   transform: rotate(180deg);
 }
 
-
 /* --- HERO --- */
 .vp-hero {
   max-width: 1340px;
@@ -1116,7 +1139,6 @@ body.has-fixed-navbar {
 
 .vp-hero-desc {
   font-size: 16px;
-  color: #666;
   margin-bottom: 30px;
   line-height: 1.5;
 }
@@ -1160,67 +1182,68 @@ body.has-fixed-navbar {
   align-items: center;
 }
 
-/* sticky-item_link para Desktop */
-@media (max-width: 769px) {
+/* CONTENEDOR */
+.sticky-contenedor {
+  border-bottom: 1px solid #e5e5e5;
+}
 
-  /* CONTENEDOR */
-  .sticky-contenedor {
-    border-bottom: 1px solid #e5e5e5;
-  }
+/* CADA SLIDE */
+.sticky-item {
+  width: auto !important;
+}
 
-  /* CADA SLIDE */
-  .sticky-item {
-    width: auto !important;
-  }
+/* TAB BASE */
+.sticky-item_link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-  /* TAB BASE */
-  .sticky-item_link {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  padding: 14px 48px;
+  min-height: 48px;
 
-    padding: 14px 48px;
-    min-height: 48px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #2c2a29;
+  text-decoration: none;
+  white-space: nowrap;
 
-    font-size: 14px;
-    font-weight: 500;
-    color: #2c2a29;
-    text-decoration: none;
-    white-space: nowrap;
+  background: #ffffff;
+  border: none;
+  border-bottom: 3px solid transparent;
+  border-radius: 0;
+}
 
-    background: #ffffff;
-    border: none;
-    border-bottom: 3px solid transparent;
-    border-radius: 0;
+/* TAB ACTIVO */
+.sticky-item_link.active {
+  background-color: #2c2a29;
+  color: #ffffff !important;
+  font-weight: 600;
 
-    transition: background-color 0.2s ease, color 0.2s ease;
-  }
+  border-bottom: 3px solid #fdda24;
 
-  /* TAB ACTIVO (IMAGEN REAL) */
-  .sticky-item_link.active {
-    background-color: #2c2a29;   /* negro */
-    color: #ffffff !important;
-    font-weight: 600;
-    border-bottom-color: #fdda24; /* amarillo */
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
 
-    border-bottom: 3px solid #fdda24;
+/* HOVER */
+.sticky-item_link:not(.active):hover {
+  background-color: #f5f5f5;
+  border-bottom: 2px solid #fdda24;
 
-    /* 👇 BORDES SOLO ARRIBA */
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-  }
 
-  /* HOVER (opcional, muy sutil) */
-  .sticky-item_link:not(.active):hover {
-    background-color: #f5f5f5;
-  }
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease, color 0.2s ease,
+    border-bottom 0.2s ease;
+  
+  transform-origin: center bottom; /* crece hacia arriba */
+  transform: scale(1.04);
+}
 
-  /* 🔴 DESACTIVAR CUALQUIER LÍNEA EXTRA */
-  .sticky-item_link::after {
-    display: none !important;
-  }
+.sticky-item_link::after {
+  display: none !important;
 }
 
 /* =========================
@@ -1593,9 +1616,9 @@ body.has-fixed-navbar {
   .vp-caracteristicas-title {
     display: flex;
     justify-content: center;
-    font-size: 32px;
+    font-size: 28px;
     font-weight: 900;
-    margin-bottom: 48px;
+    margin-bottom: 37.5px;
   }
   
   /* FILA */
@@ -1604,6 +1627,24 @@ body.has-fixed-navbar {
     justify-content: center;
     gap: 30px;
     flex-wrap: wrap;
+    margin-left: 6.5%;
+  }
+
+  .vp-caracteristica-icon {
+    width: 35px;
+    height: 35px;
+    flex-shrink: 0;
+  }
+
+  .vp-caracteristica-label {
+    font-size: 16px;
+    font-weight: 900;
+    margin-bottom: 15px;
+  }
+
+  .vp-caracteristica-value {
+    font-size: 14px;
+    font-weight: 400;
   }
 }
 
@@ -2040,6 +2081,12 @@ body.has-fixed-navbar {
   align-items: center;
   padding: 16px 24px;
   cursor: pointer;
+  border-top: 1.5px solid #000000;
+  border-bottom: 1.5px solid #000000;
+}
+
+.vp-documents-header.open {
+  border-bottom: none;
 }
 
 .vp-documents-header h6 {
@@ -2062,11 +2109,15 @@ body.has-fixed-navbar {
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.4s ease;
+  display: none;
+  border-bottom: none;
 }
 
 .vp-documents-content.open {
   max-height: 600px;
+  display: block;
   /* suficiente para el contenido */
+  border-bottom: 1.5px solid #000000;
 }
 
 /* GRID */
@@ -2180,9 +2231,53 @@ body.has-fixed-navbar {
   }
 }
 
-/* ===== FAQ SECTION ===== */
-/* ===== FAQ SECTION ===== */
+/* =========================
+   FAQ SECTION
+   DESKTOP RESPONSIVE
+   (pantallas medianas)
+========================= */
+@media (max-width: 1200px) {
 
+  /* PANEL TEXTO (izquierda) */
+  .vp-faq-main-text {
+    width: 35%;               /* ⬅️ antes 260px */
+    padding: 20px;
+  }
+
+  /* IMAGEN (derecha) */
+  .vp-faq-main-image {
+    width: 65%;
+  }
+
+  /* TÍTULO PRINCIPAL */
+  .vp-faq-main-text h5 {
+    font-size: 20px;          /* ⬇️ antes 24px */
+    line-height: 1.3;
+  }
+
+  /* LABEL */
+  .vp-faq-main-text span {
+    font-size: 11px;
+    font-weight: 700;
+  }
+
+  /* TARJETAS PEQUEÑAS */
+  .vp-faq-card h5 {
+    font-size: 19px;          /* ⬇️ antes 22px */
+    line-height: 1.3;
+  }
+
+  .vp-faq-card span {
+    font-size: 11px;
+  }
+
+  /* ANCHO DE CADA CARD */
+  .vp-faq-card {
+    width: 180px;             /* un poco más compacto */
+  }
+}
+
+/* ===== FAQ SECTION ===== */
 .vp-faq-section {
   background: #fff;
   padding: 60px 0;
@@ -2206,7 +2301,6 @@ body.has-fixed-navbar {
 /* =========================
    CARD GRANDE
 ========================= */
-
 .vp-faq-main-card {
   width: 50%;
   background: #2c2a29;
@@ -2220,7 +2314,7 @@ body.has-fixed-navbar {
 .vp-faq-main-body {
   display: flex;
   width: 100%;
-  height: 420px;
+  height: 300px;
   /* 🔥 ALTURA REAL */
   position: relative;
 }
@@ -2243,8 +2337,8 @@ body.has-fixed-navbar {
 }
 
 .vp-faq-main-text h5 {
-  font-size: 24px;
-  font-weight: 600;
+  font-size: 15px;
+  font-weight: 500;
   line-height: 1.3;
   margin: 12px 0;
   color: white;
@@ -2303,7 +2397,6 @@ body.has-fixed-navbar {
 /* =========================
    CARDS PEQUEÑAS
 ========================= */
-
 .vp-faq-swiper {
   width: 50%;
   display: flex;
@@ -2312,7 +2405,7 @@ body.has-fixed-navbar {
 
 .vp-faq-cards {
   display: flex;
-  height: 420px;
+  height: 300px;
   /* 🔥 MISMA ALTURA */
 }
 
@@ -2325,14 +2418,14 @@ body.has-fixed-navbar {
 }
 
 .vp-faq-card span {
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 800;
 }
 
 .vp-faq-card h5 {
-  font-size: 22px;
-  font-weight: 600;
-  margin: 12px 0;
+  font-size: 13.5px;
+  font-weight: 500;
+  margin: 11px 0;
   line-height: 1.3;
 }
 
@@ -2738,11 +2831,12 @@ body.has-fixed-navbar {
 
 /* MENÚ MOBILE */
 .vp-mobile-navigation {
-  position: fixed;
+  position: absolute;
   inset: 0;
   background: #fff;
   z-index: 9999;
   padding: 20px;
+  flex-direction: column;
 }
 
 .vp-mobile-header {
@@ -2756,6 +2850,7 @@ body.has-fixed-navbar {
   border: none;
   font-size: 22px;
   cursor: pointer;
+  color: #000;
 }
 
 .vp-mobile-actions {
@@ -2777,8 +2872,8 @@ body.has-fixed-navbar {
 
 .vp-mobile-menu li {
   padding: 16px 0;
-  border-bottom: 1px solid #eee;
-  font-size: 16px;
+  border-top: 1px solid #eee;
+  font-size: 14px;
 }
 
 /* Cuando se fija */
@@ -2905,31 +3000,47 @@ body.has-fixed-navbar {
   margin-top: -10px;
 }
 
+.blog-dot-menu {
+  width: 8px;
+  height: 8px;
+  background-color: #00c389;
+  border-radius: 50%;
+  margin-top: 0px;
+  margin-left: 3px;
+  position: absolute;
+}
+
 /* ===== SELECTOR SUCURSAL MOBILE ===== */
 .vp-mobile-sucursal {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 14px 14px;
-  border-bottom: 1px solid #e0e0e0;
+  padding: 11px 14px;
+  margin-top: 25px;
+  border: 1px solid #e0e0e0;
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 500;
   cursor: pointer;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   border-radius: 4px;
 }
 
 .vp-mobile-sucursal-options {
-  padding: 8px 0 16px 0;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: none;
+  position: absolute;
+  width: 87.4%;
+  margin-left: 5px;
+  background: white;
 }
 
 .vp-mobile-sucursal-options a {
   display: block;
-  padding: 10px;
-  font-size: 15px;
+  margin-top: -5px;
+  padding: 7.5px 10px;
+  font-size: 12.5px;
   color: #010101;
   text-decoration: none;
+  border-bottom: none;
 }
 
 .vp-mobile-sucursal-options a:hover {
@@ -2947,8 +3058,8 @@ body.has-fixed-navbar {
   justify-content: space-between;
   align-items: center;
 
-  font-size: 16px;
-  font-weight: 600;
+  font-size: 14px;
+  font-weight: 500;
   cursor: pointer;
 }
 
@@ -2974,8 +3085,8 @@ body.has-fixed-navbar {
 
 .vp-mobile-submenu a {
   display: block;
-  padding: 10px 0;
-  font-size: 15px;
+  padding: 7.5px 10px;
+  font-size: 15.5px;
   color: #2c2a29;
   text-decoration: none;
 }
@@ -3071,19 +3182,24 @@ body.has-fixed-navbar {
 }
 
 /* 🐝 Abeja */
-.bee-intro {
-  position: absolute;
-  left: -10px;
-  bottom: -10px;
-  width: 120px;
-  max-width: 40vw;
-  z-index: 1;
-  pointer-events: none;
+@media (max-width: 769px) {
+  .bee-intro {
+    position: absolute;
+    max-width: 40vw;
+    z-index: 1;
+    pointer-events: none;
+  }
 }
 
-/* Layout */
-.middle {
-  max-width: 420px;
+.container-text h2 {
+  font-family: "Helvetica Neue";
+  font-weight: 500;
+  font-family: CIBFont Sans;
+  font-size: 55px;
+  line-height: 60px;
+  letter-spacing: -.3px;
+  color: #fff;
+  margin-bottom: 16px;
 }
 
 /* MOBILE */
@@ -3344,9 +3460,8 @@ body.has-fixed-navbar {
 }
 
 /* =========================
-   INTRO DESKTOP (DEFAULT)
-========================= */
-
+    INTRO DESKTOP (DEFAULT)
+   ========================= */
 .intro-backdrop {
   position: fixed;
   inset: 0;
@@ -3387,8 +3502,6 @@ body.has-fixed-navbar {
     border-radius: 16px 16px 0 0;
     padding: 24px 16px 32px;
   }
-
-
 }
 
 /* =========================
@@ -3447,8 +3560,7 @@ body.has-fixed-navbar {
 
   .vp-tab-scroll,
   .vp-tabs-section,
-  .vp-documents-content,
-  .vp-faq-cards {
+  .vp-documents-content {
     max-height: none !important;
     height: auto !important;
     overflow: visible !important;

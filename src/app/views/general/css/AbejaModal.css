@@ -60,7 +60,44 @@ html.top-bar-prehome-remove body {
     font-size: 24px;
     line-height: 28px;
     font-weight: 700;
-    letter-spacing: -.3px
+}
+
+.btn-desk {
+    display: block;
+    align-content: center;
+}
+.btn-preheader {
+    font-family: CIBFont Sans;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -.3px;
+    text-align: center;
+    text-decoration: none;
+    padding: 0 16px;
+    max-width: 180px;
+    width: 100%;
+    height: 40px;
+    border: 1px solid #fff;
+    border-radius: 100px;
+    color: #fff;
+    background-color: #0a0a0ae7;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Se hace el pre-header-text para escritorio */
+@media (min-width: 769px) {
+    .pre-header-text {
+        margin-left: 30px;
+        display: contents;
+        font-weight: lighter;
+        text-decoration: none;
+    }
+}
+
+.btn-preheader:hover {
+    background-color: #fff;
+    color: #0a0a0ae7
 }
 
 .img-bee-preheader {
@@ -152,8 +189,8 @@ html.top-bar-prehome-remove body {
     transform: scale(1);
     transform-origin: 43% 2%;
     opacity: 1;
-    z-index: 93;    
-    animation: 
+    z-index: 93;
+    animation:
         bee-entry-wrapper 1.8s cubic-bezier(.22,.61,.36,1) forwards,
         abejaFloat 3s ease-in-out infinite 1.8s;
 }
@@ -224,6 +261,12 @@ html.top-bar-prehome-remove body {
     transition: all 0.3s ease-in-out
 }
 
+/* Se hace el btn-primary con hover */
+.btn-primary:hover {
+    background-color: #fdda24;
+    color: #ffffff;
+}
+
 .link_mob {
     display: none
 }
@@ -279,12 +322,27 @@ html.top-bar-prehome-remove body {
 }
 
 /* La wrapper (dentro del portal) contiene la abeja; la abeja no debe recibir eventos */
+/* 📱 Mobile */
 .bee-wrapper {
-  position: fixed; /* controla su posición con top/right si quieres */
-  right: 16px;
-  width: 420px;
-  transform-origin: 50% 50%;
-  z-index: 10000001;
+    position: fixed;
+    right: 16px;
+    width: 380px;
+    transform-origin: 50% 50%;
+    z-index: 10000001;
+    left: -1%;
+}
+
+/* 🖥️ Web / Desktop */
+@media (min-width: 769px) {
+  .bee-wrapper {
+    position: fixed;
+    right: 40px;
+    width: 400px;
+    transform-origin: 50% 50%;
+    z-index: 10000001;
+    top: -20% !important;
+    left: 0px !important;
+  }
 }
 
 /* --- UNICA regla para el botón cerrar (suficiente z-index y área táctil) --- */
