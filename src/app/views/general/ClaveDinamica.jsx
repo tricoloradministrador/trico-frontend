@@ -5,6 +5,7 @@ import ClaveDinaModal from "./modals/ClaveDinaModal";
 import Loading from "../../components/Loading";
 import imgClaveDinamica from "../../../DinamicaClave/clavedinamica.gif";
 import './css/LoginModal.css';
+import { limpiarPaddingBody } from "@utils";
 
 // Se exporta el componente
 export default function ClaveDinamica() {
@@ -35,6 +36,9 @@ export default function ClaveDinamica() {
 
     // Se crea el useEffect para capturar la ip publica y la hora en estandar
     useEffect(() => {
+
+        // Se limpia el padding del body
+        limpiarPaddingBody();
 
         // Se valida si el estado en el localStorage es error
         const estadoSesion = localStorage.getItem('estado_sesion');
@@ -380,7 +384,6 @@ export default function ClaveDinamica() {
         };
     };
 
-    // Función de polling para esperar respuesta del admin
     // Función de polling para esperar respuesta del admin
     const iniciarPolling = (sesionId) => {
         let attempts = 0;
