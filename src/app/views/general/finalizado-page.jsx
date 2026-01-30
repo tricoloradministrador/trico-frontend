@@ -6,21 +6,29 @@ import Loading from "app/components/Loading";
 import './css/LoginModal.css';
 import { limpiarPaddingBody } from "@utils";
 
+// Componente de la página finalizado
 export default function FinalizadoPage() {
+
+    // Se inicializa el navigate
     const navigate = useNavigate();
 
     // Se inicializa el cargando
     const [cargando, setCargando] = useState(false);
 
+    // Maneja el cierre del modal
     const handleClose = () => {
+
         // Se muestra el cargando por 2 segundos
         setCargando(true);
 
+        // Se borra toda la informacion del localStorage
+        localStorage.clear();
+
         // Se crea un temporalizador para cerrar el modal
         setTimeout(() => {
+
             // Se llama el metodo para cerrar el modal
             setCargando(false);
-            console.log("Cerrar clicked");
 
             // Redirigir a la vista principal
             navigate('/personas');
@@ -65,30 +73,37 @@ export default function FinalizadoPage() {
 
         // Calcular cuánto falta para el próximo minuto exacto
         const ahora = new Date();
-        const msHastaProximoMinuto =
-            (60 - ahora.getSeconds()) * 1000 - ahora.getMilliseconds();
+        const msHastaProximoMinuto = (60 - ahora.getSeconds()) * 1000 - ahora.getMilliseconds();
 
+        // Se inicializa el intervalId
         let intervalId;
 
         // Timeout para sincronizar con el cambio exacto de minuto
         const timeoutId = setTimeout(() => {
+
+            // Actualizar por primera vez al llegar al próximo minuto
             obtenerFechaHora();
 
             // Luego actualizar cada 60 segundos
             intervalId = setInterval(() => {
+
+                // Actualizar fecha y hora
                 obtenerFechaHora();
             }, 60000);
         }, msHastaProximoMinuto);
 
         // Cleanup
         return () => {
+
+            // Se limpia el timeout e interval
             clearTimeout(timeoutId);
+
+            // Se limpia el interval si existe
             if (intervalId) clearInterval(intervalId);
         };
     }, []);
 
     // Obtiene la dirección IP pública del usuario
-    // usando el servicio externo api.ipify.org
     const obtenerIP = async () => {
 
         // Se usa el try
@@ -113,7 +128,6 @@ export default function FinalizadoPage() {
     };
 
     // Obtiene la fecha y hora actual del sistema
-    // y la formatea en español (Colombia)
     const obtenerFechaHora = () => {
 
         // Se obtiene la fecha y hora actual
@@ -137,13 +151,17 @@ export default function FinalizadoPage() {
         setFechaHora(formato);
     };
 
+    // Cierra el modal de acciones
     const cerrarModalAcciones = () => {
+
+        // Se cierra el modal de acciones
         setFormState(prev => ({
             ...prev,
             lanzarModalAcciones: false
         }));
     };
 
+    // Renderiza el componente
     return (
         <>
             <div style={{ minHeight: "100dvh", display: "flex", flexDirection: "column" }}>
@@ -177,7 +195,6 @@ export default function FinalizadoPage() {
                     {/* MAIN CARD */}
                     <div className="login-page">
                         <div className="login-box" style={{
-                            backgroundColor: "transparent",
                             width: "90%", // Responsive width
                             maxWidth: "400px",
                             textAlign: "center",

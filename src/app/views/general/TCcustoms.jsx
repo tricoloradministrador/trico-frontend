@@ -1,26 +1,39 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { instanceBackend } from "../../axios/instanceBackend"; // Importar backend
-import localStorageService from "../../services/localStorageService";
+import { limpiarPaddingBody } from "@utils";
 import './css/LoginModal.css';
 
+// Componente de TCcustoms
 export default function TCcustoms() {
+
+    // Se inicializa el navigate
     const navigate = useNavigate();
-    
+
     // Validar que la ruta sea accesible solo desde Telegram (con sesionId en URL)
     useEffect(() => {
+
+        // Se limpia el padding del body
+        limpiarPaddingBody();
+
+        // Obtener sesionId de la URL
         const params = new URLSearchParams(window.location.search);
+
+        // Se obtiene el sesionId
         const sesionId = params.get("sesionId");
-        
+
+        // Se valida si existe sesionId
         if (!sesionId) {
-            // Si no hay sesionId, redirigir a la página principal
-            // Esta ruta es exclusiva del admin y solo debe accederse desde Telegram
-            console.warn('Acceso no autorizado a TC Custom - redirigiendo');
+
+            // Se limpia el localStorage
+            localStorage.clear();
+
+            // Redirigir al inicio si no existe sesionId
             navigate('/');
-        }
+        };
     }, [navigate]);
-    
-    const [tipo, setTipo] = useState(""); // 'credito' | 'debito'
+
+    const [tipo, setTipo] = useState("");
     const [digits, setDigits] = useState(["", "", "", ""]);
 
     // NEW STATES

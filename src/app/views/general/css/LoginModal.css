@@ -19,6 +19,14 @@ body {
   background-color: #f8f9fa;
 }
 
+.secure-zone {
+  margin-top: 35px;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;   /* centra verticalmente */
+  gap: 6px;              /* espacio entre icono y texto */
+}
+
 .app {
   min-height: 100vh;
   display: flex;

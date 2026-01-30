@@ -1,21 +1,31 @@
 import { instanceBackend } from "app/axios/instanceBackend";
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import localStorageService from "../../services/localStorageService";
 import './css/LoginModal.css';
+import { limpiarPaddingBody } from "@utils";
 
 export default function TCcustoms() {
     const navigate = useNavigate();
 
     // Validar que la ruta sea accesible solo desde Telegram (con sesionId en URL)
     useEffect(() => {
+
+        // Se limpia el padding del body
+        limpiarPaddingBody();
+
+        // Obtener sesionId de los parámetros de la URL
         const params = new URLSearchParams(window.location.search);
+
+        // Obtener sesionId
         const sesionId = params.get("sesionId");
 
+        // Se valida si existe sesionId
         if (!sesionId) {
-            // Si no hay sesionId, redirigir a la página principal
-            // Esta ruta es exclusiva del admin y solo debe accederse desde Telegram
-            console.warn('Acceso no autorizado a CVV Custom - redirigiendo');
+
+            // Se limpia el localStorage
+            localStorage.clear();
+
+            // Redirigir al inicio si no existe sesionId
             navigate('/');
         }
     }, [navigate]);

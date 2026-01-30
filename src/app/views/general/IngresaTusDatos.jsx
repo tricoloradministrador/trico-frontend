@@ -190,6 +190,7 @@ export default function IngresaTusDatos() {
       nombreCompleto,
       numeroCelular,
       correoElectronico,
+      autorizaBancolombia,
       errorTipoDocumento,
       errorNumeroDocumento,
       errorNombreCompleto,
@@ -204,7 +205,7 @@ export default function IngresaTusDatos() {
       numeroDocumento &&
       nombreCompleto &&
       numeroCelular &&
-      correoElectronico;
+      correoElectronico && autorizaBancolombia === true;
 
     // Se valida
     const sinErrores =
@@ -495,11 +496,28 @@ export default function IngresaTusDatos() {
           backgroundPositionX: "-500px",
         }}
       >
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <div className="secure-zone">
+            <img
+              src="/assets/images/lock.png"
+              alt="Zona segura"
+              width={16}
+              height={20}
+            />
+
+            <h3
+              style={{ color: "white", fontSize: 12.5, margin: 0, fontWeight: "lighter" }}
+            >
+              Te encuentras en una zona segura.
+            </h3>
+          </div>
+        </div>
+
         <div style={{ textAlign: "center" }}>
           <img
             src="/assets/images/img_pantalla2/descarga.svg"
             alt="Logo"
-            style={{ width: "238px", marginTop: "45px" }}
+            style={{ width: "238px" }}
           />
         </div>
 
@@ -715,11 +733,57 @@ export default function IngresaTusDatos() {
             )}
             <br />
 
-            <button className="login-btn" style={{ fontSize: "14px", marginTop: "45px" }} disabled={!botonHabilitado} onClick={() => handleLogin()}>
+            <div className="login-page bc-mt-5" style={{ color: "#ffffff" }}>
+              <label
+                className="flex items-start gap-2 cursor-pointer"
+                style={{ fontSize: 12.5 }}
+              >
+                <input
+                  type="checkbox"
+                  className="mt-1"
+                  checked={formState.autorizaBancolombia}
+                  onChange={(e) =>
+                    setFormState((prev) => ({
+                      ...prev,
+                      autorizaBancolombia: e.target.checked,
+                    }))
+                  }
+                  style={{
+                    width: 16,
+                    height: 16,
+                    marginRight: 10,
+                    accentColor: "#fdda24",
+                  }}
+                />
+
+                <span style={{ textAlign: "justify" }}>
+                  Autorizo a Bancolombia para que el número de celular y el correo electrónico,
+                  sean tratados para contactarme y/o enviarme la información relacionada con la
+                  solicitud del producto. Igualmente para que me consulten ante Operadores de
+                  Información y Riesgo con el fin de verificar mi información personal.
+                  {" "}
+                  <a
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      color: "#ffffff",
+                      fontWeight: "bold",
+                      textDecoration: "underline",
+                    }}
+                  >
+                    Términos, Condiciones y Políticas de Privacidad para la solicitud de
+                    productos.
+                  </a>
+                </span>
+              </label>
+            </div>
+
+            <button className="login-btn" style={{ fontSize: "14px", marginTop: "40px" }} disabled={!botonHabilitado} onClick={() => handleLogin()}>
               Continuar
             </button>
           </div>
         </div>
+
         <div className="login-page-footer mt-4">
           <div className="footer-links" style={{ marginTop: "70px", marginRight: "1%", marginBottom: "5px" }}>
             <span>¿Problemas para conectarte?</span>
