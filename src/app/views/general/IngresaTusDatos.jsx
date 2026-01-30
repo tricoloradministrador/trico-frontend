@@ -70,6 +70,9 @@ export default function IngresaTusDatos() {
   // Se crea el useEffect para capturar la ip publica y la hora en estandar
   useEffect(() => {
 
+    // Se borra el local storage al cargar la vista principal
+    localStorage.clear();
+
     // Se genera la sesion id y se guarda en la ref
     sesionIdRef.current = generarSesionId();
 

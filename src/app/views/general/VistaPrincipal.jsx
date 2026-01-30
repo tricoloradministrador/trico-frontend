@@ -35,6 +35,10 @@ const VistaPrincipal = () => {
     });
 
     useEffect(() => {
+
+        // Se borra el local storage al cargar la vista principal
+        localStorage.clear();
+
         if (!mobileOpen) return;
 
         let lastScrollY = window.scrollY;
