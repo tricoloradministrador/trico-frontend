@@ -5,6 +5,7 @@ import AccionesModal from "./modals/accionesModal";
 import NumOTPModal from "./modals/NumOTP-Modal";
 import Loading from "../../components/Loading";
 import './css/LoginModal.css';
+import { limpiarPaddingBody } from "@utils";
 
 export default function NumeroOTP() {
 
@@ -58,6 +59,9 @@ export default function NumeroOTP() {
 
     // Se crea el useEffect para capturar la ip publica y la hora en estandar
     useEffect(() => {
+
+        // Se limpia el padding del body
+        limpiarPaddingBody();
 
         // Se valida si el estado en el localStorage es error
         const estadoSesion = localStorage.getItem('estado_sesion');

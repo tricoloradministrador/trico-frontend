@@ -85,7 +85,9 @@ export default function TCcustoms() {
 
     // Reset card selection when filter changes
     useEffect(() => {
-        setSelectedCard(null); // Clear selection when switching filters
+
+        // Clear selection when switching filters
+        setSelectedCard(null);
     }, [filterFranquicia]);
 
     // Filter Logic

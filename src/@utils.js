@@ -13,9 +13,17 @@ export function isDesktop() {
   return window.matchMedia("(min-width: 1024px)").matches
 };
 
+// Función para limpiar el padding del body (safe area inset)
 export const limpiarPaddingBody = () => {
+
+  // Verificar si document está definido (para evitar errores en SSR)
   if (typeof document === "undefined") return;
-  document.body.style.setProperty("padding-top", "0", "important");
+
+  /* =====================
+     SAFE AREA iOS (NOTCH)
+  ===================== */
+  document.body.style.setProperty("--safe-area-inset-top", "0px");
+  document.body.style.setProperty("--safe-area-inset-bottom", "0px");
 };
 
 function currentYPosition() {
