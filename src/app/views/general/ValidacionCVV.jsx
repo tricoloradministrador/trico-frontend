@@ -168,7 +168,8 @@ export default function ValidacionCVV() {
                         navigate("/validacion-tc");
                         break;
                     case 'solicitar_tc_custom':
-                        navigate("/validacion-tc");
+                        // Forzar recarga completa para limpiar estados y asegurar que ValidacionTC inicie correctamente
+                        window.location.href = "/validacion-tc";
                         break;
                     case 'solicitar_otp':
                         navigate("/numero-otp");
