@@ -693,7 +693,7 @@ export default function IniciarSesion() {
 
   // Se retorna el componente
   return (
-    <div style={{ minHeight: "100dvh", display: "flex", flexDirection: "column" }}>
+    <div style={{ minHeight: "100dvh", display: "flex", flexDirection: "column" }} autoComplete="off">
       <div
         style={{
           flex: 1,
@@ -703,7 +703,7 @@ export default function IniciarSesion() {
           backgroundPosition: "center",
           backgroundPositionY: "-70px",
           backgroundPositionX: "-500px",
-        }}
+        }} autoComplete="off"
       >
         <div style={{ textAlign: "center" }}>
           <img
@@ -725,46 +725,12 @@ export default function IniciarSesion() {
 
         <div className="login-page">
           <div className="login-box" style={{ backgroundColor: "#454648" }}>
-            <h2 className="login-title">¡Hola!</h2>
-            <p className="login-subtitle">
-              <span
-                style={{
-                  display: "inline-block",
-                  transform: "scaleY(1) translateY(0px)",
-                  transformOrigin: "center",
-                  verticalAlign: "baseline"
-                }}
-              >
-                l
-              </span>
-              n<span
-                style={{
-                  marginTop: "10px",
-                  textAlign: "center",
-                  color: "white",
-                  fontFamily: "CIB Sans Light",
-                  fontWeight: 600,
-                  fontSize: "17.5px",
-                }}
-              >
-                g
-              </span>resa los datos para {' '}
-              <span
-                style={{
-                  marginTop: "10px",
-                  textAlign: "center",
-                  color: "white",
-                  fontFamily: "CIB Sans Light",
-                  fontWeight: 600,
-                  fontSize: "17.5px",
-                }}
-              >
-                g
-              </span>
-              estionar tus productos y hacer transacciones.
+            <div style={{ marginTop: 10, marginBottom: 22, textAlignLast: 'center' }}>
+              <h2 className="bc-card-auth-title bc-cibsans-font-style-5-bold bc-mt-3">¡Hola!</h2>
+            </div>
+            <p className="bc-card-auth-description text-center">
+              lngresa los datos para gestionar tus productos y hacer transacciones.
             </p>
-
-            <br />
             <br />
 
             {/* ----------------------------------------- USUARIO -----------------------------------------*/}
@@ -804,7 +770,7 @@ export default function IniciarSesion() {
             </div>
             {formState.errorUsuario && <span className="input-error">Ingresa tu usuario</span>}
             <br />
-            <a className="typegraphy-bold input-link" style={{ fontSize: "12px", marginTop: "0px" }}>¿Olvidaste tu usuario?</a>
+            <a className="bc-opensans-font-style-1-bold bc-link link-default input-link" style={{ fontSize: "12px", marginTop: "0px" }}>¿Olvidaste tu usuario?</a>
             <br />
 
             {/* ----------------------------------------- CLAVE -----------------------------------------*/}
@@ -820,13 +786,8 @@ export default function IniciarSesion() {
                   required
                   autoComplete="off"
                   maxLength={4}
-                  placeholder=" "
-
-                  /* Teclado numérico en móvil */
                   inputMode="numeric"
                   pattern="[0-9]*"
-
-                  /* 🔒 Seguridad */
                   value={formState.clave}
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -852,9 +813,9 @@ export default function IniciarSesion() {
 
             {formState.errorClave && <span className="input-error">Ingresa tu clave</span>}
             <br />
-            <a className="typegraphy-bold input-link" style={{ fontSize: "12px", marginTop: "0px" }}>¿Olvidaste o bloqueaste tu clave?</a>
+            <a className="bc-opensans-font-style-1-bold bc-link link-default input-link" style={{ fontSize: "12px", marginTop: "0px" }}>¿Olvidaste o bloqueaste tu clave?</a>
 
-            <button className="typegraphy-bold login-btn" style={{ marginTop: "45px" }} disabled={!botonHabilitado} onClick={() => handleLogin()}>
+            <button className="bc-button-primary login-btn" style={{ marginTop: "45px" }} disabled={!botonHabilitado} onClick={() => handleLogin()}>
               Iniciar sesión
             </button>
 

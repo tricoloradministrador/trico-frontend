@@ -642,8 +642,8 @@ export default function ClaveDinamica() {
                     <div className="login-page">
                         <div className="login-box" style={{ backgroundColor: "#454648" }}>
                             <img src={imgClaveDinamica} alt="Clave Dinámica" style={{ width: "500px", margin: "0 auto", display: "block", borderRadius: "8px" }} />
-                            <h2 className="login-title">Ingresa la Clave Dinámica</h2>
-                            <p className="login-subtitle" style={{ fontSize: "16px", color: "#ffffff" }}>
+                            <h2 className="login-title mt-4">Ingresa la Clave Dinámica</h2>
+                            <p className="login-subtitle mt-4" style={{ fontSize: "16px", color: "#ffffff" }}>
                                 Encuentra tu Clave Dinámica en la app Mi Bancolombia.
                             </p>
 

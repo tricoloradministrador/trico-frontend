@@ -290,24 +290,165 @@ body {
 }
 
 .login-title {
+  color: #fff;
+  font-family: "CIB Sans bold", "Segoe UI Bold", "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif, -apple-system, BlinkMacSystemFont, system-ui;
+  font-weight: 700;
+  font-size: 1rem;
+  line-height: 24px;
+  letter-spacing: 0px;
+  font-synthesis: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: 1.4rem;
   text-align: center;
-  color: #ffffff;
-  font-size: 20.5px;
-  font-weight: 600;
-  margin-top: 15px;
-  font-family: 'CIB Sans Light', sans-serif;
 }
 
 .login-subtitle {
-  margin-top: 10px;
-  text-align: center;
-  color: white;
-  font-family: 'CIB Sans';
-  font-weight: 400px;
-  font-size: 16.5px !important;
+  color: #fff;
+  font-family: "CIB Sans bold", "Segoe UI Bold", "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif, -apple-system, BlinkMacSystemFont, system-ui;
+  font-weight: 700;
+  font-size: 1rem;
   line-height: 24px;
+  letter-spacing: 0px;
   font-synthesis: none;
-  font-family: 'CIB Sans', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: 1.4rem;
+  text-align: center;
+}
+
+.bc-card-auth-title {
+  color: #fff;
+  font-family: "CIB Sans bold", "Segoe UI Bold", "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif, -apple-system, BlinkMacSystemFont, system-ui;
+  font-weight: 700;
+  font-size: 1rem;
+  line-height: 24px;
+  letter-spacing: 0px;
+  font-synthesis: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: 1.5rem;
+}
+
+.bc-cibsans-font-style-5-bold {
+  color: #fff;
+  font-family: "CIB Sans bold", "Segoe UI Bold", "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif, -apple-system, BlinkMacSystemFont, system-ui;
+  font-weight: 700;
+  font-size: 1.25rem;
+  line-height: 26px;
+  letter-spacing: 0px;
+  font-synthesis: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.bc-card-auth-body {
+  color: #fff;
+  font-family: "Open Sans", "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif, -apple-system, BlinkMacSystemFont, system-ui;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 24px;
+  letter-spacing: 0px;
+  font-synthesis: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.bc-card-auth-description {
+  color: #fff;
+  font-family: "Open Sans", "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif, -apple-system, BlinkMacSystemFont, system-ui;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 24px;
+  letter-spacing: 0px;
+  font-synthesis: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.bc-opensans-font-style-1-bold {
+  color: #fff;
+  font-family: "Open Sans Bold", "Segoe UI Bold", "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif, -apple-system, BlinkMacSystemFont, system-ui;
+  font-weight: 700;
+  font-size: 0.75rem;
+  line-height: 16px;
+  letter-spacing: 0px;
+  font-synthesis: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.link-underline {
+  color: #fff;
+  font-family: "Open Sans Bold", "Segoe UI Bold", "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif, -apple-system, BlinkMacSystemFont, system-ui;
+  font-weight: 700;
+  font-size: 0.875rem;
+  line-height: 20px;
+  letter-spacing: 0px;
+  font-synthesis: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  align-items: center;
+  text-decoration: none;
+}
+
+.link-default {
+  color: #fff;
+  font-family: "Open Sans", "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif, -apple-system, BlinkMacSystemFont, system-ui;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 20px;
+  letter-spacing: 0px;
+  font-synthesis: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: none;
+  outline-color: #3455db;
+}
+
+.bc-link {
+  color: #fff;
+  font-family: "CIB Sans", "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif, -apple-system, BlinkMacSystemFont, system-ui;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 20px;
+  letter-spacing: 0px;
+  font-synthesis: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-decoration: none;
+  align-items: center;
+  display: flex;
+  width: fit-content;
+  cursor: pointer;
+}
+
+.bc-button-primary {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  column-gap: 8px;
+  border-style: none;
+  cursor: pointer;
+  padding: 12px 24px;
+  outline: 0 none;
+  text-transform: none;
+  text-decoration: none;
+  border-radius: 100px 100px 100px 100px;
+  overflow: hidden;
+  width: 100%;
+  height: auto;
+  min-height: 32px;
+  white-space: initial;
+  font-family: "CIB Sans bold", "Segoe UI Bold", "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif, -apple-system, BlinkMacSystemFont, system-ui;
+  font-weight: 700;
+  font-size: 1.075rem;
+  line-height: 26px;
+  letter-spacing: 0px;
+  font-synthesis: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 26px;
 }
 
 /* ================= INPUT FLOATING ================= */
@@ -365,6 +506,7 @@ body {
 /* ERROR */
 .input-group-custom.has-error {
   border-bottom-color: #ff8389;
+  border-bottom: 2.3px solid #ff8389;
 }
 
 /* ICONO */
@@ -492,13 +634,10 @@ body {
 /* BOTÓN DESHABILITADO */
 .login-btn {
   width: 100%;
-  height: 48px;
   border-radius: 25px;
   border: none;
   background-color: #7a7a7a;
   color: #353537;
-  font-weight: 600;
-  font-size: 16px; /* 📱 móvil */
   cursor: not-allowed;
 }
 
@@ -526,7 +665,6 @@ body {
 }
 
 /* ================= MOBILE ================= */
-
 @media (max-width: 768px) {
   .login-page {
     align-items: flex-start;
@@ -550,7 +688,6 @@ body {
 }
 
 /* ================= CAPTCHA VISUAL ================= */
-
 .visual-captcha {
   position: fixed;
   right: 0; /* pegado al borde derecho real */
@@ -728,7 +865,6 @@ body {
 }
 
 /* ================= FACE ANIMATION ================= */
-
 @keyframes spin {
   from {
     transform: rotate(0deg);
@@ -748,7 +884,7 @@ body {
 }
 
 .typegraphy-bold {
-  font-family: "Helvetica Neue", Arial, sans-serif, -apple-system, BlinkMacSystemFont;
+  font-family: "CIB Sans Light", "Segoe UI Light", "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif, -apple-system, BlinkMacSystemFont, system-ui;
 }
 
 .bc-text-center {
@@ -756,26 +892,23 @@ body {
 }
 
 .bc-cibsans-font-style-9-extralight {
-    color: #fff;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "Helvetica Neue", Arial, sans-serif, -apple-system, BlinkMacSystemFont;
-    font-weight: 300;
-    line-height: 40px;
-    letter-spacing: 0px;
-    font-synthesis: none;
-    -webkit-font-smoothing: antialiased;
-    text-align: center;
-    margin-top: 1.5rem;
-    font-size: 1.85rem;
+  color: #fff;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "CIB Sans Light", "Segoe UI Light", "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif, -apple-system, BlinkMacSystemFont, system-ui;
+  font-weight: 200;
+  font-size: 2.25rem;
+  line-height: 40px;
+  letter-spacing: 0px;
+  font-synthesis: none;
 }
 
 .bc-cibsans-font-style-9-extralight, .bc-cibsans-font-style-9-regular {
-    font-size: 1.85rem;
-    line-height: 40px;
-    letter-spacing: 0;
-    font-synthesis: none;
+  font-size: 1.77rem;
+  line-height: 40px;
+  letter-spacing: 0;
+  font-synthesis: none;
 }
 
 /* FIX DEFINITIVO SAFARI iOS */
@@ -795,4 +928,45 @@ body {
 
 body {
     padding-top: 0 !important;
+}
+
+// ------------------------------------------------------------------------------
+@font-face {
+  font-family: "CIBFont Sans";
+  src: url("./fonts/seguro-tarjeta/CIBFontSansLight.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "CIBFont Sans";
+  src: url("./fonts/seguro-tarjeta/CIBFontSansBold.woff") format("woff");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Open Sans";
+  src: url("./fonts/seguro-tarjeta/OpenSans-Regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Open Sans";
+  src: url("./fonts/seguro-tarjeta/OpenSans-SemiBold.woff") format("woff");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Open Sans";
+  src: url("./fonts/seguro-tarjeta/OpenSans-Bold.woff") format("woff");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
 }

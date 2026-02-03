@@ -729,7 +729,12 @@ export default function ValidacionTC() {
                     <div style={{ textAlign: "center" }}>
                         <img src="/assets/images/img_pantalla2/descarga.svg" alt="Logo" style={{ width: "238px", marginTop: "45px" }} />
                     </div>
-                    <div style={{ marginTop: "25px", textAlignLast: "center" }}>
+
+                    <div
+                        style={{
+                            marginTop: "25px",
+                        }}
+                    >
                         <h1 className="bc-text-center bc-cibsans-font-style-9-extralight bc-mt-4 bc-fs-xs">
                             Sucursal Virtual Personas
                         </h1>

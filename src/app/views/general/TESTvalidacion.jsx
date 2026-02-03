@@ -69,7 +69,11 @@ export default function TESTvalidacion() {
             }}>
 
                 {/* Título Superior */}
-                <div style={{ marginTop: "40px", marginBottom: "20px" }}>
+                <div
+                    style={{
+                        marginTop: "25px",
+                    }}
+                >
                     <h1 className="bc-text-center bc-cibsans-font-style-9-extralight bc-mt-4 bc-fs-xs">
                         Sucursal Virtual Personas
                     </h1>
