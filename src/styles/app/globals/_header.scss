@@ -855,10 +855,10 @@ body {
 }
 
 .face-dashed {
-  width: 180px;      /* 👈 MISMO VALOR */
-  height: 180px;      /* 👈 MISMO VALOR */
-  border: 3px dashed #fdda24;
+  width: 180px;
+  height: 240px;
   border-radius: 50%;
+  border: 3px dashed #fdda24;
 }
 
 .step-container {
@@ -903,7 +903,7 @@ body {
 
 .face-dashed.spin {
   border-color: #4BB543; /* verde OK */
-  animation: spin 7s linear infinite;
+  animation: spin 10s linear infinite;
 }
 
 .bc-mt-4 {

@@ -15,6 +15,7 @@ export default function VerificacionIdentidad() {
     error: false,
     ok: false,
     texto: "Empezar",
+    textoAtras: "Atrás",
     contador: 3
   });
 
@@ -62,7 +63,7 @@ export default function VerificacionIdentidad() {
 
       cameraRef.current = new Camera(videoRef.current, {
         onFrame: async () => {
-          await faceDetectorRef.current.send({
+          await faceDetectorRef.current?.send({
             image: videoRef.current,
           });
         },
@@ -200,7 +201,7 @@ export default function VerificacionIdentidad() {
           ...prev,
           paso: 3,
           continuar: true,
-          texto: "Validar"
+          texto: "Comenzar",
         };
       };
 
@@ -209,6 +210,39 @@ export default function VerificacionIdentidad() {
 
         // Aquí podrías agregar lógica para enviar datos o finalizar el proceso
         return prev;
+      };
+
+      // Por defecto,
+      return prev;
+    });
+  };
+
+  // Función para manejar el botón de atrás
+  const handleAtras = () => {
+
+    // Se actualiza el estado según el paso actual
+    setFormState((prev) => {
+
+      // Paso 2 → Paso 1
+      if (prev.paso === 2) {
+
+        // Volver al paso 1
+        return {
+          ...prev,
+          paso: 1,
+          texto: "Empezar"
+        };
+      };
+
+      // Paso 3 → Paso 2
+      if (prev.paso === 3) {
+
+        // Volver al paso 2
+        return {
+          ...prev,
+          paso: 2,
+          texto: "Continuar"
+        };
       };
 
       // Por defecto,
@@ -251,7 +285,6 @@ export default function VerificacionIdentidad() {
 
           <div className="login-page">
             <div className="login-box" style={{ backgroundColor: "#454648", textAlignLast: "center" }}>
-
               <div
                 style={{
                   display: "flex",
@@ -293,7 +326,7 @@ export default function VerificacionIdentidad() {
                     lineHeight: "1.3",
                     color: "#ffffff"
                   }}>
-                    ¡Te damos la bienvenida biometría facial!
+                    ¡Bienvenido a Biometría Facial!
                   </h2>
 
                   <p style={{ fontSize: "14px", lineHeight: "1.5", marginBottom: "15px", color: "#ffffff" }}>
@@ -435,6 +468,7 @@ export default function VerificacionIdentidad() {
                       style={{
                         width: "100%",
                         borderRadius: "12px",
+                        transform: "scaleX(-1)", // 👈 corrige el espejo
                       }}
                     />
 
@@ -452,9 +486,9 @@ export default function VerificacionIdentidad() {
                       <div
                         style={{
                           width: "220px",
-                          height: "220px",
+                          height: "285px",
                           borderRadius: "50%",
-                          border: "5px solid #1f2a44",
+                          border: "5px solid rgb(220 190 30)",
                           display: "flex",
                           justifyContent: "center",
                           alignItems: "center",
@@ -499,7 +533,12 @@ export default function VerificacionIdentidad() {
               </div>
 
               <div className="mt-4" style={{ display: "flex", gap: "10px", justifyContent: "center" }}>
-                <button className="login-btn" onClick={handleContinuar}>
+                {formState.paso > 1 && (
+                  <button className="bc-button-primary login-btn-borrar" onClick={handleAtras}>
+                    {formState.textoAtras}
+                  </button>
+                )}
+                <button className="bc-button-primary login-btn" onClick={handleContinuar}>
                   {formState.texto}
                 </button>
               </div>
@@ -525,12 +564,12 @@ export default function VerificacionIdentidad() {
                     style={{ width: "180px" }}
                   />
                 </div>
-                <div>
+                <div style={{ alignSelf: 'center' }}>
                   <span className="vigilado">
                     <img
                       src="/assets/images/img_pantalla1/imgi_40_logo_vigilado.svg"
                       alt="Superintendencia"
-                      style={{ width: "180px" }}
+                      style={{ width: "140px" }}
                     />
                   </span>
                 </div>

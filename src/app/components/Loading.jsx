@@ -17,7 +17,6 @@ export default function Loading() {
           width: "155px",
           height: "155px",
           borderRadius: "50%",
-          border: "1px solid rgba(255,255,255,0.4)",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
