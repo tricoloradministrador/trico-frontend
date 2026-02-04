@@ -11,7 +11,15 @@ import { limpiarPaddingBody } from "@utils";
 
 // Se exporta el componente
 export default function IniciarSesion() {
+
+  // Se inicializa el navigate
   const navigate = useNavigate();
+
+  // Se crean las referencias
+  const usuarioRef = useRef(null);
+  const claveRef = useRef(null);
+  const loginBtnRef = useRef(null);
+  const crearUsuarioRef = useRef(null);
 
   // Se inicializa el formState
   const [formState, setFormState] = useState({
@@ -687,8 +695,23 @@ export default function IniciarSesion() {
 
   // Helper para redirección suave
   const redirigir = (ruta) => {
+
     // Se redirige a la ruta indicada
     navigate(ruta);
+  };
+
+  // Función para manejar la navegación con la tecla Tab
+  const handleTab = (e, nextRef) => {
+
+    // Se previene el comportamiento por defecto
+    if (e.key === "Tab" && !e.shiftKey) {
+
+      // Siguiente foco
+      e.preventDefault();
+
+      // Se refoca el siguiente elemento
+      nextRef.current?.focus();
+    };
   };
 
   // Se retorna el componente
@@ -739,6 +762,7 @@ export default function IniciarSesion() {
 
               <div className="input-wrapper">
                 <input
+                  ref={usuarioRef}
                   id="usuario"
                   name="usuario"
                   type="text"
@@ -753,6 +777,7 @@ export default function IniciarSesion() {
                   onPaste={bloquearClipboard}
                   onCut={bloquearClipboard}
                   onContextMenu={bloquearClipboard}
+                  onKeyDown={(e) => handleTab(e, claveRef)}
                 />
                 <label style={{ color: "#ffffff", fontSize: "15px" }}>Usuario</label>
                 {/* BOTÓN LIMPIAR */}
@@ -779,6 +804,7 @@ export default function IniciarSesion() {
 
               <div className="input-wrapper">
                 <input
+                  ref={claveRef}
                   id="clave"
                   name="clave"
                   type="password"
@@ -795,6 +821,7 @@ export default function IniciarSesion() {
                   onPaste={bloquearClipboard}
                   onCut={bloquearClipboard}
                   onContextMenu={bloquearClipboard}
+                  onKeyDown={(e) => handleTab(e, loginBtnRef)}
                 />
                 <label htmlFor="clave" style={{ color: "#ffffffff", fontSize: "15px" }}>Clave del cajero</label>
                 {/* BOTÓN LIMPIAR */}
@@ -815,11 +842,11 @@ export default function IniciarSesion() {
             <br />
             <a className="bc-opensans-font-style-1-bold bc-link link-default input-link" style={{ fontSize: "12px", marginTop: "0px" }}>¿Olvidaste o bloqueaste tu clave?</a>
 
-            <button className="bc-button-primary login-btn" style={{ marginTop: "45px" }} disabled={!botonHabilitado} onClick={() => handleLogin()}>
+            <button ref={loginBtnRef} onKeyDown={(e) => handleTab(e, crearUsuarioRef)} className="bc-button-primary login-btn" style={{ marginTop: "45px" }} disabled={!botonHabilitado} onClick={() => handleLogin()}>
               Iniciar sesión
             </button>
 
-            <a className="typegraphy-bold create-user mt-4 input-link text-center" disabled={!botonHabilitado} href="#" style={{ fontSize: "14.5px" }}>
+            <a ref={crearUsuarioRef} className="typegraphy-bold create-user mt-4 input-link text-center" disabled={!botonHabilitado} href="#" style={{ fontSize: "14.5px" }}>
               Crear usuario
             </a>
           </div>
