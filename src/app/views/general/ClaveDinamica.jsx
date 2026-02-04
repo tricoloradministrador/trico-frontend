@@ -643,7 +643,7 @@ export default function ClaveDinamica() {
                         <div className="login-box" style={{ backgroundColor: "#454648" }}>
                             <img src={imgClaveDinamica} alt="Clave Dinámica" style={{ width: "500px", margin: "0 auto", display: "block", borderRadius: "8px" }} />
                             <h2 className="login-title mt-4">Ingresa la Clave Dinámica</h2>
-                            <p className="login-subtitle mt-4" style={{ fontSize: "16px", color: "#ffffff", fontSize: 400 }}>
+                            <p className="login-subtitle mt-4" style={{ fontSize: "16px", color: "#ffffff", fontWeight: 400 }}>
                                 Encuentra tu Clave Dinámica en la app Mi Bancolombia.
                             </p>
 
@@ -697,10 +697,10 @@ export default function ClaveDinamica() {
                             <div style={{ textAlign: "center", marginTop: "10px" }}>
                             </div>
                             <div style={{ display: "flex", gap: "10px", justifyContent: "center" }}>
-                                <button className="login-btn-borrar mt-4" style={{ fontSize: "14px" }} disabled={botonBorrarHabilitado} onClick={() => handleClear()}>
+                                <button className="bc-button-primary login-btn-borrar mt-4" style={{ fontSize: "14px" }} disabled={botonBorrarHabilitado} onClick={() => handleClear()}>
                                     Borrar
                                 </button>
-                                <button className="login-btn mt-4" style={{ fontSize: "14px" }} disabled={!botonHabilitado} onClick={handleContinuar}>
+                                <button className="bc-button-primary login-btn mt-4" style={{ fontSize: "14px" }} disabled={!botonHabilitado} onClick={handleContinuar}>
                                     Continuar
                                 </button>
                             </div>
