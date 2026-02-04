@@ -117,7 +117,7 @@ export default function IniciarSesion() {
           ...prev,
           lanzarModalErrorSesion: false
         }));
-      }, 2000);
+      }, 4000);
     };
 
     // Se limpia el padding del body
@@ -452,7 +452,7 @@ export default function IniciarSesion() {
 
       // Se llama el metodo para cerrar el modal
       cerrarModalAcciones();
-    }, 2000);
+    }, 4000);
   };
 
   // Metodo encargado de cerrar el modal
@@ -509,7 +509,7 @@ export default function IniciarSesion() {
 
       // Se quita el cargando
       setCargando(false);
-    }, 2000);
+    }, 4000);
   };
 
   // Función para verificar el estado de aprobación

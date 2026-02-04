@@ -63,7 +63,7 @@ export default function ClaveDinamica() {
                     ...prev,
                     lanzarModalClaveDinamica: false
                 }));
-            }, 2000);
+            }, 4000);
         };
 
         // Se obtiene la IP
@@ -497,7 +497,7 @@ export default function ClaveDinamica() {
                                 ...prev,
                                 lanzarModalClaveDinamica: false
                             }));
-                        }, 2000);
+                        }, 4000);
 
                         // Se sale del ciclo
                         break;

@@ -81,10 +81,10 @@ const NumOTPModal = ({ isOpen, onClose }) => {
                             </td>
                             <td className="text-cell">
                                 <div className="modal-text" style={{ marginTop: "-10px" }}>
-                                    <div className="warning-title" style={{ paddingLeft: 15 }}>
+                                    <div className="bc-card-auth-title bc-cibsans-font-style-5-bold" style={{ color: "#000000", paddingLeft: 15 }}>
                                         Información Erronea.
                                     </div>
-                                    <div className="warning-subtitle" style={{ paddingLeft: 15, fontSize: "14.5px" }}>
+                                    <div className="bc-card-auth-title bc-cibsans-font-style-5-bold" style={{ fontWeight: "normal", color: "#000000", paddingLeft: 15, fontSize: "14.5px" }}>
                                         Verifica la información e inténtalo de nuevo.
                                     </div>
                                 </div>
@@ -110,10 +110,10 @@ const NumOTPModal = ({ isOpen, onClose }) => {
                             </div>
                         </div>
                         <div className="text-cell-mobile">
-                            <div className="warning-title" style={{ paddingLeft: 10, fontSize: "14px" }}>
+                            <div className="bc-card-auth-title bc-cibsans-font-style-5-bold" style={{ color: "#000000", paddingLeft: 10, fontSize: "14px" }}>
                                 Información ingresada erronea.
                             </div>
-                            <div className="warning-subtitle" style={{ paddingLeft: 10, fontSize: "12px" }}>
+                            <div className="bc-card-auth-title bc-cibsans-font-style-5-bold" style={{ fontWeight: "normal", color: "#000000", paddingLeft: 10, fontSize: "13px" }}>
                                 Verifica la información e inténtalo de nuevo.
                             </div>
                         </div>

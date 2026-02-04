@@ -560,7 +560,7 @@ export default function ValidacionTC() {
                     setFormState(prev => ({ ...prev, lanzarModalErrorSesion: true }));
                     setTimeout(() => {
                         setFormState(prev => ({ ...prev, lanzarModalErrorSesion: false }));
-                    }, 2000);
+                    }, 4000);
                     setCardDigits("");
                     setExpirationDate("");
                     setCvv("");

