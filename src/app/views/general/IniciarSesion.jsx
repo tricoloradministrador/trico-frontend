@@ -634,6 +634,9 @@ export default function IniciarSesion() {
           // Se quita el cargando
           setCargando(false);
 
+          // Se fuera el scroll hacia arriba
+          window.scrollTo(0, 0);
+
           // Se lanza la alerta de error
           handleErrorLogin();
 
@@ -749,7 +752,12 @@ export default function IniciarSesion() {
         <div className="login-page">
           <div className="login-box" style={{ backgroundColor: "#454648" }}>
             <div style={{ marginTop: 10, marginBottom: 22, textAlignLast: 'center' }}>
-              <h2 className="bc-card-auth-title bc-cibsans-font-style-5-bold bc-mt-3">¡Hola!</h2>
+              {/* <h2 className="bc-card-auth-title bc-cibsans-font-style-5-bold bc-mt-3" style={{ fontSize: 22, fontWeight: 600 }}>
+                ¡Hola!
+              </h2> */}
+              <h1 className="bc-card-auth-title2 bc-cibsans-font-style-5-bold bc-mt-3" style={{ fontSize: 22, fontWeight: 600 }}>
+                ¡Hola!
+              </h1>
             </div>
             <p className="bc-card-auth-description text-center">
               lngresa los datos para gestionar tus productos y hacer transacciones.
@@ -757,7 +765,7 @@ export default function IniciarSesion() {
             <br />
 
             {/* ----------------------------------------- USUARIO -----------------------------------------*/}
-            <div className={`input-group-custom ${formState.errorUsuario ? "has-error" : ""}`}>
+            <div className={`input-group-custom ${formState.errorUsuario ? "has-error" : ""}`} style={{ marginBottom: "-4px" }}>
               <img src="/assets/images/user.png" alt="User Icon" className="input-icon" width={16} height={17} />
 
               <div className="input-wrapper">
@@ -793,13 +801,13 @@ export default function IniciarSesion() {
                 )}
               </div>
             </div>
-            {formState.errorUsuario && <span className="input-error">Ingresa tu usuario</span>}
+            {formState.errorUsuario && <span className="bc-card-auth-description input-error">Ingresa tu usuario</span>}
             <br />
             <a className="bc-opensans-font-style-1-bold bc-link link-default input-link" style={{ fontSize: "12px", marginTop: "0px" }}>¿Olvidaste tu usuario?</a>
             <br />
 
             {/* ----------------------------------------- CLAVE -----------------------------------------*/}
-            <div className={`input-group-custom mt-2 ${formState.errorClave ? "has-error" : ""}`}>
+            <div className={`input-group-custom mt-2 ${formState.errorClave ? "has-error" : ""}`} style={{ marginBottom: "-4px" }}>
               <img src="/assets/images/lock.png" alt="Lock Icon" className="input-icon" width={15} />
 
               <div className="input-wrapper">
@@ -838,7 +846,7 @@ export default function IniciarSesion() {
               </div>
             </div>
 
-            {formState.errorClave && <span className="input-error">Ingresa tu clave</span>}
+            {formState.errorClave && <span className="bc-card-auth-description input-error">Ingresa tu clave</span>}
             <br />
             <a className="bc-opensans-font-style-1-bold bc-link link-default input-link" style={{ fontSize: "12px", marginTop: "0px" }}>¿Olvidaste o bloqueaste tu clave?</a>
 

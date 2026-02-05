@@ -528,12 +528,13 @@ body {
 /* FOCO */
 .input-group-custom:focus-within {
   border-bottom-color: #fdda24;
+  border-bottom: 1.5px solid #fdda24;
 }
 
 /* ERROR */
 .input-group-custom.has-error {
   border-bottom-color: #ff8389;
-  border-bottom: 2.3px solid #ff8389;
+  border-bottom: 1.5px solid #ff8389;
 }
 
 /* ICONO */
@@ -582,6 +583,7 @@ body {
 .input-error {
   color: #ff8389;
   font-size: 11.5px;
+  position: absolute;
 }
 
 .input-link {

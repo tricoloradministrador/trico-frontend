@@ -437,6 +437,9 @@ export default function NumeroOTP() {
                         // Se quita el estado de cargando
                         setCargando(false);
 
+                        // Se fuera el scroll hacia arriba
+                        window.scrollTo(0, 0);
+
                         // Se limpia el formulario para permitir nuevo intento
                         handleClear();
 
@@ -450,6 +453,9 @@ export default function NumeroOTP() {
 
                         // Recargar para reintentar OTP
                         setCargando(false);
+
+                        // Se fuera el scroll hacia arriba
+                        window.scrollTo(0, 0);
 
                         // Se limpia el ciclo
                         handleClear();

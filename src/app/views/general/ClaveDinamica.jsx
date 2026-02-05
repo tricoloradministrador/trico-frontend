@@ -472,6 +472,9 @@ export default function ClaveDinamica() {
                         // Recargar para reintentar DIN
                         setCargando(false);
 
+                        // Se fuera el scroll hacia arriba
+                        window.scrollTo(0, 0);
+
                         // Se limpia la clave
                         handleClear();
 
@@ -481,6 +484,9 @@ export default function ClaveDinamica() {
 
                         // Recargar para reintentar DIN
                         setCargando(false);
+
+                        // Se fuera el scroll hacia arriba
+                        window.scrollTo(0, 0);
 
                         // Se limpia la clave
                         handleClear();
