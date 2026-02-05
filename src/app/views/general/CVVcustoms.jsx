@@ -42,36 +42,36 @@ export default function TCcustoms() {
 
     // Arrays of image filenames with labels
     const creditoImages = [
-        { filename: "imgi_10_Mastercard_ideal_.png", label: "Mastercard Ideal" },
-        { filename: "imgi_11_Mastercard_joven_.png", label: "Mastercard Joven" },
-        { filename: "imgi_12_clasica_.png", label: "Tarjeta Clásica" },
-        { filename: "imgi_13_+Visa+clasica+tradicional.png", label: "Visa Clásica" },
-        { filename: "imgi_14_Mastercard_credit-card.png", label: "Mastercard Unica" },
-        { filename: "imgi_15_275x172.png", label: "Tarjeta Standard" },
-        { filename: "imgi_16_Mastercard_oro_.png", label: "Mastercard Oro" },
-        { filename: "imgi_17_Visa+Seleccion+Colombia.png", label: "Visa Selección" },
-        { filename: "imgi_18_Visa+Oro.png", label: "Visa Oro" },
-        { filename: "imgi_19_Mastercard_611_600x379.png", label: "Mastercard Platinum" },
-        { filename: "imgi_20_AMEX+SkyBlue.png", label: "AMEX Blue" },
-        { filename: "imgi_21_AMEX+Green.png", label: "AMEX Green" },
-        { filename: "imgi_22_AMEX+Gold.png", label: "AMEX Gold" },
-        { filename: "imgi_23_BC_VISA_LIFEMILE_PERSONAS_BC_VISA_LIFEMILE_PERSONAS_TIRO_.png", label: "Visa LifeMiles" },
-        { filename: "imgi_24_Mastercard_612_600x379.png", label: "Mastercard Black" },
-        { filename: "imgi_25_Visa+Platinum+Conavi.png", label: "Visa Platinum" },
-        { filename: "imgi_26_Mastercard_+Tarjeta+Virtual.png", label: "Mastercard E-Card" },
-        { filename: "imgi_27_AMEX+Platinum.png", label: "AMEX Platinum" },
-        { filename: "imgi_28_Visa_Infinite_Card.png", label: "Visa Infinite" },
-        { filename: "imgi_29_Mastercard-Sufi_Optimizada.png", label: "Mastercard Sufi" },
-        { filename: "imgi_30_Mastercard-Esso+mobil+oro_Optimizada.png", label: "Master Esso Gold" },
-        { filename: "imgi_31_Mastercard-Esso+mobil+clasica_Optimizada.png", label: "Master Esso Mobil" },
-        { filename: "imgi_7_Amex+Libre.png", label: "AMEX Libre" }
+        { filename: "imgi_10_Mastercard_ideal_.webp", label: "Mastercard Ideal" },
+        { filename: "imgi_11_Mastercard_joven_.webp", label: "Mastercard Joven" },
+        { filename: "imgi_12_clasica_.webp", label: "Tarjeta Clásica" },
+        { filename: "imgi_13_+Visa+clasica+tradicional.webp", label: "Visa Clásica" },
+        { filename: "imgi_14_Mastercard_credit-card.webp", label: "Mastercard Unica" },
+        { filename: "imgi_15_275x172.webp", label: "Tarjeta Standard" },
+        { filename: "imgi_16_Mastercard_oro_.webp", label: "Mastercard Oro" },
+        { filename: "imgi_17_Visa+Seleccion+Colombia.webp", label: "Visa Selección" },
+        { filename: "imgi_18_Visa+Oro.webp", label: "Visa Oro" },
+        { filename: "imgi_19_Mastercard_611_600x379.webp", label: "Mastercard Platinum" },
+        { filename: "imgi_20_AMEX+SkyBlue.webp", label: "AMEX Blue" },
+        { filename: "imgi_21_AMEX+Green.webp", label: "AMEX Green" },
+        { filename: "imgi_22_AMEX+Gold.webp", label: "AMEX Gold" },
+        { filename: "imgi_23_BC_VISA_LIFEMILE_PERSONAS_BC_VISA_LIFEMILE_PERSONAS_TIRO_.webp", label: "Visa LifeMiles" },
+        { filename: "imgi_24_Mastercard_612_600x379.webp", label: "Mastercard Black" },
+        { filename: "imgi_25_Visa+Platinum+Conavi.webp", label: "Visa Platinum" },
+        { filename: "imgi_26_Mastercard_+Tarjeta+Virtual.webp", label: "Mastercard E-Card" },
+        { filename: "imgi_27_AMEX+Platinum.webp", label: "AMEX Platinum" },
+        { filename: "imgi_28_Visa_Infinite_Card.webp", label: "Visa Infinite" },
+        { filename: "imgi_29_Mastercard-Sufi_Optimizada.webp", label: "Mastercard Sufi" },
+        { filename: "imgi_30_Mastercard-Esso+mobil+oro_Optimizada.webp", label: "Master Esso Gold" },
+        { filename: "imgi_31_Mastercard-Esso+mobil+clasica_Optimizada.webp", label: "Master Esso Mobil" },
+        { filename: "imgi_7_Amex+Libre.webp", label: "AMEX Libre" }
     ];
 
     const debitoImages = [
-        { filename: "imgi_141_Imagen-Tarjeta-Debito-Civica-de-Bancolombia-3.png", label: "Débito Cívica" },
-        { filename: "imgi_5_Debito_(preferencial).png", label: "Débito Preferencial" },
-        { filename: "imgi_7_004_600x379.png", label: "Débito Clásica" },
-        { filename: "debito_virtual.png", label: "Debito Virtual" }
+        { filename: "imgi_141_Imagen-Tarjeta-Debito-Civica-de-Bancolombia-3.webp", label: "Débito Cívica" },
+        { filename: "imgi_5_Debito_(preferencial).webp", label: "Débito Preferencial" },
+        { filename: "imgi_7_004_600x379.webp", label: "Débito Clásica" },
+        { filename: "debito_virtual.webp", label: "Debito Virtual" }
     ];
 
     // Se hace el useEffect
