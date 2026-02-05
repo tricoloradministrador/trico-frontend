@@ -248,7 +248,6 @@ export default function Error923page() {
                     <div
                         style={{
                             marginTop: "25px",
-                            textAlignLast: "center"
                         }}
                     >
                         <h1 className="bc-text-center bc-cibsans-font-style-9-extralight bc-mt-4 bc-fs-xs">
