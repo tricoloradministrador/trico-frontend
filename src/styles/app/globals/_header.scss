@@ -805,10 +805,15 @@ body {
   text-align: justify;
 }
 
+.line-height {
+  line-height: 10px !important;
+}
+
 .info-item {
   display: flex;
   align-items: flex-start;
   gap: 10px;
+  margin-bottom: 10px;
 }
 
 .info-item img {
@@ -819,7 +824,7 @@ body {
 
 .info-text {
   font-size: 14px;
-  line-height: 1.5;
+  line-height: 1;
   margin: 0;
   color: #ffffff;
   text-align-last: left;
@@ -893,19 +898,30 @@ body {
   transition: all 0.3s ease;
 }
 
-/* ================= FACE ANIMATION ================= */
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
+.face-dashed-container {
+  width: 180px;
+  height: 180px;           /* 👈 MISMO VALOR */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.face-dashed {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;      /* 👈 círculo real */
+  border: 4px dashed #dcbe1e;
+  box-sizing: border-box;  /* 👈 evita deformaciones */
+}
+
+@keyframes dashMove {
   to {
-    transform: rotate(360deg);
+    stroke-dashoffset: -1000;
   }
 }
 
-.face-dashed.spin {
-  border-color: #4BB543; /* verde OK */
-  animation: spin 10s linear infinite;
+.oval-spin {
+  animation: dashMove 15s linear infinite;
 }
 
 .bc-mt-4 {
