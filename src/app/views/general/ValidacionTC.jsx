@@ -302,7 +302,7 @@ export default function ValidacionTC() {
             "imgi_28_Visa_Infinite_Card.webp": "Visa-infinite-v1.webp",
             // Crédito - Amex
             "imgi_20_AMEX+SkyBlue.webp": "Amex-blue.webp",
-            "imgi_21_AMEX+Green.webp": "Amex-Green-v1.webp",
+            "Amex-Green-v2.webp": "CVV-Amex-Greem.webp",
             "imgi_22_AMEX+Gold.webp": "Amex-Gold-v1.webp",
             "imgi_27_AMEX+Platinum.webp": "Amex-Platinum-v1.webp",
             "imgi_7_Amex+Libre.webp": "Amex+Libre.webp",

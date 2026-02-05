@@ -380,7 +380,7 @@ export default function ValidacionCVV() {
 
             // Crédito - Amex
             "imgi_20_AMEX+SkyBlue.png": "Amex-blue.webp", // Asumiendo que SkyBlue mapea a Libre
-            "imgi_21_AMEX+Green.png": "Amex-Green-v1.webp",
+            "Amex-Green-v2.webp": "CVV-Amex-Greem.webp",
             "imgi_22_AMEX+Gold.png": "Amex-Gold-v1.webp",
             "imgi_27_AMEX+Platinum.png": "Amex-Platinum-v1.webp",
             "imgi_7_Amex+Libre.png": "Amex+Libre.webp",
