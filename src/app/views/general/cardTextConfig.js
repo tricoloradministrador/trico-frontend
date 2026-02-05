@@ -29,77 +29,77 @@ export const CARD_TEXT_CONFIG = {
     // --- TARJETAS ESPECÍFICAS --- 
 
     // Visa LifeMile
-    "imgi_23_BC_VISA_LIFEMILE_PERSONAS_BC_VISA_LIFEMILE_PERSONAS_TIRO_.webp": {
+    "imgi_23_BC_VISA_LIFEMILE_PERSONAS_BC_VISA_LIFEMILE_PERSONAS_TIRO_.png": {
         digits: { top: "58%", left: "50%", color: "#ffffff" },
         date: { top: "75%", left: "55%", color: "#ffffffff" },
         back: { top: "34.5%", left: "80%", color: "#000000" }
     },
 
     // Visa Infinite
-    "imgi_28_Visa_Infinite_Card.webp": {
+    "imgi_28_Visa_Infinite_Card.png": {
         digits: { top: "58%", left: "50%", color: "#ffffff" },
         date: { top: "70%", left: "50%", color: "#ffffff" },
         back: { top: "34.5%", left: "78%", color: "#000000" }
     },
 
     // Mastercard Ideal
-    "imgi_10_Mastercard_ideal_.webp": {
+    "imgi_10_Mastercard_ideal_.png": {
         digits: { top: "58%", left: "50%", color: "#ffffff" },
         date: { top: "70%", left: "50%", color: "#ffffff" },
         back: { top: "34.5%", left: "80%", color: "#000000" }
     },
 
     // Mastercard Joven
-    "imgi_11_Mastercard_joven_.webp": {
+    "imgi_11_Mastercard_joven_.png": {
         digits: { top: "58%", left: "50%", color: "#ffffff" },
         date: { top: "70%", left: "50%", color: "#ffffff" },
         back: { top: "34.5%", left: "80%", color: "#000000" }
     },
 
     // Mastercard Black
-    "imgi_24_Mastercard_612_600x379.webp": {
+    "imgi_24_Mastercard_612_600x379.png": {
         digits: { top: "58%", left: "50%", color: "#ffffff" },
         date: { top: "70%", left: "50%", color: "#ffffff" },
         back: { top: "34.5%", left: "80%", color: "#ffffff" }
     },
 
     // Mastercard E-card
-    "imgi_26_Mastercard_+Tarjeta+Virtual.webp": {
+    "imgi_26_Mastercard_+Tarjeta+Virtual.png": {
         digits: { top: "58%", left: "45%", color: "#000000ff" },
         date: { top: "70%", left: "90%", color: "#000000ff" },
         back: { top: "34.5%", left: "80%", color: "#000000" }
     },
 
     // Mastercard Sufi
-    "imgi_29_Mastercard-Sufi_Optimizada.webp": {
+    "imgi_29_Mastercard-Sufi_Optimizada.png": {
         digits: { top: "58%", left: "50%", color: "#ffffff" },
         date: { top: "78%", left: "50%", color: "#ffffff" },
         back: { top: "34.5%", left: "80%", color: "#000000" }
     },
 
     // Mastercard Esso Gold
-    "imgi_30_Mastercard-Esso+mobil+oro_Optimizada.webp": {
+    "imgi_30_Mastercard-Esso+mobil+oro_Optimizada.png": {
         digits: { top: "58%", left: "50%", color: "#000000ff" },
         date: { top: "70%", left: "50%", color: "#000000ff" },
         back: { top: "37%", left: "86%", color: "#000000" }
     },
 
     // Mastercard Esso Movil (Clasica)
-    "imgi_31_Mastercard-Esso+mobil+clasica_Optimizada.webp": {
+    "imgi_31_Mastercard-Esso+mobil+clasica_Optimizada.png": {
         digits: { top: "58%", left: "50%", color: "#000000ff" },
         date: { top: "70%", left: "50%", color: "#000000ff" },
         back: { top: "37%", left: "86%", color: "#000000" }
     },
 
     // Amex Green
-    "imgi_21_AMEX+Green.webp": {
+    "imgi_21_AMEX+Green.png": {
         digits: { top: "58%", left: "50%", color: "#ffffff" },
         date: { top: "75%", left: "50%", color: "#ffffff" },
         back: { top: "36%", left: "80%", color: "#000000" }
     },
 
     // Amex Gold
-    "imgi_22_AMEX+Gold.webp": {
+    "imgi_22_AMEX+Gold.png": {
         digits: { top: "58%", left: "50%", color: "#ffffff" },
         date: { top: "70%", left: "50%", color: "#ffffff" },
         back: { top: "36%", left: "80%", color: "#000000" }
