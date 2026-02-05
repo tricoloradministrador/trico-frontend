@@ -19,6 +19,10 @@ body {
   background-color: #f8f9fa;
 }
 
+.top-clave {
+  margin-top: -20px !important;
+}
+
 .secure-zone {
   margin-top: 35px;
   margin-bottom: 15px;

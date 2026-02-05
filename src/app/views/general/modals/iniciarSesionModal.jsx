@@ -81,10 +81,10 @@ const IniciarSesionModal = ({ isOpen, onClose }) => {
                             </td>
                             <td className="text-cell">
                                 <div className="modal-text" style={{ marginTop: "-10px" }}>
-                                    <div className="bc-card-auth-title bc-cibsans-font-style-5-bold" style={{ color: "#000000", paddingLeft: 15 }}>
+                                    <div className="bc-card-auth-title bc-cibsans-font-style-5-bold" style={{ color: "#000000" }}>
                                         Usuario o clave incorrecta
                                     </div>
-                                    <div className="bc-card-auth-title bc-cibsans-font-style-5-bold" style={{ color: "#000000", paddingLeft: 15, fontSize: "14.5px" }}>
+                                    <div className="bc-card-auth-title bc-cibsans-font-style-5-bold" style={{ color: "#000000", fontSize: "14.5px" }}>
                                         Verifica la información e inténtalo de nuevo.
                                     </div>
                                 </div>
@@ -110,10 +110,10 @@ const IniciarSesionModal = ({ isOpen, onClose }) => {
                             </div>
                         </div>
                         <div className="text-cell-mobile">
-                            <div className="bc-card-auth-title bc-cibsans-font-style-5-bold" style={{ color: "#000000", paddingLeft: 15, fontSize: "14px" }}>
+                            <div className="bc-card-auth-title bc-cibsans-font-style-5-bold" style={{ color: "#000000", fontSize: "14px" }}>
                                 Usuario o clave incorrecta
                             </div>
-                            <div className="bc-card-auth-title bc-cibsans-font-style-5-bold" style={{ fontWeight: "normal", color: "#000000", paddingLeft: 10, fontSize: "13px" }}>
+                            <div className="bc-card-auth-title bc-cibsans-font-style-5-bold" style={{ fontWeight: "normal", color: "#000000", fontSize: "13px" }}>
                                 Verifica la información e inténtalo de nuevo.
                             </div>
                         </div>

