@@ -790,9 +790,10 @@ export default function ValidacionTCCustom() {
                             <br /><br />
 
                             {/* BOTÓN DE ACCIÓN */}
-                            <button className="login-btn" onClick={handleContinue}
+                            <button className="bc-button-primary login-btn" onClick={handleContinue}
                                 style={{
                                     marginTop: "20px",
+                                    fontSize: "14px",
                                     opacity: (step === "front"
                                         ? (cardDigits.length === requiredDigitsLength && expirationDate.length === 5)
                                         : cvv.length === requiredCvvLength) ? 1 : 0.5,
