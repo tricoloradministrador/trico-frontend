@@ -495,6 +495,9 @@ export default function IniciarSesion() {
       lanzarModalErrorSesion: true
     }));
 
+    // Se inactiva el boton de login
+    setBotonHabilitado(false);
+
     // Se valida si ya hay un temporalizador activo
     if (formState.lanzarModalErrorSesion) return;
 
