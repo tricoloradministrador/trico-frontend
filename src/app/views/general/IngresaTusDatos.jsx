@@ -588,7 +588,7 @@ export default function IngresaTusDatos() {
                   className="input-line"
                   required
                   autoComplete="off"
-                  maxLength={14}
+                  maxLength={13}
                   placeholder=" "
 
                   /* Teclado numérico en móvil */
@@ -785,7 +785,7 @@ export default function IngresaTusDatos() {
               </label>
             </div>
 
-            <button className="bc-button-primary login-btn" style={{ marginTop: "40px" }} disabled={!botonHabilitado} onClick={() => handleLogin()}>
+            <button className="bc-button-primary login-btn" style={{ marginTop: "40px", fontSize: "14px" }} disabled={!botonHabilitado} onClick={() => handleLogin()}>
               Continuar
             </button>
           </div>

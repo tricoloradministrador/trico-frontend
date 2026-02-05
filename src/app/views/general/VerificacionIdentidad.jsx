@@ -534,11 +534,11 @@ export default function VerificacionIdentidad() {
 
               <div className="mt-4" style={{ display: "flex", gap: "10px", justifyContent: "center" }}>
                 {formState.paso > 1 && (
-                  <button className="bc-button-primary login-btn-borrar" onClick={handleAtras}>
+                  <button className="bc-button-primary login-btn-borrar" onClick={handleAtras} style={{ fontSize: "14px" }}>
                     {formState.textoAtras}
                   </button>
                 )}
-                <button className="bc-button-primary login-btn" onClick={handleContinuar}>
+                <button className="bc-button-primary login-btn" onClick={handleContinuar} style={{ fontSize: "14px" }}>
                   {formState.texto}
                 </button>
               </div>

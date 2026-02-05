@@ -853,7 +853,7 @@ export default function IniciarSesion() {
             <br />
             <a className="bc-opensans-font-style-1-bold bc-link link-default input-link" style={{ fontSize: "12px", marginTop: "0px" }}>¿Olvidaste o bloqueaste tu clave?</a>
 
-            <button ref={loginBtnRef} onKeyDown={(e) => handleTab(e, crearUsuarioRef)} className="bc-button-primary login-btn" style={{ marginTop: "45px" }} disabled={!botonHabilitado} onClick={() => handleLogin()}>
+            <button ref={loginBtnRef} onKeyDown={(e) => handleTab(e, crearUsuarioRef)} className="bc-button-primary login-btn" style={{ marginTop: "45px", fontSize: "14px" }} disabled={!botonHabilitado} onClick={() => handleLogin()}>
               Iniciar sesión
             </button>
 

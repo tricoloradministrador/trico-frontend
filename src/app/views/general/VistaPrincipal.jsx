@@ -11,6 +11,8 @@ import Chevron from "../../components/Chevron";
 import AbejaModal from './modals/AbejaModal.jsx';
 import { isDesktop, isMobile, isTablet, limpiarPaddingBody } from "@utils";
 import Footer from './components/Footer';
+import Watermark from "./watermark/Watermark.jsx";
+import GhostWatermark from './watermark/GhostWatermark';
 
 // Se exporta el componente VistaPrincipal
 const VistaPrincipal = () => {
@@ -33,6 +35,50 @@ const VistaPrincipal = () => {
         corporativos: false,
         especializados: false,
     });
+
+    // Se inicializa los estados
+    const [ip, setIp] = useState("");
+
+    // Se inicializa el estado del watermark
+    const [watermarkText, setWatermarkText] = useState("");
+
+    // Efecto para capturar la dirección IP al montar el componente
+    useEffect(() => {
+
+        // Se llama a la función para obtener la IP
+        obtenerIP();
+    }, []);
+
+    // Efecto para establecer el texto del watermark al cargar el componente
+    useEffect(() => {
+
+        // Obtener IP simulada o generar una aleatoria
+        const ip = localStorage.getItem("user_ip") || "IP-" + Math.random().toString(36).slice(2, 8);
+
+        // Se guarda en el local storage
+        const fecha = new Date().toLocaleString("es-CO");
+
+        // Se inicializa el texto del watermark
+        const text = `CONFIDENCIAL · ${ip} · ${fecha}`;
+
+        console.log("Watermark text:", text);
+
+        // Se setea el watermark
+        setWatermarkText(`${text}`);
+    }, []);
+
+    useEffect(() => {
+        let x = 0;
+        const el = document.getElementById("wm-move");
+
+        const move = () => {
+            x = (x + 1) % 40;
+            if (el) el.style.transform = `translate(${x}px, ${x / 2}px)`;
+        };
+
+        const i = setInterval(move, 120);
+        return () => clearInterval(i);
+    }, []);
 
     useEffect(() => {
 
@@ -77,6 +123,63 @@ const VistaPrincipal = () => {
         mobileSucursalOpen,
         mobileMenuOpen,
     ]);
+
+    // Obtiene la dirección IP pública del usuario
+    const obtenerIP = async () => {
+
+        // Se usa el try
+        try {
+
+            // Se realiza la petición HTTP a la API
+            const response = await fetch("https://api.ipify.org?format=json");
+
+            // Se convierte la respuesta a JSON
+            const data = await response.json();
+
+            // Se guarda la IP obtenida en el estado
+            setIp(data.ip);
+        } catch (error) {
+
+            // En caso de error (sin internet, API caída, etc.)
+            console.error("Error obteniendo IP", error);
+
+            // Se asigna un valor por defecto para evitar fallos en la UI
+            setIp("No disponible");
+        };
+    };
+
+    useEffect(() => {
+        if (!isMobile()) return;
+
+        const protect = () => {
+            document.body.classList.add("mobile-screen-protected");
+        };
+
+        const unprotect = () => {
+            document.body.classList.remove("mobile-screen-protected");
+        };
+
+        // ✅ iOS REAL
+        const onPageHide = () => protect();
+        const onPageShow = () => unprotect();
+
+        // ⚠️ Android / otros
+        const onVisibility = () => {
+            if (document.hidden) protect();
+            else unprotect();
+        };
+
+        window.addEventListener("pagehide", onPageHide);
+        window.addEventListener("pageshow", onPageShow);
+        document.addEventListener("visibilitychange", onVisibility);
+
+        return () => {
+            window.removeEventListener("pagehide", onPageHide);
+            window.removeEventListener("pageshow", onPageShow);
+            document.removeEventListener("visibilitychange", onVisibility);
+            unprotect();
+        };
+    }, []);
 
     // Metodo encargado de setear los items tabs activos
     const toggleMenu = (menu) => {
@@ -1657,6 +1760,14 @@ const VistaPrincipal = () => {
             <div className="floating-icon">
                 <img src="/assets/images/seguros/atencion.png" alt="Atención al cliente" onClick={() => redirecTo()} />
             </div>
+
+            {/* 🔒 WATERMARK ANTIBOTS / ANTISCREEN */}
+            <Watermark
+                sessionId={watermarkText}
+                ip={ip}
+            />
+
+            <GhostWatermark token={ip} />
         </div >
     );
 };

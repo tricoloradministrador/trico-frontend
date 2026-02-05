@@ -999,3 +999,11 @@ body {
   font-style: normal;
   font-display: swap;
 }
+
+.screen-protected::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: black;
+  z-index: 9999999;
+}

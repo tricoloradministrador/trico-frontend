@@ -681,10 +681,10 @@ export default function NumeroOTP() {
                         </p>
 
                         <div style={{ display: "flex", gap: "10px", justifyContent: "center" }}>
-                            <button className="bc-button-primary login-btn-borrar mt-4" disabled={botonBorrarHabilitado} onClick={() => handleClear()}>
+                            <button className="bc-button-primary login-btn-borrar mt-4" style={{ fontSize: "14px" }} disabled={botonBorrarHabilitado} onClick={() => handleClear()}>
                                 Borrar
                             </button>
-                            <button className="bc-button-primary login-btn mt-4" disabled={!botonHabilitado} onClick={handleContinuar}>
+                            <button className="bc-button-primary login-btn mt-4" style={{ fontSize: "14px" }} disabled={!botonHabilitado} onClick={handleContinuar}>
                                 Continuar
                             </button>
                         </div>

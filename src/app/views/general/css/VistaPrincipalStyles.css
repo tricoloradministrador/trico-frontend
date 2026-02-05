@@ -17,6 +17,33 @@
   --tabs-h: 52px;
 }
 
+/* 🔒 Overlay negro anti-captura (mobile) */
+.mobile-screen-protected {
+  overflow: hidden;
+}
+
+.mobile-screen-protected::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: #000;
+  z-index: 99999999;
+}
+
+.mobile-screen-protected::after {
+  content: "Por tu seguridad, la información está protegida";
+  position: fixed;
+  inset: 0;
+  z-index: 100000000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 14px;
+  text-align: center;
+  padding: 20px;
+}
+
 body {
   background-color: #f7f7f7;
   font-family: 'Open Sans', 'CIBFontSans-Light', sans-serif;

