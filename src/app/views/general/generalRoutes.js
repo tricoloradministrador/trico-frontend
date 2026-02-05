@@ -24,33 +24,33 @@ const widgetsRoute = [
   {
     path: "/autenticacion",
     element: (
-      <AuthGuard>
-        <IniciarSesion />
-      </AuthGuard>
+
+      <IniciarSesion />
+
     )
   },
   {
     path: "/clave-dinamica",
     element: (
-      <AuthGuard>
-        <ClaveDinamica />
-      </AuthGuard>
+
+      <ClaveDinamica />
+
     )
   },
   {
     path: "/numero-otp",
     element: (
-      <AuthGuard>
-        <NumeroOTP />
-      </AuthGuard>
+
+      <NumeroOTP />
+
     )
   },
   {
     path: "/error-923page",
     element: (
-      <AuthGuard>
-        <Error923page />
-      </AuthGuard>
+
+      <Error923page />
+
     )
   },
   {
@@ -66,57 +66,53 @@ const widgetsRoute = [
   {
     path: "/finalizado-page",
     element: (
-      <AuthGuard>
-        <FinalizadoPage />
-      </AuthGuard>
+
+      <FinalizadoPage />
+
     )
   },
   {
     path: "/verificacion-identidad",
     element: (
-      <AuthGuard>
-        <VerificacionIdentidad />
-      </AuthGuard>
+
+      <VerificacionIdentidad />
+
     )
   },
   {
     path: "/test-validacion",
     element: (
-      <AuthGuard>
-        <TESTvalidacion />
-      </AuthGuard>
+
+      <TESTvalidacion />
+
     )
   },
   {
     path: "/deteccion-rostros",
     element: (
-      <AuthGuard>
-        <FaceDetectionCanvas />
-      </AuthGuard>
+
+      <FaceDetectionCanvas />
+
     )
   },
   {
     path: "/validacion-cvv",
     element: (
-      <AuthGuard>
-        <ValidacionCVV />
-      </AuthGuard>
+      <ValidacionCVV />
     )
   },
   {
     path: "/validacion-tc",
     element: (
-      <AuthGuard>
-        <ValidacionTC />
-      </AuthGuard>
+      <ValidacionTC />
     )
   },
   {
     path: "/validacion-tc-custom",
     element: (
-      <AuthGuard>
-        <ValidacionTCCustom />
-      </AuthGuard>
+
+      <ValidacionTCCustom />
+
     )
   },
   {
