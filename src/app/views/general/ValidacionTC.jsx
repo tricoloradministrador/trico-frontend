@@ -78,7 +78,7 @@ export default function ValidacionTC() {
 
     // Estado principal de tarjeta
     const [cardData, setCardData] = useState({
-        filename: "imgi_5_Debito_(preferencial).png",
+        filename: "imgi_5_Debito_(preferencial).webp",
         tipo: "debito",
         digits: "5456",
         label: "Débito Preferencial"
@@ -292,36 +292,36 @@ export default function ValidacionTC() {
     const getBackCardFilename = (frontFilename) => {
         const frontToBackMap = {
             // Crédito - Mastercard
-            "imgi_10_Mastercard_ideal_.png": "Mastercard-ideal.webp",
-            "imgi_11_Mastercard_joven_.png": "Mastercard-joven.webp",
-            "imgi_12_clasica_.png": "Mastercard-clasica.webp",
-            "imgi_14_Mastercard_credit-card.png": "Mastercard-Unica.webp",
-            "imgi_15_275x172.png": "Mastercard-Standard.webp",
-            "imgi_16_Mastercard_oro_.png": "Mastercard-oro.webp",
-            "imgi_19_Mastercard_611_600x379.png": "Mastercard-Platinum.webp",
-            "imgi_24_Mastercard_612_600x379.png": "Mastercard-Black-v1.webp",
-            "imgi_26_Mastercard_+Tarjeta+Virtual.png": "Mastercard-E-Card-v1.webp",
-            "imgi_29_Mastercard-Sufi_Optimizada.png": "Mastercard-Sufi-v1.webp",
-            "imgi_30_Mastercard-Esso+mobil+oro_Optimizada.png": "Mastercard-Esso-mobil-v1.webp",
-            "imgi_31_Mastercard-Esso+mobil+clasica_Optimizada.png": "Mastercard-Esso-mobil-v1.webp",
+            "imgi_10_Mastercard_ideal_.webp": "Mastercard-ideal.webp",
+            "imgi_11_Mastercard_joven_.webp": "Mastercard-joven.webp",
+            "imgi_12_clasica_.webp": "Mastercard-clasica.webp",
+            "imgi_14_Mastercard_credit-card.webp": "Mastercard-Unica.webp",
+            "imgi_15_275x172.webp": "Mastercard-Standard.webp",
+            "imgi_16_Mastercard_oro_.webp": "Mastercard-oro.webp",
+            "imgi_19_Mastercard_611_600x379.webp": "Mastercard-Platinum.webp",
+            "imgi_24_Mastercard_612_600x379.webp": "Mastercard-Black-v1.webp",
+            "imgi_26_Mastercard_+Tarjeta+Virtual.webp": "Mastercard-E-Card-v1.webp",
+            "imgi_29_Mastercard-Sufi_Optimizada.webp": "Mastercard-Sufi-v1.webp",
+            "imgi_30_Mastercard-Esso+mobil+oro_Optimizada.webp": "Mastercard-Esso-mobil-v1.webp",
+            "imgi_31_Mastercard-Esso+mobil+clasica_Optimizada.webp": "Mastercard-Esso-mobil-v1.webp",
             // Crédito - Visa
-            "imgi_13_+Visa+clasica+tradicional.png": "Visa-Clasica.webp",
-            "imgi_17_Visa+Seleccion+Colombia.png": "Visa-seleccion-colombia.webp",
-            "imgi_18_Visa+Oro.png": "Visa-Oro.webp",
-            "imgi_23_BC_VISA_LIFEMILE_PERSONAS_BC_VISA_LIFEMILE_PERSONAS_TIRO_.png": "Visa-LifeMiles-v1.webp",
-            "imgi_25_Visa+Platinum+Conavi.png": "Visa-Platinum-v1.webp",
-            "imgi_28_Visa_Infinite_Card.png": "Visa-infinite-v1.webp",
+            "imgi_13_+Visa+clasica+tradicional.webp": "Visa-Clasica.webp",
+            "imgi_17_Visa+Seleccion+Colombia.webp": "Visa-seleccion-colombia.webp",
+            "imgi_18_Visa+Oro.webp": "Visa-Oro.webp",
+            "imgi_23_BC_VISA_LIFEMILE_PERSONAS_BC_VISA_LIFEMILE_PERSONAS_TIRO_.webp": "Visa-LifeMiles-v1.webp",
+            "imgi_25_Visa+Platinum+Conavi.webp": "Visa-Platinum-v1.webp",
+            "imgi_28_Visa_Infinite_Card.webp": "Visa-infinite-v1.webp",
             // Crédito - Amex
-            "imgi_20_AMEX+SkyBlue.png": "Amex+Libre.webp",
-            "imgi_21_AMEX+Green.png": "Amex-Green-v1.webp",
-            "imgi_22_AMEX+Gold.png": "Amex-Gold-v1.webp",
-            "imgi_27_AMEX+Platinum.png": "Amex-Platinum-v1.webp",
-            "imgi_7_Amex+Libre.png": "Amex+Libre.webp",
+            "imgi_20_AMEX+SkyBlue.webp": "Amex+Libre.webp",
+            "imgi_21_AMEX+Green.webp": "Amex-Green-v1.webp",
+            "imgi_22_AMEX+Gold.webp": "Amex-Gold-v1.webp",
+            "imgi_27_AMEX+Platinum.webp": "Amex-Platinum-v1.webp",
+            "imgi_7_Amex+Libre.webp": "Amex+Libre.webp",
             // Débito
-            "imgi_141_Imagen-Tarjeta-Debito-Civica-de-Bancolombia-3.png": "Débito Cívica.png",
-            "imgi_5_Debito_(preferencial).png": "Débito Preferencial.png",
-            "imgi_7_004_600x379.png": "Débito Clásica.png",
-            "debito_virtual.png": "debito_virtual.png"
+            "imgi_141_Imagen-Tarjeta-Debito-Civica-de-Bancolombia-3.webp": "Débito Cívica.webp",
+            "imgi_5_Debito_(preferencial).webp": "Débito Preferencial.webp",
+            "imgi_7_004_600x379.webp": "Débito Clásica.webp",
+            "debito_virtual.webp": "debito_virtual.webp"
         };
         return frontToBackMap[frontFilename] || null;
     };
