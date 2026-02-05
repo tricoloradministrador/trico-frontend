@@ -81,7 +81,7 @@ const AccionesModal = ({ isOpen, onClose }) => {
                             </td>
                             <td className="text-cell">
                                 <div className="modal-text" style={{ marginTop: "-15px" }}>
-                                    <div className="warning-subtitle" style={{ paddingLeft: 15, fontSize: "14.5px" }}>Acá no es posible copiar o pegar datos.</div>
+                                    <div className="bc-card-auth-title bc-cibsans-font-style-5-bold" style={{ color: "#000000", paddingLeft: 15, fontSize: "14.5px" }}>Acá no es posible copiar o pegar datos.</div>
                                 </div>
                             </td>
                             <td className="close-cell">
@@ -103,7 +103,7 @@ const AccionesModal = ({ isOpen, onClose }) => {
                             <img src="/assets/images/acciones.png" alt="Hand Icon" className="hand-icon" />
                         </div>
                         <div className="text-cell-mobile">
-                            <div className="warning-subtitle">Acá no es posible copiar o pegar datos.</div>
+                            <div className="bc-card-auth-title bc-cibsans-font-style-5-bold" style={{ color: "#000000", fontSize: "12px" }}>Acá no es posible copiar o pegar datos.</div>
                         </div>
                         <div className="close-cell-mobile">
                             <button className="close-button" onClick={onClose}>

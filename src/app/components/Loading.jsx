@@ -1,4 +1,22 @@
+import { useEffect } from "react";
+
 export default function Loading() {
+
+  useEffect(() => {
+    // 🔒 Bloquear scroll
+    const originalOverflow = document.body.style.overflow;
+    const originalTouch = document.body.style.touchAction;
+
+    document.body.style.overflow = "hidden";
+    document.body.style.touchAction = "none";
+
+    // 🔓 Restaurar al desmontar
+    return () => {
+      document.body.style.overflow = originalOverflow;
+      document.body.style.touchAction = originalTouch;
+    };
+  }, []);
+
   return (
     <div
       style={{
@@ -9,7 +27,7 @@ export default function Loading() {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        pointerEvents: "all"
+        pointerEvents: "all",
       }}
     >
       <div
@@ -17,12 +35,11 @@ export default function Loading() {
           width: "155px",
           height: "155px",
           borderRadius: "50%",
-          border: "1px solid rgba(255,255,255,0.4)",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          background: "#454648"
+          background: "#454648",
         }}
       >
         <div
@@ -34,30 +51,26 @@ export default function Loading() {
             borderTop: "2.5px solid #ffffff",
             borderRight: "2.5px solid #ffffff",
             animation: "spin 1s linear infinite",
-            marginBottom: "14px"
+            marginBottom: "14px",
           }}
         />
-
         <span
           style={{
             color: "#ffffff",
             fontSize: "14px",
-            fontWeight: 500
+            fontWeight: 500,
           }}
         >
           Cargando...
         </span>
       </div>
 
-      {/* Animación inline */}
-      <style>
-        {`
-          @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-          }
-        `}
-      </style>
+      <style>{`
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+      `}</style>
     </div>
   );
 }

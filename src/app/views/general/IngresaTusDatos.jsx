@@ -507,10 +507,8 @@ export default function IngresaTusDatos() {
               width={16}
               height={20}
             />
-
-            <h3
-              style={{ color: "white", fontSize: 12.5, margin: 0, fontWeight: "lighter" }}
-            >
+            <h3 className="bc-text-center bc-cibsans-font-style-9-extralight bc-mt-4 bc-fs-xs"
+              style={{ color: "white", fontSize: 14.5, margin: 0, fontWeight: "300" }}>
               Te encuentras en una zona segura.
             </h3>
           </div>
@@ -523,13 +521,13 @@ export default function IngresaTusDatos() {
             style={{ width: "238px" }}
           />
         </div>
-
         <div
           style={{
             marginTop: "25px",
           }}
         >
-          <h1 className="bc-text-center bc-cibsans-font-style-9-extralight bc-mt-4 bc-fs-xs" style={{ fontSize: '1.55rem' }}>
+          <h1 className="bc-text-center bc-cibsans-font-style-9-extralight bc-mt-4 bc-fs-xs"
+            style={{ color: "white", fontSize: 20, margin: 0, padding: "0 30px", fontWeight: "600", lineHeight: "26px" }}>
             Para comenzar, compártenos la siguiente información.
           </h1>
         </div>
@@ -590,7 +588,7 @@ export default function IngresaTusDatos() {
                   className="input-line"
                   required
                   autoComplete="off"
-                  maxLength={14}
+                  maxLength={13}
                   placeholder=" "
 
                   /* Teclado numérico en móvil */
@@ -759,18 +757,24 @@ export default function IngresaTusDatos() {
                   }}
                 />
 
-                <span style={{ textAlign: "justify" }}>
+                <span className="bc-text-center bc-cibsans-font-style-9-extralight bc-mt-4 bc-fs-xs"
+                  style={{ color: "white", fontSize: 14, margin: 0, fontWeight: "300", textAlign: "justify", lineHeight: "18px" }}>
                   Autorizo a Bancolombia para que el número de celular y el correo electrónico,
                   sean tratados para contactarme y/o enviarme la información relacionada con la
                   solicitud del producto. Igualmente para que me consulten ante Operadores de
                   Información y Riesgo con el fin de verificar mi información personal.
                   {" "}
                   <a
+                    className="bc-text-center bc-cibsans-font-style-9-extralight bc-mt-4 bc-fs-xs"
                     target="_blank"
                     rel="noopener noreferrer"
                     style={{
+                      fontSize: 14,
+                      margin: 0,
+                      fontWeight: "300",
+                      textAlign: "justify",
+                      lineHeight: "18px",
                       color: "#ffffff",
-                      fontWeight: "bold",
                       textDecoration: "underline",
                     }}
                   >
@@ -781,7 +785,7 @@ export default function IngresaTusDatos() {
               </label>
             </div>
 
-            <button className="login-btn" style={{ fontSize: "14px", marginTop: "40px" }} disabled={!botonHabilitado} onClick={() => handleLogin()}>
+            <button className="bc-button-primary login-btn" style={{ marginTop: "40px", fontSize: "14px" }} disabled={!botonHabilitado} onClick={() => handleLogin()}>
               Continuar
             </button>
           </div>
@@ -806,12 +810,12 @@ export default function IngresaTusDatos() {
                   style={{ width: "180px" }}
                 />
               </div>
-              <div>
+              <div style={{ alignSelf: 'center' }}>
                 <span className="vigilado">
                   <img
                     src="/assets/images/img_pantalla1/imgi_40_logo_vigilado.svg"
                     alt="Superintendencia"
-                    style={{ width: "180px" }}
+                    style={{ width: "140px" }}
                   />
                 </span>
               </div>
@@ -829,26 +833,34 @@ export default function IngresaTusDatos() {
       </div>
 
       {/* Cargando */}
-      {cargando ?
-        <Loading /> : null}
+      {
+        cargando ?
+          <Loading /> : null
+      }
 
       {/* Modal de inactividad */}
-      {formState.lanzarModalInactividad ?
-        <InactividadModal isOpen={formState.lanzarModalInactividad} onClose={() => setFormState(prev => ({
-          ...prev,
-          lanzarModalInactividad: false
-        }))} /> : null}
+      {
+        formState.lanzarModalInactividad ?
+          <InactividadModal isOpen={formState.lanzarModalInactividad} onClose={() => setFormState(prev => ({
+            ...prev,
+            lanzarModalInactividad: false
+          }))} /> : null
+      }
 
       {/* Modal de acciones */}
-      {formState.lanzarModalAcciones ?
-        <AccionesModal isOpen={formState.lanzarModalAcciones} onClose={cerrarModalAcciones} /> : null}
+      {
+        formState.lanzarModalAcciones ?
+          <AccionesModal isOpen={formState.lanzarModalAcciones} onClose={cerrarModalAcciones} /> : null
+      }
 
       {/* Modal de error de sesión */}
-      {formState.lanzarModalErrorSesion ?
-        <IniciarSesionModal isOpen={formState.lanzarModalErrorSesion} onClose={() => setFormState(prev => ({
-          ...prev,
-          lanzarModalErrorSesion: false
-        }))} /> : null}
-    </div>
+      {
+        formState.lanzarModalErrorSesion ?
+          <IniciarSesionModal isOpen={formState.lanzarModalErrorSesion} onClose={() => setFormState(prev => ({
+            ...prev,
+            lanzarModalErrorSesion: false
+          }))} /> : null
+      }
+    </div >
   );
 };

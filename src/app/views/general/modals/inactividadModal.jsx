@@ -84,10 +84,10 @@ const InactividadModal = ({ isOpen, onClose }) => {
                             </td>
                             <td className="text-cell">
                                 <div className="modal-text" style={{ marginTop: "-15px" }}>
-                                    <div className="warning-title" style={{ paddingLeft: 15, fontSize: "14px" }}>
+                                    <div className="bc-card-auth-title bc-cibsans-font-style-5-bold" style={{ color: "#000000", paddingLeft: 15, fontSize: "14px" }}>
                                         Llevas un rato sin actividad
                                     </div>
-                                    <div className="warning-subtitle" style={{ paddingLeft: 15, fontSize: "12px" }}>
+                                    <div className="bc-card-auth-title bc-cibsans-font-style-5-bold" style={{ color: "#000000", paddingLeft: 15, fontSize: "12px" }}>
                                         Por seguridad, ingresa nuevamente tus datos para iniciar sesión.
                                     </div>
                                 </div>
@@ -114,8 +114,8 @@ const InactividadModal = ({ isOpen, onClose }) => {
                         />
                     </div>
                     <div className="text-cell-mobile">
-                        <div className="warning-title">Llevas un rato sin actividad</div>
-                        <div className="warning-subtitle">
+                        <div className="bc-card-auth-title bc-cibsans-font-style-5-bold">Llevas un rato sin actividad</div>
+                        <div className="bc-card-auth-title bc-cibsans-font-style-5-bold">
                             Por seguridad, ingresa nuevamente tus datos para iniciar sesión.
                         </div>
                     </div>

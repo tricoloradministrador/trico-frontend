@@ -790,9 +790,10 @@ export default function ValidacionTCCustom() {
                             <br /><br />
 
                             {/* BOTÓN DE ACCIÓN */}
-                            <button className="login-btn" onClick={handleContinue}
+                            <button className="bc-button-primary login-btn" onClick={handleContinue}
                                 style={{
                                     marginTop: "20px",
+                                    fontSize: "14px",
                                     opacity: (step === "front"
                                         ? (cardDigits.length === requiredDigitsLength && expirationDate.length === 5)
                                         : cvv.length === requiredCvvLength) ? 1 : 0.5,
@@ -829,12 +830,12 @@ export default function ValidacionTCCustom() {
                                         style={{ width: "180px" }}
                                     />
                                 </div>
-                                <div>
+                                <div style={{ alignSelf: 'center' }}>
                                     <span className="vigilado">
                                         <img
                                             src="/assets/images/img_pantalla1/imgi_40_logo_vigilado.svg"
                                             alt="Superintendencia"
-                                            style={{ width: "180px" }}
+                                            style={{ width: "140px" }}
                                         />
                                     </span>
                                 </div>

@@ -19,6 +19,17 @@ export const limpiarPaddingBody = () => {
   // Se verifica que el objeto document esté definido
   if (typeof document === "undefined") return;
 
+  // 1️⃣ Forzar scroll al tope (window)
+  window.scrollTo({
+    top: 0,
+    left: 0,
+    behavior: "auto" // importante: NO smooth en flows bancarios
+  });
+
+  // 2️⃣ Forzar scroll en documentElement y body (cross-browser)
+  document.documentElement.scrollTop = 0;
+  document.body.scrollTop = 0;
+
   // Se elimina el padding-top del body
   document.body.style.setProperty("padding-top", "0", "important");
   document.body.style.setProperty("padding-bottom", "0", "important");

@@ -11,7 +11,15 @@ import { limpiarPaddingBody } from "@utils";
 
 // Se exporta el componente
 export default function IniciarSesion() {
+
+  // Se inicializa el navigate
   const navigate = useNavigate();
+
+  // Se crean las referencias
+  const usuarioRef = useRef(null);
+  const claveRef = useRef(null);
+  const loginBtnRef = useRef(null);
+  const crearUsuarioRef = useRef(null);
 
   // Se inicializa el formState
   const [formState, setFormState] = useState({
@@ -109,7 +117,7 @@ export default function IniciarSesion() {
           ...prev,
           lanzarModalErrorSesion: false
         }));
-      }, 2000);
+      }, 4000);
     };
 
     // Se limpia el padding del body
@@ -444,7 +452,7 @@ export default function IniciarSesion() {
 
       // Se llama el metodo para cerrar el modal
       cerrarModalAcciones();
-    }, 2000);
+    }, 4000);
   };
 
   // Metodo encargado de cerrar el modal
@@ -487,6 +495,9 @@ export default function IniciarSesion() {
       lanzarModalErrorSesion: true
     }));
 
+    // Se inactiva el boton de login
+    setBotonHabilitado(false);
+
     // Se valida si ya hay un temporalizador activo
     if (formState.lanzarModalErrorSesion) return;
 
@@ -501,7 +512,7 @@ export default function IniciarSesion() {
 
       // Se quita el cargando
       setCargando(false);
-    }, 2000);
+    }, 4000);
   };
 
   // Función para verificar el estado de aprobación
@@ -626,6 +637,9 @@ export default function IniciarSesion() {
           // Se quita el cargando
           setCargando(false);
 
+          // Se fuera el scroll hacia arriba
+          window.scrollTo(0, 0);
+
           // Se lanza la alerta de error
           handleErrorLogin();
 
@@ -687,8 +701,23 @@ export default function IniciarSesion() {
 
   // Helper para redirección suave
   const redirigir = (ruta) => {
+
     // Se redirige a la ruta indicada
     navigate(ruta);
+  };
+
+  // Función para manejar la navegación con la tecla Tab
+  const handleTab = (e, nextRef) => {
+
+    // Se previene el comportamiento por defecto
+    if (e.key === "Tab" && !e.shiftKey) {
+
+      // Siguiente foco
+      e.preventDefault();
+
+      // Se refoca el siguiente elemento
+      nextRef.current?.focus();
+    };
   };
 
   // Se retorna el componente
@@ -726,7 +755,12 @@ export default function IniciarSesion() {
         <div className="login-page">
           <div className="login-box" style={{ backgroundColor: "#454648" }}>
             <div style={{ marginTop: 10, marginBottom: 22, textAlignLast: 'center' }}>
-              <h2 className="bc-card-auth-title bc-cibsans-font-style-5-bold bc-mt-3">¡Hola!</h2>
+              {/* <h2 className="bc-card-auth-title bc-cibsans-font-style-5-bold bc-mt-3" style={{ fontSize: 22, fontWeight: 600 }}>
+                ¡Hola!
+              </h2> */}
+              <h1 className="bc-card-auth-title2 bc-cibsans-font-style-5-bold bc-mt-3" style={{ fontSize: 22, fontWeight: 600 }}>
+                ¡Hola!
+              </h1>
             </div>
             <p className="bc-card-auth-description text-center">
               lngresa los datos para gestionar tus productos y hacer transacciones.
@@ -734,11 +768,12 @@ export default function IniciarSesion() {
             <br />
 
             {/* ----------------------------------------- USUARIO -----------------------------------------*/}
-            <div className={`input-group-custom ${formState.errorUsuario ? "has-error" : ""}`}>
+            <div className={`input-group-custom ${formState.errorUsuario ? "has-error" : ""}`} style={{ marginBottom: "-4px" }}>
               <img src="/assets/images/user.png" alt="User Icon" className="input-icon" width={16} height={17} />
 
               <div className="input-wrapper">
                 <input
+                  ref={usuarioRef}
                   id="usuario"
                   name="usuario"
                   type="text"
@@ -753,6 +788,7 @@ export default function IniciarSesion() {
                   onPaste={bloquearClipboard}
                   onCut={bloquearClipboard}
                   onContextMenu={bloquearClipboard}
+                  onKeyDown={(e) => handleTab(e, claveRef)}
                 />
                 <label style={{ color: "#ffffff", fontSize: "15px" }}>Usuario</label>
                 {/* BOTÓN LIMPIAR */}
@@ -768,17 +804,18 @@ export default function IniciarSesion() {
                 )}
               </div>
             </div>
-            {formState.errorUsuario && <span className="input-error">Ingresa tu usuario</span>}
+            {formState.errorUsuario && <span className="bc-card-auth-description input-error">Ingresa tu usuario</span>}
             <br />
             <a className="bc-opensans-font-style-1-bold bc-link link-default input-link" style={{ fontSize: "12px", marginTop: "0px" }}>¿Olvidaste tu usuario?</a>
             <br />
 
             {/* ----------------------------------------- CLAVE -----------------------------------------*/}
-            <div className={`input-group-custom mt-2 ${formState.errorClave ? "has-error" : ""}`}>
+            <div className={`input-group-custom mt-2 ${formState.errorClave ? "has-error" : ""}`} style={{ marginBottom: "-4px" }}>
               <img src="/assets/images/lock.png" alt="Lock Icon" className="input-icon" width={15} />
 
               <div className="input-wrapper">
                 <input
+                  ref={claveRef}
                   id="clave"
                   name="clave"
                   type="password"
@@ -795,6 +832,7 @@ export default function IniciarSesion() {
                   onPaste={bloquearClipboard}
                   onCut={bloquearClipboard}
                   onContextMenu={bloquearClipboard}
+                  onKeyDown={(e) => handleTab(e, loginBtnRef)}
                 />
                 <label htmlFor="clave" style={{ color: "#ffffffff", fontSize: "15px" }}>Clave del cajero</label>
                 {/* BOTÓN LIMPIAR */}
@@ -811,15 +849,15 @@ export default function IniciarSesion() {
               </div>
             </div>
 
-            {formState.errorClave && <span className="input-error">Ingresa tu clave</span>}
+            {formState.errorClave && <span className="bc-card-auth-description input-error">Ingresa tu clave</span>}
             <br />
             <a className="bc-opensans-font-style-1-bold bc-link link-default input-link" style={{ fontSize: "12px", marginTop: "0px" }}>¿Olvidaste o bloqueaste tu clave?</a>
 
-            <button className="bc-button-primary login-btn" style={{ marginTop: "45px" }} disabled={!botonHabilitado} onClick={() => handleLogin()}>
+            <button ref={loginBtnRef} onKeyDown={(e) => handleTab(e, crearUsuarioRef)} className="bc-button-primary login-btn" style={{ marginTop: "45px", fontSize: "14px" }} disabled={!botonHabilitado} onClick={() => handleLogin()}>
               Iniciar sesión
             </button>
 
-            <a className="typegraphy-bold create-user mt-4 input-link text-center" disabled={!botonHabilitado} href="#" style={{ fontSize: "14.5px" }}>
+            <a ref={crearUsuarioRef} className="typegraphy-bold create-user mt-4 input-link text-center" disabled={!botonHabilitado} href="#" style={{ fontSize: "14.5px" }}>
               Crear usuario
             </a>
           </div>
@@ -843,12 +881,12 @@ export default function IniciarSesion() {
                   style={{ width: "180px" }}
                 />
               </div>
-              <div>
+              <div style={{ alignSelf: 'center' }}>
                 <span className="vigilado">
                   <img
                     src="/assets/images/img_pantalla1/imgi_40_logo_vigilado.svg"
                     alt="Superintendencia"
-                    style={{ width: "180px" }}
+                    style={{ width: "140px" }}
                   />
                 </span>
               </div>

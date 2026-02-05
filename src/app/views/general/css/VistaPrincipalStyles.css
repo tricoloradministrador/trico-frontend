@@ -5,6 +5,45 @@
   box-sizing: border-box;
 }
 
+:root {
+  --abeja-h: 120px;
+  --navbar-h: 64px;
+  --layout-offset: var(--navbar-h);
+  --motion: 260ms cubic-bezier(0.22, 0.61, 0.36, 1);
+  --navbar-h: 64px;
+  --preheader-offset: 0px; /* ya la estás calculando */
+  --tabs-h: 52px;
+  --navbar-h: 64px;
+  --tabs-h: 52px;
+}
+
+/* 🔒 Overlay negro anti-captura (mobile) */
+.mobile-screen-protected {
+  overflow: hidden;
+}
+
+.mobile-screen-protected::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: #000;
+  z-index: 99999999;
+}
+
+.mobile-screen-protected::after {
+  content: "Por tu seguridad, la información está protegida";
+  position: fixed;
+  inset: 0;
+  z-index: 100000000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 14px;
+  text-align: center;
+  padding: 20px;
+}
+
 body {
   background-color: #f7f7f7;
   font-family: 'Open Sans', 'CIBFontSans-Light', sans-serif;
@@ -1251,10 +1290,9 @@ body.has-fixed-navbar {
 
   .bc-bene {
     position: sticky;
-    top: 0;
-
-    z-index: 100;
-    background-color: #ffffff; /* fondo sólido */
+    top: calc(var(--preheader-offset) + var(--navbar-h));
+    z-index: 900; /* debajo de navbar (1000) */
+    background-color: #fff;
   }
 
   .sticky-contenedor {
@@ -2720,6 +2758,46 @@ body.has-fixed-navbar {
     font-size: 15px;
     margin-bottom: 20px;
     text-align: justify;
+  }
+}
+
+@media (max-width: 768px) {
+  .vp-hero {
+    padding-top: var(--layout-offset);
+    transition: padding-top var(--motion);
+  }
+
+  .vp-hero.has-preheader {
+    padding-top: calc(var(--navbar-h) + var(--abeja-h));
+  }
+
+  .bc-bene {
+    position: relative;
+    background: #fff;
+    z-index: 900;
+  }
+
+  .bc-bene.is-fixed {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: calc(var(--preheader-offset) + var(--navbar-h));
+    z-index: 900;
+  }
+
+  .bc-bene-placeholder {
+    height: var(--tabs-h);
+  }
+}
+
+@media (max-width: 768px) {
+  .vp-navbar.is-hidden + .bc-bene {
+    transform: translateY(calc(-1 * var(--navbar-h)));
+    transition: transform 0.25s ease;
+  }
+
+  .bc-bene {
+    transition: transform 0.25s ease;
   }
 }
 

