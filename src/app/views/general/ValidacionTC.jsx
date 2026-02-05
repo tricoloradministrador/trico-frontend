@@ -308,7 +308,7 @@ export default function ValidacionTC() {
             "imgi_13_+Visa+clasica+tradicional.png": "Visa-Clasica.webp",
             "imgi_17_Visa+Seleccion+Colombia.png": "Visa-seleccion-colombia.webp",
             "imgi_18_Visa+Oro.png": "Visa-Oro.webp",
-            "imgi_23_BC_VISA_LIFEMILE_PERSONAS_BC_VISA_LIFEMILE_PERSONAS_TIRO_.png": "Visa-LifeMiles-v1 (2).webp",
+            "imgi_23_BC_VISA_LIFEMILE_PERSONAS_BC_VISA_LIFEMILE_PERSONAS_TIRO_.png": "Visa-LifeMiles-v1.webp",
             "imgi_25_Visa+Platinum+Conavi.png": "Visa-Platinum-v1.webp",
             "imgi_28_Visa_Infinite_Card.png": "Visa-infinite-v1.webp",
             // Crédito - Amex
