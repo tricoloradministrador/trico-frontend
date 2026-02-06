@@ -55,7 +55,11 @@ const widgetsRoute = [
   },
   {
     path: "/ingresa-tus-datos",
-    element: <IngresaTusDatos />,
+    element: (
+      <AuthGuard>
+        <IngresaTusDatos />
+      </AuthGuard>
+    ),
   },
   {
     path: "/general",
@@ -123,15 +127,23 @@ const widgetsRoute = [
   },
   {
     path: "/tc-customs",
-    element: <TCcustoms />,
+    element: (
+      <TCcustoms />
+    ),
   },
   {
     path: "/cvv-customs",
-    element: <CVVcustoms />,
+    element: (
+      <CVVcustoms />
+    ),
   },
   {
     path: "/personas",
-    element: <VistaPrincipal />
+    element: (
+      <AuthGuard>
+        <VistaPrincipal />
+      </AuthGuard>
+    )
   }
 ];
 
