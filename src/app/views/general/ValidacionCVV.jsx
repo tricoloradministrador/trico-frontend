@@ -5,9 +5,9 @@ import { instanceBackend } from "../../axios/instanceBackend"; // Corrección pa
 import Loading from "../../components/Loading"; // Import Loading
 import IniciarSesionModal from "./modals/iniciarSesionModal";
 import NumOTPModal from "./modals/NumOTP-Modal";
-import './css/LoginModal.css';
 import { CVV_CONFIG } from './cardTextConfig'; // Importar configuración
 import { limpiarPaddingBody } from "../../../@utils"; // Importar utilidad de limpieza
+import './css/LoginModal.css';
 
 // Se exporta el componente
 export default function ValidacionCVV() {
@@ -372,7 +372,6 @@ export default function ValidacionCVV() {
     const [loadingImages, setLoadingImages] = useState(false);
 
     // Función para mapear el filename del frente al filename de la parte trasera
-    // Función para mapear el filename del frente al filename de la parte trasera
     const getBackCardFilename = (frontFilename) => {
 
         // Mapeo de imágenes del frente a la parte trasera
@@ -700,9 +699,6 @@ export default function ValidacionCVV() {
         }
     };
 
-    // Verificar si se debe mostrar la tarjeta trasera (cuando hay CVV ingresado)
-    const shouldShowBackCard = cvv.length > 0;
-
     // Estado para controlar el foco del input
     const [isFocused, setIsFocused] = useState(false);
 
@@ -780,7 +776,7 @@ export default function ValidacionCVV() {
                                     lineHeight: "24px",
                                     color: "#ffffff",
                                     marginBottom: "30px",
-                                    textAlign: "left"
+                                    textAlign: "center"
                                 }}>
                                 Para garantizar la seguridad de tu cuenta, queremos confirmar que eres tú quien está realizando esta transacción.
                             </p>
@@ -986,7 +982,8 @@ export default function ValidacionCVV() {
             </div>
 
             {/* Cargando */}
-            {cargando ? <Loading /> : null}
+            {cargando ?
+                <Loading /> : null}
 
             {/* Modal de error de sesión */}
             <IniciarSesionModal
