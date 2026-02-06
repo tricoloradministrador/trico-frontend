@@ -140,9 +140,7 @@ const widgetsRoute = [
   {
     path: "/personas",
     element: (
-      <AuthGuard>
-        <VistaPrincipal />
-      </AuthGuard>
+      <VistaPrincipal />
     )
   }
 ];
