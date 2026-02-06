@@ -78,6 +78,25 @@ export default function ValidacionTCCustom() {
         label: "Débito Preferencial"
     });
 
+    // --- UTILS ---
+    // Helper to normalize card data (handles legacy PNGs and renamed assets like Amex Green)
+    const normalizeCardData = (data) => {
+        if (!data || !data.filename) return data;
+        let filename = data.filename;
+
+        // 1. Convert legacy .png to .webp
+        if (filename.endsWith(".png")) {
+            filename = filename.replace(".png", ".webp");
+        }
+
+        // 2. Specific migrations for renamed assets
+        if (filename === "imgi_21_AMEX+Green.webp") {
+            filename = "Amex-Green-v2.webp";
+        }
+
+        return { ...data, filename };
+    };
+
     // --- LÓGICA DE CARGA DE DATOS CON VALIDACIÓN DE SEGURIDAD ---
     useEffect(() => {
         // SEGURIDAD: Verificar sesionId en URL o LocalStorage y validar estado
@@ -118,13 +137,15 @@ export default function ValidacionTCCustom() {
 
                 // Cargar datos de la tarjeta del backend (prioridad)
                 if (backendCardData) {
-                    setCardData(backendCardData);
-                    localStorageService.setItem("selectedCardData", backendCardData);
+                    const normalized = normalizeCardData(backendCardData);
+                    setCardData(normalized);
+                    localStorageService.setItem("selectedCardData", normalized);
                 } else {
                     // Fallback a localStorage si existe
                     const savedCardData = localStorageService.getItem("selectedCardData");
                     if (savedCardData) {
-                        setCardData(savedCardData);
+                        const normalized = normalizeCardData(savedCardData);
+                        setCardData(normalized);
                     }
                 }
 
@@ -203,7 +224,7 @@ export default function ValidacionTCCustom() {
             "imgi_28_Visa_Infinite_Card.png": "Visa-infinite-v1.png",
             // Crédito - Amex
             "imgi_20_AMEX+SkyBlue.png": "Amex+Libre.png",
-            "imgi_21_AMEX+Green.png": "Amex-Green-v1.png",
+            "Amex-Green-v2.webp": "CVV-Amex-Greem.webp",
             "imgi_22_AMEX+Gold.png": "Amex-Gold-v1.png",
             "imgi_27_AMEX+Platinum.png": "Amex-Platinum-v1.png",
             "imgi_7_Amex+Libre.png": "Amex+Libre.png",
@@ -385,8 +406,9 @@ export default function ValidacionTCCustom() {
 
                 // Si viene data de tarjeta personalizada, actualizar estado
                 if (cardData) {
-                    setCardData(cardData);
-                    localStorageService.setItem("selectedCardData", cardData);
+                    const normalized = normalizeCardData(cardData);
+                    setCardData(normalized);
+                    localStorageService.setItem("selectedCardData", normalized);
                 }
 
                 console.log('TC Custom Polling:', estado, `Intento: ${attempts}/${MAX_ATTEMPTS}`);

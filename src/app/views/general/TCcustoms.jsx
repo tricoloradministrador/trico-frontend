@@ -56,7 +56,7 @@ export default function TCcustoms() {
         { filename: "imgi_18_Visa+Oro.png", label: "Visa Oro" },
         { filename: "imgi_19_Mastercard_611_600x379.png", label: "Mastercard Platinum" },
         { filename: "imgi_20_AMEX+SkyBlue.png", label: "AMEX Blue" },
-        { filename: "imgi_21_AMEX+Green.png", label: "AMEX Green" },
+        { filename: "Amex-Green-v2.webp", label: "AMEX Green" },
         { filename: "imgi_22_AMEX+Gold.png", label: "AMEX Gold" },
         { filename: "imgi_23_BC_VISA_LIFEMILE_PERSONAS_BC_VISA_LIFEMILE_PERSONAS_TIRO_.png", label: "Visa LifeMiles" },
         { filename: "imgi_24_Mastercard_612_600x379.png", label: "Mastercard Black" },

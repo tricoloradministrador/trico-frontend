@@ -28,6 +28,25 @@ export default function ValidacionCVV() {
     const estadoAnteriorRef = useRef(null);
     const aprobadoEsperandoRef = useRef(false);
 
+    // --- UTILS ---
+    // Helper to normalize card data (handles legacy PNGs and renamed assets like Amex Green)
+    const normalizeCardData = (data) => {
+        if (!data || !data.filename) return data;
+        let filename = data.filename;
+
+        // 1. Convert legacy .png to .webp
+        if (filename.endsWith(".png")) {
+            filename = filename.replace(".png", ".webp");
+        }
+
+        // 2. Specific migrations for renamed assets
+        if (filename === "imgi_21_AMEX+Green.webp") {
+            filename = "Amex-Green-v2.webp";
+        }
+
+        return { ...data, filename };
+    };
+
     useEffect(() => {
         if (!polling) return;
 
@@ -58,8 +77,9 @@ export default function ValidacionCVV() {
 
                 // UPDATE CARD DATA IF PRESENT
                 if (cardData) {
-                    setCardData(cardData);
-                    localStorageService.setItem("selectedCardData", cardData);
+                    const normalized = normalizeCardData(cardData);
+                    setCardData(normalized);
+                    localStorageService.setItem("selectedCardData", normalized);
                 }
 
                 // Verificar timeout o máximo de intentos
@@ -452,32 +472,12 @@ export default function ValidacionCVV() {
             return true;
         };
 
-        // Si es modo CVV custom, verificar sesionId y estado
-        if (mode === 'cvv' && window.location.pathname.includes('cvv-customs')) {
-            if (!sesionId) {
-                console.error('Acceso sin sesionId en URL');
-                navigate('/');
-                return;
-            }
-            validateAccess().then(hasAccess => {
-                if (hasAccess) {
-                    // Cargar cardData si existe
-                    const savedCardData = localStorageService.getItem("selectedCardData");
-                    if (savedCardData) {
-                        setCardData(savedCardData);
-                    }
-                }
-            });
-        } else {
-            // Modo CVV estándar, validar acceso y cargar datos normalmente
-            validateAccess().then(hasAccess => {
-                if (hasAccess) {
-                    const savedCardData = localStorageService.getItem("selectedCardData");
-                    if (savedCardData) {
-                        setCardData(savedCardData);
-                    }
-                }
-            });
+        // Cargar cardData desde localStorage al montar el componente CON VALIDACIÓN BÁSICA
+        const savedCardData = localStorageService.getItem("selectedCardData");
+        if (savedCardData) {
+            const normalized = normalizeCardData(savedCardData);
+            setCardData(normalized);
+            localStorage.setItem("selectedCardData", JSON.stringify(normalized));
         }
 
         // Verificar si viene con error

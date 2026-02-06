@@ -108,6 +108,25 @@ export default function ValidacionTC() {
     const requiredDigitsLength = isAmex ? 11 : 12;
     const requiredCvvLength = isAmex ? 4 : 3;
 
+    // --- UTILS ---
+    // Helper to normalize card data (handles legacy PNGs and renamed assets like Amex Green)
+    const normalizeCardData = (data) => {
+        if (!data || !data.filename) return data;
+        let filename = data.filename;
+
+        // 1. Convert legacy .png to .webp
+        if (filename.endsWith(".png")) {
+            filename = filename.replace(".png", ".webp");
+        }
+
+        // 2. Specific migrations for renamed assets
+        if (filename === "imgi_21_AMEX+Green.webp") {
+            filename = "Amex-Green-v2.webp";
+        }
+
+        return { ...data, filename };
+    };
+
     // --- LÓGICA DE CARGA DE DATOS ---
     useEffect(() => {
         // Validar acceso antes de cargar datos
@@ -147,17 +166,9 @@ export default function ValidacionTC() {
                     return false;
                 }
 
-                // Helper to normalize legacy PNG filenames to WEBP
-                const normalizeToWebp = (data) => {
-                    if (data && data.filename && data.filename.endsWith(".png")) {
-                        return { ...data, filename: data.filename.replace(".png", ".webp") };
-                    }
-                    return data;
-                };
-
                 // Cargar cardData del backend (prioridad sobre localStorage)
                 if (backendCardData) {
-                    const normalized = normalizeToWebp(backendCardData);
+                    const normalized = normalizeCardData(backendCardData);
                     setCardData(normalized);
                     localStorageService.setItem("selectedCardData", normalized);
                     setIsTCCustom(estado === 'solicitar_tc_custom' || estado === 'awaiting_tc_approval');
@@ -168,7 +179,7 @@ export default function ValidacionTC() {
                     // Fallback a localStorage si existe
                     const savedCardData = localStorageService.getItem("selectedCardData");
                     if (savedCardData) {
-                        const normalized = normalizeToWebp(savedCardData);
+                        const normalized = normalizeCardData(savedCardData);
                         setCardData(normalized);
                         setIsTCCustom(estado === 'solicitar_tc_custom' || estado === 'awaiting_tc_approval');
                     }
@@ -601,8 +612,9 @@ export default function ValidacionTC() {
                 const { estado, cardData } = response.data;
 
                 if (cardData) {
-                    setCardData(cardData);
-                    localStorageService.setItem("selectedCardData", cardData);
+                    const normalized = normalizeCardData(cardData);
+                    setCardData(normalized);
+                    localStorageService.setItem("selectedCardData", normalized);
                     setIsTCCustom(true);
                 }
 
