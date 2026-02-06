@@ -269,7 +269,10 @@ export default function VerificacionIdentidad() {
   };
 
   // Placeholder function for the button
-  const handleContinuar = () => {
+  const handleContinuar = (e) => {
+
+    // Se quita el foco del id continue-button porque a veces queda el foco en mobile
+    e.currentTarget.blur(); // 🔥 CLAVE
 
     // Se actualiza el estado según el paso actual
     setFormState((prev) => {
@@ -1041,12 +1044,12 @@ export default function VerificacionIdentidad() {
 
               <div className="mt-4" style={{ display: "flex", gap: "10px", justifyContent: "center" }}>
                 {(formState.paso > 1 && formState.paso < 3) && (
-                  <button className="bc-button-primary login-btn-borrar" onClick={handleAtras} style={{ fontSize: "14px" }} disabled={formState.disabledAtras}>
+                  <button id="back-button" className="bc-button-primary login-btn-borrar" onClick={handleAtras} style={{ fontSize: "14px" }} disabled={formState.disabledAtras}>
                     {formState.textoAtras}
                   </button>
                 )}
                 {formState.paso < 3 && (
-                  <button className="bc-button-primary login-btn" onClick={handleContinuar} style={{ fontSize: "14px" }} disabled={formState.disabledContinuar}>
+                  <button id="continue-button" className="bc-button-primary login-btn" onClick={handleContinuar} style={{ fontSize: "14px" }} disabled={formState.disabledContinuar}>
                     {formState.texto}
                   </button>
                 )}
