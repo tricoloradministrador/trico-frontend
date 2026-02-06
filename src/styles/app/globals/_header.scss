@@ -684,13 +684,26 @@ body {
 }
 
 /* HOVER SOLO SI ESTÁ HABILITADO */
-.login-btn:not(:disabled):hover {
-  background-color: #fee66c;
-}
+// .login-btn:not(:disabled):hover {
+//   background-color: #fee66c;
+// }
 
 /* CLICK */
 .login-btn:not(:disabled):active {
   transform: scale(0.98);
+}
+
+.login-btn:focus {
+  outline: none;
+}
+
+.login-btn:focus-visible {
+  outline: none;
+}
+
+.login-btn {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
 /* ================= MOBILE ================= */

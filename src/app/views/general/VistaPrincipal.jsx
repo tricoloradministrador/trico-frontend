@@ -381,41 +381,8 @@ const VistaPrincipal = () => {
         return () => window.removeEventListener('scroll', onScroll);
     }, [openNavbarAbeja, mobile]);
 
+    // Se inicializa la referencia para el breadcrumb de beneficios
     const bcBeneRef = useRef(null);
-
-    // useEffect(() => {
-    //     if (!mobile) return;
-
-    //     const bcBene = bcBeneRef.current;
-    //     const placeholder = document.getElementById('bc-bene-placeholder');
-    //     if (!bcBene || !placeholder) return;
-
-    //     const navbarHeight = 64;
-
-    //     const onScroll = () => {
-    //         const rect = bcBene.getBoundingClientRect();
-    //         const offsetTop =
-    //             parseFloat(
-    //                 getComputedStyle(document.documentElement)
-    //                     .getPropertyValue('--preheader-offset')
-    //             ) || 0;
-
-    //         const limit = offsetTop + navbarHeight;
-
-    //         if (rect.top <= limit) {
-    //             bcBene.classList.add('is-fixed');
-    //             placeholder.style.display = 'block';
-    //         } else {
-    //             bcBene.classList.remove('is-fixed');
-    //             placeholder.style.display = 'none';
-    //         }
-    //     };
-
-    //     window.addEventListener('scroll', onScroll, { passive: true });
-    //     onScroll();
-
-    //     return () => window.removeEventListener('scroll', onScroll);
-    // }, [mobile]);
 
     // Se retorna el JSX del componente
     return (

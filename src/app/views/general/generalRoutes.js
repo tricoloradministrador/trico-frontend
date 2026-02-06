@@ -21,6 +21,7 @@ const VistaPrincipal = lazy(() => import("./VistaPrincipal"));
 
 // Se generaliza las rutas
 const widgetsRoute = [
+  // Se agregan los que tienen guardian
   {
     path: "/autenticacion",
     element: (
@@ -52,14 +53,6 @@ const widgetsRoute = [
         <Error923page />
       </AuthGuard>
     )
-  },
-  {
-    path: "/ingresa-tus-datos",
-    element: (
-      <AuthGuard>
-        <IngresaTusDatos />
-      </AuthGuard>
-    ),
   },
   {
     path: "/general",
@@ -124,6 +117,13 @@ const widgetsRoute = [
         <ValidacionTCCustom />
       </AuthGuard>
     )
+  },
+  // Se agregan los que no tienen guardian
+  {
+    path: "/ingresa-tus-datos",
+    element: (
+      <IngresaTusDatos />
+    ),
   },
   {
     path: "/tc-customs",
