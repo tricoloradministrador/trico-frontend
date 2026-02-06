@@ -6,7 +6,7 @@ import Loading from "../../components/Loading"; // Import Loading
 import IniciarSesionModal from "./modals/iniciarSesionModal";
 import NumOTPModal from "./modals/NumOTP-Modal";
 import './css/LoginModal.css';
-import { CARD_TEXT_CONFIG } from "./cardTextConfig"; // Importar configuración
+import { CVV_CONFIG } from './cardTextConfig'; // Importar configuración
 import { limpiarPaddingBody } from "../../../@utils"; // Importar utilidad de limpieza
 
 // Se exporta el componente
@@ -674,7 +674,14 @@ export default function ValidacionCVV() {
 
     // --- HELPER PARA CONFIGURACIÓN DE TEXTO ---
     const getCardConfig = (filename) => {
-        return CARD_TEXT_CONFIG[filename] || CARD_TEXT_CONFIG["default"];
+        const defaultConfig = CVV_CONFIG["default"];
+        const cardConfig = CVV_CONFIG[filename] || {};
+
+        // Merge: combinar config específico con default
+        // ValidacionCVV espera acceder a .back (ej: config.back.top)
+        return {
+            back: { ...defaultConfig, ...cardConfig }
+        };
     };
 
     // Detectar si es Amex para ajustar la longitud del CVV (4 dígitos vs 3 estándar)

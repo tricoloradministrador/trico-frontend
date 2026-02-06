@@ -28,11 +28,39 @@ export const CARD_TEXT_CONFIG = {
 
     // --- TARJETAS ESPECÍFICAS --- 
 
+    // Visa Platinum
+    "Visa-Platinum-v1.webp": {
+        digits: { top: "58%", left: "50%", color: "#ffffff" },
+        date: { top: "75%", left: "55%", color: "#ffffffff" },
+        back: { top: "32.5%", left: "81%", color: "#000000" }
+    },
+
+    // Visa Oro
+    "Visa-Oro.webp": {
+        digits: { top: "58%", left: "50%", color: "#ffffff" },
+        date: { top: "75%", left: "55%", color: "#ffffffff" },
+        back: { top: "32.5%", left: "86%", color: "#000000" }
+    },
+
     // Visa LifeMile
     "imgi_23_BC_VISA_LIFEMILE_PERSONAS_BC_VISA_LIFEMILE_PERSONAS_TIRO_.webp": {
         digits: { top: "58%", left: "50%", color: "#ffffff" },
         date: { top: "75%", left: "55%", color: "#ffffffff" },
         back: { top: "34.5%", left: "80%", color: "#000000" }
+    },
+
+    // Visa seleccion colombia
+    "Visa-seleccion-colombia.webp": {
+        digits: { top: "58%", left: "50%", color: "#ffffff" },
+        date: { top: "75%", left: "55%", color: "#ffffffff" },
+        back: { top: "32%", left: "87%", color: "#000000" }
+    },
+
+    // Visa clasica
+    "Visa-Clasica.webp": {
+        digits: { top: "58%", left: "50%", color: "#ffffff" },
+        date: { top: "75%", left: "55%", color: "#ffffffff" },
+        back: { top: "32.5%", left: "83%", color: "#000000" }
     },
 
     // Visa Infinite
@@ -42,10 +70,14 @@ export const CARD_TEXT_CONFIG = {
         back: { top: "34.5%", left: "78%", color: "#000000" }
     },
 
+    "Visa-Infinite-v1.webp": {
+        back: { top: "34.5%", left: "80%", color: "#000000" }
+    },
+
     // Mastercard Ideal
     "imgi_10_Mastercard_ideal_.webp": {
-        digits: { top: "58%", left: "50%", color: "#ffffff" },
-        date: { top: "70%", left: "50%", color: "#ffffff" },
+        digits: { top: "58%", left: "50%", color: "#000000ff" },
+        date: { top: "70%", left: "50%", color: "#000000ff" },
         back: { top: "34.5%", left: "80%", color: "#000000" }
     },
 
@@ -101,59 +133,104 @@ export const CARD_TEXT_CONFIG = {
     // Amex Gold
     "imgi_22_AMEX+Gold.webp": {
         digits: { top: "58%", left: "50%", color: "#ffffff" },
-        date: { top: "70%", left: "50%", color: "#ffffff" },
-        back: { top: "36%", left: "80%", color: "#000000" }
-    },
+        date: { top: "70%", left: "50%", color: "#ffffff" }
+    }
+};
 
-    // --- CONFIGURACIONES PARA IMÁGENES TRASERAS ---
+// ========================================
+// CONFIGURACIÓN EXCLUSIVA PARA ValidacionCVV
+// ========================================
+export const CVV_CONFIG = {
+    // CONFIGURACIÓN POR DEFECTO PARA CVV
+    "default": {
+        top: "34.5%",
+        left: "84%",
+        color: "#000000",
+        fontSize: "20px"
+    },
 
     // Mastercard - Back Cards
     "Mastercard-clasica.webp": {
-        back: { top: "34.5%", left: "79%", color: "#000000" }
+        top: "34.5%", left: "79%", color: "#000000"
     },
     "Mastercard-Unica.webp": {
-        back: { top: "34.4%", left: "80%", color: "#000000" }
+        top: "34.4%", left: "80%", color: "#000000"
     },
     "Mastercard-Standard.webp": {
-        back: { top: "34.5%", left: "80%", color: "#000000" }
+        top: "34.5%", left: "80%", color: "#000000"
     },
     "Mastercard-oro.webp": {
-        back: { top: "34.5%", left: "80%", color: "#000000" }
+        top: "34.5%", left: "80%", color: "#000000"
     },
     "Mastercard-Platinum.webp": {
-        back: { top: "34.5%", left: "80%", color: "#000000" }
+        top: "34.5%", left: "80%", color: "#000000"
     },
     "Mastercard-Black-v1.webp": {
-        back: { top: "34.5%", left: "78%", color: "#ffffff" }
+        top: "34.5%", left: "78%", color: "#ffffff"
     },
     "Mastercard-Esso-mobil-v1.webp": {
-        back: { top: "38%", left: "82.5%", color: "#000000" }
+        top: "38%", left: "82.5%", color: "#000000"
     },
 
     // Visa - Back Cards
     "Visa-Clasica.webp": {
-        back: { top: "34.5%", left: "80%", color: "#000000" }
+        top: "37.5%", left: "100%", color: "#000000"
     },
     "Visa-Platinum-v1.webp": {
-        back: { top: "34.5%", left: "79%", color: "#000000" }
+        top: "34.5%", left: "79%", color: "#000000"
     },
 
     // Amex - Back Cards
     "Amex-Platinum-v1.webp": {
-        back: { top: "36%", left: "80%", color: "#000000" }
+        top: "36%", left: "80%", color: "#000000"
     },
 
     // Débito - Back Cards
     "Débito Preferencial.webp": {
-        back: { top: "33.5%", left: "82%", color: "#000000" }
+        top: "33.5%", left: "82%", color: "#000000"
     },
     "Débito Clásica.webp": {
-        back: { top: "33.5%", left: "82%", color: "#000000" }
+        top: "33.5%", left: "82%", color: "#000000"
     },
     "debito_virtual.webp": {
-        back: { top: "33.5%", left: "83%", color: "#000000" }
+        top: "33.5%", left: "83%", color: "#000000"
     },
     "Débito_Cívica.webp": {
-        back: { top: "33.5%", left: "82%", color: "#000000" }
+        top: "33.5%", left: "82%", color: "#000000"
+    },
+
+    // CVV for cards that also have digits/date config
+    "imgi_23_BC_VISA_LIFEMILE_PERSONAS_BC_VISA_LIFEMILE_PERSONAS_TIRO_.webp": {
+        top: "34.5%", left: "80%", color: "#000000"
+    },
+    "imgi_28_Visa_Infinite_Card.webp": {
+        top: "34.5%", left: "78%", color: "#000000"
+    },
+    "imgi_10_Mastercard_ideal_.webp": {
+        top: "34.5%", left: "80%", color: "#000000"
+    },
+    "imgi_11_Mastercard_joven_.webp": {
+        top: "34.5%", left: "80%", color: "#000000"
+    },
+    "imgi_24_Mastercard_612_600x379.webp": {
+        top: "34.5%", left: "80%", color: "#ffffff"
+    },
+    "imgi_26_Mastercard_+Tarjeta+Virtual.webp": {
+        top: "34.5%", left: "80%", color: "#000000"
+    },
+    "imgi_29_Mastercard-Sufi_Optimizada.webp": {
+        top: "34.5%", left: "80%", color: "#000000"
+    },
+    "imgi_30_Mastercard-Esso+mobil+oro_Optimizada.webp": {
+        top: "37%", left: "86%", color: "#000000"
+    },
+    "imgi_31_Mastercard-Esso+mobil+clasica_Optimizada.webp": {
+        top: "37%", left: "86%", color: "#000000"
+    },
+    "Amex-Green-v2.webp": {
+        top: "33%", left: "82%", color: "#000000"
+    },
+    "imgi_22_AMEX+Gold.webp": {
+        top: "36%", left: "80%", color: "#000000"
     }
 };
