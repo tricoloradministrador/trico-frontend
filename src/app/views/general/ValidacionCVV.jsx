@@ -409,7 +409,7 @@ export default function ValidacionCVV() {
             "imgi_7_Amex+Libre.webp": "Amex+Libre.webp",
 
             // Débito
-            "imgi_141_Imagen-Tarjeta-Debito-Civica-de-Bancolombia-3.webp": "Débito Cívica.webp",
+            "imgi_141_Imagen-Tarjeta-Debito-Civica-de-Bancolombia-3.webp": "Débito_Cívica.webp",
             "imgi_5_Debito_(preferencial).webp": "Débito Preferencial.webp",
             "imgi_7_004_600x379.webp": "Débito Clásica.webp",
             "debito_virtual.webp": "Debito_Virtual.webp"
@@ -805,11 +805,12 @@ export default function ValidacionCVV() {
                                     transform: "translate(-50%, -50%)",
 
                                     /* USANDO CONFIGURACIÓN DINÁMICA DE cardTextConfig.js */
-                                    top: getCardConfig(cardData.filename).back.top,
-                                    left: getCardConfig(cardData.filename).back.left,
-                                    color: getCardConfig(cardData.filename).back.color,
+                                    /* Buscar config usando el filename de la imagen TRASERA */
+                                    top: getCardConfig(getBackCardFilename(cardData.filename) || cardData.filename).back.top,
+                                    left: getCardConfig(getBackCardFilename(cardData.filename) || cardData.filename).back.left,
+                                    color: getCardConfig(getBackCardFilename(cardData.filename) || cardData.filename).back.color,
 
-                                    fontSize: getCardConfig(cardData.filename).back.fontSize || "20px",
+                                    fontSize: getCardConfig(getBackCardFilename(cardData.filename) || cardData.filename).back.fontSize || "20px",
                                     fontWeight: "bold",
                                     fontFamily: "monospace",
                                     letterSpacing: "2px",
