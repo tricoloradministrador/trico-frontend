@@ -95,7 +95,7 @@ export const CARD_TEXT_CONFIG = {
     "Amex-Green-v2.webp": {
         digits: { top: "58%", left: "50%", color: "#ffffff" },
         date: { top: "75%", left: "50%", color: "#ffffff" },
-        back: { top: "36%", left: "80%", color: "#000000" }
+        back: { top: "33%", left: "82%", color: "#000000" }
     },
 
     // Amex Gold

