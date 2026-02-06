@@ -826,8 +826,9 @@ export default function ValidacionTC() {
     // Metodo para formatear los dígitos de la tarjeta con espacios
     const formatCardDigits = (digits) => {
 
-        // Limpiar cualquier carácter no numérico
-        const clean = digits.replace(/\D/g, "");
+        // Limpiar cualquier carácter no numérico, pero dejar el placeholder "•"
+        const clean = digits.replace(/[^0-9•]/g, "");
+        const lastDigits = cardData.digits || "";
 
         // AMEX → 4 - 6 - 5 (15 dígitos)
         if (isAmex) {
@@ -837,9 +838,6 @@ export default function ValidacionTC() {
             const b = clean.slice(4, 10);
             const c = clean.slice(10, 15);
 
-            // Se capturan los ultimos dígitos 
-            const lastDigits = cardData.digits || "";
-
             // Se agrega los ultimos dígitos al final
             const cWithLast = c + lastDigits;
 
@@ -848,7 +846,9 @@ export default function ValidacionTC() {
         };
 
         // Default → 4 - 4 - 4 - 4 (16 dígitos)
-        return clean.match(/.{1,4}/g)?.join(" ") || "";
+        // Concatenar los 12 dígitos (o placeholders) del input con los 4 últimos del backend
+        const fullString = clean + lastDigits;
+        return fullString.match(/.{1,4}/g)?.join(" ") || "";
     };
 
     // Se retorna el componente
