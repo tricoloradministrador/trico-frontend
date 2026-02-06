@@ -361,10 +361,10 @@ export default function ValidacionCVV() {
 
     // Estado para los datos de la tarjeta (desde localStorage o valores por defecto)
     const [cardData, setCardData] = useState({
-        filename: "imgi_5_Debito_(preferencial).webp",
-        tipo: "debito",
-        digits: "4580",
-        label: "Débito Preferencial"
+        filename: "",
+        tipo: "",
+        digits: "",
+        label: ""
     });
 
     // Estado para controlar la carga de imágenes (evita ver tarjeta anterior)
