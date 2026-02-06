@@ -28,6 +28,15 @@ export const CARD_TEXT_CONFIG = {
 
     // --- TARJETAS ESPECÍFICAS --- 
 
+
+
+    // Debito clasica
+    "Débito Clásica.webp": {
+        digits: { top: "58%", left: "50%", color: "#ffffff" },
+        date: { top: "75%", left: "55%", color: "#ffffffff" },
+        back: { top: "31.5%", left: "83%", color: "#000000" }
+    },
+
     // Visa Platinum
     "Visa-Platinum-v1.webp": {
         digits: { top: "58%", left: "50%", color: "#ffffff" },
@@ -58,8 +67,13 @@ export const CARD_TEXT_CONFIG = {
 
     // Visa clasica
     "Visa-Clasica.webp": {
-        digits: { top: "58%", left: "50%", color: "#ffffff" },
-        date: { top: "75%", left: "55%", color: "#ffffffff" },
+        digits: { top: "58%", left: "50%", color: "#000000ff" },
+        date: { top: "75%", left: "55%", color: "#000000ff" },
+        back: { top: "32.5%", left: "83%", color: "#000000" }
+    },
+    "imgi_13_+Visa+clasica+tradicional.webp": {
+        digits: { top: "58%", left: "50%", color: "#000000ff" },
+        date: { top: "75%", left: "55%", color: "#000000ff" },
         back: { top: "32.5%", left: "83%", color: "#000000" }
     },
 
@@ -72,6 +86,13 @@ export const CARD_TEXT_CONFIG = {
 
     "Visa-Infinite-v1.webp": {
         back: { top: "34.5%", left: "80%", color: "#000000" }
+    },
+
+    // Mastercard unica
+    "Mastercard-Unica.webp": {
+        digits: { top: "58%", left: "50%", color: "#000000ff" },
+        date: { top: "70%", left: "50%", color: "#000000ff" },
+        back: { top: "32.5%", left: "83%", color: "#000000" }
     },
 
     // Mastercard Ideal
@@ -123,6 +144,12 @@ export const CARD_TEXT_CONFIG = {
         back: { top: "37%", left: "86%", color: "#000000" }
     },
 
+    // Master esso mobil 
+    "Mastercard-Esso-mobil-v1.webp": {
+        digits: { top: "58%", left: "50%", color: "#000000ff" },
+        date: { top: "70%", left: "50%", color: "#000000ff" },
+        back: { top: "37%", left: "86%", color: "#000000" }
+    },
     // Amex Green
     "Amex-Green-v2.webp": {
         digits: { top: "58%", left: "50%", color: "#ffffff" },
@@ -134,6 +161,18 @@ export const CARD_TEXT_CONFIG = {
     "imgi_22_AMEX+Gold.webp": {
         digits: { top: "58%", left: "50%", color: "#ffffff" },
         date: { top: "70%", left: "50%", color: "#ffffff" }
+    },
+
+    // Amex Libre 
+    "imgi_7_Amex+Libre.webp": {
+        digits: { top: "58%", left: "50%", color: "#000000ff" },
+        date: { top: "70%", left: "50%", color: "#000000ff" },
+        back: { top: "33%", left: "82%", color: "#000000" }
+    },
+    "Amex+Libre.webp": {
+        digits: { top: "58%", left: "50%", color: "#000000ff" },
+        date: { top: "70%", left: "50%", color: "#000000ff" },
+        back: { top: "32%", left: "86%", color: "#000000" }
     }
 };
 
