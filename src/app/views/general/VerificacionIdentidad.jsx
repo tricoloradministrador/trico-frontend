@@ -382,6 +382,16 @@ export default function VerificacionIdentidad() {
     // Se declara la variable intervalId
     let intervalId;
 
+    // Se muestra el mensaje para espabilar
+    setFormState((prev) => {
+
+      // Se actualiza el estado a espabilar
+      return {
+        ...prev,
+        estadoEspabilar: true
+      };
+    });
+
     // Si el estado es ok, inicia el conteo de tiempo
     if (formState.ok) {
 
@@ -397,29 +407,19 @@ export default function VerificacionIdentidad() {
           // Si han pasado más de 3 segundos, comienza a llenar el círculo
           if (newTime >= 3) {
 
-            // 5 segundos totales de grabación después de los 3 segundos de espera
+            // Calcula el porcentaje de progreso (de 0 a 1) basado en el tiempo que ha pasado desde los 3 segundos, con un máximo de 5 segundos para completar el círculo
             const progressPercentage = Math.min((newTime - 3) / 5, 1);
 
-            // Actualiza el progreso
+            // Actualiza el estado del progreso
             setProgress(progressPercentage);
 
-            // Se muestra el mensaje para espabilar
-            setFormState((prev) => {
+            // Se inicia la grabación cuando el círculo EMPIEZA
+            if (progressPercentage > 0 && !mediaRecorderRef.current && !hasRecordedRef.current) {
 
-              // Se actualiza el estado a espabilar
-              return {
-                ...prev,
-                estadoEspabilar: true
-              };
-            });
-
-            // Cuando llega al 100%, inicia la grabación
-            if (progressPercentage >= 1 && !mediaRecorderRef.current && !hasRecordedRef.current) {
-
-              // Se bloquea para que no grabe más de una vez
+              // Se marca que ya se ha iniciado la grabación para evitar múltiples inicios
               hasRecordedRef.current = true;
 
-              // Inicia la grabación
+              // Se llama al método para empezar a grabar
               startRecording();
             };
           };
@@ -993,7 +993,7 @@ export default function VerificacionIdentidad() {
                         className="bc-card-auth-description"
                         style={{
                           color: "#fff",
-                          fontSize: "12px",
+                          fontSize: "14px",
                           marginTop: "10px",
                           textAlign: "center",
                         }}
@@ -1008,7 +1008,7 @@ export default function VerificacionIdentidad() {
                         className="bc-card-auth-description"
                         style={{
                           color: "#fff",
-                          fontSize: "12px",
+                          fontSize: "14px",
                           marginTop: "10px",
                           textAlign: "center",
                         }}
