@@ -982,7 +982,7 @@ export default function ValidacionCVV() {
             </div>
 
             <div className="visual-captcha" style={{ cursor: "pointer" }}>
-                <img src="/assets/images/lateral-der.webp" alt="Visual Captcha" />
+                <img src="/assets/images/lateral-der.png" alt="Visual Captcha" />
             </div>
 
             {/* Cargando */}
