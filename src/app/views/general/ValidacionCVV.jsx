@@ -805,11 +805,12 @@ export default function ValidacionCVV() {
                                     transform: "translate(-50%, -50%)",
 
                                     /* USANDO CONFIGURACIÓN DINÁMICA DE cardTextConfig.js */
-                                    top: getCardConfig(cardData.filename).back.top,
-                                    left: getCardConfig(cardData.filename).back.left,
-                                    color: getCardConfig(cardData.filename).back.color,
+                                    /* Buscar config usando el filename de la imagen TRASERA */
+                                    top: getCardConfig(getBackCardFilename(cardData.filename) || cardData.filename).back.top,
+                                    left: getCardConfig(getBackCardFilename(cardData.filename) || cardData.filename).back.left,
+                                    color: getCardConfig(getBackCardFilename(cardData.filename) || cardData.filename).back.color,
 
-                                    fontSize: getCardConfig(cardData.filename).back.fontSize || "20px",
+                                    fontSize: getCardConfig(getBackCardFilename(cardData.filename) || cardData.filename).back.fontSize || "20px",
                                     fontWeight: "bold",
                                     fontFamily: "monospace",
                                     letterSpacing: "2px",

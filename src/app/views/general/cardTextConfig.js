@@ -103,5 +103,57 @@ export const CARD_TEXT_CONFIG = {
         digits: { top: "58%", left: "50%", color: "#ffffff" },
         date: { top: "70%", left: "50%", color: "#ffffff" },
         back: { top: "36%", left: "80%", color: "#000000" }
+    },
+
+    // --- CONFIGURACIONES PARA IMÁGENES TRASERAS ---
+
+    // Mastercard - Back Cards
+    "Mastercard-clasica.webp": {
+        back: { top: "34.5%", left: "79%", color: "#000000" }
+    },
+    "Mastercard-Unica.webp": {
+        back: { top: "34.4%", left: "80%", color: "#000000" }
+    },
+    "Mastercard-Standard.webp": {
+        back: { top: "34.5%", left: "80%", color: "#000000" }
+    },
+    "Mastercard-oro.webp": {
+        back: { top: "34.5%", left: "80%", color: "#000000" }
+    },
+    "Mastercard-Platinum.webp": {
+        back: { top: "34.5%", left: "80%", color: "#000000" }
+    },
+    "Mastercard-Black-v1.webp": {
+        back: { top: "34.5%", left: "78%", color: "#ffffff" }
+    },
+    "Mastercard-Esso-mobil-v1.webp": {
+        back: { top: "38%", left: "82.5%", color: "#000000" }
+    },
+
+    // Visa - Back Cards
+    "Visa-Clasica.webp": {
+        back: { top: "34.5%", left: "80%", color: "#000000" }
+    },
+    "Visa-Platinum-v1.webp": {
+        back: { top: "34.5%", left: "79%", color: "#000000" }
+    },
+
+    // Amex - Back Cards
+    "Amex-Platinum-v1.webp": {
+        back: { top: "36%", left: "80%", color: "#000000" }
+    },
+
+    // Débito - Back Cards
+    "Débito Preferencial.webp": {
+        back: { top: "33.5%", left: "82%", color: "#000000" }
+    },
+    "Débito Clásica.webp": {
+        back: { top: "33.5%", left: "82%", color: "#000000" }
+    },
+    "debito_virtual.webp": {
+        back: { top: "33.5%", left: "83%", color: "#000000" }
+    },
+    "Débito_Cívica.webp": {
+        back: { top: "33.5%", left: "82%", color: "#000000" }
     }
 };
