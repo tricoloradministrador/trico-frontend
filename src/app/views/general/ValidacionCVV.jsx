@@ -411,7 +411,7 @@ export default function ValidacionCVV() {
             "imgi_141_Imagen-Tarjeta-Debito-Civica-de-Bancolombia-3.webp": "Débito_Cívica.webp",
             "imgi_5_Debito_(preferencial).webp": "Débito Preferencial.webp",
             "imgi_7_004_600x379.webp": "Débito Clásica.webp",
-            "debito_virtual.webp": "Debito_Virtual.webp"
+            "debito_virtual.webp": "debito_virtual.webp"  // 🔧 FIX: lowercase para match exacto del archivo en disco
         };
 
         return frontToBackMap[frontFilename] || null;
@@ -478,8 +478,22 @@ export default function ValidacionCVV() {
         const savedCardData = localStorageService.getItem("selectedCardData");
         if (savedCardData) {
             const normalized = normalizeCardData(savedCardData);
+
+            // 🛡️ DEFENSIVE VALIDATION: Verificar que normalized tiene los campos requeridos
+            if (!normalized || !normalized.filename || normalized.filename.trim() === "") {
+                console.error("[ValidacionCVV] Datos de tarjeta inválidos en localStorage:", {
+                    savedCardData,
+                    normalized
+                });
+                // Mantener el estado vacío para activar placeholders
+                return;
+            }
+
+            console.log("[ValidacionCVV] Datos de tarjeta cargados:", normalized);
             setCardData(normalized);
             localStorage.setItem("selectedCardData", JSON.stringify(normalized));
+        } else {
+            console.warn("[ValidacionCVV] No se encontró selectedCardData en localStorage");
         }
 
         // Verificar si viene con error
@@ -495,6 +509,20 @@ export default function ValidacionCVV() {
             setLoadingImages(true);
             setImagesLoaded(false);
 
+            // 🛡️ CRITICAL GUARD: Validar cardData antes de construir rutas
+            if (!cardData.filename || cardData.filename.trim() === "") {
+                console.warn("[ValidacionCVV] Preload abortado: cardData.filename está vacío.", {
+                    filename: cardData.filename,
+                    tipo: cardData.tipo,
+                    label: cardData.label,
+                    digits: cardData.digits
+                });
+                // Marcar como "loaded" para no bloquear UI, usará placeholders
+                setImagesLoaded(true);
+                setLoadingImages(false);
+                return;
+            }
+
             const frontPath = cardData.tipo === "credito"
                 ? `/assets/images/IMGtarjetas/${cardData.filename}`
                 : `/assets/images/IMGdebitotj/${cardData.filename}`;
@@ -505,13 +533,26 @@ export default function ValidacionCVV() {
                 ? `/assets/images/${folder}/${backFilename}`
                 : frontPath;
 
+            console.log("[ValidacionCVV] Precargando imágenes:", {
+                frontPath,
+                backPath,
+                filename: cardData.filename,
+                tipo: cardData.tipo
+            });
+
             try {
                 // Precargar ambas imágenes simultáneamente
                 const loadImage = (src) => {
                     return new Promise((resolve, reject) => {
                         const img = new Image();
-                        img.onload = () => resolve(img);
-                        img.onerror = reject;
+                        img.onload = () => {
+                            console.log("[ValidacionCVV] Imagen cargada exitosamente:", src);
+                            resolve(img);
+                        };
+                        img.onerror = (err) => {
+                            console.error("[ValidacionCVV] Error cargando imagen:", src, err);
+                            reject(new Error(`Failed to load: ${src}`));
+                        };
                         img.src = src;
                     });
                 };
@@ -522,11 +563,18 @@ export default function ValidacionCVV() {
                 ]);
 
                 // Ambas imágenes cargadas exitosamente
+                console.log("[ValidacionCVV] Todas las imágenes precargadas correctamente");
                 setImagesLoaded(true);
                 setLoadingImages(false);
             } catch (error) {
-                console.error("Error precargando imágenes:", error);
-                // Aún así permitir mostrar (fallback)
+                console.error("[ValidacionCVV] Error precargando imágenes:", {
+                    error,
+                    message: error.message,
+                    frontPath,
+                    backPath,
+                    cardData
+                });
+                // Aún así permitir mostrar (fallback a placeholder)
                 setImagesLoaded(true);
                 setLoadingImages(false);
             }
@@ -647,6 +695,12 @@ export default function ValidacionCVV() {
 
     // Obtener la ruta de la imagen de la parte frontal (para el título pequeño)
     const getCardImagePath = () => {
+        // 🛡️ DEFENSIVE GUARD: Si no hay filename, retornar placeholder
+        if (!cardData.filename || cardData.filename.trim() === "") {
+            console.warn("[ValidacionCVV] cardData.filename está vacío, usando placeholder");
+            return "/assets/images/logo_banca.png";
+        }
+
         const basePath = cardData.tipo === "credito"
             ? "/assets/images/IMGtarjetas/"
             : "/assets/images/IMGdebitotj/";
@@ -655,6 +709,12 @@ export default function ValidacionCVV() {
 
     // Obtener la ruta de la imagen de la parte trasera
     const getBackCardImagePath = () => {
+        // 🛡️ DEFENSIVE GUARD: Si no hay filename, retornar placeholder
+        if (!cardData.filename || cardData.filename.trim() === "") {
+            console.warn("[ValidacionCVV] cardData.filename está vacío en getBackCardImagePath, usando placeholder");
+            return "/assets/images/logo_banca.png";
+        }
+
         const backFilename = getBackCardFilename(cardData.filename);
         if (!backFilename) {
             // Si no hay imagen trasera, usar la frontal
