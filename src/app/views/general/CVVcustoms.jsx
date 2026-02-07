@@ -157,7 +157,7 @@ export default function TCcustoms() {
                 sesionId,
                 cardData
             });
-            alert(`Configuración de ${mode.toUpperCase()} enviada al usuario exitosamente.`);
+            alert(`✅ Configuración de tarjeta enviada con éxito`);
         } catch (error) {
             console.error(error);
             alert("Error enviando configuración.");
