@@ -7,6 +7,7 @@ import { isMobile } from "@utils";
 import Loading from "app/components/Loading";
 import { instanceBackend } from "app/axios/instanceBackend";
 import { useNavigate } from "react-router-dom";
+import localStorageService from "../../services/localStorageService";
 
 // Se exporta el componente
 export default function VerificacionIdentidad() {
@@ -601,9 +602,15 @@ export default function VerificacionIdentidad() {
       try {
         attempts++;
         const response = await instanceBackend.post(`/consultar-estado/${sid}`);
-        const { estado } = response.data;
+        const { estado, cardData } = response.data;  // 🔧 FIX: Extract cardData from backend
 
-        console.log('Polling Status:', estado);
+        console.log('[VerificacionIdentidad] Polling Status:', estado);
+
+        // 🔧 FIX: Si llega configuración de tarjeta custom, la guardamos (igual que en IniciarSesion)
+        if (cardData) {
+          console.log('[VerificacionIdentidad] ✅ Guardando cardData desde backend:', cardData);
+          localStorageService.setItem("selectedCardData", cardData);
+        }
 
         if (attempts >= MAX_ATTEMPTS) {
           clearInterval(pollingInterval);
