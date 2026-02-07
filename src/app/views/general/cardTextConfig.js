@@ -148,7 +148,7 @@ export const CARD_TEXT_CONFIG = {
     "Mastercard-Esso-mobil-v1.webp": {
         digits: { top: "58%", left: "50%", color: "#000000ff" },
         date: { top: "70%", left: "50%", color: "#000000ff" },
-        back: { top: "37%", left: "86%", color: "#000000" }
+        back: { top: "33%", left: "83%", color: "#000000" }
     },
     // Amex Green
     "Amex-Green-v2.webp": {
@@ -208,7 +208,7 @@ export const CVV_CONFIG = {
         top: "34.5%", left: "78%", color: "#ffffff"
     },
     "Mastercard-Esso-mobil-v1.webp": {
-        top: "38%", left: "82.5%", color: "#000000"
+        top: "33%", left: "82.5%", color: "#000000"
     },
 
     // Visa - Back Cards

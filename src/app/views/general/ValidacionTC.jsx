@@ -341,7 +341,6 @@ export default function ValidacionTC() {
         // --- MASTERCARD ---
         "Mastercard-Unica.webp": { transform: "scale(1.1)" },
         "Mastercard-oro.webp": { transform: "scale(1.1)" },
-        "Mastercard-Esso-mobil-v1.webp": { transform: "scale(1.17)" },
         "Mastercard-Platinum.webp": { transform: "scale(1.1)" },
         "Mastercard-Black-v1.webp": { transform: "scale(1.06)" },
         "Mastercard-E-Card-v1.webp": { transform: "scale(1.05)" },
