@@ -279,8 +279,8 @@ export default function IngresaTusDatos() {
       // Validaciones específicas por campo
       if (name === "numeroDocumento") {
 
-        // Se elimina todo lo que no sea dígito
-        const limpio = value.replace(/\D/g, "");
+        // Se elimina todo lo que no sea dígito y que no pueda empezar con 0
+        const limpio = value.replace(/\D/g, "").replace(/^0+/, "");
 
         // Se formatea el valor con puntos de miles
         nuevoValor = formatearMiles(limpio);
@@ -301,7 +301,7 @@ export default function IngresaTusDatos() {
       // Validacion para el correo
       if (name === "correoElectronico") {
 
-        // Se valida y se elimina el trim
+        // Se valida y se eliminan los espacios al inicio y al final
         nuevoValor = value.trim();
 
         // Se valida
@@ -362,7 +362,7 @@ export default function IngresaTusDatos() {
   // Metodo encargado de validar el correo electrónico
   const validarCorreo = (correo) => {
 
-    // Expresión regular para validar el correo electrónico
+    // Expresión regular para validar el correo electrónico y se borran los espacios al inicio y al final
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     // Retorna true si el correo es válido, de lo contrario false
