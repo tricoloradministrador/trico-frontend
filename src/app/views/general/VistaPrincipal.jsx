@@ -315,32 +315,6 @@ const VistaPrincipal = () => {
         }
     };
 
-    React.useEffect(() => {
-        const navbar = document.querySelector('.vp-navbar');
-        if (!navbar) return;
-
-        let lastScrollY = window.scrollY;
-
-        const onScroll = () => {
-            const currentScrollY = window.scrollY;
-
-            // 🔽 Scroll DOWN → se recoge visualmente
-            if (currentScrollY > lastScrollY && currentScrollY > 80) {
-                navbar.classList.add('is-hidden');
-            }
-
-            // 🔼 Scroll UP → reaparece
-            if (currentScrollY < lastScrollY) {
-                navbar.classList.remove('is-hidden');
-            }
-
-            lastScrollY = currentScrollY;
-        };
-
-        window.addEventListener('scroll', onScroll, { passive: true });
-        return () => window.removeEventListener('scroll', onScroll);
-    }, []);
-
     // Efecto para manejar clases del body según el estado de la navbar abeja en mobile
     useEffect(() => {
         if (!mobile) return;
