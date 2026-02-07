@@ -128,6 +128,10 @@ export default function ValidacionTC() {
 
     // --- LÓGICA DE CARGA DE DATOS ---
     useEffect(() => {
+
+        // Se sube el scroll al top al cargar la página
+        limpiarPaddingBody();
+
         // Validar acceso antes de cargar datos
         const validateAccess = async () => {
             try {

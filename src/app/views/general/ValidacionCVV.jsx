@@ -30,9 +30,6 @@ export default function ValidacionCVV() {
     const estadoAnteriorRef = useRef(null);
     const aprobadoEsperandoRef = useRef(false);
 
-    limpiarPaddingBody();
-    document.body.classList.remove('has-fixed-navbar');
-
     // --- UTILS ---
     // Helper to normalize card data (handles legacy PNGs and renamed assets like Amex Green)
     const normalizeCardData = (data) => {
@@ -416,6 +413,10 @@ export default function ValidacionCVV() {
 
     // Cargar datos desde localStorage al montar el componente CON VALIDACIÓN BÁSICA
     useEffect(() => {
+
+        // Se sube el scroll al top al cargar la página
+        limpiarPaddingBody();
+
         // CHECK: Si estamos en modo CVV Custom (viene desde URL params)
         const params = new URLSearchParams(window.location.search);
         const mode = params.get('mode');
