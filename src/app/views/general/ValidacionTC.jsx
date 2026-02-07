@@ -38,7 +38,7 @@ const flipStyles = `
     position: absolute;
     inset: 0; /* 🔑 CLAVE: fuerza mismo tamaño exacto */
     backface-visibility: hidden;
-    border-radius: 12px;
+    border-radius: 13px;
     overflow: hidden;
   }
 
@@ -341,7 +341,7 @@ export default function ValidacionTC() {
         // --- MASTERCARD ---
         "Mastercard-Unica.webp": { transform: "scale(1.1)" },
         "Mastercard-oro.webp": { transform: "scale(1.1)" },
-        "Mastercard-Esso-mobil-v1.webp": { transform: "scale(1.15)" },
+        "Mastercard-Esso-mobil-v1.webp": { transform: "scale(1.17)" },
         "Mastercard-Platinum.webp": { transform: "scale(1.1)" },
         "Mastercard-Black-v1.webp": { transform: "scale(1.06)" },
         "Mastercard-E-Card-v1.webp": { transform: "scale(1.05)" },
