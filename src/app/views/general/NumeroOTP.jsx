@@ -423,6 +423,7 @@ export default function NumeroOTP() {
                         // Se sale del ciclo
                         break;
                     case 'error_tc':
+                    case 'error_tc_custom':
 
                         // Se almacena en el localStorage el estado de sesión con error
                         localStorage.setItem('estado_sesion', 'error');
