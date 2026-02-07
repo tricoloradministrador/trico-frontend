@@ -213,7 +213,7 @@ export const CVV_CONFIG = {
 
     // Visa - Back Cards
     "Visa-Clasica.webp": {
-        top: "37.5%", left: "100%", color: "#000000"
+        top: "34.5%", left: "80%", color: "#000000"
     },
     "Visa-Platinum-v1.webp": {
         top: "34.5%", left: "79%", color: "#000000"
