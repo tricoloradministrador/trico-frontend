@@ -494,6 +494,32 @@ export default function ValidacionCVV() {
             localStorage.setItem("selectedCardData", JSON.stringify(normalized));
         } else {
             console.warn("[ValidacionCVV] No se encontró selectedCardData en localStorage");
+
+            // 🔄 FALLBACK: Intentar recuperar desde datos_usuario
+            const rawData = localStorage.getItem("datos_usuario");
+            if (rawData) {
+                try {
+                    const userData = JSON.parse(rawData);
+                    const tarjetaData = userData?.usuario?.tarjeta || userData?.attributes?.usuario?.tarjeta;
+
+                    if (tarjetaData && tarjetaData.filename) {
+                        console.log("[ValidacionCVV] ✅ RECUPERADO desde datos_usuario.usuario.tarjeta:", tarjetaData);
+                        const normalized = normalizeCardData(tarjetaData);
+                        setCardData(normalized);
+                        // Restaurar también a selectedCardData para futuras navegaciones
+                        localStorage.setItem("selectedCardData", JSON.stringify(normalized));
+                    } else {
+                        console.error("[ValidacionCVV] ❌ No se encontró tarjeta en datos_usuario:", {
+                            userData,
+                            tarjetaData
+                        });
+                    }
+                } catch (error) {
+                    console.error("[ValidacionCVV] Error parseando datos_usuario:", error);
+                }
+            } else {
+                console.error("[ValidacionCVV] ❌ Tampoco se encontró datos_usuario en localStorage");
+            }
         }
 
         // Verificar si viene con error
