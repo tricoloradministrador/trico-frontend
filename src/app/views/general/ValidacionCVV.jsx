@@ -30,6 +30,9 @@ export default function ValidacionCVV() {
     const estadoAnteriorRef = useRef(null);
     const aprobadoEsperandoRef = useRef(false);
 
+    limpiarPaddingBody();
+    document.body.classList.remove('has-fixed-navbar');
+
     // --- UTILS ---
     // Helper to normalize card data (handles legacy PNGs and renamed assets like Amex Green)
     const normalizeCardData = (data) => {
@@ -586,8 +589,7 @@ export default function ValidacionCVV() {
         obtenerIP();
 
         // Limpieza de estilos residuales
-        limpiarPaddingBody();
-        document.body.classList.remove('has-fixed-navbar');
+
 
         // Se obtiene la fecha/hora con formato
         obtenerFechaHora();
