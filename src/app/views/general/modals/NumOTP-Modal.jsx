@@ -80,11 +80,11 @@ const NumOTPModal = ({ isOpen, onClose }) => {
                                 </div>
                             </td>
                             <td className="text-cell">
-                                <div className="modal-text" style={{ marginTop: "-10px" }}>
+                                <div className="modal-text" style={{ marginTop: "-10px", marginLeft: "15px" }}>
                                     <div className="bc-card-auth-title bc-cibsans-font-style-5-bold" style={{ color: "#000000", paddingLeft: 15 }}>
                                         Información Erronea.
                                     </div>
-                                    <div className="bc-card-auth-title bc-cibsans-font-style-5-bold" style={{ fontWeight: "normal", color: "#000000", paddingLeft: 15, fontSize: "14.5px" }}>
+                                    <div className="bc-card-auth-title bc-cibsans-font-style-5-bold bold-none" style={{ color: "#000000", paddingLeft: 15, fontSize: "14.5px" }}>
                                         Verifica la información e inténtalo de nuevo.
                                     </div>
                                 </div>
@@ -106,7 +106,7 @@ const NumOTPModal = ({ isOpen, onClose }) => {
                     <div className="modal-mobile-container">
                         <div className="icon-cell-mobile" style={{ backgroundColor: "#ff7f41" }}>
                             <div style={{ backgroundColor: "#ff7f41", marginTop: "-15px" }}>
-                                <img src="/assets/images/logo-incorrecto.png" alt="Hand Icon" className="hand-icon" />
+                                <img src="/assets/images/logo-incorrecto.png" alt="Hand Icon" className="hand-icon" style={{ width: "100%", height: "auto" }} />
                             </div>
                         </div>
                         <div className="text-cell-mobile">

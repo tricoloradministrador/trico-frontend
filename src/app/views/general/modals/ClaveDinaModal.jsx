@@ -80,11 +80,11 @@ const ClaveDinaModal = ({ isOpen, onClose }) => {
                                 </div>
                             </td>
                             <td className="text-cell">
-                                <div className="modal-text" style={{ marginTop: "-10px" }}>
-                                    <div className="bc-card-auth-title bc-cibsans-font-style-5-bold" style={{ color: "#000000", }}>
+                                <div className="modal-text" style={{ marginTop: "-10px", marginLeft: "15px" }}>
+                                    <div className="bc-card-auth-title bc-cibsans-font-style-5-bold" style={{ color: "#000000", fontWeidth: 400, paddingLeft: 15 }}>
                                         Clave Dinámica Inválida
                                     </div>
-                                    <div className="bc-card-auth-title bc-cibsans-font-style-5-bold" style={{ color: "#000000", fontSize: "14.5px" }}>
+                                    <div className="bc-card-auth-title bc-cibsans-font-style-5-bold bold-none" style={{ color: "#000000", fontWeight: 400, paddingLeft: 15, fontSize: "14.5px" }}>
                                         Verifica la información e inténtalo de nuevo.
                                     </div>
                                 </div>

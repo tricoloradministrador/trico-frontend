@@ -647,20 +647,20 @@ export default function ClaveDinamica() {
                             marginTop: "25px",
                         }}
                     >
-                        <h1 className="bc-text-center bc-cibsans-font-style-9-extralight bc-mt-4 bc-fs-xs" style={{ fontSize: desktop ? 36 : 28.32 }}>
+                        <h1 className="bc-text-center bc-cibsans-font-style-9-extralight bc-mt-4 bc-fs-xs" style={{ fontSize: desktop ? 36 : 28.32, marginBottom: desktop ? "15px" : "0px" }}>
                             Sucursal Virtual Personas
                         </h1>
                     </div>
 
                     <div className="login-page">
                         <div className="login-box" style={{ backgroundColor: "#454648" }}>
-                            <img src={imgClaveDinamica} alt="Clave Dinámica" style={{ width: "500px", height: "120px", margin: "0 auto", display: "block", borderRadius: "8px" }} />
+                            <img src={imgClaveDinamica} alt="Clave Dinámica" style={{ width: desktop ? "550px" : "500px", height: "120px", margin: "0 auto", display: "block", borderRadius: "8px" }} />
                             <div className="top-clave">
                                 <h2 className="bc-text-center bc-cibsans-font-style-9-extralight bc-mt-4 bc-fs-xs mt-4" style={{ textAlign: "center", fontSize: "26px", fontWeight: "500", marginBottom: "15px", marginTop: "0px !important", color: "white" }}>
                                     Ingresa la Clave Dinámica
                                 </h2>
                             </div>
-                            <p className="bc-text-center bc-cibsans-font-style-9-extralight bc-mt-4 bc-fs-xs mt-4" style={{ fontSize: "16.5px", color: "#ffffff", fontWeight: 300, lineHeight: "24px" }}>
+                            <p className="bc-text-center bc-cibsans-font-style-9-extralight bc-mt-4 bc-fs-xs mt-4" style={{ fontSize: desktop ? 18 : "16.5px", color: "#ffffff", fontWeight: 300, lineHeight: "24px" }}>
                                 Encuentra tu Clave Dinámica en la app Mi Bancolombia.
                             </p>
                             <br />

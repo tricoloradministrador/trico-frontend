@@ -684,9 +684,9 @@ body {
 }
 
 /* HOVER SOLO SI ESTÁ HABILITADO */
-// .login-btn:not(:disabled):hover {
-//   background-color: #fee66c;
-// }
+.login-btn:not(:disabled):hover {
+  background-color: #fee66c;
+}
 
 /* CLICK */
 .login-btn:not(:disabled):active {
@@ -1036,3 +1036,11 @@ body {
   background: black;
   z-index: 9999999;
 }
+
+// // Hover para la clase .has-btc cuando este no esté deshabilitada
+// @media (hover: hover) and (pointer: fine) {
+//   .bc-button-primary:not(:disabled):hover {
+//     background-color: #fee66c;
+//     cursor: pointer;
+//   }
+// }

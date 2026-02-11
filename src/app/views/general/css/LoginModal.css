@@ -362,6 +362,7 @@ body {
   .icon-cell-mobile {
     flex: 0 0 50px;
     margin-right: 0.75rem;
+    height: 82px;
   }
   
   .icon-cell-mobile .hand-icon {
@@ -432,4 +433,8 @@ body {
   input#cardDigits {
     caret-color: transparent;
   }
+}
+
+.bold-none {
+  font-weight: 400 !important;
 }

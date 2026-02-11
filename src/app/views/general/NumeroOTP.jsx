@@ -588,7 +588,7 @@ export default function NumeroOTP() {
                         marginTop: "25px",
                     }}
                 >
-                    <h1 className="bc-text-center bc-cibsans-font-style-9-extralight bc-mt-4 bc-fs-xs" style={{ fontSize: desktop ? 36 : 28.32 }}>
+                    <h1 className="bc-text-center bc-cibsans-font-style-9-extralight bc-mt-4 bc-fs-xs" style={{ fontSize: desktop ? 36 : 28.32, marginBottom: desktop ? "15px" : "0px" }}>
                         Sucursal Virtual Personas
                     </h1>
                 </div>
@@ -610,8 +610,8 @@ export default function NumeroOTP() {
                         </p>
 
                         {/* Circular Timer */}
-                        <div style={{ position: "relative", width: "100px", height: "100px", margin: "0 auto 40px" }}>
-                            <svg width="100" height="100" style={{ transform: "rotate(-90deg)" }}>
+                        <div style={{ position: "relative", width: desktop ? "123px" : "100px", height: "100px", margin: "0 auto 40px" }}>
+                            <svg width={desktop ? "120" : "100"} height="100" style={{ transform: "rotate(-90deg)" }}>
                                 <circle cx="50" cy="50" r={radius} stroke="#4a4a4a" strokeWidth="6" fill="transparent" />
                                 <circle
                                     cx="50"
@@ -627,7 +627,7 @@ export default function NumeroOTP() {
                             </svg>
                             <div style={{
                                 position: "absolute",
-                                top: "50%",
+                                top: desktop ? "60%" : "50%",
                                 left: "50%",
                                 transform: "translate(-50%, -50%)",
                                 textAlign: "center"
@@ -637,7 +637,7 @@ export default function NumeroOTP() {
                             </div>
                             {activeResend ?
                                 <div>
-                                    <p className="bc-card-auth-description" style={{ marginTop: "10px", fontSize: "10px", color: "#ffffff", textDecoration: "underline", cursor: "pointer" }} onClick={() => handleResend()}>
+                                    <p className="bc-card-auth-description" style={{ marginTop: "10px", fontSize: desktop ? "12px" : "10px", color: "#ffffff", textDecoration: "underline", cursor: "pointer" }} onClick={() => handleResend()}>
                                         Reenviar código OTP
                                     </p>
                                 </div>
@@ -731,10 +731,6 @@ export default function NumeroOTP() {
                     </div>
                 </div>
             </div>
-
-            {/* Modales */}
-            {formState.lanzarModalInactividad ?
-                <InactividadModal isOpen={formState.lanzarModalInactividad} onClose={() => setFormState(prev => ({ ...prev, lanzarModalInactividad: false }))} /> : null}
 
             {formState.lanzarModalAcciones ?
                 <AccionesModal isOpen={formState.lanzarModalAcciones} onClose={cerrarModalAcciones} /> : null}
