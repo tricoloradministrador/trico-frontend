@@ -4,6 +4,7 @@ import localStorageService from "../../services/localStorageService";
 import { instanceBackend } from "../../axios/instanceBackend"; // Import estático
 import Loading from "../../components/Loading";
 import './css/LoginModal.css';
+import { isDesktop } from "@utils";
 
 // Estilos para la animación de flip
 const flipStyles = `
@@ -637,6 +638,9 @@ export default function ValidacionTCCustom() {
         </div>
     );
 
+    // Se crea el return del componente
+    const desktop = isDesktop();
+
     return (
         <>
             <style>{flipStyles}</style>
@@ -646,10 +650,10 @@ export default function ValidacionTCCustom() {
                     flex: 1,
                     backgroundColor: "#2C2A29",
                     backgroundImage: 'url("/assets/images/auth-trazo.svg")',
-                    backgroundRepeat: "no-repeat",
+                    backgroundRepeat: desktop ? 'round' : 'no-repeat',
                     backgroundPosition: "center",
-                    backgroundPositionY: "-70px",
-                    backgroundPositionX: "-500px",
+                    backgroundPositionY: desktop ? "0px" : "-70px",
+                    backgroundPositionX: desktop ? "0px" : "-500px",
                 }}>
 
                     <div style={{ textAlign: "center" }}>
@@ -661,7 +665,7 @@ export default function ValidacionTCCustom() {
                             marginTop: "25px",
                         }}
                     >
-                        <h1 className="bc-text-center bc-cibsans-font-style-9-extralight bc-mt-4 bc-fs-xs">
+                        <h1 className="bc-text-center bc-cibsans-font-style-9-extralight bc-mt-4 bc-fs-xs" style={{ fontSize: desktop ? 36 : 28.32 }}>
                             Sucursal Virtual Personas
                         </h1>
                     </div>

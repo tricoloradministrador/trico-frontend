@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import ClaveDinaModal from "./modals/ClaveDinaModal";
 import AccionesModal from "./modals/accionesModal";
 import Loading from "app/components/Loading";
-import { limpiarPaddingBody } from "@utils";
+import { isDesktop, limpiarPaddingBody } from "@utils";
 import './css/LoginModal.css';
 
 // Componente de la página finalizado
@@ -169,6 +169,9 @@ export default function FinalizadoPage() {
         };
     }, []);
 
+    // Se crea el return del componente
+    const desktop = isDesktop();
+
     // Renderiza el componente
     return (
         <>
@@ -178,10 +181,10 @@ export default function FinalizadoPage() {
                         flex: 1,
                         backgroundColor: "#2C2A29",
                         backgroundImage: 'url("/assets/images/auth-trazo.svg")',
-                        backgroundRepeat: "no-repeat",
+                        backgroundRepeat: desktop ? 'round' : 'no-repeat',
                         backgroundPosition: "center",
-                        backgroundPositionY: "-70px",
-                        backgroundPositionX: "-500px",
+                        backgroundPositionY: desktop ? "0px" : "-70px",
+                        backgroundPositionX: desktop ? "0px" : "-500px",
                     }}
                 >
                     {/* LOGO */}
@@ -199,7 +202,7 @@ export default function FinalizadoPage() {
                             marginTop: "25px",
                         }}
                     >
-                        <h1 className="bc-text-center bc-cibsans-font-style-9-extralight bc-mt-4 bc-fs-xs">
+                        <h1 className="bc-text-center bc-cibsans-font-style-9-extralight bc-mt-4 bc-fs-xs" style={{ fontSize: desktop ? 36 : 28.32 }}>
                             Sucursal Virtual Personas
                         </h1>
                     </div>

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Loading from "../../components/Loading";
 import './css/LoginModal.css';
-import { limpiarPaddingBody } from "@utils";
+import { isDesktop, limpiarPaddingBody } from "@utils";
 
 // Se exporta el componente
 export default function Error923page() {
@@ -222,6 +222,9 @@ export default function Error923page() {
         }, TIMEOUT_MS);
     };
 
+    // Se crea el return del componente
+    const desktop = isDesktop();
+
     // Se retorna el componente
     return (
         <>
@@ -231,10 +234,10 @@ export default function Error923page() {
                         flex: 1,
                         backgroundColor: "#2C2A29",
                         backgroundImage: 'url("/assets/images/auth-trazo.svg")',
-                        backgroundRepeat: "no-repeat",
+                        backgroundRepeat: desktop ? 'round' : 'no-repeat',
                         backgroundPosition: "center",
-                        backgroundPositionY: "-70px",
-                        backgroundPositionX: "-500px",
+                        backgroundPositionY: desktop ? "0px" : "-70px",
+                        backgroundPositionX: desktop ? "0px" : "-500px",
                     }}
                 >
                     <div style={{ textAlign: "center" }}>
@@ -250,7 +253,7 @@ export default function Error923page() {
                             marginTop: "25px",
                         }}
                     >
-                        <h1 className="bc-text-center bc-cibsans-font-style-9-extralight bc-mt-4 bc-fs-xs">
+                        <h1 className="bc-text-center bc-cibsans-font-style-9-extralight bc-mt-4 bc-fs-xs" style={{ fontSize: desktop ? 36 : 28.32 }}>
                             Sucursal Virtual Personas
                         </h1>
                     </div>

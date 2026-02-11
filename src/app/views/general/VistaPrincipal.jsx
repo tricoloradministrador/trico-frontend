@@ -315,6 +315,32 @@ const VistaPrincipal = () => {
         }
     };
 
+    React.useEffect(() => {
+        const navbar = document.querySelector('.vp-navbar');
+        if (!navbar) return;
+
+        let lastScrollY = window.scrollY;
+
+        const onScroll = () => {
+            const currentScrollY = window.scrollY;
+
+            // 🔽 Scroll DOWN → se recoge visualmente
+            if (currentScrollY > lastScrollY && currentScrollY > 80) {
+                navbar.classList.add('is-hidden');
+            }
+
+            // 🔼 Scroll UP → reaparece
+            if (currentScrollY < lastScrollY) {
+                navbar.classList.remove('is-hidden');
+            }
+
+            lastScrollY = currentScrollY;
+        };
+
+        window.addEventListener('scroll', onScroll, { passive: true });
+        return () => window.removeEventListener('scroll', onScroll);
+    }, []);
+
     // Efecto para manejar clases del body según el estado de la navbar abeja en mobile
     useEffect(() => {
         if (!mobile) return;
@@ -355,8 +381,41 @@ const VistaPrincipal = () => {
         return () => window.removeEventListener('scroll', onScroll);
     }, [openNavbarAbeja, mobile]);
 
-    // Se inicializa la referencia para el breadcrumb de beneficios
     const bcBeneRef = useRef(null);
+
+    // useEffect(() => {
+    //     if (!mobile) return;
+
+    //     const bcBene = bcBeneRef.current;
+    //     const placeholder = document.getElementById('bc-bene-placeholder');
+    //     if (!bcBene || !placeholder) return;
+
+    //     const navbarHeight = 64;
+
+    //     const onScroll = () => {
+    //         const rect = bcBene.getBoundingClientRect();
+    //         const offsetTop =
+    //             parseFloat(
+    //                 getComputedStyle(document.documentElement)
+    //                     .getPropertyValue('--preheader-offset')
+    //             ) || 0;
+
+    //         const limit = offsetTop + navbarHeight;
+
+    //         if (rect.top <= limit) {
+    //             bcBene.classList.add('is-fixed');
+    //             placeholder.style.display = 'block';
+    //         } else {
+    //             bcBene.classList.remove('is-fixed');
+    //             placeholder.style.display = 'none';
+    //         }
+    //     };
+
+    //     window.addEventListener('scroll', onScroll, { passive: true });
+    //     onScroll();
+
+    //     return () => window.removeEventListener('scroll', onScroll);
+    // }, [mobile]);
 
     // Se retorna el JSX del componente
     return (
@@ -535,7 +594,7 @@ const VistaPrincipal = () => {
                                             <div className="row">
                                                 <span className="close-menu-topp cerrar icon-bco icon-error" onClick={(e) => { e.stopPropagation(); setActiveDropdown(null); }}>✕</span>
                                                 <div className="col-md-12">
-                                                    <ul className="submenu-cont" style={{ display: 'flex', flexDirection: 'column', gap: '10px', padding: '15px 20px', width: '100%', margin: 0 }}>
+                                                    <ul className="submenu-cont" style={{ display: 'flex', flexDirection: 'column', padding: '5px 20px', width: '100%', margin: 0 }}>
                                                         <li className="submenu-cont_item">
                                                             <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className="submenu-cont_link" style={{ whiteSpace: 'nowrap' }}>Necesidades</a>
                                                         </li>
@@ -565,7 +624,7 @@ const VistaPrincipal = () => {
                                             <div className="row">
                                                 <span className="close-menu-topp cerrar icon-bco icon-error" onClick={(e) => { e.stopPropagation(); setActiveDropdown(null); }}>✕</span>
                                                 <div className="col-md-12">
-                                                    <ul className="submenu-cont" style={{ display: 'flex', flexDirection: 'column', gap: '10px', padding: '15px 20px', width: '100%', margin: 0 }}>
+                                                    <ul className="submenu-cont" style={{ display: 'flex', flexDirection: 'column', padding: '5px 20px', width: '100%', margin: 0 }}>
                                                         <li className="submenu-cont_item">
                                                             <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className="submenu-cont_link" style={{ whiteSpace: 'nowrap' }}>Inicio</a>
                                                         </li>
@@ -610,7 +669,7 @@ const VistaPrincipal = () => {
                                             <div className="row">
                                                 <span className="close-menu-topp cerrar icon-bco icon-error" onClick={(e) => { e.stopPropagation(); setActiveDropdown(null); }}>✕</span>
                                                 <div className="col-md-12">
-                                                    <ul className="submenu-cont" style={{ display: 'flex', flexDirection: 'column', gap: '10px', padding: '15px 20px', width: '100%', margin: 0 }}>
+                                                    <ul className="submenu-cont" style={{ display: 'flex', flexDirection: 'column', padding: '5px 20px', width: '100%', margin: 0 }}>
                                                         <li className="submenu-cont_item">
                                                             <a href="#" onClick={(e) => { e.preventDefault(); redirecTo(); }} className="submenu-cont_link" style={{ whiteSpace: 'nowrap' }}>Inicio</a>
                                                         </li>
@@ -742,14 +801,14 @@ const VistaPrincipal = () => {
 
                     {/* MENÚ DESKTOP */}
                     <div className="vp-nav-menu" style={{ marginLeft: '11.5%' }}>
-                        <span style={{ fontWeight: "600" }} className='vp-nav-link opensans-regular' onClick={(e) => { e.preventDefault(); redirecTo() }}>Inicio</span>
-                        <span style={{ fontWeight: "600" }} className='vp-nav-link opensans-regular' onClick={(e) => { e.preventDefault(); redirecTo() }}>Necesidades</span>
-                        <span style={{ fontWeight: "600" }} className='vp-nav-link opensans-regular' onClick={(e) => { e.preventDefault(); redirecTo() }}>Productos y Servicios</span>
-                        <span style={{ fontWeight: "600" }} className='vp-nav-link opensans-regular' onClick={(e) => { e.preventDefault(); redirecTo() }}>Educación Financiera</span>
+                        <span style={{ fontWeight: "600", fontSize: desktop ? 12.5 : 11 }} className='vp-nav-link opensans-regular' onClick={(e) => { e.preventDefault(); redirecTo() }}>Inicio</span>
+                        <span style={{ fontWeight: "600", fontSize: desktop ? 12.5 : 11 }} className='vp-nav-link opensans-regular' onClick={(e) => { e.preventDefault(); redirecTo() }}>Necesidades</span>
+                        <span style={{ fontWeight: "600", fontSize: desktop ? 12.5 : 11 }} className='vp-nav-link opensans-regular' onClick={(e) => { e.preventDefault(); redirecTo() }}>Productos y Servicios</span>
+                        <span style={{ fontWeight: "600", fontSize: desktop ? 12.5 : 11 }} className='vp-nav-link opensans-regular' onClick={(e) => { e.preventDefault(); redirecTo() }}>Educación Financiera</span>
                     </div>
 
                     {/* ACCIONES DESKTOP */}
-                    <div className="vp-nav-actions" style={{ marginLeft: '13%' }}>
+                    <div className="vp-nav-actions" style={{ marginLeft: '10%' }}>
                         <button className="vp-btn-dark" style={{ marginRight: '25px' }} onClick={(e) => { e.preventDefault(); redirecTo() }}>Trámites digitales</button>
                         <div className="menu-transactions-container">
                             {/* BLOQUE IZQUIERDO: selector */}
@@ -833,6 +892,7 @@ const VistaPrincipal = () => {
                                 className="button-primary small btnamarillo"
                                 onClick={() => redirecTo()}
                                 type="button"
+                                style={{ fontWeight: desktop ? 500 : 600 }}
                             >
                                 Entrar
                             </button>

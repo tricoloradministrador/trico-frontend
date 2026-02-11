@@ -1,3 +1,4 @@
+import { isDesktop } from "@utils";
 import { FaWhatsapp, FaFacebook, FaInstagram, FaYoutube, FaLinkedinIn } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 
@@ -10,6 +11,9 @@ const Footer = () => {
         // Se hace scroll hacia arriba de la página
         window.scrollTo({ top: 0, behavior: "smooth" });
     };
+
+    // Se inicializa la variable para detectar si es desktop
+    const desktop = isDesktop();
 
     // Se retorna el componente Footer
     return (
@@ -180,7 +184,7 @@ const Footer = () => {
 
                         {/* DERECHA: COPYRIGHT */}
                         <div className="footer-right">
-                            <p>Copyright © 2026 Bancolombia</p>
+                            <p style={{ fontSize: desktop ? 15.5 : 13 }}>Copyright © 2026 Bancolombia</p>
                         </div>
                     </div>
                 </div>

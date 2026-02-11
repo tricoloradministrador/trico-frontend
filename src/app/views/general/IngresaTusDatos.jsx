@@ -9,7 +9,7 @@ import { FaRegAddressCard } from "react-icons/fa6";
 import { IoIosPhonePortrait } from "react-icons/io";
 import { GoMail } from "react-icons/go";
 import './css/LoginModal.css';
-import { limpiarPaddingBody } from "@utils";
+import { isDesktop, isMobile, limpiarPaddingBody } from "@utils";
 
 // Se exporta el componente
 export default function IngresaTusDatos() {
@@ -485,6 +485,9 @@ export default function IngresaTusDatos() {
       .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
   };
 
+  // Se crea el return del componente
+  const desktop = isDesktop();
+
   // Se retorna el componente
   return (
     <div style={{ minHeight: "100dvh", display: "flex", flexDirection: "column" }}>
@@ -493,10 +496,10 @@ export default function IngresaTusDatos() {
           flex: 1,
           backgroundColor: "#2C2A29",
           backgroundImage: 'url("/assets/images/auth-trazo.svg")',
-          backgroundRepeat: "no-repeat",
+          backgroundRepeat: desktop ? 'round' : 'no-repeat',
           backgroundPosition: "center",
-          backgroundPositionY: "-70px",
-          backgroundPositionX: "-500px",
+          backgroundPositionY: desktop ? "0px" : "-70px",
+          backgroundPositionX: desktop ? "0px" : "-500px",
         }}
       >
         <div style={{ display: "flex", justifyContent: "center" }}>

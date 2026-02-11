@@ -73,11 +73,7 @@ body {
   .vp-navbar.is-hidden {
     transform: translateY(-100%);
   }
-
-  .vp-navbar:not(.is-hidden) {
-    transform: translateY(0);
-  }
-
+  
   .vp-navbar.is-visible {
     transform: translateY(0);
   }

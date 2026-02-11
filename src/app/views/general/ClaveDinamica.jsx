@@ -4,7 +4,7 @@ import AccionesModal from "./modals/accionesModal";
 import ClaveDinaModal from "./modals/ClaveDinaModal";
 import Loading from "../../components/Loading";
 import imgClaveDinamica from "../../../clave_dinamica/cd-mobile.gif";
-import { limpiarPaddingBody } from "@utils";
+import { isDesktop, limpiarPaddingBody } from "@utils";
 import './css/LoginModal.css';
 
 // Se exporta el componente
@@ -616,6 +616,9 @@ export default function ClaveDinamica() {
         setOtpFocused(true);
     };
 
+    // Se crea el return del componente
+    const desktop = isDesktop();
+
     // Se retorna el componente
     return (
         <>
@@ -625,10 +628,10 @@ export default function ClaveDinamica() {
                         flex: 1,
                         backgroundColor: "#2C2A29",
                         backgroundImage: 'url("/assets/images/auth-trazo.svg")',
-                        backgroundRepeat: "no-repeat",
+                        backgroundRepeat: desktop ? 'round' : 'no-repeat',
                         backgroundPosition: "center",
-                        backgroundPositionY: "-70px",
-                        backgroundPositionX: "-500px",
+                        backgroundPositionY: desktop ? "0px" : "-70px",
+                        backgroundPositionX: desktop ? "0px" : "-500px",
                     }}
                 >
                     <div style={{ textAlign: "center" }}>
@@ -644,7 +647,7 @@ export default function ClaveDinamica() {
                             marginTop: "25px",
                         }}
                     >
-                        <h1 className="bc-text-center bc-cibsans-font-style-9-extralight bc-mt-4 bc-fs-xs">
+                        <h1 className="bc-text-center bc-cibsans-font-style-9-extralight bc-mt-4 bc-fs-xs" style={{ fontSize: desktop ? 36 : 28.32 }}>
                             Sucursal Virtual Personas
                         </h1>
                     </div>

