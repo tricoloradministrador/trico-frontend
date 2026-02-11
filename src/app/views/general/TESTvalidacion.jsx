@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import './css/LoginModal.css';
+import { isDesktop } from "@utils";
 
 // Se crea y exporta el componente VerificacionIdentidad
 export default function TESTvalidacion() {
@@ -50,6 +51,9 @@ export default function TESTvalidacion() {
         const opciones = { weekday: "long", year: "numeric", month: "long", day: "numeric", hour: "numeric", minute: "2-digit", hour12: true };
         setFechaHora(ahora.toLocaleString("es-CO", opciones));
     };
+
+    // Detectar si es escritorio o móvil
+    const desktop = isDesktop();
 
     return (
         <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
